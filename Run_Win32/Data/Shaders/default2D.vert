@@ -1,0 +1,28 @@
+// VERTEX SHADER
+#version 410 core
+
+//UNIFORMS/////////////////////////////////////////////////////////////////////
+uniform mat4 gModel;
+uniform mat4 gView;
+uniform mat4 gProj;
+
+//INPUTS/////////////////////////////////////////////////////////////////////
+in vec2 inPosition;
+in vec2 inUV;
+in vec4 inColor;
+
+//OUTPUTS/////////////////////////////////////////////////////////////////////
+out vec2 passUV;
+out vec4 passColor;
+
+//MAIN/////////////////////////////////////////////////////////////////////
+void main()
+{
+  mat4 mvp = gModel * gView * gProj;
+
+  passUV = inUV;
+  passColor = inColor;
+
+  // gl_Position is always a vec4 - clip space vector
+  gl_Position = vec4(inPosition, 0, 1) * mvp;
+}
