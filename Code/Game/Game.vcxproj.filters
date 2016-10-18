@@ -9,6 +9,15 @@
     <Filter Include="General\Entities">
       <UniqueIdentifier>{b1d6a275-ee2e-40ce-8264-387f124c3c5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="General\GameModes">
+      <UniqueIdentifier>{53c3b83c-8549-40e0-8788-303387fc79d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General\Items">
+      <UniqueIdentifier>{4c3635da-f0f2-49ec-a74b-4f2b0338a77d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General\GameModes\Minigames">
+      <UniqueIdentifier>{16902b7e-c48d-4371-a450-27102429b803}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameCommon.cpp">
@@ -32,9 +41,6 @@
     <ClCompile Include="Entities\Ship.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Bullet.cpp">
-      <Filter>General\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\ItemBox.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
@@ -43,6 +49,30 @@
     </ClCompile>
     <ClCompile Include="Entities\Pickup.cpp">
       <Filter>General\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModes\BaseMinigameMode.cpp">
+      <Filter>General\GameModes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModes\GameMode.cpp">
+      <Filter>General\GameModes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModes\AssemblyMode.cpp">
+      <Filter>General\GameModes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModes\Minigames\RaceMinigameMode.cpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModes\Minigames\BattleRoyaleMinigameMode.cpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Projectile.cpp">
+      <Filter>General\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Item.cpp">
+      <Filter>General\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,9 +94,6 @@
     <ClInclude Include="Entities\Ship.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Bullet.hpp">
-      <Filter>General\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Entities\ItemBox.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
@@ -75,6 +102,30 @@
     </ClInclude>
     <ClInclude Include="Entities\Pickup.hpp">
       <Filter>General\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModes\BaseMinigameMode.hpp">
+      <Filter>General\GameModes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModes\GameMode.hpp">
+      <Filter>General\GameModes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModes\AssemblyMode.hpp">
+      <Filter>General\GameModes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModes\Minigames\RaceMinigameMode.hpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModes\Minigames\BattleRoyaleMinigameMode.hpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Projectile.hpp">
+      <Filter>General\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Item.hpp">
+      <Filter>General\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

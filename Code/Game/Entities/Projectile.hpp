@@ -1,11 +1,11 @@
 #pragma once
 #include "Game/Entities/Entity.hpp"
 
-class Bullet : public Entity
+class Projectile : public Entity
 {
 public:
-    Bullet(Entity* Owner);
-    virtual ~Bullet();
+    Projectile(Entity* Owner);
+    virtual ~Projectile();
 
     virtual void Update(float deltaSeconds);
     virtual void Render() const;

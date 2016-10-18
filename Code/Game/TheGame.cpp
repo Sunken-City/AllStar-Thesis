@@ -17,7 +17,7 @@
 #include "Engine/Input/XMLUtils.hpp"
 #include "Game/Entities/Entity.hpp"
 #include "Game/Entities/Player.hpp"
-#include "Game/Entities/Bullet.hpp"
+#include "Game/Entities/Projectile.hpp"
 #include "Game/Entities/Ship.hpp"
 #include "Entities/ItemBox.hpp"
 #include "Entities/Grunt.hpp"
@@ -322,7 +322,7 @@ void TheGame::RenderGameOver() const
 //-----------------------------------------------------------------------------------
 void TheGame::SpawnBullet(Ship* creator)
 {
-    m_newEntities.push_back(new Bullet(creator));
+    m_newEntities.push_back(new Projectile(creator));
 }
 
 //-----------------------------------------------------------------------------------

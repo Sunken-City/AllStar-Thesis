@@ -1,9 +1,9 @@
-#include "Game/Entities/Bullet.hpp"
+#include "Game/Entities/Projectile.hpp"
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 
 //-----------------------------------------------------------------------------------
-Bullet::Bullet(Entity* owner) 
+Projectile::Projectile(Entity* owner) 
     : Entity()
     , m_speed(5.0f)
     , m_power(1.0f)
@@ -18,12 +18,12 @@ Bullet::Bullet(Entity* owner)
 }
 
 //-----------------------------------------------------------------------------------
-Bullet::~Bullet()
+Projectile::~Projectile()
 {
 }
 
 //-----------------------------------------------------------------------------------
-void Bullet::Update(float deltaSeconds)
+void Projectile::Update(float deltaSeconds)
 {
     Entity::Update(deltaSeconds);
     if (m_age < m_lifeSpan)
@@ -39,13 +39,13 @@ void Bullet::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void Bullet::Render() const
+void Projectile::Render() const
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-void Bullet::ResolveCollision(Entity* otherEntity)
+void Projectile::ResolveCollision(Entity* otherEntity)
 {
     Entity::ResolveCollision(otherEntity);
     if (otherEntity != m_owner)
