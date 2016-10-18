@@ -22,6 +22,7 @@
 #include "Entities/ItemBox.hpp"
 #include "Entities/Grunt.hpp"
 #include "Entities/Pickup.hpp"
+#include "Engine/Input/InputDevices.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -33,11 +34,11 @@ const float TIME_PER_SPAWN = 1.0f;
 
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
-    : m_debuggingControllerIndex(0)
 {
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
     SetGameState(GameState::MAIN_MENU);
+    InitializeKeyMappings();
     InitializeMainMenuState();
 }
 
@@ -63,7 +64,7 @@ void TheGame::Update(float deltaSeconds)
     }
 
 #pragma todo("Reenable menu navigation once we have a more solid game flow")
-    if (InputSystem::instance->m_controllers[m_debuggingControllerIndex]->JustPressed(XboxButton::START) || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+    if (m_gameplayMapping.WasJustPressed("Accept"))
     {
         switch (GetGameState())
         {
@@ -83,7 +84,7 @@ void TheGame::Update(float deltaSeconds)
             break;
         }
     }
-    else if (InputSystem::instance->m_controllers[m_debuggingControllerIndex]->JustPressed(XboxButton::BACK) || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::BACKSPACE))
+    else if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::BACKSPACE))
     {
         switch (GetGameState())
         {
@@ -201,9 +202,9 @@ void TheGame::InitializePlayingState()
 {
     testBackground = new Sprite("Nebula", BACKGROUND_LAYER);
     testBackground->m_scale = Vector2(10.0f, 10.0f);
-    m_localPlayer = new Player();
-    m_entities.push_back(m_localPlayer);
-    m_players.push_back(m_localPlayer);
+    Player* player1 = new Player();
+    m_entities.push_back(player1);
+    m_players.push_back(player1);
     ItemBox* box1 = new ItemBox(Vector2(2.0f));
     m_entities.push_back(box1);
     ItemBox* box2 = new ItemBox(Vector2(1.0f));
@@ -268,14 +269,14 @@ void TheGame::UpdatePlaying(float deltaSeconds)
             break;
         }
     }
-    if (!m_localPlayer || m_localPlayer->m_isDead)
+    if (!m_players[0] || m_players[0]->m_isDead)
     {
         SetGameState(GAME_OVER);
         InitializeGameOverState();
     }
     else
     {
-        SpriteGameRenderer::instance->SetCameraPosition(m_localPlayer->m_sprite->m_position);
+        SpriteGameRenderer::instance->SetCameraPosition(m_players[0]->m_sprite->m_position);
     }
 }
 
@@ -328,6 +329,21 @@ void TheGame::SpawnBullet(Ship* creator)
 void TheGame::SpawnPickup(const Vector2& spawnPosition)
 {
     m_newEntities.push_back(new Pickup(spawnPosition));
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeKeyMappings()
+{
+    KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
+    MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
+    m_gameplayMapping.AddInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
+    m_gameplayMapping.AddInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
+    m_gameplayMapping.AddInputAxis("ShootRight", mouse->m_deltaPosition.m_xPos, mouse->m_deltaPosition.m_xNeg);
+    m_gameplayMapping.AddInputAxis("ShootUp", mouse->m_deltaPosition.m_yPos, mouse->m_deltaPosition.m_yNeg);
+    m_gameplayMapping.AddInputValue("Shoot", keyboard->FindValue(' '));
+    m_gameplayMapping.AddInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON));
+    m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
+    m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(' '));
 }
 
 //-----------------------------------------------------------------------------------

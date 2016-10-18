@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Engine/Math/Vector2.hpp"
+#include "Engine/Input/InputMap.hpp"
 
 class Entity;
 class Player;
@@ -34,8 +35,7 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<Player*> m_players;
-    Player* m_localPlayer;
-    int m_debuggingControllerIndex;
+    InputMap m_gameplayMapping;
 
 private:
     TheGame& operator= (const TheGame& other) = delete;
@@ -53,6 +53,7 @@ private:
     void CleanupMainMenuState(unsigned int);
     void UpdateMainMenu(float deltaSeconds);
     void RenderMainMenu() const;
+    void InitializeKeyMappings();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<Entity*> m_entities;

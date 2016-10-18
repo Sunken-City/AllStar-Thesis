@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------------
 Entity::Entity()
     : m_sprite(nullptr)
-    , m_defence(0.0f)
     , m_hp(1.0f)
     , m_maxHp(1.0f)
     , m_collisionRadius(1.0f)

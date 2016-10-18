@@ -70,27 +70,27 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure(HWND windowHandle, UINT wmMessa
         break;
 
     case WM_LBUTTONDOWN:
-        InputSystem::instance->SetMouseDownStatus(0, true);
+        InputSystem::instance->SetMouseDownStatus(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON, true);
         break;
 
     case WM_RBUTTONDOWN:
-        InputSystem::instance->SetMouseDownStatus(1, true);
+        InputSystem::instance->SetMouseDownStatus(InputSystem::MouseButtons::RIGHT_MOUSE_BUTTON, true);
         break;
 
     case WM_MBUTTONDOWN:
-        InputSystem::instance->SetMouseDownStatus(2, true);
+        InputSystem::instance->SetMouseDownStatus(InputSystem::MouseButtons::MIDDLE_MOUSE_BUTTON, true);
         break;
 
     case WM_LBUTTONUP:
-        InputSystem::instance->SetMouseDownStatus(0, false);
+        InputSystem::instance->SetMouseDownStatus(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON, false);
         break;
 
     case WM_RBUTTONUP:
-        InputSystem::instance->SetMouseDownStatus(1, false);
+        InputSystem::instance->SetMouseDownStatus(InputSystem::MouseButtons::RIGHT_MOUSE_BUTTON, false);
         break;
 
     case WM_MBUTTONUP:
-        InputSystem::instance->SetMouseDownStatus(2, false);
+        InputSystem::instance->SetMouseDownStatus(InputSystem::MouseButtons::MIDDLE_MOUSE_BUTTON, false);
         break;
 
     case WM_MOUSEWHEEL:

@@ -74,7 +74,6 @@ void Pickup::ResolveCollision(Entity* otherEntity)
                 ent->m_power += 0.5f;
                 break;
             case DEFENCE:
-                ent->m_defence += 0.5f;
                 break;
             case FIRERATE:
                 ent->m_rateOfFire /= 1.5f;

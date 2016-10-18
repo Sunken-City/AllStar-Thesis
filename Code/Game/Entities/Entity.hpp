@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Components/Transform3D.hpp"
+#include "Engine/Math/Transform2D.hpp"
 
 class Sprite;
 
@@ -17,7 +17,7 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Sprite* m_sprite;
-    float m_defence;
+    Transform2D m_transform;
     float m_hp;
     float m_maxHp;
     float m_collisionRadius;
