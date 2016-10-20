@@ -3,6 +3,8 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Game/StateMachine.hpp"
+#include "../Items/Item.hpp"
+#include "../Items/PowerUp.hpp"
 
 const float ItemBox::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -15,19 +17,15 @@ ItemBox::ItemBox(const Vector2& initialPosition)
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     m_sprite->m_position = initialPosition;
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
+
+    InitializeInventory(MathUtils::GetRandomIntFromZeroTo(MAX_NUM_PICKUPS_PER_BOX) + 1);
+    GenerateItems();
 }
 
 //-----------------------------------------------------------------------------------
 ItemBox::~ItemBox()
 {
-    if (GetGameState() == GameState::PLAYING)
-    {
-        int maxNumItems = MathUtils::GetRandomIntFromZeroTo(5);
-        for (int i = 0; i < maxNumItems; ++i)
-        {
-            TheGame::instance->SpawnPickup(m_sprite->m_position);
-        }
-    }
+
 }
 
 //-----------------------------------------------------------------------------------
@@ -41,4 +39,13 @@ void ItemBox::Update(float deltaSeconds)
 void ItemBox::Render() const
 {
 
+}
+
+//-----------------------------------------------------------------------------------
+void ItemBox::GenerateItems()
+{
+    for (unsigned int i = 0; i < m_inventorySize; ++i)
+    {
+        m_inventory[i] = new PowerUp();
+    }
 }

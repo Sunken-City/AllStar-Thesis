@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------------
 enum class PowerUpType
 {
-    TOP_SPEED,
+    TOP_SPEED = 0,
     ACCELERATION,
     AGILITY,
     BRAKING,
@@ -18,7 +18,8 @@ enum class PowerUpType
     SHIELD_REGEN,
     SHOT_DEFLECTION,
     HYBRID,
-    NUM_POWERUP_TYPES
+    NUM_POWERUP_TYPES,
+    RANDOM
 };
 
 //-----------------------------------------------------------------------------------
@@ -26,7 +27,7 @@ class PowerUp : public Item
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    PowerUp(PowerUpType type);
+    PowerUp(PowerUpType type = PowerUpType::RANDOM);
     PowerUp(Player::Stats statChanges);
     virtual ~PowerUp();
 

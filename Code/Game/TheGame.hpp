@@ -7,6 +7,7 @@
 class Entity;
 class Player;
 class Ship;
+class Item;
 class NetConnection;
 struct NetSender;
 
@@ -19,7 +20,7 @@ public:
     void Update(float deltaTime);
     void Render() const;
     void SpawnBullet(Ship* creator);
-    void SpawnPickup(const Vector2& spawnPosition);
+    void SpawnPickup(Item* item, const Vector2& spawnPosition);
 
     static TheGame* instance;
 

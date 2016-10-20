@@ -6,15 +6,19 @@
 
 //-----------------------------------------------------------------------------------
 PowerUp::PowerUp(PowerUpType type)
-    : Item()
+    : Item(ItemType::POWER_UP)
     , m_powerUpType(type)
 {
+    if (m_powerUpType == PowerUpType::RANDOM)
+    {
+        m_powerUpType = static_cast<PowerUpType>(MathUtils::GetRandomIntFromZeroTo((int)PowerUpType::HYBRID));
+    }
     SetStatChangeFromType(m_powerUpType);
 }
 
 //-----------------------------------------------------------------------------------
 PowerUp::PowerUp(Player::Stats statChanges)
-    : Item()
+    : Item(ItemType::POWER_UP)
     , m_powerUpType(PowerUpType::HYBRID)
     , m_statChanges(statChanges)
 {
@@ -34,28 +38,40 @@ void PowerUp::SetStatChangeFromType(PowerUpType type)
     {
     case PowerUpType::TOP_SPEED:
         m_statChanges.topSpeed = 1;
+        break;
     case PowerUpType::ACCELERATION:
         m_statChanges.acceleration = 1;
+        break;
     case PowerUpType::AGILITY:
         m_statChanges.agility = 1;
+        break;
     case PowerUpType::BRAKING:
         m_statChanges.braking = 1;
+        break;
     case PowerUpType::DAMAGE:
         m_statChanges.damage = 1;
+        break;
     case PowerUpType::SHIELD_DISRUPTION:
         m_statChanges.shieldDisruption = 1;
+        break;
     case PowerUpType::SHIELD_PENETRATION:
         m_statChanges.shieldPenetration = 1;
+        break;
     case PowerUpType::RATE_OF_FIRE:
         m_statChanges.rateOfFire = 1;
+        break;
     case PowerUpType::HP:
         m_statChanges.hp = 1;
+        break;
     case PowerUpType::SHIELD_CAPACITY:
         m_statChanges.shieldCapacity = 1;
+        break;
     case PowerUpType::SHIELD_REGEN:
         m_statChanges.shieldRegen = 1;
+        break;
     case PowerUpType::SHOT_DEFLECTION:
         m_statChanges.shotDeflection = 1;
+        break;
     default:
         ERROR_RECOVERABLE("Invalid PowerUpType used for setting stats");
     }
@@ -89,7 +105,7 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
     case PowerUpType::RATE_OF_FIRE:
         return "RateOfFire";
     case PowerUpType::HP:
-        return "HP";
+        return "Hp";
     case PowerUpType::SHIELD_CAPACITY:
         return "ShieldCapacity";
     case PowerUpType::SHIELD_REGEN:
