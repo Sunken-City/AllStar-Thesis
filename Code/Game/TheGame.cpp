@@ -326,9 +326,10 @@ void TheGame::SpawnBullet(Ship* creator)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::SpawnPickup(const Vector2& spawnPosition)
+void TheGame::SpawnPickup(Item* item, const Vector2& spawnPosition)
 {
-    m_newEntities.push_back(new Pickup(spawnPosition));
+    ASSERT_OR_DIE(item, "Item was null when attempting to spawn pickup");
+    m_newEntities.push_back(new Pickup(item, spawnPosition));
 }
 
 //-----------------------------------------------------------------------------------
@@ -358,10 +359,18 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
     ResourceDatabase::instance->RegisterSprite("GreenEnemy", "Data\\Images\\Enemies\\enemyGreen1.png");
-    ResourceDatabase::instance->RegisterSprite("Power", "Data\\Images\\Pickups\\power.png");
-    ResourceDatabase::instance->RegisterSprite("FireRate", "Data\\Images\\Pickups\\fireRate.png");
+
+    ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Agility", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\power.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\Pickups\\power.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldPenetration", "Data\\Images\\Pickups\\power.png");
+    ResourceDatabase::instance->RegisterSprite("RateOfFire", "Data\\Images\\Pickups\\fireRate.png");
     ResourceDatabase::instance->RegisterSprite("Hp", "Data\\Images\\Pickups\\hp.png");
-    ResourceDatabase::instance->RegisterSprite("Speed", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Defence", "Data\\Images\\Pickups\\defence.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldCapacity", "Data\\Images\\Pickups\\defence.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldRegen", "Data\\Images\\Pickups\\defence.png");
+    ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\Pickups\\defence.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 }

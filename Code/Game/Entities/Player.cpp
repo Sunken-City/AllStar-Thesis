@@ -111,6 +111,10 @@ void Player::AttemptMovement(const Vector2& attemptedPosition)
 //The player now has ownership of this item pointer, and is responsible for cleanup.
 void Player::PickUpItem(Item* pickedUpItem)
 {
+    if (!pickedUpItem)
+    {
+        return;
+    }
     if (pickedUpItem->IsPowerUp())
     {
         ((PowerUp*)pickedUpItem)->ApplyPickupEffect(this);

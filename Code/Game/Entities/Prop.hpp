@@ -9,6 +9,12 @@ public:
     Prop();
     virtual ~Prop();
 
-    Item* m_inventory;
+    //FUNCTIONS/////////////////////////////////////////////////////////////////////
+    virtual void DropInventory();
+    void InitializeInventory(unsigned int inventorySize);
+    void DeleteInventory();
+
+    //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    Item** m_inventory;
     unsigned int m_inventorySize;
 };
