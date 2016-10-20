@@ -15,13 +15,17 @@ Pickup::Pickup(const Vector2& initialPosition)
     float y = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
     m_sprite->m_position = initialPosition + Vector2(x, y);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
-    m_maxHp = INFINITY;
-    m_hp = INFINITY;
+    m_maxHp = 10.0f;
+    m_hp = 10.0f;
 }
 
 //-----------------------------------------------------------------------------------
 Pickup::~Pickup()
 {
+    if (m_item)
+    {
+        delete m_item;
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -45,6 +49,8 @@ void Pickup::ResolveCollision(Entity* otherEntity)
     {
         if ((Entity*)ent == otherEntity)
         {
+            ent->PickUpItem(m_item);
+            m_item = nullptr;
             this->m_isDead = true;
         }
     }

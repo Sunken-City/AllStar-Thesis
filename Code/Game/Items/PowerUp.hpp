@@ -1,8 +1,9 @@
 #pragma once
 #include "Game/Items/Item.hpp"
+#include "Game/Entities/Player.hpp"
 
 //-----------------------------------------------------------------------------------
-enum PowerUpTypes
+enum class PowerUpType
 {
     TOP_SPEED,
     ACCELERATION,
@@ -16,6 +17,7 @@ enum PowerUpTypes
     SHIELD_CAPACITY,
     SHIELD_REGEN,
     SHOT_DEFLECTION,
+    HYBRID,
     NUM_POWERUP_TYPES
 };
 
@@ -24,13 +26,17 @@ class PowerUp : public Item
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    PowerUp();
+    PowerUp(PowerUpType type);
+    PowerUp(Player::Stats statChanges);
     virtual ~PowerUp();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() override;
     const char* GetPowerUpSpriteResourceName();
+    void ApplyPickupEffect(Player* player);
+    void SetStatChangeFromType(PowerUpType type);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    PowerUpTypes m_type;
+    PowerUpType m_powerUpType;
+    Player::Stats m_statChanges;
 };

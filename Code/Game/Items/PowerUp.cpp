@@ -5,8 +5,18 @@
 #include <string>
 
 //-----------------------------------------------------------------------------------
-PowerUp::PowerUp()
+PowerUp::PowerUp(PowerUpType type)
     : Item()
+    , m_powerUpType(type)
+{
+    SetStatChangeFromType(m_powerUpType);
+}
+
+//-----------------------------------------------------------------------------------
+PowerUp::PowerUp(Player::Stats statChanges)
+    : Item()
+    , m_powerUpType(PowerUpType::HYBRID)
+    , m_statChanges(statChanges)
 {
 
 }
@@ -18,6 +28,40 @@ PowerUp::~PowerUp()
 }
 
 //-----------------------------------------------------------------------------------
+void PowerUp::SetStatChangeFromType(PowerUpType type)
+{
+    switch (type)
+    {
+    case PowerUpType::TOP_SPEED:
+        m_statChanges.topSpeed = 1;
+    case PowerUpType::ACCELERATION:
+        m_statChanges.acceleration = 1;
+    case PowerUpType::AGILITY:
+        m_statChanges.agility = 1;
+    case PowerUpType::BRAKING:
+        m_statChanges.braking = 1;
+    case PowerUpType::DAMAGE:
+        m_statChanges.damage = 1;
+    case PowerUpType::SHIELD_DISRUPTION:
+        m_statChanges.shieldDisruption = 1;
+    case PowerUpType::SHIELD_PENETRATION:
+        m_statChanges.shieldPenetration = 1;
+    case PowerUpType::RATE_OF_FIRE:
+        m_statChanges.rateOfFire = 1;
+    case PowerUpType::HP:
+        m_statChanges.hp = 1;
+    case PowerUpType::SHIELD_CAPACITY:
+        m_statChanges.shieldCapacity = 1;
+    case PowerUpType::SHIELD_REGEN:
+        m_statChanges.shieldRegen = 1;
+    case PowerUpType::SHOT_DEFLECTION:
+        m_statChanges.shotDeflection = 1;
+    default:
+        ERROR_RECOVERABLE("Invalid PowerUpType used for setting stats");
+    }
+}
+
+//-----------------------------------------------------------------------------------
 const SpriteResource* PowerUp::GetSpriteResource()
 {
     return ResourceDatabase::instance->GetSpriteResource(std::string(GetPowerUpSpriteResourceName()));
@@ -26,34 +70,42 @@ const SpriteResource* PowerUp::GetSpriteResource()
 //-----------------------------------------------------------------------------------
 const char* PowerUp::GetPowerUpSpriteResourceName()
 {
-    switch (m_type)
+    switch (m_powerUpType)
     {
-    case TOP_SPEED:
+    case PowerUpType::TOP_SPEED:
         return "TopSpeed";
-    case ACCELERATION:
+    case PowerUpType::ACCELERATION:
         return "Acceleration";
-    case AGILITY:
+    case PowerUpType::AGILITY:
         return "Agility";
-    case BRAKING:
+    case PowerUpType::BRAKING:
         return "Braking";
-    case DAMAGE:
+    case PowerUpType::DAMAGE:
         return "Damage";
-    case SHIELD_DISRUPTION:
+    case PowerUpType::SHIELD_DISRUPTION:
         return "ShieldDisruption";
-    case SHIELD_PENETRATION:
+    case PowerUpType::SHIELD_PENETRATION:
         return "ShieldPenetration";
-    case RATE_OF_FIRE:
+    case PowerUpType::RATE_OF_FIRE:
         return "RateOfFire";
-    case HP:
+    case PowerUpType::HP:
         return "HP";
-    case SHIELD_CAPACITY:
+    case PowerUpType::SHIELD_CAPACITY:
         return "ShieldCapacity";
-    case SHIELD_REGEN:
+    case PowerUpType::SHIELD_REGEN:
         return "ShieldRegen";
-    case SHOT_DEFLECTION:
+    case PowerUpType::SHOT_DEFLECTION:
         return "ShotDeflection";
+    case PowerUpType::HYBRID:
+        return "Hybrid";
     default:
         ERROR_RECOVERABLE("Invalid Pickup type");
     }
+}
+
+//-----------------------------------------------------------------------------------
+void PowerUp::ApplyPickupEffect(Player* player)
+{
+    player->m_stats += m_statChanges;
 }
 

@@ -101,6 +101,9 @@
     <ClCompile Include="Items\Chassis\Chassis.cpp">
       <Filter>General\Items\Chassis</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Prop.cpp">
+      <Filter>General\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Items\Chassis\Chassis.hpp">
       <Filter>General\Items\Chassis</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Prop.hpp">
+      <Filter>General\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
