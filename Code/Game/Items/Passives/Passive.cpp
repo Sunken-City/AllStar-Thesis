@@ -12,6 +12,7 @@ Passive::~Passive()
 
 }
 
+//-----------------------------------------------------------------------------------
 const SpriteResource* Passive::GetSpriteResource()
 {
     return nullptr;

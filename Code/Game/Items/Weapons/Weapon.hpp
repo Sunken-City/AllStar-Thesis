@@ -9,5 +9,6 @@ public:
     virtual ~Weapon();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual const SpriteResource* GetSpriteResource();
+    virtual const SpriteResource* GetSpriteResource() = 0;
+    virtual bool AttemptFire() = 0;
 };
