@@ -161,7 +161,12 @@
     <ClCompile Include="GameModes\Minigames\BattleRoyaleMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\RaceMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp" />
+    <ClCompile Include="Items\Actives\Actives.cpp" />
+    <ClCompile Include="Items\Chassis\Chassis.cpp" />
     <ClCompile Include="Items\Item.cpp" />
+    <ClCompile Include="Items\Passives\Passive.cpp" />
+    <ClCompile Include="Items\PowerUp.cpp" />
+    <ClCompile Include="Items\Weapons\Weapon.cpp" />
     <ClCompile Include="Main_Win32.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="TheGame.cpp" />
@@ -181,7 +186,12 @@
     <ClInclude Include="GameModes\Minigames\BattleRoyaleMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\RaceMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp" />
+    <ClInclude Include="Items\Actives\Actives.hpp" />
+    <ClInclude Include="Items\Chassis\Chassis.hpp" />
     <ClInclude Include="Items\Item.hpp" />
+    <ClInclude Include="Items\Passives\Passive.hpp" />
+    <ClInclude Include="Items\PowerUp.hpp" />
+    <ClInclude Include="Items\Weapons\Weapon.hpp" />
     <ClInclude Include="StateMachine.hpp" />
     <ClInclude Include="TheGame.hpp" />
   </ItemGroup>

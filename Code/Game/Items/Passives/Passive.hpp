@@ -1,14 +1,13 @@
 #pragma once
+#include "Game/Items/Item.hpp"
 
-class SpriteResource;
-
-class Item
+class Passive : public Item
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    Item();
-    virtual ~Item();
+    Passive();
+    virtual ~Passive();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual const SpriteResource* GetSpriteResource() = 0;
+    virtual const SpriteResource* GetSpriteResource();
 };

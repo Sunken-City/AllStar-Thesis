@@ -9,6 +9,7 @@ public:
     Entity();
     virtual ~Entity();
 
+    //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void Render() const;
     virtual bool IsCollidingWith(Entity* otherEntity);

@@ -1,14 +1,18 @@
-#include "Game/Items/Item.hpp"
-#include "Engine/Renderer/2D/Sprite.hpp"
+#include "Game/Items/Passives/Passive.hpp"
 
 //-----------------------------------------------------------------------------------
-Item::Item()
+Passive::Passive()
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-Item::~Item()
+Passive::~Passive()
 {
 
+}
+
+const SpriteResource* Passive::GetSpriteResource()
+{
+    return nullptr;
 }

@@ -18,6 +18,18 @@
     <Filter Include="General\GameModes\Minigames">
       <UniqueIdentifier>{16902b7e-c48d-4371-a450-27102429b803}</UniqueIdentifier>
     </Filter>
+    <Filter Include="General\Items\Weapons">
+      <UniqueIdentifier>{8b4f5e72-2596-4f41-a33f-802f6f03d998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General\Items\Chassis">
+      <UniqueIdentifier>{35c325b3-096d-4d1c-94e4-653c948fa8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General\Items\Actives">
+      <UniqueIdentifier>{89057469-1d48-4636-91c8-3f717c24a58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General\Items\Passives">
+      <UniqueIdentifier>{f5746678-6faa-4ccc-8bdf-827ffd2fa2ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameCommon.cpp">
@@ -74,6 +86,21 @@
     <ClCompile Include="Items\Item.cpp">
       <Filter>General\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Items\PowerUp.cpp">
+      <Filter>General\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Weapons\Weapon.cpp">
+      <Filter>General\Items\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Passives\Passive.cpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Actives\Actives.cpp">
+      <Filter>General\Items\Actives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Chassis\Chassis.cpp">
+      <Filter>General\Items\Chassis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -126,6 +153,21 @@
     </ClInclude>
     <ClInclude Include="Items\Item.hpp">
       <Filter>General\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\PowerUp.hpp">
+      <Filter>General\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Weapons\Weapon.hpp">
+      <Filter>General\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Passives\Passive.hpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Actives\Actives.hpp">
+      <Filter>General\Items\Actives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Chassis\Chassis.hpp">
+      <Filter>General\Items\Chassis</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

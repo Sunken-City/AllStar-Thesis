@@ -1,29 +1,19 @@
 #pragma once
-#include "Game/Entities/Ship.hpp"
-
-enum PickupType
-{
-    SPEED = 0,
-    POWER,
-    DEFENCE,
-    FIRERATE,
-    HP,
-    NUM_TYPES
-};
+#include "Game/Items/Item.hpp"
+#include "Game/Entities/Entity.hpp"
 
 class Pickup : public Entity
 {
 public:
+    //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
     Pickup(const Vector2& position);
     virtual ~Pickup();
 
+    //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    PickupType m_type;
-
-    //CONSTANTS/////////////////////////////////////////////////////////////////////
-    static const float MAX_ANGULAR_VELOCITY;
+    Item* m_item;
 };

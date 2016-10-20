@@ -363,4 +363,5 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Hp", "Data\\Images\\Pickups\\hp.png");
     ResourceDatabase::instance->RegisterSprite("Speed", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Defence", "Data\\Images\\Pickups\\defence.png");
+    ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 }
