@@ -7,6 +7,25 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
 #include "Game/Items/Weapons/Weapon.hpp"
+#include "../Items/PowerUp.hpp"
+
+//-----------------------------------------------------------------------------------
+Player::Stats::Stats()
+    : topSpeed(0)
+    , acceleration(0)
+    , agility(0)
+    , braking(0)
+    , damage(0)
+    , shieldDisruption(0)
+    , shieldPenetration(0)
+    , rateOfFire(0)
+    , hp(0)
+    , shieldCapacity(0)
+    , shieldRegen(0)
+    , shotDeflection(0)
+{
+
+}
 
 //-----------------------------------------------------------------------------------
 Player::Player()
@@ -88,3 +107,13 @@ void Player::AttemptMovement(const Vector2& attemptedPosition)
     m_transform.position = attemptedPosition;
 }
 
+//-----------------------------------------------------------------------------------
+//The player now has ownership of this item pointer, and is responsible for cleanup.
+void Player::PickUpItem(Item* pickedUpItem)
+{
+    if (pickedUpItem->IsPowerUp())
+    {
+        ((PowerUp*)pickedUpItem)->ApplyPickupEffect(this);
+        delete pickedUpItem;
+    }
+}

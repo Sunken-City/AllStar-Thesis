@@ -8,7 +8,7 @@ const float ItemBox::MAX_ANGULAR_VELOCITY = 15.0f;
 
 //-----------------------------------------------------------------------------------
 ItemBox::ItemBox(const Vector2& initialPosition) 
-    : Entity()
+    : Prop()
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("ItemBox", TheGame::ENEMY_LAYER);

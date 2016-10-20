@@ -1,7 +1,7 @@
 #pragma once
-#include "Game/Entities/Ship.hpp"
+#include "Game/Entities/Prop.hpp"
 
-class ItemBox : public Entity
+class ItemBox : public Prop
 {
 public:
     ItemBox(const Vector2& position);
