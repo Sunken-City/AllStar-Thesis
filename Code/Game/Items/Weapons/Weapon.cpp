@@ -11,9 +11,3 @@ Weapon::~Weapon()
 {
 
 }
-
-//-----------------------------------------------------------------------------------
-const SpriteResource* Weapon::GetSpriteResource()
-{
-    return nullptr;
-}

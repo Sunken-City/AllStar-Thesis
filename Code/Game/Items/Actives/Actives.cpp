@@ -2,19 +2,19 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 
 //-----------------------------------------------------------------------------------
-Actives::Actives()
+Active::Active()
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-Actives::~Actives()
+Active::~Active()
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-const SpriteResource* Actives::GetSpriteResource()
+const SpriteResource* Active::GetSpriteResource()
 {
     return nullptr;
 }

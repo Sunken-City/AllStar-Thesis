@@ -2,6 +2,11 @@
 #include "Game/Entities/Ship.hpp"
 #include <stdint.h>
 
+class Weapon;
+class Active;
+class Passive;
+class Chassis;
+
 class Player : public Ship
 {
 public:
@@ -16,4 +21,8 @@ public:
     void AttemptMovement(const Vector2& attemptedPosition);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    Weapon* m_weapon;
+    Active* m_activeEffect;
+    Passive* m_passiveEffect;
+    Chassis* m_chassis;
 };

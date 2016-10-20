@@ -6,10 +6,15 @@
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
+#include "Game/Items/Weapons/Weapon.hpp"
 
 //-----------------------------------------------------------------------------------
 Player::Player()
     : Ship()
+    , m_weapon(nullptr)
+    , m_chassis(nullptr)
+    , m_activeEffect(nullptr)
+    , m_passiveEffect(nullptr)
 {
     m_isDead = false;
     m_maxHp = 99999999.0f;
@@ -48,10 +53,17 @@ void Player::Update(float deltaSeconds)
 
     if (isShooting)
     {
-        if (m_timeSinceLastShot > m_rateOfFire)
+        if (m_weapon)
         {
-            TheGame::instance->SpawnBullet(this);
-            m_timeSinceLastShot = 0.0f;
+            m_weapon->AttemptFire();
+        }
+        else
+        {
+            if (m_timeSinceLastShot > m_rateOfFire)
+            {
+                TheGame::instance->SpawnBullet(this);
+                m_timeSinceLastShot = 0.0f;
+            }
         }
     }
 }
