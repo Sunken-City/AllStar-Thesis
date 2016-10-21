@@ -15,6 +15,7 @@ public:
     virtual bool IsCollidingWith(Entity* otherEntity);
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void TakeDamage(float m_power);
+    virtual void Die() {};
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Sprite* m_sprite;

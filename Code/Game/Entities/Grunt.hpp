@@ -9,6 +9,7 @@ public:
 
     virtual void Update(float deltaSeconds);
     virtual void Render() const;
+    virtual void Die();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     float m_angularVelocity;

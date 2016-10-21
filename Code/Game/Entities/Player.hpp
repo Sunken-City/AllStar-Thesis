@@ -16,22 +16,9 @@ public:
     {
         Stats();
 
-        Stats& operator+=(const Stats& rhs)
-        {
-            this->topSpeed += rhs.topSpeed;
-            this->acceleration += rhs.acceleration;
-            this->agility += rhs.agility;
-            this->braking += rhs.braking;
-            this->damage += rhs.damage;
-            this->shieldDisruption += rhs.shieldDisruption;
-            this->shieldPenetration += rhs.shieldPenetration;
-            this->rateOfFire += rhs.rateOfFire;
-            this->hp += rhs.hp;
-            this->shieldCapacity += rhs.shieldCapacity;
-            this->shieldRegen += rhs.shieldRegen;
-            this->shotDeflection += rhs.shotDeflection;
-            return *this;
-        }
+        unsigned int GetTotalNumberOfDroppablePowerUps();
+        short* GetStatReference(PowerUpType type);
+        Stats& operator+=(const Stats& rhs);
 
         short topSpeed;
         short acceleration;
@@ -55,8 +42,12 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity);
+    virtual void Die();
+
+    void DropPowerups();
     void AttemptMovement(const Vector2& attemptedPosition);
     void PickUpItem(Item* pickedUpItem);
+    void DropRandomPowerup();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Weapon* m_weapon;

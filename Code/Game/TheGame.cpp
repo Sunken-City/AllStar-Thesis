@@ -271,8 +271,7 @@ void TheGame::UpdatePlaying(float deltaSeconds)
     }
     if (!m_players[0] || m_players[0]->m_isDead)
     {
-        SetGameState(GAME_OVER);
-        InitializeGameOverState();
+        
     }
     else
     {
@@ -341,6 +340,7 @@ void TheGame::InitializeKeyMappings()
     m_gameplayMapping.AddInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
     m_gameplayMapping.AddInputAxis("ShootRight", mouse->m_deltaPosition.m_xPos, mouse->m_deltaPosition.m_xNeg);
     m_gameplayMapping.AddInputAxis("ShootUp", mouse->m_deltaPosition.m_yPos, mouse->m_deltaPosition.m_yNeg);
+    m_gameplayMapping.AddInputValue("Suicide", keyboard->FindValue('K'));
     m_gameplayMapping.AddInputValue("Shoot", keyboard->FindValue(' '));
     m_gameplayMapping.AddInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON));
     m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));

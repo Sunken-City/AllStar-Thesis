@@ -2,6 +2,7 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "../Items/PowerUp.hpp"
 
 const float Grunt::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -42,4 +43,13 @@ void Grunt::Update(float deltaSeconds)
 void Grunt::Render() const
 {
 
+}
+
+//-----------------------------------------------------------------------------------
+void Grunt::Die()
+{
+    if (MathUtils::CoinFlip())
+    {
+        TheGame::instance->SpawnPickup(new PowerUp(), m_sprite->m_position);
+    }
 }
