@@ -19,7 +19,7 @@ PlayerShip::PlayerShip()
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     m_baseStats.acceleration = 1.0f;
-    m_baseStats.topSpeed = 1.0f / 15.0f;
+    m_baseStats.topSpeed = 1.0f;
     m_baseStats.rateOfFire = 0.5f;
 }
 
@@ -32,6 +32,7 @@ PlayerShip::~PlayerShip()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
+    const float speedSanityMultiplier = 1.0f / 15.0f;
     Ship::Update(deltaSeconds);
 
     //Poll Input
@@ -40,10 +41,10 @@ void PlayerShip::Update(float deltaSeconds)
     Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
 
-    Vector2 acceleration = inputDirection * m_baseStats.acceleration;
+    Vector2 acceleration = inputDirection * GetAcceleration();
     m_velocity += acceleration * deltaSeconds;
     m_velocity *= m_frictionValue;
-    m_velocity.ClampMagnitude(m_baseStats.topSpeed);
+    m_velocity.ClampMagnitude(GetTopSpeed() * speedSanityMultiplier);
 
     Vector2 attemptedPosition = m_transform.position + m_velocity;
     AttemptMovement(attemptedPosition);

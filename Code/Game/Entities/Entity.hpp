@@ -24,6 +24,20 @@ public:
     virtual void TakeDamage(float m_power);
     virtual void Die() {};
 
+    //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
+    virtual float GetTopSpeed();
+    virtual float GetAcceleration();
+    virtual float GetAgility();
+    virtual float GetBraking();
+    virtual float GetDamage();
+    virtual float GetShieldDisruption();
+    virtual float GetShieldPenetration();
+    virtual float GetRateOfFire();
+    virtual float GetHp();
+    virtual float GetShieldCapacity();
+    virtual float GetShieldRegen();
+    virtual float GetShotDeflection();
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Weapon* m_weapon;
     Active* m_activeEffect;
