@@ -22,7 +22,8 @@
 #include "Entities/ItemCrate.hpp"
 #include "Entities/Grunt.hpp"
 #include "Entities/Pickup.hpp"
-#include "Engine/Input/InputDevices.hpp"
+#include "Engine/Input/InputDevices/KeyboardInputDevice.hpp"
+#include "Engine/Input/InputDevices/MouseInputDevice.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -336,15 +337,15 @@ void TheGame::InitializeKeyMappings()
 {
     KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
     MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
-    m_gameplayMapping.AddInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
-    m_gameplayMapping.AddInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
-    m_gameplayMapping.AddInputAxis("ShootRight", mouse->m_deltaPosition.m_xPos, mouse->m_deltaPosition.m_xNeg);
-    m_gameplayMapping.AddInputAxis("ShootUp", mouse->m_deltaPosition.m_yPos, mouse->m_deltaPosition.m_yNeg);
-    m_gameplayMapping.AddInputValue("Suicide", keyboard->FindValue('K'));
-    m_gameplayMapping.AddInputValue("Shoot", keyboard->FindValue(' '));
-    m_gameplayMapping.AddInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON));
-    m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
-    m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(' '));
+    m_gameplayMapping.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
+    m_gameplayMapping.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
+    m_gameplayMapping.MapInputAxis("ShootRight", mouse->m_deltaPosition.m_x);
+    m_gameplayMapping.MapInputAxis("ShootUp", mouse->m_deltaPosition.m_y);
+    m_gameplayMapping.MapInputValue("Suicide", keyboard->FindValue('K'));
+    m_gameplayMapping.MapInputValue("Shoot", keyboard->FindValue(' '));
+    m_gameplayMapping.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
+    m_gameplayMapping.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
+    m_gameplayMapping.MapInputValue("Accept", keyboard->FindValue(' '));
 }
 
 //-----------------------------------------------------------------------------------
