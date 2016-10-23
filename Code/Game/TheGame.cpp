@@ -233,6 +233,11 @@ void TheGame::CleanupPlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdatePlaying(float deltaSeconds)
 {
+    if (m_gameplayMapping.WasJustPressed("DebugButton"))
+    {
+        static int numScreens = 1;
+        SpriteGameRenderer::instance->SetSplitscreen(++numScreens);
+    }
     m_timeSinceLastSpawn += deltaSeconds;
     if (m_timeSinceLastSpawn > TIME_PER_SPAWN)
     {
@@ -341,6 +346,7 @@ void TheGame::InitializeKeyMappings()
     m_gameplayMapping.AddInputAxis("ShootRight", mouse->m_deltaPosition.m_xPos, mouse->m_deltaPosition.m_xNeg);
     m_gameplayMapping.AddInputAxis("ShootUp", mouse->m_deltaPosition.m_yPos, mouse->m_deltaPosition.m_yNeg);
     m_gameplayMapping.AddInputValue("Suicide", keyboard->FindValue('K'));
+    m_gameplayMapping.AddInputValue("DebugButton", keyboard->FindValue('B'));
     m_gameplayMapping.AddInputValue("Shoot", keyboard->FindValue(' '));
     m_gameplayMapping.AddInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON));
     m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
