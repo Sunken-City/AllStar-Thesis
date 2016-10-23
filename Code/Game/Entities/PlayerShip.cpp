@@ -41,8 +41,13 @@ void PlayerShip::Update(float deltaSeconds)
     Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
 
-    Vector2 acceleration = inputDirection * GetAcceleration();
-    m_velocity += acceleration * deltaSeconds;
+    //Calculate velocity
+    Vector2 perpindicularVelocity(m_velocity.y, m_velocity.x);
+    Vector2 accelerationComponent = inputDirection * (Vector2::Dot(inputDirection, m_velocity) + 0.1f) * GetAcceleration();
+    Vector2 brakingComponent = inputDirection * (Vector2::Dot(inputDirection, -m_velocity) + 0.1f) * GetBraking();
+    Vector2 agilityComponent = inputDirection * (abs(Vector2::Dot(inputDirection, perpindicularVelocity)) + 0.1f) * GetAgility();
+    Vector2 totalAcceleration = accelerationComponent + brakingComponent + agilityComponent;
+    m_velocity += totalAcceleration * deltaSeconds;
     m_velocity *= m_frictionValue;
     m_velocity.ClampMagnitude(GetTopSpeed() * speedSanityMultiplier);
 
