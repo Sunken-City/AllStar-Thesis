@@ -104,6 +104,9 @@
     <ClCompile Include="Entities\PlayerShip.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Stats.cpp">
+      <Filter>General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="Entities\PlayerShip.hpp">
       <Filter>General\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats.hpp">
+      <Filter>General</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

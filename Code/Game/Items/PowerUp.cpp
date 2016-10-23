@@ -17,7 +17,7 @@ PowerUp::PowerUp(PowerUpType type)
 }
 
 //-----------------------------------------------------------------------------------
-PowerUp::PowerUp(PlayerShip::Stats statChanges)
+PowerUp::PowerUp(Stats statChanges)
     : Item(ItemType::POWER_UP)
     , m_powerUpType(PowerUpType::HYBRID)
     , m_statChanges(statChanges)
@@ -115,7 +115,7 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
     case PowerUpType::HYBRID:
         return "Hybrid";
     default:
-        ERROR_RECOVERABLE("Invalid Pickup type");
+        ERROR_AND_DIE("Invalid Pickup type");
     }
 }
 

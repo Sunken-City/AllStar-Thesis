@@ -9,6 +9,13 @@ Entity::Entity()
     , m_collisionRadius(1.0f)
     , m_age(0.0f)
     , m_isDead(false)
+    , m_weapon(nullptr)
+    , m_chassis(nullptr)
+    , m_activeEffect(nullptr)
+    , m_passiveEffect(nullptr)
+    , m_baseStats(1.0f)
+    , m_velocity(0.0f)
+    , m_frictionValue(0.9f)
 {
 
 }

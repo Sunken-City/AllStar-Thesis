@@ -1,7 +1,14 @@
 #pragma once
 #include "Engine/Math/Transform2D.hpp"
+#include "Engine/Math/Vector2.hpp"
+#include "Game/Stats.hpp"
 
 class Sprite;
+class Weapon;
+class Active;
+class Passive;
+class Chassis;
+class Item;
 
 class Entity
 {
@@ -18,11 +25,19 @@ public:
     virtual void Die() {};
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    Weapon* m_weapon;
+    Active* m_activeEffect;
+    Passive* m_passiveEffect;
+    Chassis* m_chassis;
+    Stats m_baseStats;
+
     Sprite* m_sprite;
     Transform2D m_transform;
+    Vector2 m_velocity;
     float m_hp;
     float m_maxHp;
     float m_collisionRadius;
     float m_age;
+    float m_frictionValue;
     bool m_isDead;
 };

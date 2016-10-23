@@ -28,7 +28,7 @@ class PowerUp : public Item
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
     PowerUp(PowerUpType type = PowerUpType::RANDOM);
-    PowerUp(PlayerShip::Stats statChanges);
+    PowerUp(Stats statChanges);
     virtual ~PowerUp();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
@@ -39,5 +39,5 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     PowerUpType m_powerUpType;
-    PlayerShip::Stats m_statChanges;
+    Stats m_statChanges;
 };

@@ -3,9 +3,6 @@
 //-----------------------------------------------------------------------------------
 Ship::Ship()
     : Entity()
-    , m_speed(0.0f)
-    , m_power(0.0f)
-    , m_rateOfFire(0.0f)
     , m_timeSinceLastShot(0.0f)
 {
 
