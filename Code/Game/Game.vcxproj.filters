@@ -47,13 +47,7 @@
     <ClCompile Include="Entities\Entity.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Player.cpp">
-      <Filter>General\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\Ship.cpp">
-      <Filter>General\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Entities\ItemBox.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Grunt.cpp">
@@ -104,6 +98,12 @@
     <ClCompile Include="Entities\Prop.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\ItemCrate.cpp">
+      <Filter>General\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\PlayerShip.cpp">
+      <Filter>General\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -118,13 +118,7 @@
     <ClInclude Include="Entities\Entity.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Player.hpp">
-      <Filter>General\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Entities\Ship.hpp">
-      <Filter>General\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities\ItemBox.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Grunt.hpp">
@@ -173,6 +167,12 @@
       <Filter>General\Items\Chassis</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Prop.hpp">
+      <Filter>General\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\ItemCrate.hpp">
+      <Filter>General\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\PlayerShip.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include "Game/Items/Item.hpp"
-#include "Game/Entities/Player.hpp"
+#include "Game/Entities/PlayerShip.hpp"
 
 //-----------------------------------------------------------------------------------
 enum class PowerUpType
@@ -28,16 +28,16 @@ class PowerUp : public Item
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
     PowerUp(PowerUpType type = PowerUpType::RANDOM);
-    PowerUp(Player::Stats statChanges);
+    PowerUp(PlayerShip::Stats statChanges);
     virtual ~PowerUp();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() override;
     const char* GetPowerUpSpriteResourceName();
-    void ApplyPickupEffect(Player* player);
+    void ApplyPickupEffect(PlayerShip* player);
     void SetStatChangeFromType(PowerUpType type);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     PowerUpType m_powerUpType;
-    Player::Stats m_statChanges;
+    PlayerShip::Stats m_statChanges;
 };

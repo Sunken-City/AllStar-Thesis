@@ -17,7 +17,7 @@ PowerUp::PowerUp(PowerUpType type)
 }
 
 //-----------------------------------------------------------------------------------
-PowerUp::PowerUp(Player::Stats statChanges)
+PowerUp::PowerUp(PlayerShip::Stats statChanges)
     : Item(ItemType::POWER_UP)
     , m_powerUpType(PowerUpType::HYBRID)
     , m_statChanges(statChanges)
@@ -120,8 +120,8 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
 }
 
 //-----------------------------------------------------------------------------------
-void PowerUp::ApplyPickupEffect(Player* player)
+void PowerUp::ApplyPickupEffect(PlayerShip* player)
 {
-    player->m_stats += m_statChanges;
+    player->m_powerupStatModifiers += m_statChanges;
 }
 

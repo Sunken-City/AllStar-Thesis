@@ -16,10 +16,10 @@
 #include "Engine/Renderer/BitmapFont.hpp"
 #include "Engine/Input/XMLUtils.hpp"
 #include "Game/Entities/Entity.hpp"
-#include "Game/Entities/Player.hpp"
+#include "Game/Entities/PlayerShip.hpp"
 #include "Game/Entities/Projectile.hpp"
 #include "Game/Entities/Ship.hpp"
-#include "Entities/ItemBox.hpp"
+#include "Entities/ItemCrate.hpp"
 #include "Entities/Grunt.hpp"
 #include "Entities/Pickup.hpp"
 #include "Engine/Input/InputDevices.hpp"
@@ -202,12 +202,12 @@ void TheGame::InitializePlayingState()
 {
     testBackground = new Sprite("Nebula", BACKGROUND_LAYER);
     testBackground->m_scale = Vector2(10.0f, 10.0f);
-    Player* player1 = new Player();
+    PlayerShip* player1 = new PlayerShip();
     m_entities.push_back(player1);
     m_players.push_back(player1);
-    ItemBox* box1 = new ItemBox(Vector2(2.0f));
+    ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
     m_entities.push_back(box1);
-    ItemBox* box2 = new ItemBox(Vector2(1.0f));
+    ItemCrate* box2 = new ItemCrate(Vector2(1.0f));
     m_entities.push_back(box2);
     Grunt* g1 = new Grunt(Vector2(-2.0f));
     m_entities.push_back(g1);
@@ -236,7 +236,7 @@ void TheGame::UpdatePlaying(float deltaSeconds)
     m_timeSinceLastSpawn += deltaSeconds;
     if (m_timeSinceLastSpawn > TIME_PER_SPAWN)
     {
-        m_entities.push_back(new ItemBox(testBackground->GetBounds().GetRandomPointInside()));
+        m_entities.push_back(new ItemCrate(testBackground->GetBounds().GetRandomPointInside()));
         m_entities.push_back(new Grunt(testBackground->GetBounds().GetRandomPointInside()));
         m_timeSinceLastSpawn = 0.0f;
     }

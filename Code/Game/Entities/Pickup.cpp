@@ -2,7 +2,7 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
-#include "Player.hpp"
+#include "PlayerShip.hpp"
 
 //-----------------------------------------------------------------------------------
 Pickup::Pickup(Item* item, const Vector2& initialPosition)
@@ -47,7 +47,7 @@ void Pickup::Render() const
 void Pickup::ResolveCollision(Entity* otherEntity)
 {
     Entity::ResolveCollision(otherEntity);
-    for (Player* ent : TheGame::instance->m_players)
+    for (PlayerShip* ent : TheGame::instance->m_players)
     {
         if ((Entity*)ent == otherEntity)
         {

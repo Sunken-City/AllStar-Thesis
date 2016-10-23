@@ -5,7 +5,7 @@
 #include "Engine/Input/InputMap.hpp"
 
 class Entity;
-class Player;
+class PlayerShip;
 class Ship;
 class Item;
 class NetConnection;
@@ -35,7 +35,7 @@ public:
     static unsigned int const UI_LAYER = 30;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    std::vector<Player*> m_players;
+    std::vector<PlayerShip*> m_players;
     InputMap m_gameplayMapping;
 
 private:
