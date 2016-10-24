@@ -19,6 +19,8 @@ PlayerShip::PlayerShip()
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     m_baseStats.acceleration = 1.0f;
+    m_baseStats.agility = 1.0f;
+    m_baseStats.braking = 0.0f;
     m_baseStats.topSpeed = 1.0f;
     m_baseStats.rateOfFire = 0.5f;
 }
@@ -38,18 +40,23 @@ void PlayerShip::Update(float deltaSeconds)
     //Poll Input
     InputMap& input = TheGame::instance->m_gameplayMapping;
     Vector2 inputDirection = input.GetVector2("Right", "Up");
+    //Vector2 inputDirection = InputSystem::instance->m_controllers[0]->GetLeftStickPosition();
     Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
 
     //Calculate velocity
-    Vector2 perpindicularVelocity(-m_velocity.y, m_velocity.x);
-    Vector2 accelerationComponent = inputDirection * (Vector2::Dot(inputDirection, m_velocity) + 0.1f) * GetAcceleration();
-    Vector2 brakingComponent = inputDirection * (Vector2::Dot(inputDirection, -m_velocity) + 0.1f) * GetBraking();
-    Vector2 agilityComponent = inputDirection * (abs(Vector2::Dot(inputDirection, perpindicularVelocity)) + 0.1f) * GetAgility();
-    Vector2 totalAcceleration = accelerationComponent + brakingComponent + agilityComponent;
+    Vector2 velocityDir = m_velocity.CalculateMagnitude() < 0.01f ? inputDirection.GetNorm() : m_velocity.GetNorm();
+    Vector2 perpindicularVelocityDir(-velocityDir.y, velocityDir.x);
+
+    float accelerationDot = Vector2::Dot(inputDirection, velocityDir);
+    float accelerationMultiplier = (accelerationDot >= 0.0f) ? GetAccelerationStat() : GetBrakingStat();
+    Vector2 accelerationComponent = accelerationComponent = velocityDir * accelerationDot * accelerationMultiplier;
+    Vector2 agilityComponent = perpindicularVelocityDir * Vector2::Dot(inputDirection, perpindicularVelocityDir) * GetAgilityStat();
+
+    Vector2 totalAcceleration = accelerationComponent + agilityComponent;
     m_velocity += totalAcceleration * deltaSeconds;
     m_velocity *= m_frictionValue;
-    m_velocity.ClampMagnitude(GetTopSpeed() * speedSanityMultiplier);
+    m_velocity.ClampMagnitude(GetTopSpeedStat() * speedSanityMultiplier);
 
     Vector2 attemptedPosition = m_transform.position + m_velocity;
     AttemptMovement(attemptedPosition);

@@ -25,18 +25,18 @@ public:
     virtual void Die() {};
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual float GetTopSpeed();
-    virtual float GetAcceleration();
-    virtual float GetAgility();
-    virtual float GetBraking();
-    virtual float GetDamage();
-    virtual float GetShieldDisruption();
-    virtual float GetShieldPenetration();
-    virtual float GetRateOfFire();
-    virtual float GetHp();
-    virtual float GetShieldCapacity();
-    virtual float GetShieldRegen();
-    virtual float GetShotDeflection();
+    virtual float GetTopSpeedStat();
+    virtual float GetAccelerationStat();
+    virtual float GetAgilityStat();
+    virtual float GetBrakingStat();
+    virtual float GetDamageStat();
+    virtual float GetShieldDisruptionStat();
+    virtual float GetShieldPenetrationStat();
+    virtual float GetRateOfFireStat();
+    virtual float GetHpStat();
+    virtual float GetShieldCapacityStat();
+    virtual float GetShieldRegenStat();
+    virtual float GetShotDeflectionStat();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Weapon* m_weapon;

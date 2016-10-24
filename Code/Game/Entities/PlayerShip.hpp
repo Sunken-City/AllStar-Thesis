@@ -19,18 +19,18 @@ public:
     virtual void Die();
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
-    inline virtual float GetTopSpeed() { return Ship::GetTopSpeed() + m_powerupStatModifiers.topSpeed; };
-    inline virtual float GetAcceleration() { return Ship::GetAcceleration() + m_powerupStatModifiers.acceleration; };
-    inline virtual float GetAgility() { return Ship::GetAgility() + m_powerupStatModifiers.agility; };
-    inline virtual float GetBraking() { return Ship::GetBraking() + m_powerupStatModifiers.braking; };
-    inline virtual float GetDamage() { return Ship::GetDamage() + m_powerupStatModifiers.damage; };
-    inline virtual float GetShieldDisruption() { return Ship::GetShieldDisruption() + m_powerupStatModifiers.shieldDisruption; };
-    inline virtual float GetShieldPenetration() { return Ship::GetShieldPenetration() + m_powerupStatModifiers.shieldPenetration; };
-    inline virtual float GetRateOfFire() { return Ship::GetRateOfFire() + m_powerupStatModifiers.rateOfFire; };
-    inline virtual float GetHp() { return Ship::GetHp() + m_powerupStatModifiers.hp; };
-    inline virtual float GetShieldCapacity() { return Ship::GetShieldCapacity() + m_powerupStatModifiers.shieldCapacity; };
-    inline virtual float GetShieldRegen() { return Ship::GetShieldRegen() + m_powerupStatModifiers.shieldRegen; };
-    inline virtual float GetShotDeflection() { return Ship::GetShotDeflection() + m_powerupStatModifiers.shotDeflection; };
+    inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };
+    inline virtual float GetAccelerationStat() { return Ship::GetAccelerationStat() + m_powerupStatModifiers.acceleration; };
+    inline virtual float GetAgilityStat() { return Ship::GetAgilityStat() + m_powerupStatModifiers.agility; };
+    inline virtual float GetBrakingStat() { return Ship::GetBrakingStat() + m_powerupStatModifiers.braking; };
+    inline virtual float GetDamageStat() { return Ship::GetDamageStat() + m_powerupStatModifiers.damage; };
+    inline virtual float GetShieldDisruptionStat() { return Ship::GetShieldDisruptionStat() + m_powerupStatModifiers.shieldDisruption; };
+    inline virtual float GetShieldPenetrationStat() { return Ship::GetShieldPenetrationStat() + m_powerupStatModifiers.shieldPenetration; };
+    inline virtual float GetRateOfFireStat() { return Ship::GetRateOfFireStat() + m_powerupStatModifiers.rateOfFire; };
+    inline virtual float GetHpStat() { return Ship::GetHpStat() + m_powerupStatModifiers.hp; };
+    inline virtual float GetShieldCapacityStat() { return Ship::GetShieldCapacityStat() + m_powerupStatModifiers.shieldCapacity; };
+    inline virtual float GetShieldRegenStat() { return Ship::GetShieldRegenStat() + m_powerupStatModifiers.shieldRegen; };
+    inline virtual float GetShotDeflectionStat() { return Ship::GetShotDeflectionStat() + m_powerupStatModifiers.shotDeflection; };
 
     void DropPowerups();
     void AttemptMovement(const Vector2& attemptedPosition);

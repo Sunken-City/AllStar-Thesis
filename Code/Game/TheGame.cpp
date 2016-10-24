@@ -30,7 +30,7 @@ Sprite* testBackground = nullptr;
 Sprite* titleText = nullptr;
 Sprite* gameOverText = nullptr;
 float m_timeSinceLastSpawn = 0.0f;
-const float TIME_PER_SPAWN = 1.0f;
+const float TIME_PER_SPAWN = 5.0f;
 
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
@@ -233,7 +233,8 @@ void TheGame::CleanupPlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdatePlaying(float deltaSeconds)
 {
-    if (m_gameplayMapping.WasJustPressed("DebugButton"))
+#pragma todo("Fix this when we're back on the input system")
+    if (InputSystem::instance->WasKeyJustPressed('B'))
     {
         static int numScreens = 1;
         SpriteGameRenderer::instance->SetSplitscreen(++numScreens);

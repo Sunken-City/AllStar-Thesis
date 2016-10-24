@@ -76,7 +76,7 @@ void Entity::TakeDamage(float damage)
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetTopSpeed()
+float Entity::GetTopSpeedStat()
 {
     float topSpeed = m_baseStats.topSpeed;
     topSpeed += m_weapon ? m_weapon->m_statBonuses.topSpeed : 0.0f;
@@ -87,7 +87,7 @@ float Entity::GetTopSpeed()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetAcceleration()
+float Entity::GetAccelerationStat()
 {
     float totalAcceleration = m_baseStats.acceleration;
     totalAcceleration += m_weapon ? m_weapon->m_statBonuses.acceleration : 0.0f;
@@ -98,7 +98,7 @@ float Entity::GetAcceleration()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetAgility()
+float Entity::GetAgilityStat()
 {
     float agility = m_baseStats.agility;
     agility += m_weapon ? m_weapon->m_statBonuses.agility : 0.0f;
@@ -109,7 +109,7 @@ float Entity::GetAgility()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetBraking()
+float Entity::GetBrakingStat()
 {
     float braking = m_baseStats.braking;
     braking += m_weapon ? m_weapon->m_statBonuses.braking : 0.0f;
@@ -120,7 +120,7 @@ float Entity::GetBraking()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetDamage()
+float Entity::GetDamageStat()
 {
     float damage = m_baseStats.damage;
     damage += m_weapon ? m_weapon->m_statBonuses.damage : 0.0f;
@@ -131,7 +131,7 @@ float Entity::GetDamage()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetShieldDisruption()
+float Entity::GetShieldDisruptionStat()
 {
     float shieldDisruption = m_baseStats.shieldDisruption;
     shieldDisruption += m_weapon ? m_weapon->m_statBonuses.shieldDisruption : 0.0f;
@@ -142,7 +142,7 @@ float Entity::GetShieldDisruption()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetShieldPenetration()
+float Entity::GetShieldPenetrationStat()
 {
     float shieldPenetration = m_baseStats.shieldPenetration;
     shieldPenetration += m_weapon ? m_weapon->m_statBonuses.shieldPenetration : 0.0f;
@@ -153,7 +153,7 @@ float Entity::GetShieldPenetration()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetRateOfFire()
+float Entity::GetRateOfFireStat()
 {
     float rateOfFire = m_baseStats.rateOfFire;
     rateOfFire += m_weapon ? m_weapon->m_statBonuses.rateOfFire : 0.0f;
@@ -164,7 +164,7 @@ float Entity::GetRateOfFire()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetHp()
+float Entity::GetHpStat()
 {
     float hp = m_baseStats.hp;
     hp += m_weapon ? m_weapon->m_statBonuses.hp : 0.0f;
@@ -175,7 +175,7 @@ float Entity::GetHp()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetShieldCapacity()
+float Entity::GetShieldCapacityStat()
 {
     float shieldCapacity = m_baseStats.shieldCapacity;
     shieldCapacity += m_weapon ? m_weapon->m_statBonuses.shieldCapacity : 0.0f;
@@ -186,7 +186,7 @@ float Entity::GetShieldCapacity()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetShieldRegen()
+float Entity::GetShieldRegenStat()
 {
     float shieldRegen = m_baseStats.shieldRegen;
     shieldRegen += m_weapon ? m_weapon->m_statBonuses.shieldRegen : 0.0f;
@@ -197,7 +197,7 @@ float Entity::GetShieldRegen()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetShotDeflection()
+float Entity::GetShotDeflectionStat()
 {
     float shotDeflection = m_baseStats.shotDeflection;
     shotDeflection += m_weapon ? m_weapon->m_statBonuses.shotDeflection : 0.0f;
