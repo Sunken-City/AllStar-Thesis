@@ -7,8 +7,8 @@ enum class PowerUpType
 {
     TOP_SPEED = 0,
     ACCELERATION,
-    AGILITY,
-    WEIGHT,
+    HANDLING,
+    BRAKING,
     DAMAGE,
     SHIELD_DISRUPTION,
     SHIELD_PENETRATION,

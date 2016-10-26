@@ -22,8 +22,8 @@ public:
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };
     inline virtual float GetAccelerationStat() { return Ship::GetAccelerationStat() + m_powerupStatModifiers.acceleration; };
-    inline virtual float GetAgilityStat() { return Ship::GetAgilityStat() + m_powerupStatModifiers.agility; };
-    inline virtual float GetWeightStat() { return Ship::GetWeightStat() + m_powerupStatModifiers.weight; };
+    inline virtual float GetHandlingStat() { return Ship::GetHandlingStat() + m_powerupStatModifiers.handling; };
+    inline virtual float GetBrakingStat() { return Ship::GetBrakingStat() + m_powerupStatModifiers.braking; };
     inline virtual float GetDamageStat() { return Ship::GetDamageStat() + m_powerupStatModifiers.damage; };
     inline virtual float GetShieldDisruptionStat() { return Ship::GetShieldDisruptionStat() + m_powerupStatModifiers.shieldDisruption; };
     inline virtual float GetShieldPenetrationStat() { return Ship::GetShieldPenetrationStat() + m_powerupStatModifiers.shieldPenetration; };

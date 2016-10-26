@@ -222,7 +222,6 @@ void TheGame::InitializePlayingState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupPlayingState(unsigned int)
 {
-    delete m_players[0]->m_pilot;
     for (Entity* ent : m_entities)
     {
         delete ent;
@@ -236,7 +235,7 @@ void TheGame::CleanupPlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdatePlaying(float deltaSeconds)
 {
-#pragma todo("Fix this when we're back on the input system")
+#pragma todo("Fix this when we're done reworking the input system")
     if (InputSystem::instance->WasKeyJustPressed('B'))
     {
         static int numScreens = 1;
@@ -372,8 +371,8 @@ void TheGame::RegisterSprites()
 
     ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Agility", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Weight", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\fireRate.png");
+    ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\power.png");
     ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\Pickups\\power.png");
     ResourceDatabase::instance->RegisterSprite("ShieldPenetration", "Data\\Images\\Pickups\\power.png");

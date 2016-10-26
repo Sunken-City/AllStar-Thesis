@@ -19,8 +19,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     m_baseStats.acceleration = 1.0f;
-    m_baseStats.agility = 1.0f;
-    m_baseStats.weight = 1.0f;
+    m_baseStats.handling = 1.0f;
     m_baseStats.topSpeed = 1.0f;
     m_baseStats.rateOfFire = 0.5f;
 }

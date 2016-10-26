@@ -13,9 +13,10 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
-    virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity);
     void AttemptMovement(const Vector2& attemptedPosition);
+    void UpdateMotion(float deltaSeconds);
+    void UpdateShooting();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     float m_timeSinceLastShot;

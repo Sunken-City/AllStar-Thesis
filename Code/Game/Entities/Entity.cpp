@@ -40,12 +40,6 @@ void Entity::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::Render() const
-{
-
-}
-
-//-----------------------------------------------------------------------------------
 bool Entity::IsCollidingWith(Entity* otherEntity)
 {
     return this->m_sprite->GetBounds().IsIntersecting(otherEntity->m_sprite->GetBounds());
@@ -98,25 +92,25 @@ float Entity::GetAccelerationStat()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetAgilityStat()
+float Entity::GetHandlingStat()
 {
-    float agility = m_baseStats.agility;
-    agility += m_weapon ? m_weapon->m_statBonuses.agility : 0.0f;
-    agility += m_chassis ? m_chassis->m_statBonuses.agility : 0.0f;
-    agility += m_activeEffect ? m_activeEffect->m_statBonuses.agility : 0.0f;
-    agility += m_passiveEffect ? m_passiveEffect->m_statBonuses.agility : 0.0f;
-    return agility;
+    float handling = m_baseStats.handling;
+    handling += m_weapon ? m_weapon->m_statBonuses.handling : 0.0f;
+    handling += m_chassis ? m_chassis->m_statBonuses.handling : 0.0f;
+    handling += m_activeEffect ? m_activeEffect->m_statBonuses.handling : 0.0f;
+    handling += m_passiveEffect ? m_passiveEffect->m_statBonuses.handling : 0.0f;
+    return handling;
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetWeightStat()
+float Entity::GetBrakingStat()
 {
-    float weight = m_baseStats.weight;
-    weight += m_weapon ? m_weapon->m_statBonuses.weight : 0.0f;
-    weight += m_chassis ? m_chassis->m_statBonuses.weight : 0.0f;
-    weight += m_activeEffect ? m_activeEffect->m_statBonuses.weight : 0.0f;
-    weight += m_passiveEffect ? m_passiveEffect->m_statBonuses.weight : 0.0f;
-    return weight;
+    float braking = m_baseStats.braking;
+    braking += m_weapon ? m_weapon->m_statBonuses.braking : 0.0f;
+    braking += m_chassis ? m_chassis->m_statBonuses.braking : 0.0f;
+    braking += m_activeEffect ? m_activeEffect->m_statBonuses.braking : 0.0f;
+    braking += m_passiveEffect ? m_passiveEffect->m_statBonuses.braking : 0.0f;
+    return braking;
 }
 
 //-----------------------------------------------------------------------------------
