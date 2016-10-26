@@ -345,8 +345,8 @@ void TheGame::InitializeKeyMappings()
     MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
     m_gameplayMapping.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
     m_gameplayMapping.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
-    m_gameplayMapping.MapInputAxis("ShootRight", mouse->m_deltaPosition.m_x);
-    m_gameplayMapping.MapInputAxis("ShootUp", mouse->m_deltaPosition.m_y);
+    m_gameplayMapping.MapInputAxis("ShootRight", &mouse->m_deltaPosition.m_x);
+    m_gameplayMapping.MapInputAxis("ShootUp", &mouse->m_deltaPosition.m_y);
     m_gameplayMapping.MapInputValue("Suicide", keyboard->FindValue('K'));
     m_gameplayMapping.MapInputValue("Shoot", keyboard->FindValue(' '));
     m_gameplayMapping.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
