@@ -7,113 +7,22 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
 #include "Game/Items/Weapons/Weapon.hpp"
-#include "../Items/PowerUp.hpp"
-
-//-----------------------------------------------------------------------------------
-PlayerShip::Stats::Stats()
-    : topSpeed(0)
-    , acceleration(0)
-    , agility(0)
-    , braking(0)
-    , damage(0)
-    , shieldDisruption(0)
-    , shieldPenetration(0)
-    , rateOfFire(0)
-    , hp(0)
-    , shieldCapacity(0)
-    , shieldRegen(0)
-    , shotDeflection(0)
-{
-
-}
-
-//-----------------------------------------------------------------------------------
-//Counts only the positive boosts that could be dropped as items.
-unsigned int PlayerShip::Stats::GetTotalNumberOfDroppablePowerUps()
-{
-    unsigned int totalCount = 0;
-    totalCount += topSpeed > 0 ? topSpeed : 0;
-    totalCount += acceleration > 0 ? acceleration : 0;
-    totalCount += agility > 0 ? agility : 0;
-    totalCount += braking > 0 ? braking : 0;
-    totalCount += damage > 0 ? damage : 0;
-    totalCount += shieldDisruption > 0 ? shieldDisruption : 0;
-    totalCount += shieldPenetration > 0 ? shieldPenetration : 0;
-    totalCount += rateOfFire > 0 ? rateOfFire : 0;
-    totalCount += hp > 0 ? hp : 0;
-    totalCount += shieldCapacity > 0 ? shieldCapacity : 0;
-    totalCount += shieldRegen > 0 ? shieldRegen : 0;
-    totalCount += shotDeflection > 0 ? shotDeflection : 0;
-    return totalCount;
-}
-
-//-----------------------------------------------------------------------------------
-short* PlayerShip::Stats::GetStatReference(PowerUpType type)
-{
-    switch (type)
-    {
-    case PowerUpType::TOP_SPEED:
-        return &topSpeed;
-    case PowerUpType::ACCELERATION:
-        return &acceleration;
-    case PowerUpType::AGILITY:
-        return &agility;
-    case PowerUpType::BRAKING:
-        return &braking;
-    case PowerUpType::DAMAGE:
-        return &damage;
-    case PowerUpType::SHIELD_DISRUPTION:
-        return &shieldDisruption;
-    case PowerUpType::SHIELD_PENETRATION:
-        return &shieldPenetration;
-    case PowerUpType::RATE_OF_FIRE:
-        return &rateOfFire;
-    case PowerUpType::HP:
-        return &hp;
-    case PowerUpType::SHIELD_CAPACITY:
-        return &shieldCapacity;
-    case PowerUpType::SHIELD_REGEN:
-        return &shieldRegen;
-    case PowerUpType::SHOT_DEFLECTION:
-        return &shotDeflection;
-    default:
-        ERROR_RECOVERABLE("Passed an invalid type to the stat reference function");
-    }
-}
-
-//-----------------------------------------------------------------------------------
-PlayerShip::Stats& PlayerShip::Stats::operator+=(const Stats& rhs)
-{
-    topSpeed += rhs.topSpeed;
-    acceleration += rhs.acceleration;
-    agility += rhs.agility;
-    braking += rhs.braking;
-    damage += rhs.damage;
-    shieldDisruption += rhs.shieldDisruption;
-    shieldPenetration += rhs.shieldPenetration;
-    rateOfFire += rhs.rateOfFire;
-    hp += rhs.hp;
-    shieldCapacity += rhs.shieldCapacity;
-    shieldRegen += rhs.shieldRegen;
-    shotDeflection += rhs.shotDeflection;
-    return *this;
-}
+#include "Game/Items/PowerUp.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip()
     : Ship()
-    , m_weapon(nullptr)
-    , m_chassis(nullptr)
-    , m_activeEffect(nullptr)
-    , m_passiveEffect(nullptr)
 {
     m_isDead = false;
     m_maxHp = 5.0f;
     m_hp = 5.0f;
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
-    m_speed = 1.0f;
-    m_rateOfFire = 0.5f;
+    m_baseStats.acceleration = 1.0f;
+    m_baseStats.agility = 1.0f;
+    m_baseStats.braking = 1.0f;
+    m_baseStats.topSpeed = 1.0f;
+    m_baseStats.rateOfFire = 0.5f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -125,16 +34,31 @@ PlayerShip::~PlayerShip()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
-    const float adjustedSpeed = m_speed / 15.0f;
+    const float speedSanityMultiplier = 1.0f / 15.0f;
     Ship::Update(deltaSeconds);
-
+    
     //Poll Input
     InputMap& input = TheGame::instance->m_gameplayMapping;
     Vector2 inputDirection = input.GetVector2("Right", "Up");
+    //Vector2 inputDirection = InputSystem::instance->m_controllers[0]->GetLeftStickPosition();
     Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
 
-    Vector2 attemptedPosition = m_transform.position + inputDirection * adjustedSpeed;
+    //Calculate velocity
+    Vector2 velocityDir = m_velocity.CalculateMagnitude() < 0.01f ? inputDirection.GetNorm() : m_velocity.GetNorm();
+    Vector2 perpindicularVelocityDir(-velocityDir.y, velocityDir.x);
+
+    float accelerationDot = Vector2::Dot(inputDirection, velocityDir);
+    float accelerationMultiplier = (accelerationDot >= 0.0f) ? GetAccelerationStat() : GetBrakingStat();
+    Vector2 accelerationComponent = accelerationComponent = velocityDir * accelerationDot * accelerationMultiplier;
+    Vector2 agilityComponent = perpindicularVelocityDir * Vector2::Dot(inputDirection, perpindicularVelocityDir) * GetAgilityStat();
+
+    Vector2 totalAcceleration = accelerationComponent + agilityComponent;
+    m_velocity += totalAcceleration * deltaSeconds;
+    m_velocity *= m_frictionValue;
+    m_velocity.ClampMagnitude(GetTopSpeedStat() * speedSanityMultiplier);
+
+    Vector2 attemptedPosition = m_transform.position + m_velocity;
     AttemptMovement(attemptedPosition);
 
     if (shootDirection != Vector2::ZERO)
@@ -150,7 +74,7 @@ void PlayerShip::Update(float deltaSeconds)
         }
         else
         {
-            if (m_timeSinceLastShot > m_rateOfFire)
+            if (m_timeSinceLastShot > m_baseStats.rateOfFire)
             {
                 TheGame::instance->SpawnBullet(this);
                 m_timeSinceLastShot = 0.0f;
@@ -206,15 +130,15 @@ void PlayerShip::DropPowerups()
 void PlayerShip::DropRandomPowerup()
 {
     PowerUpType type;
-    short* statValue = nullptr;
+    float* statValue = nullptr;
     do 
     {
         type = static_cast<PowerUpType>(MathUtils::GetRandomIntFromZeroTo((int)PowerUpType::HYBRID));
         statValue = m_powerupStatModifiers.GetStatReference(type);
-    } while (*statValue < 1);
+    } while (*statValue < 1.0f);
 
     TheGame::instance->SpawnPickup(new PowerUp(type), m_transform.position);
-    *statValue -= 1;
+    *statValue -= 1.0f;
 }
 
 //-----------------------------------------------------------------------------------

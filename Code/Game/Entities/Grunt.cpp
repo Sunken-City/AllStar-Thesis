@@ -15,8 +15,8 @@ Grunt::Grunt(const Vector2& initialPosition)
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
     m_sprite->m_position = initialPosition;
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
-    m_speed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
-    m_rateOfFire = 1.5f;
+    m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
+    m_baseStats.rateOfFire = 1.5f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -30,9 +30,9 @@ void Grunt::Update(float deltaSeconds)
     Ship::Update(deltaSeconds);
     m_sprite->m_rotationDegrees += m_angularVelocity * deltaSeconds;
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
-    Vector2 deltaVelocity = direction * m_speed * deltaSeconds;
+    Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
     m_sprite->m_position += deltaVelocity;
-    if (m_timeSinceLastShot > m_rateOfFire)
+    if (m_timeSinceLastShot > m_baseStats.rateOfFire)
     {
         TheGame::instance->SpawnBullet(this);
         m_timeSinceLastShot = 0.0f;

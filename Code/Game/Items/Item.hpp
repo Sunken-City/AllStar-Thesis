@@ -1,4 +1,5 @@
 #pragma once
+#include "Game/Stats.hpp"
 
 class SpriteResource;
 
@@ -31,4 +32,5 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     ItemType m_itemType;
+    Stats m_statBonuses;
 };

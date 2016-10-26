@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/Items/Item.hpp"
 
-class Weapon
+class Weapon : public Item
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////

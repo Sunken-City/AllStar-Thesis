@@ -14,8 +14,5 @@ public:
     virtual void ResolveCollision(Entity* otherEntity);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    float m_speed;
-    float m_power;
-    float m_rateOfFire;
     float m_timeSinceLastShot;
 };
