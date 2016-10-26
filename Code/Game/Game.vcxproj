@@ -169,6 +169,8 @@
     <ClCompile Include="Items\PowerUp.cpp" />
     <ClCompile Include="Items\Weapons\Weapon.cpp" />
     <ClCompile Include="Main_Win32.cpp" />
+    <ClCompile Include="Pilots\Pilot.cpp" />
+    <ClCompile Include="Pilots\PlayerPilot.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="TheGame.cpp" />
@@ -195,6 +197,8 @@
     <ClInclude Include="Items\Passives\Passive.hpp" />
     <ClInclude Include="Items\PowerUp.hpp" />
     <ClInclude Include="Items\Weapons\Weapon.hpp" />
+    <ClInclude Include="Pilots\Pilot.hpp" />
+    <ClInclude Include="Pilots\PlayerPilot.hpp" />
     <ClInclude Include="StateMachine.hpp" />
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="TheGame.hpp" />

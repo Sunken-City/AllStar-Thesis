@@ -109,14 +109,14 @@ float Entity::GetAgilityStat()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetBrakingStat()
+float Entity::GetWeightStat()
 {
-    float braking = m_baseStats.braking;
-    braking += m_weapon ? m_weapon->m_statBonuses.braking : 0.0f;
-    braking += m_chassis ? m_chassis->m_statBonuses.braking : 0.0f;
-    braking += m_activeEffect ? m_activeEffect->m_statBonuses.braking : 0.0f;
-    braking += m_passiveEffect ? m_passiveEffect->m_statBonuses.braking : 0.0f;
-    return braking;
+    float weight = m_baseStats.weight;
+    weight += m_weapon ? m_weapon->m_statBonuses.weight : 0.0f;
+    weight += m_chassis ? m_chassis->m_statBonuses.weight : 0.0f;
+    weight += m_activeEffect ? m_activeEffect->m_statBonuses.weight : 0.0f;
+    weight += m_passiveEffect ? m_passiveEffect->m_statBonuses.weight : 0.0f;
+    return weight;
 }
 
 //-----------------------------------------------------------------------------------

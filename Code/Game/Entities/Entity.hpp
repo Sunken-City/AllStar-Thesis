@@ -28,7 +28,7 @@ public:
     virtual float GetTopSpeedStat();
     virtual float GetAccelerationStat();
     virtual float GetAgilityStat();
-    virtual float GetBrakingStat();
+    virtual float GetWeightStat();
     virtual float GetDamageStat();
     virtual float GetShieldDisruptionStat();
     virtual float GetShieldPenetrationStat();

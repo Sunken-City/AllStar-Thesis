@@ -23,6 +23,7 @@
 #include "Entities/Grunt.hpp"
 #include "Entities/Pickup.hpp"
 #include "Engine/Input/InputDevices.hpp"
+#include "Pilots/PlayerPilot.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -38,7 +39,6 @@ TheGame::TheGame()
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
     SetGameState(GameState::MAIN_MENU);
-    InitializeKeyMappings();
     InitializeMainMenuState();
 }
 
@@ -64,7 +64,7 @@ void TheGame::Update(float deltaSeconds)
     }
 
 #pragma todo("Reenable menu navigation once we have a more solid game flow")
-    if (m_gameplayMapping.WasJustPressed("Accept"))
+    if (InputSystem::instance->WasKeyJustPressed(' '))
     {
         switch (GetGameState())
         {
@@ -202,7 +202,9 @@ void TheGame::InitializePlayingState()
 {
     testBackground = new Sprite("Nebula", BACKGROUND_LAYER);
     testBackground->m_scale = Vector2(10.0f, 10.0f);
-    PlayerShip* player1 = new PlayerShip();
+    PlayerPilot* player1Pilot = new PlayerPilot();
+    InitializeKeyMappingsForPlayer(player1Pilot);
+    PlayerShip* player1 = new PlayerShip(player1Pilot);
     m_entities.push_back(player1);
     m_players.push_back(player1);
     ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
@@ -220,6 +222,7 @@ void TheGame::InitializePlayingState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupPlayingState(unsigned int)
 {
+    delete m_players[0]->m_pilot;
     for (Entity* ent : m_entities)
     {
         delete ent;
@@ -338,20 +341,20 @@ void TheGame::SpawnPickup(Item* item, const Vector2& spawnPosition)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::InitializeKeyMappings()
+void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 {
     KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
     MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
-    m_gameplayMapping.AddInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
-    m_gameplayMapping.AddInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
-    m_gameplayMapping.AddInputAxis("ShootRight", mouse->m_deltaPosition.m_xPos, mouse->m_deltaPosition.m_xNeg);
-    m_gameplayMapping.AddInputAxis("ShootUp", mouse->m_deltaPosition.m_yPos, mouse->m_deltaPosition.m_yNeg);
-    m_gameplayMapping.AddInputValue("Suicide", keyboard->FindValue('K'));
-    m_gameplayMapping.AddInputValue("DebugButton", keyboard->FindValue('B'));
-    m_gameplayMapping.AddInputValue("Shoot", keyboard->FindValue(' '));
-    m_gameplayMapping.AddInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON));
-    m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
-    m_gameplayMapping.AddInputValue("Accept", keyboard->FindValue(' '));
+    playerPilot->m_inputMap.AddInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
+    playerPilot->m_inputMap.AddInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
+    playerPilot->m_inputMap.AddInputAxis("ShootRight", mouse->m_deltaPosition.m_xPos, mouse->m_deltaPosition.m_xNeg);
+    playerPilot->m_inputMap.AddInputAxis("ShootUp", mouse->m_deltaPosition.m_yPos, mouse->m_deltaPosition.m_yNeg);
+    playerPilot->m_inputMap.AddInputValue("Suicide", keyboard->FindValue('K'));
+    playerPilot->m_inputMap.AddInputValue("DebugButton", keyboard->FindValue('B'));
+    playerPilot->m_inputMap.AddInputValue("Shoot", keyboard->FindValue(' '));
+    playerPilot->m_inputMap.AddInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON));
+    playerPilot->m_inputMap.AddInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
+    playerPilot->m_inputMap.AddInputValue("Accept", keyboard->FindValue(' '));
 }
 
 //-----------------------------------------------------------------------------------
@@ -370,7 +373,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Agility", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Weight", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\power.png");
     ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\Pickups\\power.png");
     ResourceDatabase::instance->RegisterSprite("ShieldPenetration", "Data\\Images\\Pickups\\power.png");

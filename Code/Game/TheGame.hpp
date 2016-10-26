@@ -6,6 +6,7 @@
 
 class Entity;
 class PlayerShip;
+class PlayerPilot;
 class Ship;
 class Item;
 class NetConnection;
@@ -36,7 +37,6 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<PlayerShip*> m_players;
-    InputMap m_gameplayMapping;
 
 private:
     TheGame& operator= (const TheGame& other) = delete;
@@ -54,7 +54,7 @@ private:
     void CleanupMainMenuState(unsigned int);
     void UpdateMainMenu(float deltaSeconds);
     void RenderMainMenu() const;
-    void InitializeKeyMappings();
+    void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<Entity*> m_entities;

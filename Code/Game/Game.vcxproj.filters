@@ -30,6 +30,9 @@
     <Filter Include="General\Items\Passives">
       <UniqueIdentifier>{f5746678-6faa-4ccc-8bdf-827ffd2fa2ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="General\Pilots">
+      <UniqueIdentifier>{f3768aa3-6e8d-4858-b347-f02d738fce25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameCommon.cpp">
@@ -107,6 +110,12 @@
     <ClCompile Include="Stats.cpp">
       <Filter>General</Filter>
     </ClCompile>
+    <ClCompile Include="Pilots\Pilot.cpp">
+      <Filter>General\Pilots</Filter>
+    </ClCompile>
+    <ClCompile Include="Pilots\PlayerPilot.cpp">
+      <Filter>General\Pilots</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -180,6 +189,12 @@
     </ClInclude>
     <ClInclude Include="Stats.hpp">
       <Filter>General</Filter>
+    </ClInclude>
+    <ClInclude Include="Pilots\Pilot.hpp">
+      <Filter>General\Pilots</Filter>
+    </ClInclude>
+    <ClInclude Include="Pilots\PlayerPilot.hpp">
+      <Filter>General\Pilots</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

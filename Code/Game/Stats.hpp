@@ -13,7 +13,7 @@ struct Stats
     float topSpeed;
     float acceleration;
     float agility;
-    float braking;
+    float weight;
     float damage;
     float shieldDisruption;
     float shieldPenetration;

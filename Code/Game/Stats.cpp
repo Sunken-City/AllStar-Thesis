@@ -7,7 +7,7 @@ Stats::Stats(float defaultValue)
     : topSpeed(defaultValue)
     , acceleration(defaultValue)
     , agility(defaultValue)
-    , braking(defaultValue)
+    , weight(defaultValue)
     , damage(defaultValue)
     , shieldDisruption(defaultValue)
     , shieldPenetration(defaultValue)
@@ -28,7 +28,7 @@ unsigned int Stats::GetTotalNumberOfDroppablePowerUps()
     totalCount += static_cast<unsigned int>(topSpeed > 0 ? topSpeed : 0);
     totalCount += static_cast<unsigned int>(acceleration > 0 ? acceleration : 0);
     totalCount += static_cast<unsigned int>(agility > 0 ? agility : 0);
-    totalCount += static_cast<unsigned int>(braking > 0 ? braking : 0);
+    totalCount += static_cast<unsigned int>(weight > 0 ? weight : 0);
     totalCount += static_cast<unsigned int>(damage > 0 ? damage : 0);
     totalCount += static_cast<unsigned int>(shieldDisruption > 0 ? shieldDisruption : 0);
     totalCount += static_cast<unsigned int>(shieldPenetration > 0 ? shieldPenetration : 0);
@@ -51,8 +51,8 @@ float* Stats::GetStatReference(PowerUpType type)
         return &acceleration;
     case PowerUpType::AGILITY:
         return &agility;
-    case PowerUpType::BRAKING:
-        return &braking;
+    case PowerUpType::WEIGHT:
+        return &weight;
     case PowerUpType::DAMAGE:
         return &damage;
     case PowerUpType::SHIELD_DISRUPTION:
@@ -80,7 +80,7 @@ Stats& Stats::operator+=(const Stats& rhs)
     topSpeed += rhs.topSpeed;
     acceleration += rhs.acceleration;
     agility += rhs.agility;
-    braking += rhs.braking;
+    weight += rhs.weight;
     damage += rhs.damage;
     shieldDisruption += rhs.shieldDisruption;
     shieldPenetration += rhs.shieldPenetration;
