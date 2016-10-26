@@ -20,7 +20,7 @@ PlayerShip::PlayerShip()
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     m_baseStats.acceleration = 1.0f;
     m_baseStats.agility = 1.0f;
-    m_baseStats.braking = 0.0f;
+    m_baseStats.braking = 1.0f;
     m_baseStats.topSpeed = 1.0f;
     m_baseStats.rateOfFire = 0.5f;
 }
