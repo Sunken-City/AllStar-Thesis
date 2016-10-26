@@ -9,9 +9,6 @@ Run_Win32/Logs/
 *.userosscache
 *.sln.docstates
 
-# User-specific files (MonoDevelop/Xamarin Studio)
-*.userprefs
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
