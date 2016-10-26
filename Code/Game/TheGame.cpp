@@ -24,6 +24,7 @@
 #include "Entities/Pickup.hpp"
 #include "Engine/Input/InputDevices/KeyboardInputDevice.hpp"
 #include "Engine/Input/InputDevices/MouseInputDevice.hpp"
+#include "Pilots/PlayerPilot.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -39,7 +40,6 @@ TheGame::TheGame()
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
     SetGameState(GameState::MAIN_MENU);
-    InitializeKeyMappings();
     InitializeMainMenuState();
 }
 
@@ -65,7 +65,7 @@ void TheGame::Update(float deltaSeconds)
     }
 
 #pragma todo("Reenable menu navigation once we have a more solid game flow")
-    if (m_gameplayMapping.WasJustPressed("Accept"))
+    if (InputSystem::instance->WasKeyJustPressed(' '))
     {
         switch (GetGameState())
         {
@@ -203,7 +203,9 @@ void TheGame::InitializePlayingState()
 {
     testBackground = new Sprite("Nebula", BACKGROUND_LAYER);
     testBackground->m_scale = Vector2(10.0f, 10.0f);
-    PlayerShip* player1 = new PlayerShip();
+    PlayerPilot* player1Pilot = new PlayerPilot();
+    InitializeKeyMappingsForPlayer(player1Pilot);
+    PlayerShip* player1 = new PlayerShip(player1Pilot);
     m_entities.push_back(player1);
     m_players.push_back(player1);
     ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
@@ -234,7 +236,7 @@ void TheGame::CleanupPlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdatePlaying(float deltaSeconds)
 {
-#pragma todo("Fix this when we're back on the input system")
+#pragma todo("Fix this when we're done reworking the input system")
     if (InputSystem::instance->WasKeyJustPressed('B'))
     {
         static int numScreens = 1;
@@ -339,7 +341,7 @@ void TheGame::SpawnPickup(Item* item, const Vector2& spawnPosition)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::InitializeKeyMappings()
+void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 {
     KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
     MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
@@ -369,7 +371,7 @@ void TheGame::RegisterSprites()
 
     ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Agility", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\fireRate.png");
     ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\power.png");
     ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\Pickups\\power.png");

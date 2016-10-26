@@ -18,7 +18,6 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
-    virtual void Render() const;
     virtual bool IsCollidingWith(Entity* otherEntity);
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void TakeDamage(float m_power);
@@ -27,7 +26,7 @@ public:
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual float GetTopSpeedStat();
     virtual float GetAccelerationStat();
-    virtual float GetAgilityStat();
+    virtual float GetHandlingStat();
     virtual float GetBrakingStat();
     virtual float GetDamageStat();
     virtual float GetShieldDisruptionStat();

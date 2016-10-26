@@ -10,8 +10,8 @@
 #include "Game/Items/PowerUp.hpp"
 
 //-----------------------------------------------------------------------------------
-PlayerShip::PlayerShip()
-    : Ship()
+PlayerShip::PlayerShip(PlayerPilot* pilot)
+    : Ship((Pilot*)pilot)
 {
     m_isDead = false;
     m_maxHp = 5.0f;
@@ -19,8 +19,7 @@ PlayerShip::PlayerShip()
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     m_baseStats.acceleration = 1.0f;
-    m_baseStats.agility = 1.0f;
-    m_baseStats.braking = 1.0f;
+    m_baseStats.handling = 1.0f;
     m_baseStats.topSpeed = 1.0f;
     m_baseStats.rateOfFire = 0.5f;
 }
@@ -34,59 +33,7 @@ PlayerShip::~PlayerShip()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
-    const float speedSanityMultiplier = 1.0f / 15.0f;
     Ship::Update(deltaSeconds);
-    
-    //Poll Input
-    InputMap& input = TheGame::instance->m_gameplayMapping;
-    Vector2 inputDirection = input.GetVector2("Right", "Up");
-    //Vector2 inputDirection = InputSystem::instance->m_controllers[0]->GetLeftStickPosition();
-    Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
-    bool isShooting = input.FindInputValue("Shoot")->IsDown();
-
-    //Calculate velocity
-    Vector2 velocityDir = m_velocity.CalculateMagnitude() < 0.01f ? inputDirection.GetNorm() : m_velocity.GetNorm();
-    Vector2 perpindicularVelocityDir(-velocityDir.y, velocityDir.x);
-
-    float accelerationDot = Vector2::Dot(inputDirection, velocityDir);
-    float accelerationMultiplier = (accelerationDot >= 0.0f) ? GetAccelerationStat() : GetBrakingStat();
-    Vector2 accelerationComponent = accelerationComponent = velocityDir * accelerationDot * accelerationMultiplier;
-    Vector2 agilityComponent = perpindicularVelocityDir * Vector2::Dot(inputDirection, perpindicularVelocityDir) * GetAgilityStat();
-
-    Vector2 totalAcceleration = accelerationComponent + agilityComponent;
-    m_velocity += totalAcceleration * deltaSeconds;
-    m_velocity *= m_frictionValue;
-    m_velocity.ClampMagnitude(GetTopSpeedStat() * speedSanityMultiplier);
-
-    Vector2 attemptedPosition = m_transform.position + m_velocity;
-    AttemptMovement(attemptedPosition);
-
-    if (shootDirection != Vector2::ZERO)
-    {
-        m_sprite->m_rotationDegrees = shootDirection.GetDirectionDegreesFromNormalizedVector();
-    }
-
-    if (isShooting)
-    {
-        if (m_weapon)
-        {
-            m_weapon->AttemptFire();
-        }
-        else
-        {
-            if (m_timeSinceLastShot > m_baseStats.rateOfFire)
-            {
-                TheGame::instance->SpawnBullet(this);
-                m_timeSinceLastShot = 0.0f;
-            }
-        }
-    }
-
-    if (input.FindInputValue("Suicide")->WasJustPressed())
-    {
-        m_isDead = true;
-        Die();
-    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -139,14 +86,6 @@ void PlayerShip::DropRandomPowerup()
 
     TheGame::instance->SpawnPickup(new PowerUp(type), m_transform.position);
     *statValue -= 1.0f;
-}
-
-//-----------------------------------------------------------------------------------
-void PlayerShip::AttemptMovement(const Vector2& attemptedPosition)
-{
-    //Todo: check for collisions against level geometry
-    m_sprite->m_position = attemptedPosition;
-    m_transform.position = attemptedPosition;
 }
 
 //-----------------------------------------------------------------------------------

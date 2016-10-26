@@ -4,12 +4,13 @@
 #include <stdint.h>
 
 enum class PowerUpType;
+class PlayerPilot;
 
 class PlayerShip : public Ship
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    PlayerShip();
+    PlayerShip(PlayerPilot* playerPilot);
     ~PlayerShip();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
@@ -21,7 +22,7 @@ public:
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };
     inline virtual float GetAccelerationStat() { return Ship::GetAccelerationStat() + m_powerupStatModifiers.acceleration; };
-    inline virtual float GetAgilityStat() { return Ship::GetAgilityStat() + m_powerupStatModifiers.agility; };
+    inline virtual float GetHandlingStat() { return Ship::GetHandlingStat() + m_powerupStatModifiers.handling; };
     inline virtual float GetBrakingStat() { return Ship::GetBrakingStat() + m_powerupStatModifiers.braking; };
     inline virtual float GetDamageStat() { return Ship::GetDamageStat() + m_powerupStatModifiers.damage; };
     inline virtual float GetShieldDisruptionStat() { return Ship::GetShieldDisruptionStat() + m_powerupStatModifiers.shieldDisruption; };

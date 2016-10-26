@@ -40,12 +40,6 @@ void Entity::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::Render() const
-{
-
-}
-
-//-----------------------------------------------------------------------------------
 bool Entity::IsCollidingWith(Entity* otherEntity)
 {
     return this->m_sprite->GetBounds().IsIntersecting(otherEntity->m_sprite->GetBounds());
@@ -98,14 +92,14 @@ float Entity::GetAccelerationStat()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetAgilityStat()
+float Entity::GetHandlingStat()
 {
-    float agility = m_baseStats.agility;
-    agility += m_weapon ? m_weapon->m_statBonuses.agility : 0.0f;
-    agility += m_chassis ? m_chassis->m_statBonuses.agility : 0.0f;
-    agility += m_activeEffect ? m_activeEffect->m_statBonuses.agility : 0.0f;
-    agility += m_passiveEffect ? m_passiveEffect->m_statBonuses.agility : 0.0f;
-    return agility;
+    float handling = m_baseStats.handling;
+    handling += m_weapon ? m_weapon->m_statBonuses.handling : 0.0f;
+    handling += m_chassis ? m_chassis->m_statBonuses.handling : 0.0f;
+    handling += m_activeEffect ? m_activeEffect->m_statBonuses.handling : 0.0f;
+    handling += m_passiveEffect ? m_passiveEffect->m_statBonuses.handling : 0.0f;
+    return handling;
 }
 
 //-----------------------------------------------------------------------------------

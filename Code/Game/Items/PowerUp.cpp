@@ -42,8 +42,8 @@ void PowerUp::SetStatChangeFromType(PowerUpType type)
     case PowerUpType::ACCELERATION:
         m_statChanges.acceleration = 1;
         break;
-    case PowerUpType::AGILITY:
-        m_statChanges.agility = 1;
+    case PowerUpType::HANDLING:
+        m_statChanges.handling = 1;
         break;
     case PowerUpType::BRAKING:
         m_statChanges.braking = 1;
@@ -92,8 +92,8 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
         return "TopSpeed";
     case PowerUpType::ACCELERATION:
         return "Acceleration";
-    case PowerUpType::AGILITY:
-        return "Agility";
+    case PowerUpType::HANDLING:
+        return "Handling";
     case PowerUpType::BRAKING:
         return "Braking";
     case PowerUpType::DAMAGE:

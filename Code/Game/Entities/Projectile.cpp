@@ -14,6 +14,7 @@ Projectile::Projectile(Entity* owner)
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
 
     m_sprite->m_position = m_owner->m_sprite->m_position;
+    m_velocity = m_owner->m_velocity;
     m_sprite->m_rotationDegrees = m_owner->m_sprite->m_rotationDegrees;
 }
 
@@ -30,6 +31,7 @@ void Projectile::Update(float deltaSeconds)
     {
         Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
         Vector2 deltaVelocity = direction * m_speed * deltaSeconds;
+        deltaVelocity += direction * Vector2::Dot(m_velocity, direction) * m_velocity.CalculateMagnitude();
         m_sprite->m_position += deltaVelocity;
     }
     else
