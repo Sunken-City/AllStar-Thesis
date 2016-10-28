@@ -22,7 +22,8 @@
 #include "Entities/ItemCrate.hpp"
 #include "Entities/Grunt.hpp"
 #include "Entities/Pickup.hpp"
-#include "Engine/Input/InputDevices.hpp"
+#include "Engine/Input/InputDevices/KeyboardInputDevice.hpp"
+#include "Engine/Input/InputDevices/MouseInputDevice.hpp"
 #include "Pilots/PlayerPilot.hpp"
 
 TheGame* TheGame::instance = nullptr;
@@ -344,16 +345,15 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 {
     KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
     MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
-    playerPilot->m_inputMap.AddInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
-    playerPilot->m_inputMap.AddInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
-    playerPilot->m_inputMap.AddInputAxis("ShootRight", mouse->m_deltaPosition.m_xPos, mouse->m_deltaPosition.m_xNeg);
-    playerPilot->m_inputMap.AddInputAxis("ShootUp", mouse->m_deltaPosition.m_yPos, mouse->m_deltaPosition.m_yNeg);
-    playerPilot->m_inputMap.AddInputValue("Suicide", keyboard->FindValue('K'));
-    playerPilot->m_inputMap.AddInputValue("DebugButton", keyboard->FindValue('B'));
-    playerPilot->m_inputMap.AddInputValue("Shoot", keyboard->FindValue(' '));
-    playerPilot->m_inputMap.AddInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButtons::LEFT_MOUSE_BUTTON));
-    playerPilot->m_inputMap.AddInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
-    playerPilot->m_inputMap.AddInputValue("Accept", keyboard->FindValue(' '));
+    playerPilot->m_inputMap.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
+    playerPilot->m_inputMap.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
+    playerPilot->m_inputMap.MapInputAxis("ShootRight", &mouse->m_deltaPosition.m_xAxis);
+    playerPilot->m_inputMap.MapInputAxis("ShootUp", &mouse->m_deltaPosition.m_yAxis);
+    playerPilot->m_inputMap.MapInputValue("Suicide", keyboard->FindValue('K'));
+    playerPilot->m_inputMap.MapInputValue("Shoot", keyboard->FindValue(' '));
+    playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
+    playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
+    playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
 }
 
 //-----------------------------------------------------------------------------------
