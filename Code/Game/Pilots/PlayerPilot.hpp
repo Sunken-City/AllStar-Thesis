@@ -6,8 +6,11 @@
 class PlayerPilot : public Pilot
 {
 public:
-    PlayerPilot();
+    PlayerPilot(int playerNumber = 0);
     virtual ~PlayerPilot();
 
     virtual void Update(float deltaSeconds) { UNUSED(deltaSeconds); };
+
+    //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    int m_playerNumber;
 };

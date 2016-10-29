@@ -1,7 +1,8 @@
 #include "Game/Pilots/PlayerPilot.hpp"
 
 //-----------------------------------------------------------------------------------
-PlayerPilot::PlayerPilot()
+PlayerPilot::PlayerPilot(int playerNumber)
+    : m_playerNumber(playerNumber)
 {
 
 }

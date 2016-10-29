@@ -350,29 +350,34 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
     MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
     XInputDevice* controller = InputSystem::instance->m_xInputDevices[0];
 
-    //KEYBOARD & MOUSE INPUT
-//     playerPilot->m_inputMap.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
-//     playerPilot->m_inputMap.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
-//     playerPilot->m_inputMap.MapInputAxis("ShootUp", &mouse->m_deltaPosition.m_yAxis);
-//     playerPilot->m_inputMap.MapInputAxis("ShootRight", &mouse->m_deltaPosition.m_xAxis);
-//     playerPilot->m_inputMap.MapInputValue("Suicide", keyboard->FindValue('K'));
-//     playerPilot->m_inputMap.MapInputValue("Shoot", keyboard->FindValue(' '));
-//     playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
-//     playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
-//     playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
-
-    //CONTROLLER INPUT
-    playerPilot->m_inputMap.MapInputAxis("Up")->AddMapping(&controller->GetLeftStick()->m_yAxis);
-    playerPilot->m_inputMap.MapInputAxis("Right")->AddMapping(&controller->GetLeftStick()->m_xAxis);
-    playerPilot->m_inputMap.MapInputAxis("ShootUp")->AddMapping(&controller->GetRightStick()->m_yAxis);
-    playerPilot->m_inputMap.MapInputAxis("ShootRight")->AddMapping(&controller->GetRightStick()->m_xAxis);
-    playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::BACK));
-    playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
-    playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
-    playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_xAxis);
-    playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_yAxis);
-    playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
-    playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
+    if (playerPilot->m_playerNumber == 0)
+    {
+        //KEYBOARD & MOUSE INPUT
+        playerPilot->m_inputMap.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
+        playerPilot->m_inputMap.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
+        playerPilot->m_inputMap.MapInputAxis("ShootUp", &mouse->m_deltaPosition.m_yAxis);
+        playerPilot->m_inputMap.MapInputAxis("ShootRight", &mouse->m_deltaPosition.m_xAxis);
+        playerPilot->m_inputMap.MapInputValue("Suicide", keyboard->FindValue('K'));
+        playerPilot->m_inputMap.MapInputValue("Shoot", keyboard->FindValue(' '));
+        playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
+        playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
+        playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
+    }
+    else
+    {
+        //CONTROLLER INPUT
+        playerPilot->m_inputMap.MapInputAxis("Up")->AddMapping(&controller->GetLeftStick()->m_yAxis);
+        playerPilot->m_inputMap.MapInputAxis("Right")->AddMapping(&controller->GetLeftStick()->m_xAxis);
+        playerPilot->m_inputMap.MapInputAxis("ShootUp")->AddMapping(&controller->GetRightStick()->m_yAxis);
+        playerPilot->m_inputMap.MapInputAxis("ShootRight")->AddMapping(&controller->GetRightStick()->m_xAxis);
+        playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::BACK));
+        playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
+        playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
+        playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_xAxis);
+        playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_yAxis);
+        playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
+        playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -382,23 +387,23 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
     ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\spaceShips_005.png");
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
-    ResourceDatabase::instance->RegisterSprite("Nebula", "Data\\Images\\Nebula.jpg");
+    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Nebula.jpg");
     ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
     ResourceDatabase::instance->RegisterSprite("GreenEnemy", "Data\\Images\\Enemies\\enemyGreen1.png");
+    ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 
     ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\fireRate.png");
-    ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\boost.png");
+    ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\handling.png");
+    ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\braking.png");
     ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\power.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\Pickups\\power.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldPenetration", "Data\\Images\\Pickups\\power.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\invalidSpriteResource.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldPenetration", "Data\\Images\\invalidSpriteResource.png");
     ResourceDatabase::instance->RegisterSprite("RateOfFire", "Data\\Images\\Pickups\\fireRate.png");
     ResourceDatabase::instance->RegisterSprite("Hp", "Data\\Images\\Pickups\\hp.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldCapacity", "Data\\Images\\Pickups\\defence.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldRegen", "Data\\Images\\Pickups\\defence.png");
-    ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\Pickups\\defence.png");
-    ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldCapacity", "Data\\Images\\invalidSpriteResource.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldRegen", "Data\\Images\\invalidSpriteResource.png");
+    ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\invalidSpriteResource.png");
 }

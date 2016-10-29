@@ -62,7 +62,7 @@ void Ship::UpdateShooting()
         }
         else
         {
-            if (m_timeSinceLastShot > m_baseStats.rateOfFire)
+            if (m_timeSinceLastShot > 1.0f / GetRateOfFireStat())
             {
                 TheGame::instance->SpawnBullet(this);
                 m_timeSinceLastShot = 0.0f;
