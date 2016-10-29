@@ -25,6 +25,8 @@
 #include "Engine/Input/InputDevices/KeyboardInputDevice.hpp"
 #include "Engine/Input/InputDevices/MouseInputDevice.hpp"
 #include "Pilots/PlayerPilot.hpp"
+#include "Engine/Input/InputDevices/XInputDevice.hpp"
+#include "Engine/Input/InputValues.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -204,17 +206,18 @@ void TheGame::InitializePlayingState()
     testBackground = new Sprite("Nebula", BACKGROUND_LAYER);
     testBackground->m_scale = Vector2(10.0f, 10.0f);
     PlayerPilot* player1Pilot = new PlayerPilot();
-    InitializeKeyMappingsForPlayer(player1Pilot);
     PlayerShip* player1 = new PlayerShip(player1Pilot);
-    m_entities.push_back(player1);
-    m_players.push_back(player1);
     ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
-    m_entities.push_back(box1);
     ItemCrate* box2 = new ItemCrate(Vector2(1.0f));
-    m_entities.push_back(box2);
     Grunt* g1 = new Grunt(Vector2(-2.0f));
-    m_entities.push_back(g1);
     Grunt* g2 = new Grunt(Vector2(-1.0f));
+    InitializeKeyMappingsForPlayer(player1Pilot);
+    m_players.push_back(player1);
+
+    m_entities.push_back(player1);
+    m_entities.push_back(box1);
+    m_entities.push_back(box2);
+    m_entities.push_back(g1);
     m_entities.push_back(g2);
     SpriteGameRenderer::instance->SetWorldBounds(testBackground->GetBounds());
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayingState);
@@ -345,15 +348,31 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 {
     KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
     MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
-    playerPilot->m_inputMap.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
-    playerPilot->m_inputMap.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
-    playerPilot->m_inputMap.MapInputAxis("ShootRight", &mouse->m_deltaPosition.m_xAxis);
-    playerPilot->m_inputMap.MapInputAxis("ShootUp", &mouse->m_deltaPosition.m_yAxis);
-    playerPilot->m_inputMap.MapInputValue("Suicide", keyboard->FindValue('K'));
-    playerPilot->m_inputMap.MapInputValue("Shoot", keyboard->FindValue(' '));
-    playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
-    playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
-    playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
+    XInputDevice* controller = InputSystem::instance->m_xInputDevices[0];
+
+    //KEYBOARD & MOUSE INPUT
+//     playerPilot->m_inputMap.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
+//     playerPilot->m_inputMap.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
+//     playerPilot->m_inputMap.MapInputAxis("ShootUp", &mouse->m_deltaPosition.m_yAxis);
+//     playerPilot->m_inputMap.MapInputAxis("ShootRight", &mouse->m_deltaPosition.m_xAxis);
+//     playerPilot->m_inputMap.MapInputValue("Suicide", keyboard->FindValue('K'));
+//     playerPilot->m_inputMap.MapInputValue("Shoot", keyboard->FindValue(' '));
+//     playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
+//     playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
+//     playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
+
+    //CONTROLLER INPUT
+    playerPilot->m_inputMap.MapInputAxis("Up")->AddMapping(&controller->GetLeftStick()->m_yAxis);
+    playerPilot->m_inputMap.MapInputAxis("Right")->AddMapping(&controller->GetLeftStick()->m_xAxis);
+    playerPilot->m_inputMap.MapInputAxis("ShootUp")->AddMapping(&controller->GetRightStick()->m_yAxis);
+    playerPilot->m_inputMap.MapInputAxis("ShootRight")->AddMapping(&controller->GetRightStick()->m_xAxis);
+    playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::BACK));
+    playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
+    playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
+    playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_xAxis);
+    playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_yAxis);
+    playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
+    playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
 }
 
 //-----------------------------------------------------------------------------------

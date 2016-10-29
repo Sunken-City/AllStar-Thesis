@@ -34,10 +34,7 @@ public:
     static unsigned int const ENEMY_BULLET_LAYER = 12;
     static unsigned int const FOREGROUND_LAYER = 20;
     static unsigned int const UI_LAYER = 30;
-
-    //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    std::vector<PlayerShip*> m_players;
-
+    
 private:
     TheGame& operator= (const TheGame& other) = delete;
     void CleanupGameOverState(unsigned int);
@@ -59,4 +56,6 @@ private:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
+public:
+    std::vector<PlayerShip*> m_players;
 };
