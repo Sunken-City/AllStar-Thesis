@@ -21,7 +21,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_baseStats.acceleration = 1.0f;
     m_baseStats.handling = 1.0f;
     m_baseStats.topSpeed = 1.0f;
-    m_baseStats.rateOfFire = 1.0f;
+    m_baseStats.rateOfFire = 1.25f;
 }
 
 //-----------------------------------------------------------------------------------

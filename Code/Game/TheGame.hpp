@@ -3,14 +3,14 @@
 #include <vector>
 #include "Engine/Math/Vector2.hpp"
 #include "Engine/Input/InputMap.hpp"
+#include "GameModes/GameMode.hpp"
 
 class Entity;
 class PlayerShip;
 class PlayerPilot;
 class Ship;
 class Item;
-class NetConnection;
-struct NetSender;
+class GameMode;
 
 //-----------------------------------------------------------------------------------
 class TheGame
@@ -54,8 +54,8 @@ private:
     void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    std::vector<Entity*> m_entities;
-    std::vector<Entity*> m_newEntities;
 public:
-    std::vector<PlayerShip*> m_players;
+    std::vector<PlayerPilot*> m_playerPilots;
+    GameMode* m_allGameModes[4];
+    GameMode* m_currentGameMode;
 };

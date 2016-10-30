@@ -27,14 +27,13 @@
 #include "Pilots/PlayerPilot.hpp"
 #include "Engine/Input/InputDevices/XInputDevice.hpp"
 #include "Engine/Input/InputValues.hpp"
+#include "GameModes/AssemblyMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
 Sprite* testBackground = nullptr;
 Sprite* titleText = nullptr;
 Sprite* gameOverText = nullptr;
-float m_timeSinceLastSpawn = 0.0f;
-const float TIME_PER_SPAWN = 5.0f;
 
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
@@ -49,6 +48,11 @@ TheGame::TheGame()
 TheGame::~TheGame()
 {
     SetGameState(GameState::SHUTDOWN);
+    for (PlayerPilot* pilot : m_playerPilots)
+    {
+        delete pilot;
+    }
+    m_playerPilots.clear();
     delete ResourceDatabase::instance;
     ResourceDatabase::instance = nullptr;
 }
@@ -203,92 +207,35 @@ void TheGame::RenderMainMenu() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializePlayingState()
 {
-    testBackground = new Sprite("Nebula", BACKGROUND_LAYER);
-    testBackground->m_scale = Vector2(10.0f, 10.0f);
-    PlayerPilot* player1Pilot = new PlayerPilot();
-    PlayerShip* player1 = new PlayerShip(player1Pilot);
-    ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
-    ItemCrate* box2 = new ItemCrate(Vector2(1.0f));
-    Grunt* g1 = new Grunt(Vector2(-2.0f));
-    Grunt* g2 = new Grunt(Vector2(-1.0f));
-    InitializeKeyMappingsForPlayer(player1Pilot);
-    m_players.push_back(player1);
+    m_playerPilots.push_back(new PlayerPilot());
+    InitializeKeyMappingsForPlayer(m_playerPilots[0]);
 
-    m_entities.push_back(player1);
-    m_entities.push_back(box1);
-    m_entities.push_back(box2);
-    m_entities.push_back(g1);
-    m_entities.push_back(g2);
-    SpriteGameRenderer::instance->SetWorldBounds(testBackground->GetBounds());
+    for (int i = 1; i < 4; ++i)
+    {
+        if (InputSystem::instance->m_controllers[i - 1]->IsConnected())
+        {
+            m_playerPilots.push_back(new PlayerPilot(i));
+            InitializeKeyMappingsForPlayer(m_playerPilots[i]);
+        }
+    }
+
+    m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
+    SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayingState);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupPlayingState(unsigned int)
 {
-    for (Entity* ent : m_entities)
-    {
-        delete ent;
-    }
-    m_entities.clear();
-    m_players.clear();
-    delete testBackground;
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
+    delete m_currentGameMode;
+    SpriteGameRenderer::instance->SetSplitscreen(1);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::UpdatePlaying(float deltaSeconds)
 {
-#pragma todo("Fix this when we're done reworking the input system")
-    if (InputSystem::instance->WasKeyJustPressed('B'))
-    {
-        static int numScreens = 1;
-        SpriteGameRenderer::instance->SetSplitscreen(++numScreens);
-    }
-    m_timeSinceLastSpawn += deltaSeconds;
-    if (m_timeSinceLastSpawn > TIME_PER_SPAWN)
-    {
-        m_entities.push_back(new ItemCrate(testBackground->GetBounds().GetRandomPointInside()));
-        m_entities.push_back(new Grunt(testBackground->GetBounds().GetRandomPointInside()));
-        m_timeSinceLastSpawn = 0.0f;
-    }
-    for (Entity* ent : m_entities)
-    {
-        ent->Update(deltaSeconds);
-        for (Entity* other : m_entities)
-        {
-            if ((ent != other) && (ent->IsCollidingWith(other)))
-            {
-                ent->ResolveCollision(other);
-            }
-        }
-    }
-    for (Entity* ent : m_newEntities)
-    {
-        m_entities.push_back(ent);
-    }
-    m_newEntities.clear();
-    for (auto iter = m_entities.begin(); iter != m_entities.end(); ++iter)
-    {
-        Entity* gameObject = *iter;
-        if (gameObject->m_isDead)
-        {
-            delete gameObject;
-            iter = m_entities.erase(iter);
-        }
-        if (iter == m_entities.end())
-        {
-            break;
-        }
-    }
-    if (!m_players[0] || m_players[0]->m_isDead)
-    {
-        
-    }
-    else
-    {
-        SpriteGameRenderer::instance->SetCameraPosition(m_players[0]->m_sprite->m_position);
-    }
+    m_currentGameMode->Update(deltaSeconds);
 }
 
 //-----------------------------------------------------------------------------------
@@ -333,25 +280,23 @@ void TheGame::RenderGameOver() const
 //-----------------------------------------------------------------------------------
 void TheGame::SpawnBullet(Ship* creator)
 {
-    m_newEntities.push_back(new Projectile(creator));
+    m_currentGameMode->m_newEntities.push_back(new Projectile(creator));
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::SpawnPickup(Item* item, const Vector2& spawnPosition)
 {
     ASSERT_OR_DIE(item, "Item was null when attempting to spawn pickup");
-    m_newEntities.push_back(new Pickup(item, spawnPosition));
+    m_currentGameMode->m_newEntities.push_back(new Pickup(item, spawnPosition));
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 {
-    KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
-    MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
-    XInputDevice* controller = InputSystem::instance->m_xInputDevices[0];
-
     if (playerPilot->m_playerNumber == 0)
     {
+        KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
+        MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
         //KEYBOARD & MOUSE INPUT
         playerPilot->m_inputMap.MapInputAxis("Up", keyboard->FindValue('W'), keyboard->FindValue('S'));
         playerPilot->m_inputMap.MapInputAxis("Right", keyboard->FindValue('D'), keyboard->FindValue('A'));
@@ -365,6 +310,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
     }
     else
     {
+        XInputDevice* controller = InputSystem::instance->m_xInputDevices[playerPilot->m_playerNumber - 1];
         //CONTROLLER INPUT
         playerPilot->m_inputMap.MapInputAxis("Up")->AddMapping(&controller->GetLeftStick()->m_yAxis);
         playerPilot->m_inputMap.MapInputAxis("Right")->AddMapping(&controller->GetLeftStick()->m_xAxis);

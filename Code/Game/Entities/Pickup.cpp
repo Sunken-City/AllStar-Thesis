@@ -47,7 +47,7 @@ void Pickup::Render() const
 void Pickup::ResolveCollision(Entity* otherEntity)
 {
     Entity::ResolveCollision(otherEntity);
-    for (PlayerShip* ent : TheGame::instance->m_players)
+    for (PlayerShip* ent : TheGame::instance->m_currentGameMode->m_players)
     {
         if ((Entity*)ent == otherEntity)
         {
