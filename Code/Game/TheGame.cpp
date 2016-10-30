@@ -307,6 +307,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
+        playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue(' '));
+        playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue('R'));
     }
     else
     {
@@ -321,8 +323,10 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
         playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_xAxis);
         playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_yAxis);
+        playerPilot->m_inputMap.MapInputValue("Shoot", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
+        playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
     }
 }
 

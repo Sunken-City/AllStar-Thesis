@@ -17,8 +17,8 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     float y = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
     m_sprite->m_position = initialPosition + Vector2(x, y);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
-    m_maxHp = 10.0f;
-    m_hp = 10.0f;
+    m_baseStats.hp = 10.0f;
+    m_currentHp = m_baseStats.hp;
 }
 
 //-----------------------------------------------------------------------------------

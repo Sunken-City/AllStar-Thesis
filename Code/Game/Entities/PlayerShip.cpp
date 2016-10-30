@@ -8,14 +8,15 @@
 #include "Engine/Input/Logging.hpp"
 #include "Game/Items/Weapons/Weapon.hpp"
 #include "Game/Items/PowerUp.hpp"
+#include "Game/Pilots/PlayerPilot.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
 {
     m_isDead = false;
-    m_maxHp = 5.0f;
-    m_hp = 5.0f;
+    m_baseStats.hp = 5.0f;
+    m_currentHp = m_baseStats.hp;
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     m_baseStats.acceleration = 1.0f;
@@ -33,7 +34,14 @@ PlayerShip::~PlayerShip()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
-    Ship::Update(deltaSeconds);
+    if (m_isDead && m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed())
+    {
+        Respawn();
+    }
+    if (!m_isDead)
+    {
+        Ship::Update(deltaSeconds);
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -51,7 +59,18 @@ void PlayerShip::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void PlayerShip::Die()
 {
+    Ship::Die();
     DropPowerups();
+    m_sprite->Disable();
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::Respawn()
+{
+    m_isDead = false;
+    Heal(GetHpStat());
+    m_sprite->Enable();
+    SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
 }
 
 //-----------------------------------------------------------------------------------
