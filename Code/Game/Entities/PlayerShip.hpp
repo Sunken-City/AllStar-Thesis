@@ -18,6 +18,8 @@ public:
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void Die();
+    void Respawn();
+    inline virtual bool IsPlayer() { return true; }
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };

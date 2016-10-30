@@ -20,8 +20,12 @@ public:
     virtual void Update(float deltaSeconds);
     virtual bool IsCollidingWith(Entity* otherEntity);
     virtual void ResolveCollision(Entity* otherEntity);
-    virtual void TakeDamage(float m_power);
-    virtual void Die() {};
+    virtual void TakeDamage(float damage);
+    virtual void Die() { m_isDead = true; };
+    inline virtual bool IsPlayer() { return false; }
+    virtual void SetPosition(const Vector2& newPosition);
+    virtual Vector2 GetPosition() { return m_transform.position; };
+    virtual void Heal(float healValue);
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual float GetTopSpeedStat();
@@ -47,8 +51,7 @@ public:
     Sprite* m_sprite;
     Transform2D m_transform;
     Vector2 m_velocity;
-    float m_hp;
-    float m_maxHp;
+    float m_currentHp;
     float m_collisionRadius;
     float m_age;
     float m_frictionValue;

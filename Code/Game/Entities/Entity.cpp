@@ -8,8 +8,7 @@
 //-----------------------------------------------------------------------------------
 Entity::Entity()
     : m_sprite(nullptr)
-    , m_hp(1.0f)
-    , m_maxHp(1.0f)
+    , m_currentHp(1.0f)
     , m_collisionRadius(1.0f)
     , m_age(0.0f)
     , m_isDead(false)
@@ -48,6 +47,10 @@ bool Entity::IsCollidingWith(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Entity::ResolveCollision(Entity* otherEntity)
 {
+    if (m_isDead || otherEntity->m_isDead)
+    {
+        return;
+    }
     Vector2& myPosition = this->m_sprite->m_position;
     Vector2 otherPosition = otherEntity->m_sprite->m_position;
     Vector2 difference = myPosition - otherPosition;
@@ -61,12 +64,26 @@ void Entity::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Entity::TakeDamage(float damage)
 {
-    m_hp -= damage;
-    if (m_hp < 0.0f)
+    m_currentHp -= damage;
+    if (m_currentHp < 0.0f)
     {
         m_isDead = true;
         Die();
     }
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::SetPosition(const Vector2& newPosition)
+{
+    m_transform.position = newPosition;
+    m_sprite->m_position = newPosition;
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::Heal(float healValue)
+{
+    m_currentHp += healValue;
+    MathUtils::Clamp(m_currentHp, 0.0f, GetHpStat());
 }
 
 //-----------------------------------------------------------------------------------

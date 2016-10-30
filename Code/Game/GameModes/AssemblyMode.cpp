@@ -67,7 +67,7 @@ void AssemblyMode::Update(float deltaSeconds)
     for (auto iter = m_entities.begin(); iter != m_entities.end(); ++iter)
     {
         Entity* gameObject = *iter;
-        if (gameObject->m_isDead)
+        if (gameObject->m_isDead && !gameObject->IsPlayer())
         {
             delete gameObject;
             iter = m_entities.erase(iter);
@@ -77,5 +77,9 @@ void AssemblyMode::Update(float deltaSeconds)
             break;
         }
     }
-    SpriteGameRenderer::instance->SetCameraPosition(m_players[0]->m_sprite->m_position);
+
+    for (unsigned int i = 0; i < m_players.size(); ++i)
+    {
+        SpriteGameRenderer::instance->SetCameraPosition(m_players[i]->m_sprite->m_position, i);
+    }
 }
