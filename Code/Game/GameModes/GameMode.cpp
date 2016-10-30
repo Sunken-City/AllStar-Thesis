@@ -16,3 +16,15 @@ GameMode::~GameMode()
 {
 
 }
+
+//-----------------------------------------------------------------------------------
+Vector2 GameMode::GetRandomLocationInArena()
+{
+    return m_arenaBackground.GetBounds().GetRandomPointInside();
+}
+
+//-----------------------------------------------------------------------------------
+Vector2 GameMode::GetRandomPlayerSpawnPoint()
+{
+    return GetRandomLocationInArena();
+}

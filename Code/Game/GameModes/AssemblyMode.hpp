@@ -7,6 +7,9 @@ public:
     AssemblyMode();
     virtual ~AssemblyMode();
 
-private:
+    virtual void Update(float deltaSeconds);
 
+private:
+    float m_timeSinceLastSpawn = 0.0f;
+    const float TIME_PER_SPAWN = 5.0f;
 };
