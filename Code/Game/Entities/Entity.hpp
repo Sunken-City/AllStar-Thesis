@@ -63,4 +63,5 @@ public:
     float m_frictionValue;
     bool m_isDead;
     bool m_collidesWithBullets;
+    bool m_isInvincible;
 };

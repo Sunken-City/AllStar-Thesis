@@ -33,6 +33,9 @@
     <Filter Include="General\Pilots">
       <UniqueIdentifier>{f3768aa3-6e8d-4858-b347-f02d738fce25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="General\Entities\Props">
+      <UniqueIdentifier>{8d9fb069-d3a1-462e-9143-56df603d7348}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameCommon.cpp">
@@ -98,9 +101,6 @@
     <ClCompile Include="Items\Chassis\Chassis.cpp">
       <Filter>General\Items\Chassis</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\ItemCrate.cpp">
-      <Filter>General\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\PlayerShip.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
@@ -112,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="Pilots\PlayerPilot.cpp">
       <Filter>General\Pilots</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Props\ItemCrate.cpp">
+      <Filter>General\Entities\Props</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Props\Asteroid.cpp">
+      <Filter>General\Entities\Props</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +181,6 @@
     <ClInclude Include="Items\Chassis\Chassis.hpp">
       <Filter>General\Items\Chassis</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\ItemCrate.hpp">
-      <Filter>General\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Entities\PlayerShip.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
@@ -189,6 +192,12 @@
     </ClInclude>
     <ClInclude Include="Pilots\PlayerPilot.hpp">
       <Filter>General\Pilots</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Props\ItemCrate.hpp">
+      <Filter>General\Entities\Props</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Props\Asteroid.hpp">
+      <Filter>General\Entities\Props</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

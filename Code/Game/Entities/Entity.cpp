@@ -22,6 +22,7 @@ Entity::Entity()
     , m_velocity(0.0f)
     , m_frictionValue(0.9f)
     , m_collidesWithBullets(true)
+    , m_isInvincible(false)
 {
 
 }
@@ -58,7 +59,7 @@ bool Entity::IsCollidingWith(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Entity::ResolveCollision(Entity* otherEntity)
 {
-    if (m_isDead || otherEntity->m_isDead || (!m_collidesWithBullets && otherEntity->IsProjectile()))
+    if (m_isDead || otherEntity->m_isDead || (!m_collidesWithBullets && (otherEntity->IsProjectile() || IsProjectile())))
     {
         return;
     }
@@ -75,7 +76,7 @@ void Entity::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Entity::TakeDamage(float damage)
 {
-    if (m_isDead)
+    if (m_isDead || m_isInvincible)
     {
         return;
     }

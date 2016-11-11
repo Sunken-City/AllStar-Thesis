@@ -1,10 +1,10 @@
-#include "Game/Entities/ItemCrate.hpp"
+#include "Game/Entities/Props/ItemCrate.hpp"
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Game/StateMachine.hpp"
-#include "../Items/Item.hpp"
-#include "../Items/PowerUp.hpp"
+#include "Game/Items/Item.hpp"
+#include "Game/Items/PowerUp.hpp"
 
 const float ItemCrate::MAX_ANGULAR_VELOCITY = 15.0f;
 

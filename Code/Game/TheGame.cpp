@@ -19,7 +19,7 @@
 #include "Game/Entities/PlayerShip.hpp"
 #include "Game/Entities/Projectile.hpp"
 #include "Game/Entities/Ship.hpp"
-#include "Entities/ItemCrate.hpp"
+#include "Entities/Props/ItemCrate.hpp"
 #include "Entities/Grunt.hpp"
 #include "Entities/Pickup.hpp"
 #include "Engine/Input/InputDevices/KeyboardInputDevice.hpp"
@@ -321,8 +321,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::BACK));
         playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
-        playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_xAxis);
-        playerPilot->m_inputMap.MapInputValue("Shoot", &controller->GetRightStick()->m_yAxis);
+        playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightStickMagnitude());
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
@@ -342,6 +341,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
     ResourceDatabase::instance->RegisterSprite("GreenEnemy", "Data\\Images\\Enemies\\enemyGreen1.png");
+    ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 
     ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");

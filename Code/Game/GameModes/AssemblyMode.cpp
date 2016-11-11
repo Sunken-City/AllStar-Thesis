@@ -2,10 +2,11 @@
 #include "Game/Entities/PlayerShip.hpp"
 #include "Game/TheGame.hpp"
 #include "Game/Pilots/PlayerPilot.hpp"
-#include "Game/Entities/ItemCrate.hpp"
+#include "Game/Entities/Props/ItemCrate.hpp"
 #include "Game/Entities/Grunt.hpp"
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
+#include "../Entities/Props/Asteroid.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -46,6 +47,7 @@ void AssemblyMode::Update(float deltaSeconds)
     {
         m_entities.push_back(new ItemCrate(GetRandomLocationInArena()));
         m_entities.push_back(new Grunt(GetRandomLocationInArena()));
+        m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
         m_timeSinceLastSpawn = 0.0f;
     }
     for (Entity* ent : m_entities)
