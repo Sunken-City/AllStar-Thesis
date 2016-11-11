@@ -236,6 +236,11 @@ void TheGame::CleanupPlayingState(unsigned int)
 void TheGame::UpdatePlaying(float deltaSeconds)
 {
     m_currentGameMode->Update(deltaSeconds);
+    if (!m_currentGameMode->m_isPlaying)
+    {
+        SetGameState(GAME_OVER);
+        TheGame::instance->InitializeGameOverState();
+    }
 }
 
 //-----------------------------------------------------------------------------------

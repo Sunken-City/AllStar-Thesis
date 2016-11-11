@@ -27,6 +27,14 @@ AssemblyMode::AssemblyMode()
     m_entities.push_back(box2);
     m_entities.push_back(g1);
     m_entities.push_back(g2);
+
+    //Add in some Asteroids (for color)
+    for (int i = 0; i < 20; ++i)
+    {
+        //m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
+    }
+
+    m_isPlaying = true;
 }
 
 //-----------------------------------------------------------------------------------
@@ -42,12 +50,16 @@ AssemblyMode::~AssemblyMode()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::Update(float deltaSeconds)
 {
+    GameMode::Update(deltaSeconds);
+    if (!m_isPlaying)
+    {
+        return;
+    }
     m_timeSinceLastSpawn += deltaSeconds;
     if (m_timeSinceLastSpawn > TIME_PER_SPAWN)
     {
         m_entities.push_back(new ItemCrate(GetRandomLocationInArena()));
         m_entities.push_back(new Grunt(GetRandomLocationInArena()));
-        m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
         m_timeSinceLastSpawn = 0.0f;
     }
     for (Entity* ent : m_entities)

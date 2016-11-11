@@ -22,6 +22,7 @@ public:
     void Render() const;
     void SpawnBullet(Ship* creator);
     void SpawnPickup(Item* item, const Vector2& spawnPosition);
+    void InitializeGameOverState();
 
     static TheGame* instance;
 
@@ -45,7 +46,6 @@ private:
     void InitializePlayingState();
     void UpdatePlaying(float deltaSeconds);
     void RenderPlaying() const;
-    void InitializeGameOverState();
     void CleanupPlayingState(unsigned int);
 
     void InitializeMainMenuState();

@@ -1,6 +1,7 @@
 #include "Game/GameModes/GameMode.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
+#include "Game/StateMachine.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -15,6 +16,19 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
 GameMode::~GameMode()
 {
 
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::Update(float deltaSeconds)
+{
+    if (m_isPlaying)
+    {
+        m_timerSecondsElapsed += deltaSeconds;
+    }
+    if (m_timerSecondsElapsed >= m_gameLengthSeconds)
+    {
+        m_isPlaying = false; 
+    }
 }
 
 //-----------------------------------------------------------------------------------
