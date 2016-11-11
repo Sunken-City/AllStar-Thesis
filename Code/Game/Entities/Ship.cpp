@@ -5,6 +5,7 @@
 #include "Engine/Input/InputValues.hpp"
 #include "Game/Items/Weapons/Weapon.hpp"
 #include "Game/TheGame.hpp"
+#include "Engine/Input/Logging.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -59,7 +60,8 @@ void Ship::UpdateShooting()
         }
         else
         {
-            if (m_timeSinceLastShot > 1.0f / GetRateOfFireStat())
+            float secondsPerShot = 1.0f / GetRateOfFireStat();
+            if (m_timeSinceLastShot > secondsPerShot)
             {
                 TheGame::instance->SpawnBullet(this);
                 m_timeSinceLastShot = 0.0f;
@@ -85,7 +87,7 @@ void Ship::AttemptMovement(const Vector2& attemptedPosition)
 //-----------------------------------------------------------------------------------
 void Ship::UpdateMotion(float deltaSeconds)
 {
-    const float speedSanityMultiplier = 1.0f / 15.0f;
+    const float speedSanityMultiplier = 3.0f / 1.0f;
     InputMap& input = m_pilot->m_inputMap;
     Vector2 inputDirection = input.GetVector2("Right", "Up");
 
@@ -99,10 +101,10 @@ void Ship::UpdateMotion(float deltaSeconds)
 
     //Calculate velocity
     Vector2 totalAcceleration = accelerationComponent + agilityComponent;
-    m_velocity += totalAcceleration * deltaSeconds;
+    m_velocity += totalAcceleration;
     m_velocity *= m_baseStats.braking; // +(0.1f * GetBrakingStat());
     m_velocity.ClampMagnitude(GetTopSpeedStat() * speedSanityMultiplier);
 
-    Vector2 attemptedPosition = m_transform.position + m_velocity;
+    Vector2 attemptedPosition = m_transform.position + (m_velocity * deltaSeconds);
     AttemptMovement(attemptedPosition);
 }
