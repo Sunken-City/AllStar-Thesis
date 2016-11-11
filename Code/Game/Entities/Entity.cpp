@@ -62,14 +62,14 @@ void Entity::ResolveCollision(Entity* otherEntity)
     {
         return;
     }
-    Vector2& myPosition = GetPosition();
+    Vector2 myPosition = GetPosition();
     Vector2 otherPosition = otherEntity->GetPosition();
     Vector2 difference = myPosition - otherPosition;
     float distanceBetweenPoints = MathUtils::CalcDistanceBetweenPoints(otherPosition, myPosition);
-    float firstPushDist = (this->m_collisionRadius - distanceBetweenPoints) / 8.f;
-    //float secondPushDist = (otherEntity->m_collisionRadius - distanceBetweenPoints) / 8.f;
-    difference *= -firstPushDist;
+    float pushDistance = (this->m_collisionRadius - distanceBetweenPoints) / 8.f;
+    difference *= -pushDistance;
     SetPosition(myPosition - difference);
+    otherEntity->SetPosition(otherPosition + difference);
 }
 
 //-----------------------------------------------------------------------------------
