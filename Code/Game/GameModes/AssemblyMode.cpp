@@ -80,6 +80,6 @@ void AssemblyMode::Update(float deltaSeconds)
 
     for (unsigned int i = 0; i < m_players.size(); ++i)
     {
-        SpriteGameRenderer::instance->SetCameraPosition(m_players[i]->m_sprite->m_position, i);
+        SpriteGameRenderer::instance->SetCameraPosition(m_players[i]->GetPosition(), i);
     }
 }

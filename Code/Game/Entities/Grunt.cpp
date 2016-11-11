@@ -13,7 +13,7 @@ Grunt::Grunt(const Vector2& initialPosition)
 {
     m_sprite = new Sprite("GreenEnemy", TheGame::ENEMY_LAYER);
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
-    m_sprite->m_position = initialPosition;
+    SetPosition(initialPosition);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
     m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
     m_baseStats.rateOfFire = 1.5f;
@@ -35,7 +35,7 @@ void Grunt::Update(float deltaSeconds)
     m_sprite->m_rotationDegrees += m_angularVelocity * deltaSeconds;
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
     Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
-    m_sprite->m_position += deltaVelocity;
+    SetPosition(GetPosition() + deltaVelocity);
     if (m_timeSinceLastShot > m_baseStats.rateOfFire)
     {
         TheGame::instance->SpawnBullet(this);
@@ -54,6 +54,6 @@ void Grunt::Die()
 {
     if (MathUtils::CoinFlip())
     {
-        TheGame::instance->SpawnPickup(new PowerUp(), m_sprite->m_position);
+        TheGame::instance->SpawnPickup(new PowerUp(), GetPosition());
     }
 }

@@ -4,6 +4,8 @@
 #include "Game/Items/Chassis/Chassis.hpp"
 #include "Game/Items/Actives/Actives.hpp"
 #include "Game/Items/Passives/Passive.hpp"
+#include "Game/StateMachine.hpp"
+#include "Game/TheGame.hpp"
 
 //-----------------------------------------------------------------------------------
 Entity::Entity()
@@ -31,6 +33,14 @@ Entity::~Entity()
     {
         delete m_sprite;
     }
+    if (GetGameState() == GameState::PLAYING)
+    {
+        DropInventory();
+    }
+    else
+    {
+        DeleteInventory();
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -52,19 +62,24 @@ void Entity::ResolveCollision(Entity* otherEntity)
     {
         return;
     }
-    Vector2& myPosition = this->m_sprite->m_position;
-    Vector2 otherPosition = otherEntity->m_sprite->m_position;
+    Vector2& myPosition = GetPosition();
+    Vector2 otherPosition = otherEntity->GetPosition();
     Vector2 difference = myPosition - otherPosition;
     float distanceBetweenPoints = MathUtils::CalcDistanceBetweenPoints(otherPosition, myPosition);
     float firstPushDist = (this->m_collisionRadius - distanceBetweenPoints) / 8.f;
     //float secondPushDist = (otherEntity->m_collisionRadius - distanceBetweenPoints) / 8.f;
     difference *= -firstPushDist;
-    myPosition -= difference;
+    SetPosition(myPosition - difference);
 }
 
 //-----------------------------------------------------------------------------------
 void Entity::TakeDamage(float damage)
 {
+    if (m_isDead)
+    {
+        return;
+    }
+
     m_currentHp -= damage;
     if (m_currentHp < 0.0f)
     {
@@ -217,4 +232,40 @@ float Entity::GetShotDeflectionStat()
     shotDeflection += m_activeEffect ? m_activeEffect->m_statBonuses.shotDeflection : 0.0f;
     shotDeflection += m_passiveEffect ? m_passiveEffect->m_statBonuses.shotDeflection : 0.0f;
     return shotDeflection;
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::DeleteInventory()
+{
+    unsigned int inventorySize = m_inventory.size();
+    for (unsigned int i = 0; i < inventorySize; ++i)
+    {
+        if (m_inventory[i])
+        {
+            delete m_inventory[i];
+            m_inventory[i] = nullptr;
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::DropInventory()
+{
+    unsigned int inventorySize = m_inventory.size();
+    for (unsigned int i = 0; i < inventorySize; ++i)
+    {
+        //This transfers ownership of the item to the pickup.
+        TheGame::instance->SpawnPickup(m_inventory[i], GetPosition());
+        m_inventory[i] = nullptr;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::InitializeInventory(unsigned int inventorySize)
+{
+    m_inventory.resize(inventorySize);
+    for (unsigned int i = 0; i < inventorySize; ++i)
+    {
+        m_inventory[i] = nullptr;
+    }
 }

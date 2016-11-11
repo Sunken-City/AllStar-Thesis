@@ -153,7 +153,6 @@
     <ClCompile Include="Entities\ItemCrate.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\PlayerShip.cpp" />
-    <ClCompile Include="Entities\Prop.cpp" />
     <ClCompile Include="Entities\Ship.cpp" />
     <ClCompile Include="GameCommon.cpp" />
     <ClCompile Include="GameModes\AssemblyMode.cpp" />
@@ -182,7 +181,6 @@
     <ClInclude Include="Entities\ItemCrate.hpp" />
     <ClInclude Include="Entities\Pickup.hpp" />
     <ClInclude Include="Entities\PlayerShip.hpp" />
-    <ClInclude Include="Entities\Prop.hpp" />
     <ClInclude Include="Entities\Ship.hpp" />
     <ClInclude Include="GameCommon.hpp" />
     <ClInclude Include="GameModes\AssemblyMode.hpp" />

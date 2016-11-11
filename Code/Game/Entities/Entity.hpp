@@ -2,6 +2,7 @@
 #include "Engine/Math/Transform2D.hpp"
 #include "Engine/Math/Vector2.hpp"
 #include "Game/Stats.hpp"
+#include <vector>
 
 class Sprite;
 class Weapon;
@@ -26,6 +27,9 @@ public:
     virtual void SetPosition(const Vector2& newPosition);
     virtual Vector2 GetPosition() { return m_transform.position; };
     virtual void Heal(float healValue);
+    virtual void DropInventory();
+    void InitializeInventory(unsigned int inventorySize);
+    void DeleteInventory();
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual float GetTopSpeedStat();
@@ -41,6 +45,7 @@ public:
     virtual float GetShieldRegenStat();
     virtual float GetShotDeflectionStat();
     virtual inline bool IsProjectile() { return false; };
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Weapon* m_weapon;
     Active* m_activeEffect;
@@ -51,6 +56,7 @@ public:
     Sprite* m_sprite;
     Transform2D m_transform;
     Vector2 m_velocity;
+    std::vector<Item*> m_inventory;
     float m_currentHp;
     float m_collisionRadius;
     float m_age;

@@ -15,7 +15,7 @@ Projectile::Projectile(Entity* owner)
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
 
-    m_sprite->m_position = m_owner->m_sprite->m_position;
+    SetPosition(owner->GetPosition());
     m_sprite->m_rotationDegrees = m_owner->m_sprite->m_rotationDegrees;
 
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
@@ -34,7 +34,8 @@ void Projectile::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     if (m_age < m_lifeSpan)
     {
-        m_sprite->m_position += m_velocity * deltaSeconds;
+        Vector2 position = GetPosition();
+        SetPosition(position + m_velocity * deltaSeconds);
     }
     else
     {
@@ -43,16 +44,10 @@ void Projectile::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void Projectile::Render() const
-{
-
-}
-
-//-----------------------------------------------------------------------------------
 void Projectile::ResolveCollision(Entity* otherEntity)
 {
     Entity::ResolveCollision(otherEntity);
-    if (otherEntity != m_owner && otherEntity->m_collidesWithBullets)
+    if (otherEntity != m_owner && otherEntity->m_collidesWithBullets && !otherEntity->m_isDead)
     {
         otherEntity->TakeDamage(m_power);
         this->m_isDead = true;

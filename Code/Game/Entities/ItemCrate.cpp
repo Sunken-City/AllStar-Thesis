@@ -10,12 +10,12 @@ const float ItemCrate::MAX_ANGULAR_VELOCITY = 15.0f;
 
 //-----------------------------------------------------------------------------------
 ItemCrate::ItemCrate(const Vector2& initialPosition) 
-    : Prop()
+    : Entity()
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("ItemBox", TheGame::ENEMY_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
-    m_sprite->m_position = initialPosition;
+    SetPosition(initialPosition);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
 
     InitializeInventory(MathUtils::GetRandomIntFromZeroTo(MAX_NUM_PICKUPS_PER_BOX) + 1);
@@ -36,15 +36,10 @@ void ItemCrate::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void ItemCrate::Render() const
-{
-
-}
-
-//-----------------------------------------------------------------------------------
 void ItemCrate::GenerateItems()
 {
-    for (unsigned int i = 0; i < m_inventorySize; ++i)
+    unsigned int inventorySize = m_inventory.size();
+    for (unsigned int i = 0; i < inventorySize; ++i)
     {
         m_inventory[i] = new PowerUp();
     }

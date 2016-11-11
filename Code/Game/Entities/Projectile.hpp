@@ -8,7 +8,6 @@ public:
     virtual ~Projectile();
 
     virtual void Update(float deltaSeconds);
-    virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity);
     virtual inline bool IsProjectile() { return true; };
 

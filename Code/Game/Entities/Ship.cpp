@@ -80,8 +80,7 @@ void Ship::ResolveCollision(Entity* otherEntity)
 void Ship::AttemptMovement(const Vector2& attemptedPosition)
 {
     //Todo: check for collisions against level geometry
-    m_sprite->m_position = attemptedPosition;
-    m_transform.position = attemptedPosition;
+    SetPosition(attemptedPosition);
 }
 
 //-----------------------------------------------------------------------------------

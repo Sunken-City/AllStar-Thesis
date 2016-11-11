@@ -1,14 +1,13 @@
 #pragma once
-#include "Game/Entities/Prop.hpp"
+#include "Game/Entities/Entity.hpp"
 
-class ItemCrate : public Prop
+class ItemCrate : public Entity
 {
 public:
     ItemCrate(const Vector2& position);
     virtual ~ItemCrate();
 
     virtual void Update(float deltaSeconds);
-    virtual void Render() const;
     void GenerateItems();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////

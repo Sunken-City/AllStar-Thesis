@@ -98,9 +98,6 @@
     <ClCompile Include="Items\Chassis\Chassis.cpp">
       <Filter>General\Items\Chassis</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Prop.cpp">
-      <Filter>General\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\ItemCrate.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
@@ -177,9 +174,6 @@
     </ClInclude>
     <ClInclude Include="Items\Chassis\Chassis.hpp">
       <Filter>General\Items\Chassis</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities\Prop.hpp">
-      <Filter>General\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\ItemCrate.hpp">
       <Filter>General\Entities</Filter>

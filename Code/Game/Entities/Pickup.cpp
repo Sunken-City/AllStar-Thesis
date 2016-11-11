@@ -16,7 +16,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
 
     float x = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
     float y = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
-    m_sprite->m_position = initialPosition + Vector2(x, y);
+    SetPosition(initialPosition + Vector2(x, y));
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
     m_baseStats.hp = 10.0f;
     m_currentHp = m_baseStats.hp;
@@ -50,7 +50,7 @@ void Pickup::ResolveCollision(Entity* otherEntity)
     Entity::ResolveCollision(otherEntity);
     for (PlayerShip* ent : TheGame::instance->m_currentGameMode->m_players)
     {
-        if ((Entity*)ent == otherEntity)
+        if ((Entity*)ent == otherEntity && !ent->m_isDead)
         {
             ent->PickUpItem(m_item);
             m_item = nullptr;
