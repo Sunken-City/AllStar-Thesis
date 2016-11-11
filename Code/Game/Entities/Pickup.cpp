@@ -9,6 +9,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     : Entity()
     , m_item(item)
 {
+    m_collidesWithBullets = false;
     m_sprite = new Sprite("Invalid", TheGame::ITEM_LAYER);
     m_sprite->m_scale = Vector2(1.0f);
     m_sprite->m_spriteResource = m_item->GetSpriteResource();

@@ -40,7 +40,7 @@ public:
     virtual float GetShieldCapacityStat();
     virtual float GetShieldRegenStat();
     virtual float GetShotDeflectionStat();
-
+    virtual inline bool IsProjectile() { return false; };
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Weapon* m_weapon;
     Active* m_activeEffect;
@@ -56,4 +56,5 @@ public:
     float m_age;
     float m_frictionValue;
     bool m_isDead;
+    bool m_collidesWithBullets;
 };

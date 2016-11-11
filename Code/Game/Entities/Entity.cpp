@@ -19,6 +19,7 @@ Entity::Entity()
     , m_baseStats(1.0f)
     , m_velocity(0.0f)
     , m_frictionValue(0.9f)
+    , m_collidesWithBullets(true)
 {
 
 }
@@ -47,7 +48,7 @@ bool Entity::IsCollidingWith(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Entity::ResolveCollision(Entity* otherEntity)
 {
-    if (m_isDead || otherEntity->m_isDead)
+    if (m_isDead || otherEntity->m_isDead || (!m_collidesWithBullets && otherEntity->IsProjectile()))
     {
         return;
     }
@@ -217,4 +218,3 @@ float Entity::GetShotDeflectionStat()
     shotDeflection += m_passiveEffect ? m_passiveEffect->m_statBonuses.shotDeflection : 0.0f;
     return shotDeflection;
 }
-

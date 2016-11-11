@@ -11,6 +11,7 @@ Projectile::Projectile(Entity* owner)
     , m_lifeSpan(2.0f)
     , m_owner(owner)
 {
+    m_collidesWithBullets = false;
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
 
@@ -51,7 +52,7 @@ void Projectile::Render() const
 void Projectile::ResolveCollision(Entity* otherEntity)
 {
     Entity::ResolveCollision(otherEntity);
-    if (otherEntity != m_owner)
+    if (otherEntity != m_owner && otherEntity->m_collidesWithBullets)
     {
         otherEntity->TakeDamage(m_power);
         this->m_isDead = true;
