@@ -13,7 +13,7 @@
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Input/XInputController.hpp"
 #include "Engine/TextRendering/TextBox.hpp"
-#include "Engine/Renderer/BitmapFont.hpp"
+#include "Engine/Fonts/BitmapFont.hpp"
 #include "Engine/Input/XMLUtils.hpp"
 #include "Game/Entities/Entity.hpp"
 #include "Game/Entities/PlayerShip.hpp"

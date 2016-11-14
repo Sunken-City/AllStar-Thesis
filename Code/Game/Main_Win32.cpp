@@ -15,10 +15,11 @@
 #include "Engine/Core/StringUtils.hpp"
 #include "Engine/Core/Memory/MemoryOutputWindow.hpp"
 #include "Engine/Renderer/Texture.hpp"
-#include "Engine/Renderer/BitmapFont.hpp"
+#include "Engine/Fonts/BitmapFont.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Core/Event.hpp"
+#include "Engine/Fonts/FontGenerator.hpp"
 
 //-----------------------------------------------------------------------------------------------
 #define UNUSED(x) (void)(x);
@@ -266,6 +267,7 @@ int WINAPI WinMain(HINSTANCE applicationInstanceHandle, HINSTANCE, LPSTR command
     MemoryAnalyticsStartup();
     LoggerStartup();
     Initialize(applicationInstanceHandle);
+    FontGenerator::GenerateFont("Impact", "Impact");
     while (!g_isQuitting)
     {
         RunFrame();

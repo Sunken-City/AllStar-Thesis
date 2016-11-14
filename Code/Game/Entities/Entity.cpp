@@ -71,6 +71,19 @@ void Entity::ResolveCollision(Entity* otherEntity)
     difference *= -pushDistance;
     SetPosition(myPosition - difference);
     otherEntity->SetPosition(otherPosition + difference);
+
+    /*
+    Vector2 myPosition = GetPosition();
+    Vector2 otherPosition = otherEntity->GetPosition();
+    Vector2 distanceFromOtherToMe = myPosition - otherPosition;
+    Vector2 vectorFromOtherToMe = distanceFromOtherToMe.GetNorm();
+
+    float distanceBetweenEntities = MathUtils::CalcDistanceBetweenPoints(otherPosition, myPosition);
+    float pushScale = (this->m_collisionRadius - distanceBetweenEntities) / 2.f;
+    Vector2 collisionDisplacementVector = vectorFromOtherToMe * -pushScale;
+    SetPosition(myPosition - collisionDisplacementVector);
+    otherEntity->SetPosition(otherPosition + collisionDisplacementVector);
+    */
 }
 
 //-----------------------------------------------------------------------------------
