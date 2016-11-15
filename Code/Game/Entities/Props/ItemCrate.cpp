@@ -15,6 +15,7 @@ ItemCrate::ItemCrate(const Vector2& initialPosition)
 {
     m_sprite = new Sprite("ItemBox", TheGame::ENEMY_LAYER);
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
+    CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
 

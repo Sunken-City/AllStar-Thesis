@@ -13,6 +13,7 @@ Grunt::Grunt(const Vector2& initialPosition)
 {
     m_sprite = new Sprite("GreenEnemy", TheGame::ENEMY_LAYER);
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
+    CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
     m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);

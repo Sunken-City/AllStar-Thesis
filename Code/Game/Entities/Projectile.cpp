@@ -9,11 +9,12 @@ Projectile::Projectile(Entity* owner)
     , m_speed(10.0f)
     , m_power(1.0f)
     , m_lifeSpan(2.0f)
-    , m_owner(owner)
 {
+    m_owner = owner;
     m_collidesWithBullets = false;
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
+    CalculateCollisionRadius();
 
     SetPosition(owner->GetPosition());
     m_sprite->m_rotationDegrees = m_owner->m_sprite->m_rotationDegrees;

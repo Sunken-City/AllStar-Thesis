@@ -6,6 +6,7 @@
 #include "Game/Items/Passives/Passive.hpp"
 #include "Game/StateMachine.hpp"
 #include "Game/TheGame.hpp"
+#include <algorithm>
 
 //-----------------------------------------------------------------------------------
 Entity::Entity()
@@ -23,8 +24,8 @@ Entity::Entity()
     , m_frictionValue(0.9f)
     , m_collidesWithBullets(true)
     , m_isInvincible(false)
+    , m_owner(nullptr)
 {
-
 }
 
 //-----------------------------------------------------------------------------------
@@ -53,37 +54,31 @@ void Entity::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 bool Entity::IsCollidingWith(Entity* otherEntity)
 {
-    return this->m_sprite->GetBounds().IsIntersecting(otherEntity->m_sprite->GetBounds());
+    float distSquared = MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), otherEntity->GetPosition());
+    float sumOfRadii = m_collisionRadius + otherEntity->m_collisionRadius;
+    return (distSquared < sumOfRadii * sumOfRadii);
 }
 
 //-----------------------------------------------------------------------------------
 void Entity::ResolveCollision(Entity* otherEntity)
 {
-    if (m_isDead || otherEntity->m_isDead || (!m_collidesWithBullets && (otherEntity->IsProjectile() || IsProjectile())))
+    if (m_isDead || otherEntity->m_isDead || otherEntity == m_owner || otherEntity->m_owner == this || (!m_collidesWithBullets && (otherEntity->IsProjectile() || IsProjectile())))
     {
         return;
     }
+
     Vector2 myPosition = GetPosition();
     Vector2 otherPosition = otherEntity->GetPosition();
-    Vector2 difference = myPosition - otherPosition;
-    float distanceBetweenPoints = MathUtils::CalcDistanceBetweenPoints(otherPosition, myPosition);
-    float pushDistance = (this->m_collisionRadius - distanceBetweenPoints) / 8.f;
-    difference *= -pushDistance;
-    SetPosition(myPosition - difference);
-    otherEntity->SetPosition(otherPosition + difference);
+    Vector2 displacementFromOtherToMe = myPosition - otherPosition;
+    Vector2 directionFromOtherToMe = displacementFromOtherToMe.GetNorm();
 
-    /*
-    Vector2 myPosition = GetPosition();
-    Vector2 otherPosition = otherEntity->GetPosition();
-    Vector2 distanceFromOtherToMe = myPosition - otherPosition;
-    Vector2 vectorFromOtherToMe = distanceFromOtherToMe.GetNorm();
-
-    float distanceBetweenEntities = MathUtils::CalcDistanceBetweenPoints(otherPosition, myPosition);
-    float pushScale = (this->m_collisionRadius - distanceBetweenEntities) / 2.f;
-    Vector2 collisionDisplacementVector = vectorFromOtherToMe * -pushScale;
-    SetPosition(myPosition - collisionDisplacementVector);
-    otherEntity->SetPosition(otherPosition + collisionDisplacementVector);
-    */
+    float distanceBetweenEntities = displacementFromOtherToMe.CalculateMagnitude();
+    float sumOfRadii = m_collisionRadius + otherEntity->m_collisionRadius;
+    float overlapDistance = sumOfRadii - distanceBetweenEntities;
+    float pushDistance = overlapDistance * 0.5f;
+    Vector2 myPositionCorrection = directionFromOtherToMe * pushDistance;
+    SetPosition(myPosition + myPositionCorrection);
+    otherEntity->SetPosition(otherPosition - myPositionCorrection);
 }
 
 //-----------------------------------------------------------------------------------
@@ -100,6 +95,17 @@ void Entity::TakeDamage(float damage)
         m_isDead = true;
         Die();
     }
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::CalculateCollisionRadius()
+{
+    Vector2 virtualSize = m_sprite->m_spriteResource->m_virtualSize;
+    Vector2 spriteScale = m_sprite->m_scale;
+    float maxVirtualSize = std::max(virtualSize.x, virtualSize.y);
+    float maxSpriteScale = std::max(spriteScale.x, spriteScale.y);
+    maxVirtualSize *= 0.5f;
+    m_collisionRadius = maxVirtualSize * maxSpriteScale;
 }
 
 //-----------------------------------------------------------------------------------

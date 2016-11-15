@@ -13,6 +13,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     m_sprite = new Sprite("Invalid", TheGame::ITEM_LAYER);
     m_sprite->m_scale = Vector2(1.0f);
     m_sprite->m_spriteResource = m_item->GetSpriteResource();
+    CalculateCollisionRadius();
 
     float x = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
     float y = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);

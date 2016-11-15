@@ -31,7 +31,7 @@ AssemblyMode::AssemblyMode()
     //Add in some Asteroids (for color)
     for (int i = 0; i < 20; ++i)
     {
-        //m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
+        m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
     }
 
     m_isPlaying = true;

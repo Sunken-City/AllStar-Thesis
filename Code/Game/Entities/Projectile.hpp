@@ -15,5 +15,4 @@ public:
     float m_speed;
     float m_power;
     float m_lifeSpan;
-    Entity* m_owner;
 };

@@ -23,6 +23,7 @@ public:
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void TakeDamage(float damage);
     virtual void Die() { m_isDead = true; };
+    virtual void CalculateCollisionRadius();
     inline virtual bool IsPlayer() { return false; }
     virtual void SetPosition(const Vector2& newPosition);
     virtual Vector2 GetPosition() { return m_transform.position; };
@@ -54,6 +55,7 @@ public:
     Stats m_baseStats;
 
     Sprite* m_sprite;
+    Entity* m_owner;
     Transform2D m_transform;
     Vector2 m_velocity;
     std::vector<Item*> m_inventory;
