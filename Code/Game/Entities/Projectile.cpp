@@ -13,6 +13,7 @@ Projectile::Projectile(Entity* owner)
 {
     m_owner = owner;
     m_collidesWithBullets = false;
+    m_staysWithinBounds = false;
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
     CalculateCollisionRadius();
