@@ -2,6 +2,7 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
+#include <algorithm>
 
 //-----------------------------------------------------------------------------------
 Projectile::Projectile(Entity* owner) 
@@ -20,8 +21,13 @@ Projectile::Projectile(Entity* owner)
     m_sprite->m_rotationDegrees = m_owner->m_sprite->m_rotationDegrees;
 
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
-    Vector2 muzzleVelocity = direction * m_speed;
-    m_velocity = muzzleVelocity + m_owner->m_velocity;
+
+    float ownerForwardSpeed = Vector2::Dot(direction, m_owner->m_velocity);
+    ownerForwardSpeed = std::max<float>(0.0f, ownerForwardSpeed);
+    float adjustedSpeed = m_speed + ownerForwardSpeed;
+
+    Vector2 muzzleVelocity = direction * adjustedSpeed;
+    m_velocity = muzzleVelocity;
 }
 
 //-----------------------------------------------------------------------------------
