@@ -10,6 +10,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     , m_item(item)
 {
     m_collidesWithBullets = false;
+    m_noCollide = true;
     m_sprite = new Sprite("Invalid", TheGame::ITEM_LAYER);
     m_sprite->m_scale = Vector2(1.0f);
     m_sprite->m_spriteResource = m_item->GetSpriteResource();
@@ -48,7 +49,6 @@ void Pickup::Render() const
 //-----------------------------------------------------------------------------------
 void Pickup::ResolveCollision(Entity* otherEntity)
 {
-    Entity::ResolveCollision(otherEntity);
     for (PlayerShip* ent : TheGame::instance->m_currentGameMode->m_players)
     {
         if ((Entity*)ent == otherEntity && !ent->m_isDead)

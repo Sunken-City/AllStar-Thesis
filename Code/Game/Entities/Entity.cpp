@@ -25,6 +25,7 @@ Entity::Entity()
     , m_collidesWithBullets(true)
     , m_isInvincible(false)
     , m_owner(nullptr)
+    , m_noCollide(false)
 {
 }
 
@@ -62,7 +63,7 @@ bool Entity::IsCollidingWith(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Entity::ResolveCollision(Entity* otherEntity)
 {
-    if (m_isDead || otherEntity->m_isDead || otherEntity == m_owner || otherEntity->m_owner == this || (!m_collidesWithBullets && (otherEntity->IsProjectile() || IsProjectile())))
+    if (m_isDead || otherEntity->m_isDead || otherEntity->m_noCollide || otherEntity == m_owner || otherEntity->m_owner == this || (!m_collidesWithBullets && (otherEntity->IsProjectile() || IsProjectile())))
     {
         return;
     }
