@@ -7,6 +7,7 @@ public:
     AssemblyMode();
     virtual ~AssemblyMode();
 
+    virtual void Initialize();
     virtual void Update(float deltaSeconds);
 
 private:

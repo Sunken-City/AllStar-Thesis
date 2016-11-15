@@ -112,8 +112,22 @@ void Entity::CalculateCollisionRadius()
 //-----------------------------------------------------------------------------------
 void Entity::SetPosition(const Vector2& newPosition)
 {
-    m_transform.position = newPosition;
-    m_sprite->m_position = newPosition;
+    Vector2 adjustedPosition = newPosition;
+
+    if (m_staysWithinBounds)
+    {
+        AABB2 bounds = TheGame::instance->m_currentGameMode->GetArenaBounds();
+        //We make the inverse minkowski box because we'd like to stay INSIDE the box
+        AABB2 minkowskiBounds = AABB2(Vector2(bounds.mins.x + m_collisionRadius, bounds.mins.y + m_collisionRadius), Vector2(bounds.maxs.x - m_collisionRadius, bounds.maxs.y - m_collisionRadius));
+        while (!minkowskiBounds.IsPointOnOrInside(adjustedPosition))
+        {
+            Vector2 distanceOutsideBounds = minkowskiBounds.GetSmallestOutToInResolutionVector(newPosition);
+            adjustedPosition += distanceOutsideBounds;
+        }
+    }
+
+    m_transform.position = adjustedPosition;
+    m_sprite->m_position = adjustedPosition;
 }
 
 //-----------------------------------------------------------------------------------

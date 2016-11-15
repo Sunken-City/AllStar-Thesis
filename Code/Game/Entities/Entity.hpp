@@ -67,4 +67,5 @@ public:
     bool m_collidesWithBullets;
     bool m_noCollide;
     bool m_isInvincible;
+    bool m_staysWithinBounds;
 };

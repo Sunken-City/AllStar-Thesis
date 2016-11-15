@@ -12,6 +12,20 @@
 AssemblyMode::AssemblyMode()
     : GameMode()
 {
+}
+
+//-----------------------------------------------------------------------------------
+AssemblyMode::~AssemblyMode()
+{
+    for (Entity* ent : m_entities)
+    {
+        delete ent;
+    }
+    m_entities.clear();
+}
+
+void AssemblyMode::Initialize()
+{
     for (unsigned int i = 0; i < TheGame::instance->m_playerPilots.size(); ++i)
     {
         PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
@@ -35,16 +49,6 @@ AssemblyMode::AssemblyMode()
     }
 
     m_isPlaying = true;
-}
-
-//-----------------------------------------------------------------------------------
-AssemblyMode::~AssemblyMode()
-{
-    for (Entity* ent : m_entities)
-    {
-        delete ent;
-    }
-    m_entities.clear();
 }
 
 //-----------------------------------------------------------------------------------

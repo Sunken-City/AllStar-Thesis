@@ -220,6 +220,7 @@ void TheGame::InitializePlayingState()
     }
 
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
+    m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayingState);
 }

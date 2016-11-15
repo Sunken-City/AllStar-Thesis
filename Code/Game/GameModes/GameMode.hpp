@@ -14,9 +14,11 @@ public:
     virtual ~GameMode();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
+    virtual void Initialize() = 0;
     virtual void Update(float deltaSeconds);
     virtual Vector2 GetRandomLocationInArena();
     virtual Vector2 GetRandomPlayerSpawnPoint();
+    AABB2 GetArenaBounds();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:

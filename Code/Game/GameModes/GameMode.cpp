@@ -42,3 +42,9 @@ Vector2 GameMode::GetRandomPlayerSpawnPoint()
 {
     return GetRandomLocationInArena();
 }
+
+//-----------------------------------------------------------------------------------
+AABB2 GameMode::GetArenaBounds()
+{
+    return m_arenaBackground.GetBounds();
+}
