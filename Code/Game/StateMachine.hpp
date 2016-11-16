@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Core/Event.hpp"
+#include "Engine/Core/Events/Event.hpp"
 
 enum GameState
 {

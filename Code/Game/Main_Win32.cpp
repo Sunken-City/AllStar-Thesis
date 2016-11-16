@@ -18,7 +18,7 @@
 #include "Engine/Fonts/BitmapFont.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
-#include "Engine/Core/Event.hpp"
+#include "Engine/Core/Events/Event.hpp"
 
 //-----------------------------------------------------------------------------------------------
 #define UNUSED(x) (void)(x);
