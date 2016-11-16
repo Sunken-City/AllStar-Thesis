@@ -3,6 +3,7 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "../Items/PowerUp.hpp"
+#include "Game/Pilots/Pilot.hpp"
 
 const float Grunt::MAX_ANGULAR_VELOCITY = 15.0f;
 

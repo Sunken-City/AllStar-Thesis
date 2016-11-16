@@ -26,7 +26,7 @@ public:
     std::vector<Entity*> m_newEntities;
     std::vector<PlayerShip*> m_players;
     bool m_isPlaying = false;
-    float m_gameLengthSeconds = 200.0f;
+    float m_gameLengthSeconds = 2000.0f;
 
 private:
     Sprite m_arenaBackground;
