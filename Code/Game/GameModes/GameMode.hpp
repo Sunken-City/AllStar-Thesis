@@ -4,6 +4,8 @@
 
 class Entity;
 class PlayerShip;
+class Ship;
+class Item;
 class Vector2;
 
 class GameMode
@@ -20,6 +22,9 @@ public:
     virtual Vector2 GetRandomPlayerSpawnPoint();
     void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
     AABB2 GetArenaBounds();
+    void SpawnBullet(Ship* creator);
+    void SpawnPickup(Item* item, const Vector2& spawnPosition);
+    void SetBackground(const std::string& backgroundName, const Vector2& scale);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:

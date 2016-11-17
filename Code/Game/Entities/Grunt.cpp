@@ -40,7 +40,7 @@ void Grunt::Update(float deltaSeconds)
     SetPosition(GetPosition() + deltaVelocity);
     if (m_timeSinceLastShot > m_baseStats.rateOfFire)
     {
-        TheGame::instance->SpawnBullet(this);
+        TheGame::instance->m_currentGameMode->SpawnBullet(this);
         m_timeSinceLastShot = 0.0f;
     }
 }
@@ -56,6 +56,6 @@ void Grunt::Die()
 {
     if (MathUtils::CoinFlip())
     {
-        TheGame::instance->SpawnPickup(new PowerUp(), GetPosition());
+        TheGame::instance->m_currentGameMode->SpawnPickup(new PowerUp(), GetPosition());
     }
 }

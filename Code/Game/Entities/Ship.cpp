@@ -63,7 +63,7 @@ void Ship::UpdateShooting()
             float secondsPerShot = 1.0f / GetRateOfFireStat();
             if (m_timeSinceLastShot > secondsPerShot)
             {
-                TheGame::instance->SpawnBullet(this);
+                TheGame::instance->m_currentGameMode->SpawnBullet(this);
                 m_timeSinceLastShot = 0.0f;
             }
         }

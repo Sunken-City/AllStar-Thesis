@@ -12,6 +12,7 @@
 AssemblyMode::AssemblyMode()
     : GameMode()
 {
+    m_gameLengthSeconds = 200.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -27,7 +28,6 @@ AssemblyMode::~AssemblyMode()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::Initialize()
 {
-    SetUpPlayerSpawnPoints();
     SpawnGeometry();
     SpawnStartingEntities();
     SpawnPlayers();
@@ -120,16 +120,4 @@ void AssemblyMode::Update(float deltaSeconds)
     {
         SpriteGameRenderer::instance->SetCameraPosition(m_players[i]->GetPosition(), i);
     }
-}
-
-//-----------------------------------------------------------------------------------
-void AssemblyMode::SetUpPlayerSpawnPoints()
-{
-    //Proving that we CAN add spawn points, but I prefer random for the time being.
-//     AABB2 bounds = GetArenaBounds();
-//     AddPlayerSpawnPoint(Vector2::ZERO);
-//     AddPlayerSpawnPoint(bounds.mins + Vector2::ONE);
-//     AddPlayerSpawnPoint(bounds.mins + Vector2(2.0f));
-//     AddPlayerSpawnPoint(bounds.maxs - Vector2::ONE);
-//     AddPlayerSpawnPoint(bounds.maxs - Vector2(2.0f));
 }

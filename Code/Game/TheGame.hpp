@@ -20,8 +20,6 @@ public:
     ~TheGame();
     void Update(float deltaTime);
     void Render() const;
-    void SpawnBullet(Ship* creator);
-    void SpawnPickup(Item* item, const Vector2& spawnPosition);
     void InitializeGameOverState();
 
     static TheGame* instance;

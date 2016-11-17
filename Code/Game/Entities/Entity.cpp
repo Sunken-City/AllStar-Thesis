@@ -290,7 +290,7 @@ void Entity::DropInventory()
     for (unsigned int i = 0; i < inventorySize; ++i)
     {
         //This transfers ownership of the item to the pickup.
-        TheGame::instance->SpawnPickup(m_inventory[i], GetPosition());
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_inventory[i], GetPosition());
         m_inventory[i] = nullptr;
     }
 }

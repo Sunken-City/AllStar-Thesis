@@ -284,19 +284,6 @@ void TheGame::RenderGameOver() const
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::SpawnBullet(Ship* creator)
-{
-    m_currentGameMode->m_newEntities.push_back(new Projectile(creator));
-}
-
-//-----------------------------------------------------------------------------------
-void TheGame::SpawnPickup(Item* item, const Vector2& spawnPosition)
-{
-    ASSERT_OR_DIE(item, "Item was null when attempting to spawn pickup");
-    m_currentGameMode->m_newEntities.push_back(new Pickup(item, spawnPosition));
-}
-
-//-----------------------------------------------------------------------------------
 void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 {
     if (playerPilot->m_playerNumber == 0)
@@ -343,6 +330,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Nebula.jpg");
+    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Orange-space.jpg");
     ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
