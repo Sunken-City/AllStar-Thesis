@@ -340,7 +340,7 @@ void TheGame::RegisterSprites()
 {
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
-    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\spaceShips_005.png");
+    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Nebula.jpg");
     ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
