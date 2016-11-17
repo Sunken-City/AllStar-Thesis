@@ -18,6 +18,7 @@ public:
     virtual void Update(float deltaSeconds);
     virtual Vector2 GetRandomLocationInArena();
     virtual Vector2 GetRandomPlayerSpawnPoint();
+    void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
     AABB2 GetArenaBounds();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
@@ -29,6 +30,7 @@ public:
     float m_gameLengthSeconds = 2000.0f;
 
 private:
+    std::vector<Vector2> m_playerSpawnPoints;
     Sprite m_arenaBackground;
     float m_timerSecondsElapsed = 0.0f;
 };

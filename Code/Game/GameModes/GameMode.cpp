@@ -40,7 +40,21 @@ Vector2 GameMode::GetRandomLocationInArena()
 //-----------------------------------------------------------------------------------
 Vector2 GameMode::GetRandomPlayerSpawnPoint()
 {
-    return GetRandomLocationInArena();
+    if (m_playerSpawnPoints.size() > 0)
+    {
+        int randomPoint = MathUtils::GetRandomIntFromZeroTo(m_playerSpawnPoints.size());
+        return m_playerSpawnPoints[randomPoint];
+    }
+    else
+    {
+        return GetRandomLocationInArena();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::AddPlayerSpawnPoint(const Vector2& newSpawnPoint)
+{
+    m_playerSpawnPoints.push_back(newSpawnPoint);
 }
 
 //-----------------------------------------------------------------------------------

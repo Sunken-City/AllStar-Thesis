@@ -8,8 +8,15 @@ public:
     virtual ~AssemblyMode();
 
     virtual void Initialize();
-    virtual void Update(float deltaSeconds);
 
+    void SpawnStartingEntities();
+
+    void SpawnPlayers();
+
+    void SpawnGeometry();
+
+    virtual void Update(float deltaSeconds);
+    void SetUpPlayerSpawnPoints();
 private:
     float m_timeSinceLastSpawn = 0.0f;
     const float TIME_PER_SPAWN = 5.0f;

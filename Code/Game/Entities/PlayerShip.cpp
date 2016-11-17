@@ -15,12 +15,13 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
 {
     m_isDead = false;
-    m_baseStats.hp = 5.0f;
-    m_currentHp = m_baseStats.hp;
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_tintColor = RGBA::GetRandom();
     m_sprite->m_scale = Vector2(0.25f, 0.25f); 
     CalculateCollisionRadius();
+
+    m_baseStats.hp = 5.0f;
+    m_currentHp = m_baseStats.hp;
     m_baseStats.acceleration = 1.0f;
     m_baseStats.handling = 1.0f;
     m_baseStats.topSpeed = 1.0f;

@@ -24,14 +24,18 @@ AssemblyMode::~AssemblyMode()
     m_entities.clear();
 }
 
+//-----------------------------------------------------------------------------------
 void AssemblyMode::Initialize()
 {
-    for (unsigned int i = 0; i < TheGame::instance->m_playerPilots.size(); ++i)
-    {
-        PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
-        m_players.push_back(player);
-        m_entities.push_back(player);
-    }
+    SetUpPlayerSpawnPoints();
+    SpawnGeometry();
+    SpawnStartingEntities();
+    SpawnPlayers();
+}
+
+//-----------------------------------------------------------------------------------
+void AssemblyMode::SpawnStartingEntities()
+{
     ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
     ItemCrate* box2 = new ItemCrate(Vector2(1.0f));
     Grunt* g1 = new Grunt(Vector2(-2.0f));
@@ -41,7 +45,23 @@ void AssemblyMode::Initialize()
     m_entities.push_back(box2);
     m_entities.push_back(g1);
     m_entities.push_back(g2);
+}
 
+//-----------------------------------------------------------------------------------
+void AssemblyMode::SpawnPlayers()
+{
+    for (unsigned int i = 0; i < TheGame::instance->m_playerPilots.size(); ++i)
+    {
+        PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
+        player->SetPosition(GetRandomPlayerSpawnPoint());
+        m_players.push_back(player);
+        m_entities.push_back(player);
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void AssemblyMode::SpawnGeometry()
+{
     //Add in some Asteroids (for color)
     for (int i = 0; i < 20; ++i)
     {
@@ -100,4 +120,16 @@ void AssemblyMode::Update(float deltaSeconds)
     {
         SpriteGameRenderer::instance->SetCameraPosition(m_players[i]->GetPosition(), i);
     }
+}
+
+//-----------------------------------------------------------------------------------
+void AssemblyMode::SetUpPlayerSpawnPoints()
+{
+    //Proving that we CAN add spawn points, but I prefer random for the time being.
+//     AABB2 bounds = GetArenaBounds();
+//     AddPlayerSpawnPoint(Vector2::ZERO);
+//     AddPlayerSpawnPoint(bounds.mins + Vector2::ONE);
+//     AddPlayerSpawnPoint(bounds.mins + Vector2(2.0f));
+//     AddPlayerSpawnPoint(bounds.maxs - Vector2::ONE);
+//     AddPlayerSpawnPoint(bounds.maxs - Vector2(2.0f));
 }
