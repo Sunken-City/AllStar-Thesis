@@ -8,8 +8,7 @@
 BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
     : BaseMinigameMode()
 {
-    SetBackground("BattleBackground", Vector2(2.0f));
-    m_gameLengthSeconds = 10.0f;
+    m_gameLengthSeconds = 5.0f;
     m_enablesRespawn = false;
 }
 
@@ -22,6 +21,7 @@ BattleRoyaleMinigameMode::~BattleRoyaleMinigameMode()
 //-----------------------------------------------------------------------------------
 void BattleRoyaleMinigameMode::Initialize()
 {
+    SetBackground("BattleBackground", Vector2(2.0f));
     SpawnGeometry();
     SpawnPlayers();
     m_isPlaying = true;

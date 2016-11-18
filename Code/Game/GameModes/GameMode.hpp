@@ -37,6 +37,6 @@ public:
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;
-    Sprite m_arenaBackground;
+    Sprite* m_arenaBackground;
     float m_timerSecondsElapsed = 0.0f;
 };

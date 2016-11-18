@@ -49,11 +49,26 @@ TheGame::TheGame()
 TheGame::~TheGame()
 {
     SetGameState(GameState::SHUTDOWN);
+
+    m_currentGameMode->CleanUp();
+    delete m_currentGameMode;
+    unsigned int numModes = m_queuedMinigameModes.size();
+    for (unsigned int i = 0; i < numModes; ++i)
+    {
+        GameMode* mode = m_queuedMinigameModes.front();
+        delete mode;
+        m_queuedMinigameModes.pop();
+    }
     for (PlayerPilot* pilot : m_playerPilots)
     {
         delete pilot;
     }
     m_playerPilots.clear();
+    for (PlayerShip* ship : m_players)
+    {
+        delete ship;
+    }
+    m_players.clear();
     delete ResourceDatabase::instance;
     ResourceDatabase::instance = nullptr;
 }
@@ -71,7 +86,7 @@ void TheGame::Update(float deltaSeconds)
         return;
     }
 
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' '))
     {
         switch (GetGameState())
         {
