@@ -52,7 +52,7 @@ void Ship::UpdateShooting()
         m_sprite->m_rotationDegrees = shootDirection.GetDirectionDegreesFromNormalizedVector();
     }
 
-    if (isShooting)
+    if (isShooting && !m_lockMovement)
     {
         if (m_weapon)
         {
@@ -79,6 +79,10 @@ void Ship::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Ship::AttemptMovement(const Vector2& attemptedPosition)
 {
+    if (m_lockMovement)
+    {
+        return;
+    }
     //Todo: check for collisions against level geometry
     SetPosition(attemptedPosition);
 }

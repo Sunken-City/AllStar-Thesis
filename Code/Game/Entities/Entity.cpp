@@ -36,7 +36,7 @@ Entity::~Entity()
     {
         delete m_sprite;
     }
-    if (GetGameState() == GameState::PLAYING)
+    if (GetGameState() == GameState::ASSEMBLY_PLAYING)
     {
         DropInventory();
     }

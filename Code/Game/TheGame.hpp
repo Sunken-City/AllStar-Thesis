@@ -42,8 +42,10 @@ private:
     void RenderGameOver() const;
     void RegisterSprites();
     void InitializePlayingState();
-    void UpdatePlaying(float deltaSeconds);
-    void RenderPlaying() const;
+    void UpdateAssemblyPlaying(float deltaSeconds);
+    void RenderAssemblyPlaying() const;
+    void InitializeAssemblyResultsState();
+    void CleanupAssemblyResultsState(unsigned int);
     void CleanupPlayingState(unsigned int);
 
     void InitializeMainMenuState();
@@ -51,7 +53,8 @@ private:
     void UpdateMainMenu(float deltaSeconds);
     void RenderMainMenu() const;
     void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
-
+    void UpdateAssemblyResults(float deltaSeconds);
+    void RenderAssemblyResults() const;
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     std::vector<PlayerPilot*> m_playerPilots;

@@ -34,11 +34,11 @@ const char* GetStateString(GameState state)
         return "Startup";
     case MAIN_MENU:
         return  "Main Menu";
-    case PLAYING:
+    case ASSEMBLY_PLAYING:
         return "Playing";
-    case PAUSED:
+    case ASSEMBLY_RESULTS:
         return "Paused";
-    case GAME_OVER:
+    case GAME_RESULTS_SCREEN:
         return "Shutdown";
     case SHUTDOWN:
         return "Shutdown";

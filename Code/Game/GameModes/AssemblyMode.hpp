@@ -10,6 +10,7 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Initialize();
+    virtual void CleanUp();
     void SpawnStartingEntities();
     void SpawnPlayers();
     void SpawnGeometry();

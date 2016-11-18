@@ -70,44 +70,16 @@ void TheGame::Update(float deltaSeconds)
         return;
     }
 
-#pragma todo("Reenable menu navigation once we have a more solid game flow")
-    if (InputSystem::instance->WasKeyJustPressed(' '))
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
     {
         switch (GetGameState())
         {
         case MAIN_MENU:
-            SetGameState(PLAYING);
+            SetGameState(ASSEMBLY_PLAYING);
             InitializePlayingState();
             break;
-        case PLAYING:
-            //SetGameState(GAME_OVER);
-            //InitializeGameOverState();
-            break;
-        case GAME_OVER:
-            //SetGameState(MAIN_MENU);
-            //InitializeMainMenuState();
-            break;
-        default:
-            break;
         }
     }
-    else if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::BACKSPACE))
-    {
-        switch (GetGameState())
-        {
-        case GAME_OVER:
-            //SetGameState(PLAYING);
-            //InitializePlayingState();
-            break;
-        case PLAYING:
-            //SetGameState(MAIN_MENU);
-            //InitializeMainMenuState();
-            break;
-        default:
-            break;
-        }
-    }
-
     switch (GetGameState())
     {
     case MAIN_MENU:
@@ -115,18 +87,14 @@ void TheGame::Update(float deltaSeconds)
         break;
     case STARTUP:
         break;
-    case PLAYING:
-        UpdatePlaying(deltaSeconds);
+    case ASSEMBLY_PLAYING:
+        UpdateAssemblyPlaying(deltaSeconds);
         break;
-    case PAUSED:
-        //TODO: This will clean up all the game objects because of our callbacks, be careful here.
+    case ASSEMBLY_RESULTS:
+        UpdateAssemblyResults(deltaSeconds);
         break;
-    case GAME_OVER:
+    case GAME_RESULTS_SCREEN:
         UpdateGameOver(deltaSeconds);
-        break;
-    case SHUTDOWN:
-        break;
-    case NUM_STATES:
         break;
     default:
         break;
@@ -150,12 +118,13 @@ void TheGame::Render() const
         break;
     case STARTUP:
         break;
-    case PLAYING:
-        RenderPlaying();
+    case ASSEMBLY_PLAYING:
+        RenderAssemblyPlaying();
         break;
-    case PAUSED:
+    case ASSEMBLY_RESULTS:
+        RenderAssemblyResults();
         break;
-    case GAME_OVER:
+    case GAME_RESULTS_SCREEN:
         RenderGameOver();
         break;
     case SHUTDOWN:
@@ -229,25 +198,77 @@ void TheGame::InitializePlayingState()
 void TheGame::CleanupPlayingState(unsigned int)
 {
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
+    SpriteGameRenderer::instance->SetSplitscreen(1);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
+{
+    m_currentGameMode->Update(deltaSeconds);
+    if (!m_currentGameMode->m_isPlaying)
+    {
+        SetGameState(ASSEMBLY_RESULTS);
+        TheGame::instance->InitializeAssemblyResultsState();
+        m_currentGameMode->CleanUp();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderAssemblyPlaying() const
+{
+    SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
+    SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
+//ASSEMBLY RESULTS/////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeAssemblyResultsState()
+{
+    m_currentGameMode->SetBackground("AssemblyResults", Vector2(1.75f));
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
+    for (unsigned int i = 0; i < m_currentGameMode->m_players.size(); ++i)
+    {
+        PlayerShip* ship = m_currentGameMode->m_players[i];
+        ship->LockMovement();
+        float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
+        float yMultiplier = i >= 2 ? -1.0f : 1.0f;
+        ship->SetPosition(Vector2(3.0f * xMultiplier, 3.0f * yMultiplier));
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CleanupAssemblyResultsState(unsigned int)
+{
+    for (PlayerShip* ship : m_currentGameMode->m_players)
+    {
+        ship->UnlockMovement();
+    }
+    SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     delete m_currentGameMode;
     SpriteGameRenderer::instance->SetSplitscreen(1);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdatePlaying(float deltaSeconds)
+void TheGame::UpdateAssemblyResults(float deltaSeconds)
 {
-    m_currentGameMode->Update(deltaSeconds);
-    if (!m_currentGameMode->m_isPlaying)
+    for (PlayerShip* ship : m_currentGameMode->m_players)
     {
-        SetGameState(GAME_OVER);
+        ship->Update(deltaSeconds);
+    }
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+    {
+        SetGameState(GAME_RESULTS_SCREEN);
         TheGame::instance->InitializeGameOverState();
     }
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::RenderPlaying() const
+void TheGame::RenderAssemblyResults() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
+    SpriteGameRenderer::instance->SetClearColor(RGBA::GBLIGHTGREEN);
     SpriteGameRenderer::instance->Render();
 }
 
@@ -260,7 +281,6 @@ void TheGame::InitializeGameOverState()
 {
     gameOverText = new Sprite("GameOverText", PLAYER_LAYER);
     gameOverText->m_scale = Vector2(10.0f, 10.0f);
-    //TODO: SpriteGameRenderer::instance->AddEffectToLayer()
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupGameOverState);
 }
 
@@ -325,12 +345,16 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 //-----------------------------------------------------------------------------------
 void TheGame::RegisterSprites()
 {
-    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");
-    ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
-    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
+    //Backgrounds
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Nebula.jpg");
     ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Orange-space.jpg");
+    ResourceDatabase::instance->RegisterSprite("AssemblyResults", "Data\\Images\\assemblyResultsMockup.png");
+
+    //Entities
+    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");
+    ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
+    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
     ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
@@ -338,6 +362,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 
+    //Pickups
     ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\boost.png");
     ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\handling.png");

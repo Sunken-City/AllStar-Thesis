@@ -12,17 +12,12 @@
 AssemblyMode::AssemblyMode()
     : GameMode()
 {
-    m_gameLengthSeconds = 200.0f;
+    m_gameLengthSeconds = 1.0f;
 }
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::~AssemblyMode()
 {
-    for (Entity* ent : m_entities)
-    {
-        delete ent;
-    }
-    m_entities.clear();
 }
 
 //-----------------------------------------------------------------------------------
@@ -31,6 +26,19 @@ void AssemblyMode::Initialize()
     SpawnGeometry();
     SpawnStartingEntities();
     SpawnPlayers();
+}
+
+//-----------------------------------------------------------------------------------
+void AssemblyMode::CleanUp()
+{
+    for (Entity* ent : m_entities)
+    {
+        if (!ent->IsPlayer())
+        {
+            delete ent;
+        }
+    }
+    m_entities.clear();
 }
 
 //-----------------------------------------------------------------------------------
