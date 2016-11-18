@@ -10,6 +10,7 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Initialize();
+    virtual void CleanUp();
     virtual void Update(float deltaSeconds);
     void SetUpPlayerSpawnPoints();
     void SpawnPlayers();

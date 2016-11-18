@@ -31,9 +31,9 @@ public:
 public:
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
-    std::vector<PlayerShip*> m_players;
     bool m_isPlaying = false;
     float m_gameLengthSeconds = 2000.0f;
+    bool m_enablesRespawn = true;
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;

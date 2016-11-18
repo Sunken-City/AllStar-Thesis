@@ -35,13 +35,17 @@ const char* GetStateString(GameState state)
     case MAIN_MENU:
         return  "Main Menu";
     case ASSEMBLY_PLAYING:
-        return "Playing";
+        return "Assembly Playing";
     case ASSEMBLY_RESULTS:
-        return "Paused";
+        return "Assembly Results";
     case GAME_RESULTS_SCREEN:
-        return "Shutdown";
+        return "Game Results";
     case SHUTDOWN:
         return "Shutdown";
+    case MINIGAME_PLAYING:
+        return "Minigame Playing";
+    case MINIGAME_RESULTS:
+        return "Minigame Results";
     default:
         ERROR_RECOVERABLE("State Machine was put into an undocumented state. (Have you updated GetStateString?)");
         return "";

@@ -4,6 +4,7 @@
 #include "Engine/Math/Vector2.hpp"
 #include "Engine/Input/InputMap.hpp"
 #include "GameModes/GameMode.hpp"
+#include <queue>
 
 class Entity;
 class PlayerShip;
@@ -37,27 +38,44 @@ public:
     
 private:
     TheGame& operator= (const TheGame& other) = delete;
+    void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
+    void RegisterSprites();
+
     void CleanupGameOverState(unsigned int);
     void UpdateGameOver(float deltaSeconds);
     void RenderGameOver() const;
-    void RegisterSprites();
-    void InitializePlayingState();
+
+    void InitializeAssemblyState();
+    void CleanupAssemblyState(unsigned int);
     void UpdateAssemblyPlaying(float deltaSeconds);
     void RenderAssemblyPlaying() const;
+
     void InitializeAssemblyResultsState();
     void CleanupAssemblyResultsState(unsigned int);
-    void CleanupPlayingState(unsigned int);
+    void UpdateAssemblyResults(float deltaSeconds);
+    void RenderAssemblyResults() const;
+
+    void InitializeMinigameState();
+    void CleanupMinigameState(unsigned int);
+    void UpdateMinigamePlaying(float deltaSeconds);
+    void RenderMinigamePlaying() const;
+
+    void InitializeMinigameResultsState();
+    void CleanupMinigameResultsState(unsigned int);
+    void UpdateMinigameResults(float deltaSeconds);
+    void RenderMinigameResults() const;
 
     void InitializeMainMenuState();
     void CleanupMainMenuState(unsigned int);
     void UpdateMainMenu(float deltaSeconds);
     void RenderMainMenu() const;
-    void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
-    void UpdateAssemblyResults(float deltaSeconds);
-    void RenderAssemblyResults() const;
+    void EnqueueMinigames();
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
+    int m_numberOfMinigames = 3;
     std::vector<PlayerPilot*> m_playerPilots;
-    GameMode* m_allGameModes[4];
+    std::vector<PlayerShip*> m_players;
+    std::queue<GameMode*> m_queuedMinigameModes;
     GameMode* m_currentGameMode;
 };

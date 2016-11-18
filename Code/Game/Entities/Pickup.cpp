@@ -49,7 +49,7 @@ void Pickup::Render() const
 //-----------------------------------------------------------------------------------
 void Pickup::ResolveCollision(Entity* otherEntity)
 {
-    for (PlayerShip* ent : TheGame::instance->m_currentGameMode->m_players)
+    for (PlayerShip* ent : TheGame::instance->m_players)
     {
         if ((Entity*)ent == otherEntity && !ent->m_isDead)
         {

@@ -9,7 +9,8 @@ BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
     : BaseMinigameMode()
 {
     SetBackground("BattleBackground", Vector2(2.0f));
-    m_gameLengthSeconds = 60.0f;
+    m_gameLengthSeconds = 10.0f;
+    m_enablesRespawn = false;
 }
 
 //-----------------------------------------------------------------------------------
@@ -23,16 +24,26 @@ void BattleRoyaleMinigameMode::Initialize()
 {
     SpawnGeometry();
     SpawnPlayers();
+    m_isPlaying = true;
+}
+
+void BattleRoyaleMinigameMode::CleanUp()
+{
+    for (Entity* ent : m_entities)
+    {
+        if (!ent->IsPlayer())
+        {
+            delete ent;
+        }
+    }
+    m_entities.clear();
 }
 
 //-----------------------------------------------------------------------------------
 void BattleRoyaleMinigameMode::SpawnPlayers()
 {
-    for (unsigned int i = 0; i < TheGame::instance->m_playerPilots.size(); ++i)
+    for (PlayerShip* player : TheGame::instance->m_players)
     {
-        PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
-        player->SetPosition(GetRandomPlayerSpawnPoint());
-        m_players.push_back(player);
         m_entities.push_back(player);
     }
 }
@@ -45,8 +56,6 @@ void BattleRoyaleMinigameMode::SpawnGeometry()
     {
         m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
     }
-
-    m_isPlaying = true;
 }
 
 //-----------------------------------------------------------------------------------
@@ -87,9 +96,18 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
         }
     }
 
-    for (unsigned int i = 0; i < m_players.size(); ++i)
+    int numPlayersAlive = 0;
+    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
-        SpriteGameRenderer::instance->SetCameraPosition(m_players[i]->GetPosition(), i);
+        SpriteGameRenderer::instance->SetCameraPosition(TheGame::instance->m_players[i]->GetPosition(), i);
+        if (!(TheGame::instance->m_players[i]->m_isDead))
+        {
+            ++numPlayersAlive;
+        }
+    }
+    if (numPlayersAlive < 0)
+    {
+        m_isPlaying = false;
     }
 }
 

@@ -62,7 +62,7 @@ void AssemblyMode::SpawnPlayers()
     {
         PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
         player->SetPosition(GetRandomPlayerSpawnPoint());
-        m_players.push_back(player);
+        TheGame::instance->m_players.push_back(player);
         m_entities.push_back(player);
     }
 }
@@ -124,8 +124,8 @@ void AssemblyMode::Update(float deltaSeconds)
         }
     }
 
-    for (unsigned int i = 0; i < m_players.size(); ++i)
+    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
-        SpriteGameRenderer::instance->SetCameraPosition(m_players[i]->GetPosition(), i);
+        SpriteGameRenderer::instance->SetCameraPosition(TheGame::instance->m_players[i]->GetPosition(), i);
     }
 }
