@@ -28,6 +28,7 @@
 #include "Engine/Input/InputDevices/XInputDevice.hpp"
 #include "Engine/Input/InputValues.hpp"
 #include "GameModes/AssemblyMode.hpp"
+#include "GameModes/Minigames/BattleRoyaleMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -48,11 +49,26 @@ TheGame::TheGame()
 TheGame::~TheGame()
 {
     SetGameState(GameState::SHUTDOWN);
+
+    m_currentGameMode->CleanUp();
+    delete m_currentGameMode;
+    unsigned int numModes = m_queuedMinigameModes.size();
+    for (unsigned int i = 0; i < numModes; ++i)
+    {
+        GameMode* mode = m_queuedMinigameModes.front();
+        delete mode;
+        m_queuedMinigameModes.pop();
+    }
     for (PlayerPilot* pilot : m_playerPilots)
     {
         delete pilot;
     }
     m_playerPilots.clear();
+    for (PlayerShip* ship : m_players)
+    {
+        delete ship;
+    }
+    m_players.clear();
     delete ResourceDatabase::instance;
     ResourceDatabase::instance = nullptr;
 }
@@ -60,6 +76,7 @@ TheGame::~TheGame()
 //-----------------------------------------------------------------------------------
 void TheGame::Update(float deltaSeconds)
 {
+    g_secondsInState += deltaSeconds;
     SpriteGameRenderer::instance->Update(deltaSeconds);
     if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::TILDE))
     {
@@ -70,63 +87,35 @@ void TheGame::Update(float deltaSeconds)
         return;
     }
 
-#pragma todo("Reenable menu navigation once we have a more solid game flow")
-    if (InputSystem::instance->WasKeyJustPressed(' '))
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' '))
     {
         switch (GetGameState())
         {
         case MAIN_MENU:
-            SetGameState(PLAYING);
-            InitializePlayingState();
-            break;
-        case PLAYING:
-            //SetGameState(GAME_OVER);
-            //InitializeGameOverState();
-            break;
-        case GAME_OVER:
-            //SetGameState(MAIN_MENU);
-            //InitializeMainMenuState();
-            break;
-        default:
+            SetGameState(ASSEMBLY_PLAYING);
+            InitializeAssemblyState();
             break;
         }
     }
-    else if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::BACKSPACE))
-    {
-        switch (GetGameState())
-        {
-        case GAME_OVER:
-            //SetGameState(PLAYING);
-            //InitializePlayingState();
-            break;
-        case PLAYING:
-            //SetGameState(MAIN_MENU);
-            //InitializeMainMenuState();
-            break;
-        default:
-            break;
-        }
-    }
-
     switch (GetGameState())
     {
     case MAIN_MENU:
         UpdateMainMenu(deltaSeconds);
         break;
-    case STARTUP:
+    case ASSEMBLY_PLAYING:
+        UpdateAssemblyPlaying(deltaSeconds);
         break;
-    case PLAYING:
-        UpdatePlaying(deltaSeconds);
+    case ASSEMBLY_RESULTS:
+        UpdateAssemblyResults(deltaSeconds);
         break;
-    case PAUSED:
-        //TODO: This will clean up all the game objects because of our callbacks, be careful here.
-        break;
-    case GAME_OVER:
+    case GAME_RESULTS_SCREEN:
         UpdateGameOver(deltaSeconds);
         break;
-    case SHUTDOWN:
+    case MINIGAME_PLAYING:
+        UpdateMinigamePlaying(deltaSeconds);
         break;
-    case NUM_STATES:
+    case MINIGAME_RESULTS:
+        UpdateMinigameResults(deltaSeconds);
         break;
     default:
         break;
@@ -148,19 +137,20 @@ void TheGame::Render() const
     case MAIN_MENU:
         RenderMainMenu();
         break;
-    case STARTUP:
+    case ASSEMBLY_PLAYING:
+        RenderAssemblyPlaying();
         break;
-    case PLAYING:
-        RenderPlaying();
+    case ASSEMBLY_RESULTS:
+        RenderAssemblyResults();
         break;
-    case PAUSED:
-        break;
-    case GAME_OVER:
+    case GAME_RESULTS_SCREEN:
         RenderGameOver();
         break;
-    case SHUTDOWN:
+    case MINIGAME_PLAYING:
+        RenderMinigamePlaying();
         break;
-    case NUM_STATES:
+    case MINIGAME_RESULTS:
+        RenderMinigameResults();
         break;
     default:
         break;
@@ -201,11 +191,20 @@ void TheGame::RenderMainMenu() const
 }
 
 //-----------------------------------------------------------------------------------
+void TheGame::EnqueueMinigames()
+{
+    for (int i = 0; i < m_numberOfMinigames; ++i)
+    {
+        m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
+    }
+}
+
+//-----------------------------------------------------------------------------------
 //PLAYING/////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
-void TheGame::InitializePlayingState()
+void TheGame::InitializeAssemblyState()
 {
     m_playerPilots.push_back(new PlayerPilot());
     InitializeKeyMappingsForPlayer(m_playerPilots[0]);
@@ -222,34 +221,201 @@ void TheGame::InitializePlayingState()
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
-    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayingState);
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyState);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::CleanupPlayingState(unsigned int)
+void TheGame::CleanupAssemblyState(unsigned int)
 {
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
-    delete m_currentGameMode;
     SpriteGameRenderer::instance->SetSplitscreen(1);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdatePlaying(float deltaSeconds)
+void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
 {
     m_currentGameMode->Update(deltaSeconds);
     if (!m_currentGameMode->m_isPlaying)
     {
-        SetGameState(GAME_OVER);
-        TheGame::instance->InitializeGameOverState();
+        SetGameState(ASSEMBLY_RESULTS);
+        TheGame::instance->InitializeAssemblyResultsState();
+        m_currentGameMode->CleanUp();
     }
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::RenderPlaying() const
+void TheGame::RenderAssemblyPlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
     SpriteGameRenderer::instance->Render();
 }
+
+//-----------------------------------------------------------------------------------
+//ASSEMBLY RESULTS/////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeAssemblyResultsState()
+{
+    m_currentGameMode->SetBackground("AssemblyResults", Vector2(1.75f));
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
+    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
+    {
+        PlayerShip* ship = TheGame::instance->m_players[i];
+        ship->LockMovement();
+        float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
+        float yMultiplier = i >= 2 ? -1.0f : 1.0f;
+        ship->SetPosition(Vector2(3.0f * xMultiplier, 3.0f * yMultiplier));
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CleanupAssemblyResultsState(unsigned int)
+{
+    EnqueueMinigames();
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->UnlockMovement();
+        ship->m_isDead = false;
+        ship->Heal(999999999.0f);
+    }
+    delete m_currentGameMode;
+    m_currentGameMode = m_queuedMinigameModes.front();
+    m_queuedMinigameModes.pop();
+    SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
+    SpriteGameRenderer::instance->SetSplitscreen(1);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::UpdateAssemblyResults(float deltaSeconds)
+{
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->Update(deltaSeconds);
+    }
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+    {
+        SetGameState(MINIGAME_PLAYING);
+        TheGame::instance->InitializeMinigameState();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderAssemblyResults() const
+{
+    SpriteGameRenderer::instance->SetClearColor(RGBA::GBLIGHTGREEN);
+    SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
+//MINIGAME PLAYING/////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeMinigameState()
+{
+    m_currentGameMode->Initialize();
+    SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameState);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CleanupMinigameState(unsigned int)
+{
+    SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
+    SpriteGameRenderer::instance->SetSplitscreen(1);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::UpdateMinigamePlaying(float deltaSeconds)
+{
+    m_currentGameMode->Update(deltaSeconds);
+    if (!m_currentGameMode->m_isPlaying)
+    {
+        SetGameState(MINIGAME_RESULTS);
+        TheGame::instance->InitializeMinigameResultsState();
+        m_currentGameMode->CleanUp();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderMinigamePlaying() const
+{
+    SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
+    SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
+//MINIGAME RESULTS/////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeMinigameResultsState()
+{
+    SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
+    SpriteGameRenderer::instance->SetSplitscreen(1);
+    m_currentGameMode->SetBackground("MinigameResults", Vector2(1.75f));
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameResultsState);
+    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
+    {
+        PlayerShip* ship = TheGame::instance->m_players[i];
+        ship->LockMovement();
+        float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
+        float yMultiplier = i >= 2 ? -1.0f : 1.0f;
+        ship->SetPosition(Vector2(3.0f * xMultiplier, 3.0f * yMultiplier));
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CleanupMinigameResultsState(unsigned int)
+{
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->UnlockMovement();
+        ship->m_isDead = false;
+        ship->Heal(999999999.0f);
+    }
+    delete m_currentGameMode;
+    if (m_queuedMinigameModes.size() > 0)
+    {
+        m_currentGameMode = m_queuedMinigameModes.front();
+        m_queuedMinigameModes.pop();
+    }
+    else
+    {
+        m_currentGameMode = nullptr;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::UpdateMinigameResults(float deltaSeconds)
+{
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->Update(deltaSeconds);
+    }
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+    {
+        if (m_queuedMinigameModes.size() > 0)
+        {
+            SetGameState(MINIGAME_PLAYING);
+            TheGame::instance->InitializeMinigameState();
+        }
+        else
+        {
+            SetGameState(GAME_RESULTS_SCREEN);
+            TheGame::instance->InitializeGameOverState();
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderMinigameResults() const
+{
+    SpriteGameRenderer::instance->SetClearColor(RGBA::GBLIGHTGREEN);
+    SpriteGameRenderer::instance->Render();
+}
+
 
 //-----------------------------------------------------------------------------------
 //GAME OVER/////////////////////////////////////////////////////////////////////
@@ -260,7 +426,6 @@ void TheGame::InitializeGameOverState()
 {
     gameOverText = new Sprite("GameOverText", PLAYER_LAYER);
     gameOverText->m_scale = Vector2(10.0f, 10.0f);
-    //TODO: SpriteGameRenderer::instance->AddEffectToLayer()
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupGameOverState);
 }
 
@@ -268,12 +433,21 @@ void TheGame::InitializeGameOverState()
 void TheGame::CleanupGameOverState(unsigned int)
 {
     delete gameOverText;
+    for (PlayerShip* ship : m_players)
+    {
+        delete ship;
+    }
+    m_players.clear();
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateGameOver(float deltaSeconds)
 {
-    UNUSED(deltaSeconds);
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+    {
+        SetGameState(MAIN_MENU);
+        TheGame::instance->InitializeMainMenuState();
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -281,19 +455,6 @@ void TheGame::RenderGameOver() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::DISEASED);
     SpriteGameRenderer::instance->Render();
-}
-
-//-----------------------------------------------------------------------------------
-void TheGame::SpawnBullet(Ship* creator)
-{
-    m_currentGameMode->m_newEntities.push_back(new Projectile(creator));
-}
-
-//-----------------------------------------------------------------------------------
-void TheGame::SpawnPickup(Item* item, const Vector2& spawnPosition)
-{
-    ASSERT_OR_DIE(item, "Item was null when attempting to spawn pickup");
-    m_currentGameMode->m_newEntities.push_back(new Pickup(item, spawnPosition));
 }
 
 //-----------------------------------------------------------------------------------
@@ -338,11 +499,17 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 //-----------------------------------------------------------------------------------
 void TheGame::RegisterSprites()
 {
-    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");
-    ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
-    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\spaceShips_005.png");
+    //Backgrounds
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Nebula.jpg");
+    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Orange-space.jpg");
+    ResourceDatabase::instance->RegisterSprite("AssemblyResults", "Data\\Images\\assemblyResultsMockup.png");
+    ResourceDatabase::instance->RegisterSprite("MinigameResults", "Data\\Images\\minigameResultsMockup.png");
+
+    //Entities
+    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");
+    ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
+    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
     ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
@@ -350,6 +517,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 
+    //Pickups
     ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\boost.png");
     ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\handling.png");
