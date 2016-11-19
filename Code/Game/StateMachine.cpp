@@ -1,15 +1,17 @@
 #include "Game/StateMachine.hpp"
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
-static GameState m_state = STARTUP;
+static GameState g_state = STARTUP;
+float g_secondsInState = 0.0f;
 Event<unsigned int> OnStateSwitch;
 
 bool SetGameState(GameState newState)
 {
-    if (m_state != newState)
+    if (g_state != newState)
     {
-        DebuggerPrintf("Changed State from %s to %s\n", GetStateString(m_state), GetStateString(newState));
-        m_state = newState;
+        DebuggerPrintf("Changed State from %s to %s\n", GetStateString(g_state), GetStateString(newState));
+        g_state = newState;
+        g_secondsInState = 0;
         OnStateSwitch.Trigger((unsigned int)newState);
         OnStateSwitch.UnregisterAllSubscriptions();
         return true;
@@ -23,7 +25,7 @@ bool SetGameState(GameState newState)
 
 GameState GetGameState()
 {
-    return m_state;
+    return g_state;
 }
 
 const char* GetStateString(GameState state)

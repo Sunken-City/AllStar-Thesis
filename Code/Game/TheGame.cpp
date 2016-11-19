@@ -76,6 +76,7 @@ TheGame::~TheGame()
 //-----------------------------------------------------------------------------------
 void TheGame::Update(float deltaSeconds)
 {
+    g_secondsInState += deltaSeconds;
     SpriteGameRenderer::instance->Update(deltaSeconds);
     if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::TILDE))
     {
@@ -432,6 +433,11 @@ void TheGame::InitializeGameOverState()
 void TheGame::CleanupGameOverState(unsigned int)
 {
     delete gameOverText;
+    for (PlayerShip* ship : m_players)
+    {
+        delete ship;
+    }
+    m_players.clear();
 }
 
 //-----------------------------------------------------------------------------------

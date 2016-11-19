@@ -18,7 +18,7 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
 //-----------------------------------------------------------------------------------
 GameMode::~GameMode()
 {
-
+    delete m_arenaBackground;
 }
 
 //-----------------------------------------------------------------------------------
@@ -82,6 +82,11 @@ void GameMode::SpawnPickup(Item* item, const Vector2& spawnPosition)
 //-----------------------------------------------------------------------------------
 void GameMode::SetBackground(const std::string& backgroundName, const Vector2& scale)
 {
+    if (m_arenaBackground)
+    {
+        delete m_arenaBackground;
+        m_arenaBackground = nullptr;
+    }
     m_arenaBackground = new Sprite(backgroundName, TheGame::BACKGROUND_LAYER);
     m_arenaBackground->m_scale = scale;
     m_arenaBackground->Enable();
