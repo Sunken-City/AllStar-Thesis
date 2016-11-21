@@ -12,6 +12,7 @@ class PlayerPilot;
 class Ship;
 class Item;
 class GameMode;
+class NamedProperties;
 
 //-----------------------------------------------------------------------------------
 class TheGame

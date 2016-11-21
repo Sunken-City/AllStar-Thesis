@@ -70,7 +70,7 @@ float* Stats::GetStatReference(PowerUpType type)
     case PowerUpType::SHOT_DEFLECTION:
         return &shotDeflection;
     default:
-        ERROR_RECOVERABLE("Passed an invalid type to the stat reference function");
+        ERROR_AND_DIE("Passed an invalid type to the stat reference function");
     }
 }
 

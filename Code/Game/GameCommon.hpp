@@ -13,7 +13,7 @@
 #include "Engine/Input/Logging.hpp"
 #include "Engine/Core/ProfilingUtils.h"
 #include "Game/TheGame.hpp"
-#include "Engine/Core/Event.hpp"
+#include "Engine/Core/Events/Event.hpp"
 
 typedef unsigned char uchar;
 
