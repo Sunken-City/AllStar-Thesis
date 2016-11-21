@@ -38,29 +38,6 @@ Sprite* testBackground = nullptr;
 Sprite* titleText = nullptr;
 Sprite* gameOverText = nullptr;
 
-void Memes(NamedProperties& properties)
-{
-    DebuggerPrintf("ayyylmao");
-    properties.Set("maymay", 82);
-}
-
-class memes
-{
-public:
-    ~memes()
-    {
-        EventSystem::UnregisterFromAllEvents(this);
-    }
-    void MAAAYMES(NamedProperties& properties)
-    {
-        DebuggerPrintf("ayyylmao");
-        int meaymayean;
-        properties.Get("maymay", meaymayean);
-        std::string hurhhhhh;
-        properties.Get("ayyy", hurhhhhh);
-    }
-};
-
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
     : m_currentGameMode(nullptr)
@@ -69,13 +46,6 @@ TheGame::TheGame()
     RegisterSprites();
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
-    NamedProperties props("maymay", "lmao");
-    EventSystem::RegisterEventCallback("memes", &Memes, "Memes are great");
-    memes* meme = new memes();
-    EventSystem::RegisterObjectForEvent("memes", meme, &memes::MAAAYMES);
-    EventSystem::FireEvent("memes", props);
-    delete meme;
-    EnumerateFiles("Logs", "*", true, "memes");
 }
 
 
