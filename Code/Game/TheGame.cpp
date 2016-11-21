@@ -29,6 +29,8 @@
 #include "Engine/Input/InputValues.hpp"
 #include "GameModes/AssemblyMode.hpp"
 #include "GameModes/Minigames/BattleRoyaleMinigameMode.hpp"
+#include "Engine/Input/InputOutputUtils.hpp"
+#include "Engine/Core/Events/EventSystem.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -36,22 +38,57 @@ Sprite* testBackground = nullptr;
 Sprite* titleText = nullptr;
 Sprite* gameOverText = nullptr;
 
+void Memes(NamedProperties& properties)
+{
+    DebuggerPrintf("ayyylmao");
+    properties.Set("maymay", 82);
+}
+
+class memes
+{
+public:
+    ~memes()
+    {
+        EventSystem::UnregisterFromAllEvents(this);
+    }
+    void MAAAYMES(NamedProperties& properties)
+    {
+        DebuggerPrintf("ayyylmao");
+        int meaymayean;
+        properties.Get("maymay", meaymayean);
+        std::string hurhhhhh;
+        properties.Get("ayyy", hurhhhhh);
+    }
+};
+
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
+    : m_currentGameMode(nullptr)
 {
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
+    NamedProperties props("maymay", "lmao");
+    EventSystem::RegisterEventCallback("memes", &Memes, "Memes are great");
+    memes* meme = new memes();
+    EventSystem::RegisterObjectForEvent("memes", meme, &memes::MAAAYMES);
+    EventSystem::FireEvent("memes", props);
+    delete meme;
+    EnumerateFiles("Logs", "*", true, "memes");
 }
+
 
 //-----------------------------------------------------------------------------------
 TheGame::~TheGame()
 {
     SetGameState(GameState::SHUTDOWN);
 
-    m_currentGameMode->CleanUp();
-    delete m_currentGameMode;
+    if (m_currentGameMode)
+    {
+        m_currentGameMode->CleanUp();
+        delete m_currentGameMode;
+    }
     unsigned int numModes = m_queuedMinigameModes.size();
     for (unsigned int i = 0; i < numModes; ++i)
     {
@@ -441,7 +478,7 @@ void TheGame::CleanupGameOverState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateGameOver(float deltaSeconds)
+void TheGame::UpdateGameOver(float )
 {
     if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
     {
