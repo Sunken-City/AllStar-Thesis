@@ -17,8 +17,8 @@ public:
     virtual ~GameMode();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Initialize() = 0;
-    virtual void CleanUp() = 0;
+    virtual void Initialize();
+    virtual void CleanUp();
     virtual void Update(float deltaSeconds);
     virtual Vector2 GetRandomLocationInArena();
     virtual Vector2 GetRandomPlayerSpawnPoint();
@@ -37,6 +37,7 @@ public:
     bool m_isPlaying = false;
     float m_gameLengthSeconds = 2000.0f;
     bool m_enablesRespawn = true;
+    SoundID m_backgroundMusic = 0;
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;

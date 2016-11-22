@@ -10,6 +10,7 @@ BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
 {
     m_gameLengthSeconds = 5.0f;
     m_enablesRespawn = false;
+    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Persona 4 Golden - Time To Make History.mp3");
 }
 
 //-----------------------------------------------------------------------------------
@@ -25,8 +26,10 @@ void BattleRoyaleMinigameMode::Initialize()
     SpawnGeometry();
     SpawnPlayers();
     m_isPlaying = true;
+    GameMode::Initialize();
 }
 
+//-----------------------------------------------------------------------------------
 void BattleRoyaleMinigameMode::CleanUp()
 {
     for (Entity* ent : m_entities)
@@ -37,6 +40,7 @@ void BattleRoyaleMinigameMode::CleanUp()
         }
     }
     m_entities.clear();
+    GameMode::CleanUp();
 }
 
 //-----------------------------------------------------------------------------------

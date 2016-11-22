@@ -13,6 +13,7 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
 {
     m_arenaBackground->m_scale = Vector2(10.0f, 10.0f);
     SpriteGameRenderer::instance->SetWorldBounds(m_arenaBackground->GetBounds());
+    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
 
 }
 
@@ -20,6 +21,18 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
 GameMode::~GameMode()
 {
     delete m_arenaBackground;
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::Initialize()
+{
+    AudioSystem::instance->PlayLoopingSound(m_backgroundMusic);
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::CleanUp()
+{
+    AudioSystem::instance->StopSound(m_backgroundMusic);
 }
 
 //-----------------------------------------------------------------------------------

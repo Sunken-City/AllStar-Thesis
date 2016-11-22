@@ -13,6 +13,7 @@ AssemblyMode::AssemblyMode()
     : GameMode()
 {
     m_gameLengthSeconds = 200.0f;
+    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Foxx - Sweet Tooth - 02 Jawbreaker.flac");
 }
 
 //-----------------------------------------------------------------------------------
@@ -26,6 +27,7 @@ void AssemblyMode::Initialize()
     SpawnGeometry();
     SpawnStartingEntities();
     SpawnPlayers();
+    GameMode::Initialize();
 }
 
 //-----------------------------------------------------------------------------------
@@ -39,6 +41,7 @@ void AssemblyMode::CleanUp()
         }
     }
     m_entities.clear();
+    GameMode::CleanUp();
 }
 
 //-----------------------------------------------------------------------------------
