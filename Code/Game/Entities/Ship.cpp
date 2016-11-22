@@ -77,22 +77,16 @@ void Ship::ResolveCollision(Entity* otherEntity)
 }
 
 //-----------------------------------------------------------------------------------
-void Ship::AttemptMovement(const Vector2& attemptedPosition)
-{
-    if (m_lockMovement)
-    {
-        return;
-    }
-    //Todo: check for collisions against level geometry
-    SetPosition(attemptedPosition);
-}
-
-//-----------------------------------------------------------------------------------
 void Ship::UpdateMotion(float deltaSeconds)
 {
     const float speedSanityMultiplier = 3.0f / 1.0f;
     InputMap& input = m_pilot->m_inputMap;
     Vector2 inputDirection = input.GetVector2("Right", "Up");
+
+    if (m_lockMovement)
+    {
+        return;
+    }
 
     //Calculate Acceleration components
     Vector2 velocityDir = m_velocity.CalculateMagnitude() < 0.01f ? inputDirection.GetNorm() : m_velocity.GetNorm();
@@ -109,7 +103,7 @@ void Ship::UpdateMotion(float deltaSeconds)
     m_velocity.ClampMagnitude(GetTopSpeedStat() * speedSanityMultiplier);
 
     Vector2 attemptedPosition = m_transform.position + (m_velocity * deltaSeconds);
-    AttemptMovement(attemptedPosition);
+    SetPosition(attemptedPosition);
 }
 
 //-----------------------------------------------------------------------------------

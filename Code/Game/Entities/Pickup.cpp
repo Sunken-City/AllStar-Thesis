@@ -22,6 +22,9 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
     m_baseStats.hp = 10.0f;
     m_currentHp = m_baseStats.hp;
+
+    float directionDegrees = MathUtils::GetRandomFloatFromZeroTo(360.0f);
+    m_velocity = Vector2::DegreesToDirection(directionDegrees) * 10.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -38,6 +41,9 @@ void Pickup::Update(float deltaSeconds)
 {
     Entity::Update(deltaSeconds);
     m_sprite->m_scale = Vector2(1.0f) + Vector2(sin(m_age * 2.0f) / 4.0f);
+    m_velocity *= 0.9f;
+    Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);
+    SetPosition(attemptedPosition);
 }
 
 //-----------------------------------------------------------------------------------
