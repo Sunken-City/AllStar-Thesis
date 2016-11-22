@@ -17,12 +17,15 @@ public:
     virtual void LockMovement() { m_lockMovement = true; };
     virtual void UnlockMovement() { m_lockMovement = false; };
     virtual void ToggleMovement() { m_lockMovement = !m_lockMovement; };
+    virtual void TakeDamage(float damage);
     void AttemptMovement(const Vector2& attemptedPosition);
     void UpdateMotion(float deltaSeconds);
     void UpdateShooting();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+
     Pilot* m_pilot;
     float m_timeSinceLastShot;
+    float m_hitSoundMaxVolume = 0.7f;
     bool m_lockMovement = false;
 };

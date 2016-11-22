@@ -73,9 +73,7 @@ void GameMode::SpawnBullet(Ship* creator)
     static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
     m_newEntities.push_back(new Projectile(creator));
 
-    float distance = MathUtils::CalcDistSquaredBetweenPoints(SpriteGameRenderer::instance->GetCameraPositionInWorld(), creator->GetPosition());
-    float attenuationVolume = 1.0f - (distance / 100.0f);
-    AudioSystem::instance->PlaySound(bulletSound, attenuationVolume);
+    PlaySoundAt(bulletSound, creator->GetPosition(), 0.5f);
 }
 
 //-----------------------------------------------------------------------------------
@@ -97,4 +95,20 @@ void GameMode::SetBackground(const std::string& backgroundName, const Vector2& s
     m_arenaBackground->m_scale = scale;
     m_arenaBackground->Enable();
     SpriteGameRenderer::instance->SetWorldBounds(m_arenaBackground->GetBounds());
+}
+
+//-----------------------------------------------------------------------------------
+float GameMode::CalculateAttenuation(const Vector2& soundPosition)
+{
+    float distance = MathUtils::CalcDistSquaredBetweenPoints(SpriteGameRenderer::instance->GetCameraPositionInWorld(), soundPosition);
+    float attenuationVolume = 1.0f - (distance / 100.0f);
+    return attenuationVolume;
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume)
+{
+    float attenuationVolume = CalculateAttenuation(soundPosition);
+    float clampedVolume = std::min(attenuationVolume, maxVolume);
+    AudioSystem::instance->PlaySound(sound, clampedVolume);
 }

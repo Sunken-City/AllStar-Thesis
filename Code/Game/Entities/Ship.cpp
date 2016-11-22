@@ -111,3 +111,15 @@ void Ship::UpdateMotion(float deltaSeconds)
     Vector2 attemptedPosition = m_transform.position + (m_velocity * deltaSeconds);
     AttemptMovement(attemptedPosition);
 }
+
+//-----------------------------------------------------------------------------------
+void Ship::TakeDamage(float damage)
+{
+    static SoundID hitSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
+    float currHp = m_currentHp;
+    Entity::TakeDamage(damage);
+    if (currHp != m_currentHp)
+    {
+        TheGame::instance->m_currentGameMode->PlaySoundAt(hitSound, GetPosition(), m_hitSoundMaxVolume);
+    }
+}

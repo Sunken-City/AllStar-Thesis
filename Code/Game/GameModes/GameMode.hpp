@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine\Renderer\2D\Sprite.hpp"
+#include "Engine\Audio\Audio.hpp"
 #include <vector>
 
 class Entity;
@@ -26,6 +27,8 @@ public:
     void SpawnBullet(Ship* creator);
     void SpawnPickup(Item* item, const Vector2& spawnPosition);
     void SetBackground(const std::string& backgroundName, const Vector2& scale);
+    float CalculateAttenuation(const Vector2& soundPosition);
+    void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:

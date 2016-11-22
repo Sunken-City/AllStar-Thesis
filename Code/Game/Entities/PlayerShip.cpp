@@ -9,6 +9,7 @@
 #include "Game/Items/Weapons/Weapon.hpp"
 #include "Game/Items/PowerUp.hpp"
 #include "Game/Pilots/PlayerPilot.hpp"
+#include "Engine/Audio/Audio.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -26,6 +27,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_baseStats.handling = 1.0f;
     m_baseStats.topSpeed = 1.0f;
     m_baseStats.rateOfFire = 8.0f;
+
+    m_hitSoundMaxVolume = 1.0f;
 }
 
 //-----------------------------------------------------------------------------------
