@@ -6,6 +6,7 @@
 #include "Game/Items/Weapons/Weapon.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -19,7 +20,7 @@ Ship::Ship(Pilot* pilot)
 //-----------------------------------------------------------------------------------
 Ship::~Ship()
 {
-
+    ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::PLAYER_LAYER, GetPosition(), 0.0f);
 }
 
 //-----------------------------------------------------------------------------------

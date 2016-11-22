@@ -12,7 +12,7 @@
 AssemblyMode::AssemblyMode()
     : GameMode()
 {
-    SetBackground("DefaultBackground", Vector2(20.0f));
+    SetBackground("DefaultBackground", Vector2(10.0f));
     m_gameLengthSeconds = 300.0f;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Foxx - Sweet Tooth - 02 Jawbreaker.flac");
 }

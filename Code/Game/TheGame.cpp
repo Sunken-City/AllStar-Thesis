@@ -41,6 +41,7 @@ TheGame::TheGame()
 {
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
+    RegisterParticleEffects();
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
 }
@@ -709,4 +710,26 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ShieldCapacity", "Data\\Images\\invalidSpriteResource.png");
     ResourceDatabase::instance->RegisterSprite("ShieldRegen", "Data\\Images\\invalidSpriteResource.png");
     ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\invalidSpriteResource.png");
+
+    //Particles
+    ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_4.png");
+    ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_5.png");
+    ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
+
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RegisterParticleEffects()
+{
+    ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
+    yellowStars->m_fadeoutEnabled = true;
+    yellowStars->m_initialNumParticlesSpawn = Range<int>(5,10);
+    yellowStars->m_initialScalePerParticle = Range<Vector2>(Vector2(0.8f), Vector2(1.2f));
+    yellowStars->m_initialVelocity = Vector2::ZERO;
+    yellowStars->m_lifetimePerParticle = 0.2f;
+    yellowStars->m_particlesPerSecond = 4.0f;
+    yellowStars->m_maxLifetime = 1.5f;
+
+    ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
+    deathParticleSystem->AddEmitter(yellowStars);
 }
