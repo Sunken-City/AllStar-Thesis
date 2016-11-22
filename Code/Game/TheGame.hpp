@@ -74,6 +74,7 @@ private:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
+    SoundID SFX_UI_ADVANCE;
     int m_numberOfMinigames = 3;
     std::vector<PlayerPilot*> m_playerPilots;
     std::vector<PlayerShip*> m_players;

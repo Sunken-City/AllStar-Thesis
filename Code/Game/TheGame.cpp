@@ -41,6 +41,7 @@ Sprite* gameOverText = nullptr;
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
     : m_currentGameMode(nullptr)
+    , SFX_UI_ADVANCE(AudioSystem::instance->CreateOrGetSound("Data/SFX/UI/UI_Select_01.wav"))
 {
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
@@ -182,6 +183,7 @@ void TheGame::InitializeMainMenuState()
 void TheGame::CleanupMainMenuState(unsigned int)
 {
     delete titleText;
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -236,6 +238,7 @@ void TheGame::CleanupAssemblyState(unsigned int)
 {
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -291,6 +294,7 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
     m_queuedMinigameModes.pop();
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -331,6 +335,7 @@ void TheGame::CleanupMinigameState(unsigned int)
 {
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -392,6 +397,7 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
     {
         m_currentGameMode = nullptr;
     }
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -445,6 +451,7 @@ void TheGame::CleanupGameOverState(unsigned int)
         delete ship;
     }
     m_players.clear();
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -512,6 +519,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Orange-space.jpg");
     ResourceDatabase::instance->RegisterSprite("AssemblyResults", "Data\\Images\\assemblyResultsMockup.png");
     ResourceDatabase::instance->RegisterSprite("MinigameResults", "Data\\Images\\minigameResultsMockup.png");
+    ResourceDatabase::instance->RegisterSprite("AssemblyGetReady", "Data\\Images\\assemblyGetReadyMockup.png");
+    ResourceDatabase::instance->RegisterSprite("BattleRoyaleGetReady", "Data\\Images\\battleRoyaleGetReadyMockup.png");
 
     //Entities
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");
