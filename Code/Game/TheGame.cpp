@@ -34,11 +34,6 @@
 
 TheGame* TheGame::instance = nullptr;
 
-Sprite* testBackground = nullptr;
-Sprite* titleText = nullptr;
-Sprite* gameOverText = nullptr;
-Sprite* readyText[4];
-
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
     : m_currentGameMode(nullptr)
@@ -105,7 +100,7 @@ void TheGame::Update(float deltaSeconds)
         UpdatePlayerJoin(deltaSeconds);
         break;
     case ASSEMBLY_GET_READY:
-        //UpdateAssemblyGetReady(deltaSeconds);
+        UpdateAssemblyGetReady(deltaSeconds);
         break;
     case ASSEMBLY_PLAYING:
         UpdateAssemblyPlaying(deltaSeconds);
@@ -117,7 +112,7 @@ void TheGame::Update(float deltaSeconds)
         UpdateGameOver(deltaSeconds);
         break;
     case MINIGAME_GET_READY:
-        //UpdateMinigameGetReady(deltaSeconds);
+        UpdateMinigameGetReady(deltaSeconds);
         break;
     case MINIGAME_PLAYING:
         UpdateMinigamePlaying(deltaSeconds);
@@ -149,7 +144,7 @@ void TheGame::Render() const
         RenderPlayerJoin();
         break;
     case ASSEMBLY_GET_READY:
-        //RenderAssemblyGetReady();
+        RenderAssemblyGetReady();
         break;
     case ASSEMBLY_PLAYING:
         RenderAssemblyPlaying();
@@ -161,7 +156,7 @@ void TheGame::Render() const
         RenderGameOver();
         break;
     case MINIGAME_GET_READY:
-        //RenderMinigameGetReady();
+        RenderMinigameGetReady();
         break;
     case MINIGAME_PLAYING:
         RenderMinigamePlaying();
@@ -183,15 +178,15 @@ void TheGame::Render() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMainMenuState()
 {
-    titleText = new Sprite("TitleText", PLAYER_LAYER);
-    titleText->m_scale = Vector2(10.0f, 10.0f);
+    m_titleText = new Sprite("TitleText", PLAYER_LAYER);
+    m_titleText->m_scale = Vector2(10.0f, 10.0f);
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupMainMenuState(unsigned int)
 {
-    delete titleText;
+    delete m_titleText;
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
@@ -228,14 +223,14 @@ void TheGame::EnqueueMinigames()
 //-----------------------------------------------------------------------------------
 void TheGame::InitializePlayerJoinState()
 {
-    readyText[0] = new Sprite("ReadyText", PLAYER_LAYER);
-    readyText[1] = new Sprite("ReadyText", PLAYER_LAYER);
-    readyText[2] = new Sprite("ReadyText", PLAYER_LAYER);
-    readyText[3] = new Sprite("ReadyText", PLAYER_LAYER);
-    readyText[0]->m_position = Vector2(-1.0f, 1.0f);
-    readyText[1]->m_position = Vector2(1.0f, 1.0f);
-    readyText[2]->m_position = Vector2(-1.0f, -1.0f);
-    readyText[3]->m_position = Vector2(1.0f, -1.0f);
+    m_readyText[0] = new Sprite("ReadyText", PLAYER_LAYER);
+    m_readyText[1] = new Sprite("ReadyText", PLAYER_LAYER);
+    m_readyText[2] = new Sprite("ReadyText", PLAYER_LAYER);
+    m_readyText[3] = new Sprite("ReadyText", PLAYER_LAYER);
+    m_readyText[0]->m_position = Vector2(-1.0f, 1.0f);
+    m_readyText[1]->m_position = Vector2(1.0f, 1.0f);
+    m_readyText[2]->m_position = Vector2(-1.0f, -1.0f);
+    m_readyText[3]->m_position = Vector2(1.0f, -1.0f);
     m_numberOfPlayers = 0;
     m_hasKeyboardPlayer = false;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayerJoinState);
@@ -244,28 +239,34 @@ void TheGame::InitializePlayerJoinState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupPlayerJoinState(unsigned int)
 {
-    delete readyText[0];
-    delete readyText[1];
-    delete readyText[2];
-    delete readyText[3];
+    delete m_readyText[0];
+    delete m_readyText[1];
+    delete m_readyText[2];
+    delete m_readyText[3];
+    m_readyText[0] = nullptr;
+    m_readyText[1] = nullptr;
+    m_readyText[2] = nullptr;
+    m_readyText[3] = nullptr;
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::UpdatePlayerJoin(float deltaSeconds)
 {
+    //If someone presses their button a second time, we know all players are in and we're ready to start.
     for (PlayerPilot* pilot : m_playerPilots)
     {
         if (pilot->m_inputMap.WasJustPressed("Accept"))
         {
-            SetGameState(ASSEMBLY_PLAYING);
-            InitializeAssemblyState();
-        }
-        
+            SetGameState(ASSEMBLY_GET_READY);
+            InitializeAssemblyGetReadyState();
+            return;
+        }        
     }
-    if (!m_hasKeyboardPlayer && InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) && m_numberOfPlayers < 4)
+
+    if (!m_hasKeyboardPlayer && m_numberOfPlayers < 4 && (InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER)))
     {
-        readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+        m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
         PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
         m_playerPilots.push_back(pilot);
         InitializeKeyMappingsForPlayer(pilot);
@@ -274,16 +275,15 @@ void TheGame::UpdatePlayerJoin(float deltaSeconds)
     for (int i = 0; i < 4; ++i)
     {
         XInputController* controller = InputSystem::instance->m_controllers[i];
-        if (controller->IsConnected() && controller->JustPressed(XboxButton::START) && m_numberOfPlayers < 4)
+        if (controller->IsConnected() && m_numberOfPlayers < 4 && controller->JustPressed(XboxButton::START))
         {
-            readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+            m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
             PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
             pilot->m_controllerIndex = i;
             m_playerPilots.push_back(pilot);
             InitializeKeyMappingsForPlayer(pilot);
         }
     }
-
 }
 
 //-----------------------------------------------------------------------------------
@@ -294,20 +294,65 @@ void TheGame::RenderPlayerJoin() const
 }
 
 //-----------------------------------------------------------------------------------
-//PLAYING/////////////////////////////////////////////////////////////////////
+//ASSEMBLY GET READY/////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
-void TheGame::InitializeAssemblyState()
+void TheGame::InitializeAssemblyGetReadyState()
+{
+    m_getReadyBackground = new Sprite("AssemblyGetReady", PLAYER_LAYER);
+    m_getReadyBackground->m_scale = Vector2(1.75f);
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyGetReadyState);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CleanupAssemblyGetReadyState(unsigned int)
+{
+    delete m_getReadyBackground;
+    m_getReadyBackground = nullptr;
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
+{
+    if (g_secondsInState < 2.0f)
+    {
+        return;
+    }
+    for (PlayerPilot* pilot : m_playerPilots)
+    {
+        if (pilot->m_inputMap.WasJustPressed("Accept"))
+        {
+            SetGameState(ASSEMBLY_PLAYING);
+            InitializeAssemblyPlayingState();
+        }
+
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderAssemblyGetReady() const
+{
+    SpriteGameRenderer::instance->SetClearColor(RGBA::FOREST_GREEN);
+    SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
+//ASSEMBLY PLAYING/////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeAssemblyPlayingState()
 {
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
-    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyState);
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyPlayingState);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::CleanupAssemblyState(unsigned int)
+void TheGame::CleanupAssemblyPlayingState(unsigned int)
 {
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
@@ -379,8 +424,8 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
     }
     if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
     {
-        SetGameState(MINIGAME_PLAYING);
-        TheGame::instance->InitializeMinigameState();
+        SetGameState(MINIGAME_GET_READY);
+        InitializeMinigameGetReadyState();
     }
 }
 
@@ -392,19 +437,63 @@ void TheGame::RenderAssemblyResults() const
 }
 
 //-----------------------------------------------------------------------------------
+//MINIGAME GET READY/////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeMinigameGetReadyState()
+{
+    m_getReadyBackground = new Sprite("BattleRoyaleGetReady", PLAYER_LAYER);
+    m_getReadyBackground->m_scale = Vector2(1.75f);
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameGetReadyState);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CleanupMinigameGetReadyState(unsigned int)
+{
+    delete m_getReadyBackground;
+    m_getReadyBackground = nullptr;
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::UpdateMinigameGetReady(float deltaSeconds)
+{
+    if (g_secondsInState < 2.0f)
+    {
+        return;
+    }
+    for (PlayerPilot* pilot : m_playerPilots)
+    {
+        if (pilot->m_inputMap.WasJustPressed("Accept"))
+        {
+            SetGameState(MINIGAME_PLAYING);
+            InitializeMinigamePlayingState();
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderMinigameGetReady() const
+{
+    SpriteGameRenderer::instance->SetClearColor(RGBA::CORNFLOWER_BLUE);
+    SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
 //MINIGAME PLAYING/////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
-void TheGame::InitializeMinigameState()
+void TheGame::InitializeMinigamePlayingState()
 {
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
-    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameState);
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigamePlayingState);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::CleanupMinigameState(unsigned int)
+void TheGame::CleanupMinigamePlayingState(unsigned int)
 {
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
@@ -484,8 +573,8 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
     {
         if (m_queuedMinigameModes.size() > 0)
         {
-            SetGameState(MINIGAME_PLAYING);
-            TheGame::instance->InitializeMinigameState();
+            SetGameState(MINIGAME_GET_READY);
+            TheGame::instance->InitializeMinigameGetReadyState();
         }
         else
         {
@@ -510,15 +599,15 @@ void TheGame::RenderMinigameResults() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeGameOverState()
 {
-    gameOverText = new Sprite("GameOverText", PLAYER_LAYER);
-    gameOverText->m_scale = Vector2(10.0f, 10.0f);
+    m_gameOverText = new Sprite("GameOverText", PLAYER_LAYER);
+    m_gameOverText->m_scale = Vector2(10.0f, 10.0f);
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupGameOverState);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupGameOverState(unsigned int)
 {
-    delete gameOverText;
+    delete m_gameOverText;
     for (PlayerShip* ship : m_players)
     {
         delete ship;

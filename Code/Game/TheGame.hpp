@@ -53,8 +53,13 @@ private:
     void UpdatePlayerJoin(float deltaSeconds);
     void RenderPlayerJoin() const;
 
-    void InitializeAssemblyState();
-    void CleanupAssemblyState(unsigned int);
+    void InitializeAssemblyGetReadyState();
+    void CleanupAssemblyGetReadyState(unsigned int);
+    void UpdateAssemblyGetReady(float deltaSeconds);
+    void RenderAssemblyGetReady() const;
+
+    void InitializeAssemblyPlayingState();
+    void CleanupAssemblyPlayingState(unsigned int);
     void UpdateAssemblyPlaying(float deltaSeconds);
     void RenderAssemblyPlaying() const;
 
@@ -63,8 +68,13 @@ private:
     void UpdateAssemblyResults(float deltaSeconds);
     void RenderAssemblyResults() const;
 
-    void InitializeMinigameState();
-    void CleanupMinigameState(unsigned int);
+    void InitializeMinigameGetReadyState();
+    void CleanupMinigameGetReadyState(unsigned int);
+    void UpdateMinigameGetReady(float deltaSeconds);
+    void RenderMinigameGetReady() const;
+
+    void InitializeMinigamePlayingState();
+    void CleanupMinigamePlayingState(unsigned int);
     void UpdateMinigamePlaying(float deltaSeconds);
     void RenderMinigamePlaying() const;
 
@@ -87,4 +97,10 @@ public:
     std::vector<PlayerShip*> m_players;
     std::queue<GameMode*> m_queuedMinigameModes;
     GameMode* m_currentGameMode;
+
+private:
+    Sprite* m_getReadyBackground = nullptr;
+    Sprite* m_titleText = nullptr;
+    Sprite* m_gameOverText = nullptr;
+    Sprite* m_readyText[4];
 };
