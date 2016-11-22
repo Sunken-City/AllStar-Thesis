@@ -5,6 +5,7 @@
 #include "Game/Entities/Projectile.hpp"
 #include "Game/Entities/Pickup.hpp"
 #include "Game/Entities/Ship.hpp"
+#include "Engine/Audio/Audio.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -69,7 +70,12 @@ AABB2 GameMode::GetArenaBounds()
 //-----------------------------------------------------------------------------------
 void GameMode::SpawnBullet(Ship* creator)
 {
+    static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
     m_newEntities.push_back(new Projectile(creator));
+
+    float distance = MathUtils::CalcDistSquaredBetweenPoints(SpriteGameRenderer::instance->GetCameraPositionInWorld(), creator->GetPosition());
+    float attenuationVolume = 1.0f - (distance / 100.0f);
+    AudioSystem::instance->PlaySound(bulletSound, attenuationVolume);
 }
 
 //-----------------------------------------------------------------------------------

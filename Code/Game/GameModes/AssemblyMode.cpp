@@ -12,7 +12,7 @@
 AssemblyMode::AssemblyMode()
     : GameMode()
 {
-    m_gameLengthSeconds = 1.0f;
+    m_gameLengthSeconds = 200.0f;
 }
 
 //-----------------------------------------------------------------------------------
