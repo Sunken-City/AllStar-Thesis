@@ -36,6 +36,10 @@ const char* GetStateString(GameState state)
         return "Startup";
     case MAIN_MENU:
         return  "Main Menu";
+    case PLAYER_JOIN:
+        return "Player Join";
+    case ASSEMBLY_GET_READY:
+        return "Assembly Get Ready";
     case ASSEMBLY_PLAYING:
         return "Assembly Playing";
     case ASSEMBLY_RESULTS:
@@ -44,6 +48,8 @@ const char* GetStateString(GameState state)
         return "Game Results";
     case SHUTDOWN:
         return "Shutdown";
+    case MINIGAME_GET_READY:
+        return "Minigame Get Ready";
     case MINIGAME_PLAYING:
         return "Minigame Playing";
     case MINIGAME_RESULTS:

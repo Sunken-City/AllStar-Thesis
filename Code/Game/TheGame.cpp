@@ -37,6 +37,7 @@ TheGame* TheGame::instance = nullptr;
 Sprite* testBackground = nullptr;
 Sprite* titleText = nullptr;
 Sprite* gameOverText = nullptr;
+Sprite* readyText[4];
 
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
@@ -94,21 +95,17 @@ void TheGame::Update(float deltaSeconds)
     {
         return;
     }
-
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' '))
-    {
-        switch (GetGameState())
-        {
-        case MAIN_MENU:
-            SetGameState(ASSEMBLY_PLAYING);
-            InitializeAssemblyState();
-            break;
-        }
-    }
+   
     switch (GetGameState())
     {
     case MAIN_MENU:
         UpdateMainMenu(deltaSeconds);
+        break;
+    case PLAYER_JOIN:
+        UpdatePlayerJoin(deltaSeconds);
+        break;
+    case ASSEMBLY_GET_READY:
+        //UpdateAssemblyGetReady(deltaSeconds);
         break;
     case ASSEMBLY_PLAYING:
         UpdateAssemblyPlaying(deltaSeconds);
@@ -118,6 +115,9 @@ void TheGame::Update(float deltaSeconds)
         break;
     case GAME_RESULTS_SCREEN:
         UpdateGameOver(deltaSeconds);
+        break;
+    case MINIGAME_GET_READY:
+        //UpdateMinigameGetReady(deltaSeconds);
         break;
     case MINIGAME_PLAYING:
         UpdateMinigamePlaying(deltaSeconds);
@@ -145,6 +145,12 @@ void TheGame::Render() const
     case MAIN_MENU:
         RenderMainMenu();
         break;
+    case PLAYER_JOIN:
+        RenderPlayerJoin();
+        break;
+    case ASSEMBLY_GET_READY:
+        //RenderAssemblyGetReady();
+        break;
     case ASSEMBLY_PLAYING:
         RenderAssemblyPlaying();
         break;
@@ -153,6 +159,9 @@ void TheGame::Render() const
         break;
     case GAME_RESULTS_SCREEN:
         RenderGameOver();
+        break;
+    case MINIGAME_GET_READY:
+        //RenderMinigameGetReady();
         break;
     case MINIGAME_PLAYING:
         RenderMinigamePlaying();
@@ -189,7 +198,11 @@ void TheGame::CleanupMainMenuState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMainMenu(float deltaSeconds)
 {
-    UNUSED(deltaSeconds);
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' '))
+    {
+        SetGameState(PLAYER_JOIN);
+        InitializePlayerJoinState();
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -209,24 +222,83 @@ void TheGame::EnqueueMinigames()
 }
 
 //-----------------------------------------------------------------------------------
+//PLAYER JOIN/////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializePlayerJoinState()
+{
+    readyText[0] = new Sprite("ReadyText", PLAYER_LAYER);
+    readyText[1] = new Sprite("ReadyText", PLAYER_LAYER);
+    readyText[2] = new Sprite("ReadyText", PLAYER_LAYER);
+    readyText[3] = new Sprite("ReadyText", PLAYER_LAYER);
+    readyText[0]->m_position = Vector2(-1.0f, 1.0f);
+    readyText[1]->m_position = Vector2(1.0f, 1.0f);
+    readyText[2]->m_position = Vector2(-1.0f, -1.0f);
+    readyText[3]->m_position = Vector2(1.0f, -1.0f);
+    m_numberOfPlayers = 0;
+    m_hasKeyboardPlayer = false;
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayerJoinState);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CleanupPlayerJoinState(unsigned int)
+{
+    delete readyText[0];
+    delete readyText[1];
+    delete readyText[2];
+    delete readyText[3];
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::UpdatePlayerJoin(float deltaSeconds)
+{
+    for (PlayerPilot* pilot : m_playerPilots)
+    {
+        if (pilot->m_inputMap.WasJustPressed("Accept"))
+        {
+            SetGameState(ASSEMBLY_PLAYING);
+            InitializeAssemblyState();
+        }
+        
+    }
+    if (!m_hasKeyboardPlayer && InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) && m_numberOfPlayers < 4)
+    {
+        readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+        PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
+        m_playerPilots.push_back(pilot);
+        InitializeKeyMappingsForPlayer(pilot);
+    }
+
+    for (int i = 0; i < 4; ++i)
+    {
+        XInputController* controller = InputSystem::instance->m_controllers[i];
+        if (controller->IsConnected() && controller->JustPressed(XboxButton::START) && m_numberOfPlayers < 4)
+        {
+            readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+            PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
+            m_playerPilots.push_back(pilot);
+            InitializeKeyMappingsForPlayer(pilot);
+        }
+    }
+
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderPlayerJoin() const
+{
+    SpriteGameRenderer::instance->SetClearColor(RGBA::GBBLACK);
+    SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
 //PLAYING/////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyState()
 {
-    m_playerPilots.push_back(new PlayerPilot());
-    InitializeKeyMappingsForPlayer(m_playerPilots[0]);
-
-    for (int i = 1; i < 4; ++i)
-    {
-        if (InputSystem::instance->m_controllers[i - 1]->IsConnected())
-        {
-            m_playerPilots.push_back(new PlayerPilot(i));
-            InitializeKeyMappingsForPlayer(m_playerPilots[i]);
-        }
-    }
-
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
@@ -521,6 +593,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("MinigameResults", "Data\\Images\\minigameResultsMockup.png");
     ResourceDatabase::instance->RegisterSprite("AssemblyGetReady", "Data\\Images\\assemblyGetReadyMockup.png");
     ResourceDatabase::instance->RegisterSprite("BattleRoyaleGetReady", "Data\\Images\\battleRoyaleGetReadyMockup.png");
+    ResourceDatabase::instance->RegisterSprite("ReadyText", "Data\\Images\\ready.png");
 
     //Entities
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");

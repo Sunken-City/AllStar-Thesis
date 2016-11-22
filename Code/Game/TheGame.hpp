@@ -41,10 +41,17 @@ private:
     TheGame& operator= (const TheGame& other) = delete;
     void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
     void RegisterSprites();
+    void EnqueueMinigames();
 
-    void CleanupGameOverState(unsigned int);
-    void UpdateGameOver(float deltaSeconds);
-    void RenderGameOver() const;
+    void InitializeMainMenuState();
+    void CleanupMainMenuState(unsigned int);
+    void UpdateMainMenu(float deltaSeconds);
+    void RenderMainMenu() const;
+
+    void InitializePlayerJoinState();
+    void CleanupPlayerJoinState(unsigned int);
+    void UpdatePlayerJoin(float deltaSeconds);
+    void RenderPlayerJoin() const;
 
     void InitializeAssemblyState();
     void CleanupAssemblyState(unsigned int);
@@ -66,16 +73,16 @@ private:
     void UpdateMinigameResults(float deltaSeconds);
     void RenderMinigameResults() const;
 
-    void InitializeMainMenuState();
-    void CleanupMainMenuState(unsigned int);
-    void UpdateMainMenu(float deltaSeconds);
-    void RenderMainMenu() const;
-    void EnqueueMinigames();
+    void CleanupGameOverState(unsigned int);
+    void UpdateGameOver(float deltaSeconds);
+    void RenderGameOver() const;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     SoundID SFX_UI_ADVANCE;
     int m_numberOfMinigames = 3;
+    int m_numberOfPlayers = 0;
+    bool m_hasKeyboardPlayer = false;
     std::vector<PlayerPilot*> m_playerPilots;
     std::vector<PlayerShip*> m_players;
     std::queue<GameMode*> m_queuedMinigameModes;
