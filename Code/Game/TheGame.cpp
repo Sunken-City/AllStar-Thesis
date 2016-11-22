@@ -714,7 +714,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\invalidSpriteResource.png");
 
     //Particles
-    ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_5.png");
+    ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
+    ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
 
@@ -734,7 +735,7 @@ void TheGame::RegisterParticleEffects()
     yellowStars->m_particlesPerSecond = 40.0f;
     yellowStars->m_maxLifetime = DEATH_ANIMATION_LENGTH;
     yellowStars->m_spawnRadius = Range<float>(0.4f, 0.6f);
-    yellowStars->m_scaleRateOfChangePerSecond = 1.3f;
+    yellowStars->m_scaleRateOfChangePerSecond = Vector2(1.3f);
 
     ParticleEmitterDefinition* yellowExplosionOrb = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowCircle"));
     yellowExplosionOrb->m_fadeoutEnabled = true;
@@ -743,9 +744,21 @@ void TheGame::RegisterParticleEffects()
     yellowExplosionOrb->m_initialVelocity = Vector2::ZERO;
     yellowExplosionOrb->m_lifetimePerParticle = DEATH_ANIMATION_LENGTH;
     yellowExplosionOrb->m_particlesPerSecond = 0.0f;
-    yellowExplosionOrb->m_scaleRateOfChangePerSecond = 1.3f;
+    yellowExplosionOrb->m_scaleRateOfChangePerSecond = Vector2(1.3f);
+
+    ParticleEmitterDefinition* yellowBeams = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowBeam"));
+    yellowBeams->m_fadeoutEnabled = true;
+    yellowBeams->m_initialNumParticlesSpawn = Range<unsigned int>(5, 10);
+    yellowBeams->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+    yellowBeams->m_initialVelocity = Vector2::ZERO;
+    yellowBeams->m_lifetimePerParticle = DEATH_ANIMATION_LENGTH;
+    yellowBeams->m_particlesPerSecond = 0.0f;
+    yellowBeams->m_scaleRateOfChangePerSecond = Vector2(0.0f, 1.3f);
+    yellowBeams->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
+    //yellowBeams->m_angularVelocity = Range<float>()
 
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
     deathParticleSystem->AddEmitter(yellowExplosionOrb);
+    deathParticleSystem->AddEmitter(yellowBeams);
 }
