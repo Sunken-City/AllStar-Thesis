@@ -34,7 +34,9 @@ Grunt::~Grunt()
 void Grunt::Update(float deltaSeconds)
 {
     Ship::Update(deltaSeconds);
-    m_sprite->m_rotationDegrees += m_angularVelocity * deltaSeconds;
+    float degrees = GetRotation() + m_angularVelocity * deltaSeconds;
+    SetRotation(degrees);
+
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
     Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
     SetPosition(GetPosition() + deltaVelocity);

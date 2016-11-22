@@ -26,7 +26,9 @@ public:
     virtual void CalculateCollisionRadius();
     inline virtual bool IsPlayer() { return false; }
     virtual void SetPosition(const Vector2& newPosition);
+    virtual void SetRotation(const float newDegreesRotation);
     virtual Vector2 GetPosition() { return m_transform.position; };
+    virtual float GetRotation() { return m_transform.rotationDegrees; };
     virtual void Heal(float healValue);
     virtual void DropInventory();
     void InitializeInventory(unsigned int inventorySize);

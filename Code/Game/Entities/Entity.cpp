@@ -131,6 +131,13 @@ void Entity::SetPosition(const Vector2& newPosition)
 }
 
 //-----------------------------------------------------------------------------------
+void Entity::SetRotation(const float newDegreesRotation)
+{
+    m_sprite->m_rotationDegrees = newDegreesRotation;
+    m_transform.rotationDegrees = newDegreesRotation;
+}
+
+//-----------------------------------------------------------------------------------
 void Entity::Heal(float healValue)
 {
     m_currentHp += healValue;

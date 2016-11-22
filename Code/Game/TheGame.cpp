@@ -714,10 +714,10 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\invalidSpriteResource.png");
 
     //Particles
-    ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
-    ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
+    ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
+    ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
 
 }
 
@@ -725,7 +725,9 @@ void TheGame::RegisterSprites()
 void TheGame::RegisterParticleEffects()
 {
     const float DEATH_ANIMATION_LENGTH = 1.5f;
+    const float DEAD_SHIP_LINGERING_SECONDS = 15.0f;
 
+    //EMITTERS/////////////////////////////////////////////////////////////////////
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
     yellowStars->m_fadeoutEnabled = true;
     yellowStars->m_initialNumParticlesSpawn = Range<unsigned int>(10,15);
@@ -756,8 +758,21 @@ void TheGame::RegisterParticleEffects()
     yellowBeams->m_scaleRateOfChangePerSecond = Vector2(0.0f, 2.0f);
     yellowBeams->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
 
+    ParticleEmitterDefinition* deadShipHull = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("PlayerShip"));
+    deadShipHull->m_initialNumParticlesSpawn = 1;
+    deadShipHull->m_initialVelocity = Vector2::ZERO;
+    deadShipHull->m_lifetimePerParticle = DEAD_SHIP_LINGERING_SECONDS;
+    deadShipHull->m_particlesPerSecond = 0.0f;
+    deadShipHull->m_initialRotationDegrees = 0.0f;
+    deadShipHull->m_initialTintPerParticle = RGBA::VERY_GRAY;
+    
+
+    //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
     deathParticleSystem->AddEmitter(yellowExplosionOrb);
     deathParticleSystem->AddEmitter(yellowBeams);
+
+    ParticleSystemDefinition* deadShipParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("DeadShip", ONE_SHOT);
+    deadShipParticleSystem->AddEmitter(deadShipHull);
 }

@@ -28,6 +28,7 @@ public:
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static unsigned int const BACKGROUND_LAYER = 0;
+    static unsigned int const GRAVEYARD_LAYER = 6;
     static unsigned int const GEOMETRY_LAYER = 7;
     static unsigned int const ITEM_LAYER = 8;
     static unsigned int const ENEMY_LAYER = 9;

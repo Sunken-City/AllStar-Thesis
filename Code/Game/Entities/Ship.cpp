@@ -7,6 +7,7 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
+#include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -49,7 +50,7 @@ void Ship::UpdateShooting()
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
     if (shootDirection != Vector2::ZERO)
     {
-        m_sprite->m_rotationDegrees = shootDirection.GetDirectionDegreesFromNormalizedVector();
+        SetRotation(shootDirection.GetDirectionDegreesFromNormalizedVector());
     }
 
     if (isShooting && !m_lockMovement)
@@ -123,4 +124,8 @@ void Ship::Die()
 {
     Entity::Die();
     ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::PLAYER_LAYER, GetPosition(), 0.0f);
+
+//     ResourceDatabase::instance->GetParticleSystemResource("DeadShip")->m_emitterDefinitions[0]->m_spriteResource = m_sprite->m_spriteResource;
+//     ResourceDatabase::instance->GetParticleSystemResource("DeadShip")->m_emitterDefinitions[0]->m_initialScalePerParticle = m_sprite->m_scale;
+//     ParticleSystem::PlayOneShotParticleEffect("DeadShip", TheGame::GRAVEYARD_LAYER, GetPosition(), m_transform.rotationDegrees);
 }
