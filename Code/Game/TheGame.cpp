@@ -749,13 +749,12 @@ void TheGame::RegisterParticleEffects()
     ParticleEmitterDefinition* yellowBeams = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowBeam"));
     yellowBeams->m_fadeoutEnabled = true;
     yellowBeams->m_initialNumParticlesSpawn = Range<unsigned int>(5, 10);
-    yellowBeams->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+    yellowBeams->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f, 0.2f), Vector2(0.4f, 0.4f));
     yellowBeams->m_initialVelocity = Vector2::ZERO;
     yellowBeams->m_lifetimePerParticle = DEATH_ANIMATION_LENGTH;
     yellowBeams->m_particlesPerSecond = 0.0f;
-    yellowBeams->m_scaleRateOfChangePerSecond = Vector2(0.0f, 1.3f);
+    yellowBeams->m_scaleRateOfChangePerSecond = Vector2(0.0f, 2.0f);
     yellowBeams->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
-    //yellowBeams->m_angularVelocity = Range<float>()
 
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
