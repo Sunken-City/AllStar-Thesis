@@ -278,6 +278,7 @@ void TheGame::UpdatePlayerJoin(float deltaSeconds)
         {
             readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
             PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
+            pilot->m_controllerIndex = i;
             m_playerPilots.push_back(pilot);
             InitializeKeyMappingsForPlayer(pilot);
         }
@@ -546,7 +547,7 @@ void TheGame::RenderGameOver() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 {
-    if (playerPilot->m_playerNumber == 0)
+    if (playerPilot->m_controllerIndex == -1)
     {
         KeyboardInputDevice* keyboard = InputSystem::instance->m_keyboardDevice;
         MouseInputDevice* mouse = InputSystem::instance->m_mouseDevice;
@@ -565,7 +566,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
     }
     else
     {
-        XInputDevice* controller = InputSystem::instance->m_xInputDevices[playerPilot->m_playerNumber - 1];
+        XInputDevice* controller = InputSystem::instance->m_xInputDevices[playerPilot->m_controllerIndex];
         //CONTROLLER INPUT
         playerPilot->m_inputMap.MapInputAxis("Up")->AddMapping(&controller->GetLeftStick()->m_yAxis);
         playerPilot->m_inputMap.MapInputAxis("Right")->AddMapping(&controller->GetLeftStick()->m_xAxis);

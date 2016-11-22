@@ -13,4 +13,5 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     int m_playerNumber;
+    int m_controllerIndex = -1;
 };
