@@ -11,7 +11,7 @@ class PlayerShip : public Ship
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
     PlayerShip(PlayerPilot* playerPilot);
-    ~PlayerShip();
+    virtual ~PlayerShip();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);

@@ -34,6 +34,8 @@
 
 TheGame* TheGame::instance = nullptr;
 
+const float TheGame::TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI = 0.5f;
+
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
     : m_currentGameMode(nullptr)
@@ -192,7 +194,7 @@ void TheGame::CleanupMainMenuState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateMainMenu(float deltaSeconds)
+void TheGame::UpdateMainMenu(float)
 {
     if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' '))
     {
@@ -252,7 +254,7 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdatePlayerJoin(float deltaSeconds)
+void TheGame::UpdatePlayerJoin(float)
 {
     //If someone presses their button a second time, we know all players are in and we're ready to start.
     for (PlayerPilot* pilot : m_playerPilots)
@@ -315,9 +317,9 @@ void TheGame::CleanupAssemblyGetReadyState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
+void TheGame::UpdateAssemblyGetReady(float)
 {
-    if (g_secondsInState < 2.0f)
+    if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
     {
         return;
     }
@@ -458,9 +460,9 @@ void TheGame::CleanupMinigameGetReadyState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateMinigameGetReady(float deltaSeconds)
+void TheGame::UpdateMinigameGetReady(float)
 {
-    if (g_secondsInState < 2.0f)
+    if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
     {
         return;
     }
@@ -712,24 +714,38 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\invalidSpriteResource.png");
 
     //Particles
-    ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_4.png");
     ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_5.png");
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
+    ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
 
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::RegisterParticleEffects()
 {
+    const float DEATH_ANIMATION_LENGTH = 1.5f;
+
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
     yellowStars->m_fadeoutEnabled = true;
-    yellowStars->m_initialNumParticlesSpawn = Range<int>(5,10);
-    yellowStars->m_initialScalePerParticle = Range<Vector2>(Vector2(0.8f), Vector2(1.2f));
+    yellowStars->m_initialNumParticlesSpawn = Range<unsigned int>(10,15);
+    yellowStars->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
     yellowStars->m_initialVelocity = Vector2::ZERO;
     yellowStars->m_lifetimePerParticle = 0.2f;
-    yellowStars->m_particlesPerSecond = 4.0f;
-    yellowStars->m_maxLifetime = 1.5f;
+    yellowStars->m_particlesPerSecond = 40.0f;
+    yellowStars->m_maxLifetime = DEATH_ANIMATION_LENGTH;
+    yellowStars->m_spawnRadius = Range<float>(0.4f, 0.6f);
+    yellowStars->m_scaleRateOfChangePerSecond = 1.3f;
+
+    ParticleEmitterDefinition* yellowExplosionOrb = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowCircle"));
+    yellowExplosionOrb->m_fadeoutEnabled = true;
+    yellowExplosionOrb->m_initialNumParticlesSpawn = 1;
+    yellowExplosionOrb->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+    yellowExplosionOrb->m_initialVelocity = Vector2::ZERO;
+    yellowExplosionOrb->m_lifetimePerParticle = DEATH_ANIMATION_LENGTH;
+    yellowExplosionOrb->m_particlesPerSecond = 0.0f;
+    yellowExplosionOrb->m_scaleRateOfChangePerSecond = 1.3f;
 
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
+    deathParticleSystem->AddEmitter(yellowExplosionOrb);
 }

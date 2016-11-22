@@ -20,7 +20,6 @@ Ship::Ship(Pilot* pilot)
 //-----------------------------------------------------------------------------------
 Ship::~Ship()
 {
-    ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::PLAYER_LAYER, GetPosition(), 0.0f);
 }
 
 //-----------------------------------------------------------------------------------
@@ -117,4 +116,11 @@ void Ship::TakeDamage(float damage)
     {
         TheGame::instance->m_currentGameMode->PlaySoundAt(hitSound, GetPosition(), m_hitSoundMaxVolume);
     }
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::Die()
+{
+    Entity::Die();
+    ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::PLAYER_LAYER, GetPosition(), 0.0f);
 }

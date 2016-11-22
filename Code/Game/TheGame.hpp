@@ -36,6 +36,8 @@ public:
     static unsigned int const ENEMY_BULLET_LAYER = 12;
     static unsigned int const FOREGROUND_LAYER = 20;
     static unsigned int const UI_LAYER = 30;
+
+    static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
     
 private:
     TheGame& operator= (const TheGame& other) = delete;
@@ -87,6 +89,7 @@ private:
     void UpdateGameOver(float deltaSeconds);
     void RenderGameOver() const;
     void RegisterParticleEffects();
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     SoundID SFX_UI_ADVANCE;
