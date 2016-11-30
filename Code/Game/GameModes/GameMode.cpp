@@ -26,7 +26,10 @@ GameMode::~GameMode()
 //-----------------------------------------------------------------------------------
 void GameMode::Initialize()
 {
-    AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
+    if (!m_muteMusic)
+    {
+        AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
+    }
 }
 
 //-----------------------------------------------------------------------------------

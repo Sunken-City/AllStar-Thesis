@@ -122,7 +122,9 @@ void Ship::TakeDamage(float damage)
 //-----------------------------------------------------------------------------------
 void Ship::Die()
 {
+    static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/trashExplosion.ogg");
     Entity::Die();
+    TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), m_hitSoundMaxVolume);
     ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::PLAYER_LAYER, GetPosition(), 0.0f);
 
 //     ResourceDatabase::instance->GetParticleSystemResource("DeadShip")->m_emitterDefinitions[0]->m_spriteResource = m_sprite->m_spriteResource;

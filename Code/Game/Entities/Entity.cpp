@@ -93,7 +93,6 @@ void Entity::TakeDamage(float damage)
     m_currentHp -= damage;
     if (m_currentHp < 0.0f)
     {
-        m_isDead = true;
         Die();
     }
 }

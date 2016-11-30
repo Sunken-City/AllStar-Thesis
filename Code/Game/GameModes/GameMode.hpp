@@ -38,6 +38,7 @@ public:
     float m_gameLengthSeconds = 2000.0f;
     bool m_enablesRespawn = true;
     SoundID m_backgroundMusic = 0;
+    bool m_muteMusic = true;
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;
