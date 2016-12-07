@@ -36,6 +36,9 @@
     <Filter Include="General\Entities\Props">
       <UniqueIdentifier>{8d9fb069-d3a1-462e-9143-56df603d7348}</UniqueIdentifier>
     </Filter>
+    <Filter Include="General\UI">
+      <UniqueIdentifier>{e9886ac7-b92a-4ea1-bc27-9cdb8aa5a2fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameCommon.cpp">
@@ -199,5 +202,10 @@
     <ClInclude Include="Entities\Props\Asteroid.hpp">
       <Filter>General\Entities\Props</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
+      <Filter>General\UI</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
