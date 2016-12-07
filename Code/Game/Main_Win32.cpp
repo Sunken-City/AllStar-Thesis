@@ -20,6 +20,7 @@
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Core/Events/Event.hpp"
 #include "Engine/Core/Events/EventSystem.hpp"
+#include "Engine/UI/UISystem.hpp"
 
 //-----------------------------------------------------------------------------------------------
 #define UNUSED(x) (void)(x);
@@ -200,6 +201,7 @@ void Update()
     InputSystem::instance->Update(deltaSeconds);
     AudioSystem::instance->Update(deltaSeconds);
     Console::instance->Update(deltaSeconds);
+    UISystem::instance->Update(deltaSeconds);
     TheGame::instance->Update(deltaSeconds);
 }
 
@@ -207,6 +209,7 @@ void Update()
 void Render()
 {
     TheGame::instance->Render();
+    UISystem::instance->Render();
     Console::instance->Render();
     SwapBuffers(g_displayDeviceContext);
 }
@@ -230,6 +233,7 @@ void Initialize(HINSTANCE applicationInstanceHandle)
     AudioSystem::instance = new AudioSystem();
     InputSystem::instance = new InputSystem(g_hWnd, 4);
     Console::instance = new Console();
+    UISystem::instance = new UISystem();
     TheGame::instance = new TheGame();
 }
 
@@ -248,6 +252,8 @@ void Shutdown()
     //Clean up all the engine subsystems.
     delete TheGame::instance;
     TheGame::instance = nullptr;
+    delete UISystem::instance;
+    UISystem::instance = nullptr;
     delete Console::instance;
     Console::instance = nullptr;
     delete InputSystem::instance;
