@@ -203,6 +203,9 @@
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="TheGame.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
