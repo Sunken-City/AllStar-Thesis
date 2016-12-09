@@ -49,6 +49,7 @@ private:
     void InitializeMainMenuState();
     void CleanupMainMenuState(unsigned int);
     void UpdateMainMenu(float deltaSeconds);
+    void PressStart(NamedProperties& properties);
     void RenderMainMenu() const;
 
     void InitializePlayerJoinState();
