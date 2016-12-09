@@ -1,0 +1,6 @@
+<Root>
+  <Button Text="I AM A MEMELORD"
+           IsVisible="true"
+           FontSize="2.0f"
+           TextColor="0xFF0000FF" />
+</Root>
