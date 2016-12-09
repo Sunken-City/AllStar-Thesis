@@ -1,6 +1,11 @@
 <Root>
-  <Button Text="I AM A MEMELORD"
-           IsVisible="true"
-           FontSize="2.0f"
-           TextColor="0xFF0000FF" />
+  <Button Text="Great Button"
+          BackgroundColor="0x228F00FF"
+          BorderColor="0x225500FF"
+          BorderWidth="10.0f"
+          FontSize="2.0f"
+          TextColor="0xFF819CFF"
+          HorizontalOffset="200"
+          VerticalOffset="300"
+          OnClick="StartGame"/>
 </Root>

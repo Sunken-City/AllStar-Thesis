@@ -46,6 +46,7 @@ TheGame::TheGame()
     RegisterParticleEffects();
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
+    EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
 }
 
 
@@ -198,9 +199,15 @@ void TheGame::UpdateMainMenu(float)
 {
     if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' '))
     {
-        SetGameState(PLAYER_JOIN);
-        InitializePlayerJoinState();
+        PressStart(NamedProperties());
     }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::PressStart(NamedProperties& properties)
+{
+    SetGameState(PLAYER_JOIN);
+    InitializePlayerJoinState();
 }
 
 //-----------------------------------------------------------------------------------
