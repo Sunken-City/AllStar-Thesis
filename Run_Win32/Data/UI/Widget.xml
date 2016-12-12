@@ -1,11 +1,29 @@
 <Root>
-  <Button Text="Great Button"
-          BackgroundColor="0x228F00FF"
-          BorderColor="0x225500FF"
+  <Window Name="ButtonGroup"
           BorderWidth="10.0f"
-          FontSize="2.0f"
-          TextColor="0xFF819CFF"
-          HorizontalOffset="200"
-          VerticalOffset="300"
-          OnClick="StartGame"/>
+          Offset="0,400"
+          Padding="20.0f, 20.0f"
+          Opacity="0.75f">
+    <Button Name="Start Button"
+        Text="PRESS ME, MAYBE >:I"
+        BackgroundColor="0x228F00FF"
+        BorderColor="0x225500FF"
+        BorderWidth="5.0f"
+        TextSize="2.0f"
+        TextColor="0xFF819CFF"
+        Offset="500, 300"
+        Opacity=".75f"
+        TextOpacity="1.0f"
+        OnClick="StartGame">
+    </Button>
+    <Button Name="Other Button"
+            Text="I do nothing... :c"
+            BackgroundColor="0x00AAAAFF"
+            BorderColor="0x009999FF"
+            BorderWidth="5.0f"
+            TextSize="0.5f"
+            TextColor="0xFF819CFF"
+            HorizontalOffset="200"
+            VerticalOffset="200"/>
+  </Window>
 </Root>
