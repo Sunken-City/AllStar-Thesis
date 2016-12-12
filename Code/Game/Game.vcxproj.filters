@@ -207,5 +207,8 @@
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
       <Filter>General\UI</Filter>
     </Xml>
+    <Xml Include="..\..\Run_Win32\Data\UI\Styles.xml">
+      <Filter>General\UI</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
