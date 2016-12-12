@@ -204,6 +204,7 @@
     <ClInclude Include="TheGame.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="..\..\Run_Win32\Data\UI\Styles.xml" />
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

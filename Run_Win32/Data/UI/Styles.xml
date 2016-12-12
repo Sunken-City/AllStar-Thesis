@@ -25,10 +25,5 @@
             TextColor="0xFF819CFF"
             HorizontalOffset="200"
             VerticalOffset="200"/>
-    <Checkbox Text="Check Me"
-              DefaultState="Checked"
-              HorizontalOffset="200"
-              TextOffset="20.0f, 0.0f"
-              Padding="20.0f, 20.0f"/>
   </Window>
 </Root>
