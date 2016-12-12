@@ -234,6 +234,7 @@ void Initialize(HINSTANCE applicationInstanceHandle)
     InputSystem::instance = new InputSystem(g_hWnd, 4);
     Console::instance = new Console();
     UISystem::instance = new UISystem();
+    UISystem::instance->LoadAndParseUIXML();
     TheGame::instance = new TheGame();
 }
 
