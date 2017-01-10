@@ -1,5 +1,5 @@
 <Root>
-  <Window Name="Window Widget"
+  <!--<Window Name="Window Widget"
           BorderWidth="10.0f"
           Offset="0,400"
           Padding="20.0f, 20.0f"
@@ -30,5 +30,5 @@
               HorizontalOffset="200"
               TextOffset="20.0f, 0.0f"
               Padding="20.0f, 20.0f"/>
-  </Window>
+  </Window>-->
 </Root>

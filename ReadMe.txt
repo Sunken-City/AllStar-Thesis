@@ -1,61 +1,19 @@
-SD7 A3 Readme:
+SD7 A4 Readme:
 
 How to use:
   Because I didn't have a project existing for this assignment, I used my thesis project as a base and wrote some text functions on top.
 
-  Go into TheGame.cpp and look at the top of the file. You should see the following code:
+  I threw a few code-based buttons inside the constructor for the UI System, just to prove that you can do it and that you can parent them.
+  All of the buttons except for "I do nothing... :c" just move to the start menu. Pressing this twice will cause the program to crash, but that's expected. (It's just a hacky function).
 
+  The checkbox works as well, but does nothing as well.
 
-                                void Memes(NamedProperties& properties)
-                                {
-                                    DebuggerPrintf("ayyylmao");
-                                    properties.Set("maymay", 82);
-                                }
-
-                                class EventTestObject
-                                {
-                                public:
-                                    ~EventTestObject()
-                                    {
-                                        EventSystem::UnregisterFromAllEvents(this);
-                                    }
-                                    void MAAAYMES(NamedProperties& properties)
-                                    {
-                                        DebuggerPrintf("ayyylmao");
-                                        int meaymayean;
-                                        properties.Get("maymay", meaymayean);
-                                        std::string hurhhhhh;
-                                        properties.Get("ayyy", hurhhhhh);
-                                    }
-                                };
-
-                                //-----------------------------------------------------------------------------------
-                                TheGame::TheGame()
-                                    : m_currentGameMode(nullptr)
-                                {
-                                    ResourceDatabase::instance = new ResourceDatabase();
-                                    RegisterSprites();
-                                    SetGameState(GameState::MAIN_MENU);
-                                    InitializeMainMenuState();
-                                    NamedProperties props("maymay", "lmao");
-                                    EventSystem::RegisterEventCallback("memes", &Memes, "Memes are great");
-                                    EventTestObject* test = new EventTestObject();
-                                    EventSystem::RegisterObjectForEvent("memes", test, &EventTestObject::MAAAYMES);
-                                    EventSystem::FireEvent("memes", props);
-                                    delete test;
-                                    EnumerateFiles("Logs", "*", true, "memes");
-                                }
-
-
-
-This is the test code for the functionality I added in A3. The above tests getting and setting of named properties, passing them into functions, overwriting them, etc.
-I previously checked the error codes, but I lost some of them while hacking back and forth. Feel free to use this part of the code to test all of my functionality and
-verify that everything works, and don't worry about breaking anything.
-
-I'm going to try to push a breakpoint for you to help aid testing, but I'm not sure if it'll get committed. We'll find out :)
+  To reload the UI, press U to load the XML file again, the code won't reload. You can also toggle the window using the "G" key.
 
 
 Issues:
+There are a few heiarchy bugs that I haven't fixed, especially in regards to some of the combonations I haven't tried. 
+
   Because we're running in release, you WILL have about 52 bytes leaked from things that I can't control. The callstacks should match the following:
 
                                 ------------------------------------------------------------------------------
