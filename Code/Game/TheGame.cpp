@@ -197,7 +197,9 @@ void TheGame::CleanupMainMenuState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMainMenu(float)
 {
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' '))
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
+    if (keyboardStart || controllerStart)
     {
         PressStart(NamedProperties());
     }
