@@ -67,6 +67,7 @@ void PlayerShip::Die()
 {
     Ship::Die();
     DropPowerups();
+    m_velocity = Vector2::ZERO;
     m_sprite->Disable();
 }
 
