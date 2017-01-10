@@ -27,8 +27,10 @@ public:
     void SpawnBullet(Ship* creator);
     void SpawnPickup(Item* item, const Vector2& spawnPosition);
     void SetBackground(const std::string& backgroundName, const Vector2& scale);
-    float CalculateAttenuation(const Vector2& soundPosition);
     void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);
+    float CalculateAttenuation(const Vector2& soundPosition);
+    
+    static GameMode* GetCurrent();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:

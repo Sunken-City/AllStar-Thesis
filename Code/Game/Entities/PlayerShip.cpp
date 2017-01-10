@@ -123,8 +123,12 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     }
     if (pickedUpItem->IsPowerUp())
     {
-        ((PowerUp*)pickedUpItem)->ApplyPickupEffect(this);
-        delete pickedUpItem;
+        PowerUp* powerUp = ((PowerUp*)pickedUpItem);
+        powerUp->ApplyPickupEffect(this);
+
+        GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
+
+        delete powerUp;
     }
     if (pickedUpItem->IsChassis())
     {

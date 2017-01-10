@@ -1,6 +1,7 @@
 #pragma once
 #include "Game/Items/Item.hpp"
 #include "Game/Entities/PlayerShip.hpp"
+#include "Game/GameCommon.hpp"
 
 //-----------------------------------------------------------------------------------
 enum class PowerUpType
@@ -36,6 +37,7 @@ public:
     const char* GetPowerUpSpriteResourceName();
     void ApplyPickupEffect(PlayerShip* player);
     void SetStatChangeFromType(PowerUpType type);
+    SoundID GetPickupSFXID();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     PowerUpType m_powerUpType;

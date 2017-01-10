@@ -128,3 +128,9 @@ void GameMode::PlaySoundAt(const SoundID sound, const Vector2& soundPosition, fl
     float clampedVolume = std::min(attenuationVolume, maxVolume);
     AudioSystem::instance->PlaySound(sound, clampedVolume);
 }
+
+//-----------------------------------------------------------------------------------
+GameMode* GameMode::GetCurrent()
+{
+    return TheGame::instance->m_currentGameMode;
+}

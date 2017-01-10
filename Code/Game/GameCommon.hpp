@@ -14,6 +14,7 @@
 #include "Engine/Core/ProfilingUtils.h"
 #include "Game/TheGame.hpp"
 #include "Engine/Core/Events/Event.hpp"
+#include "Engine/Audio/Audio.hpp"
 
 typedef unsigned char uchar;
 
