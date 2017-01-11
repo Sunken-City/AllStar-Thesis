@@ -8,9 +8,12 @@
 #include "Game/TheGame.hpp"
 #include <algorithm>
 
+Vector2 Entity::SHEILD_SCALE_FUDGE_VALUE = Vector2(0.25f);
+
 //-----------------------------------------------------------------------------------
 Entity::Entity()
     : m_sprite(nullptr)
+    , m_shieldSprite(new Sprite("Shield", TheGame::SHIELD_LAYER, false))
     , m_currentHp(1.0f)
     , m_collisionRadius(1.0f)
     , m_age(0.0f)
@@ -26,6 +29,7 @@ Entity::Entity()
     , m_isInvincible(false)
     , m_owner(nullptr)
     , m_noCollide(false)
+    , m_shieldValue(0.0f)
 {
 }
 
@@ -36,6 +40,7 @@ Entity::~Entity()
     {
         delete m_sprite;
     }
+    delete m_shieldSprite;
     if (GetGameState() == GameState::ASSEMBLY_PLAYING)
     {
         DropInventory();
@@ -102,10 +107,15 @@ void Entity::CalculateCollisionRadius()
 {
     Vector2 virtualSize = m_sprite->m_spriteResource->m_virtualSize;
     Vector2 spriteScale = m_sprite->m_scale;
+
     float maxVirtualSize = std::max(virtualSize.x, virtualSize.y);
     float maxSpriteScale = std::max(spriteScale.x, spriteScale.y);
     maxVirtualSize *= 0.5f;
     m_collisionRadius = maxVirtualSize * maxSpriteScale;
+
+    //Get the shield to match the scale of the entity, then add more to encompass it entirely.
+    m_shieldSprite->m_scale = Vector2(m_collisionRadius * 2.5f) / (m_shieldSprite->m_spriteResource->m_virtualSize);
+    //m_shieldSprite->m_scale += SHEILD_SCALE_FUDGE_VALUE;
 }
 
 //-----------------------------------------------------------------------------------
@@ -127,6 +137,7 @@ void Entity::SetPosition(const Vector2& newPosition)
 
     m_transform.position = adjustedPosition;
     m_sprite->m_position = adjustedPosition;
+    m_shieldSprite->m_position = adjustedPosition;
 }
 
 //-----------------------------------------------------------------------------------
@@ -298,6 +309,23 @@ void Entity::DropInventory()
         //This transfers ownership of the item to the pickup.
         TheGame::instance->m_currentGameMode->SpawnPickup(m_inventory[i], GetPosition());
         m_inventory[i] = nullptr;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::SetShieldValue(float newShieldValue)
+{
+    if (m_shieldValue != newShieldValue)
+    {
+        m_shieldValue = newShieldValue;
+        if (m_shieldValue > 0.0f)
+        {
+            m_shieldSprite->Enable();
+        }
+        else
+        {
+            m_shieldSprite->Disable();
+        }
     }
 }
 

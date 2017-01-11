@@ -16,6 +16,8 @@ Ship::Ship(Pilot* pilot)
     , m_pilot(pilot)
 {
     m_baseStats.braking = 0.9f;
+
+    SetShieldValue(1.0f);
 }
 
 //-----------------------------------------------------------------------------------

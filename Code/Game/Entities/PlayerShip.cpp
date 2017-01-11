@@ -17,8 +17,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 {
     m_isDead = false;
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
-    m_sprite->m_tintColor = RGBA::GetRandom();
-    m_sprite->m_scale = Vector2(0.25f, 0.25f); 
+    m_sprite->m_tintColor = RGBA::GetRandom(); 
+    m_sprite->m_scale = Vector2(0.25f, 0.25f);
     CalculateCollisionRadius();
 
     m_baseStats.hp = 5.0f;
@@ -29,6 +29,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_baseStats.rateOfFire = 8.0f;
 
     m_hitSoundMaxVolume = 1.0f;
+    m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
 }
 
 //-----------------------------------------------------------------------------------

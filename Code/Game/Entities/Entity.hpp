@@ -31,6 +31,7 @@ public:
     virtual float GetRotation() { return m_transform.rotationDegrees; };
     virtual void Heal(float healValue);
     virtual void DropInventory();
+    virtual void SetShieldValue(float newShieldValue);
     void InitializeInventory(unsigned int inventorySize);
     void DeleteInventory();
 
@@ -49,6 +50,9 @@ public:
     virtual float GetShotDeflectionStat();
     virtual inline bool IsProjectile() { return false; };
 
+    //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
+    static Vector2 SHEILD_SCALE_FUDGE_VALUE;
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Weapon* m_weapon;
     Active* m_activeEffect;
@@ -57,6 +61,7 @@ public:
     Stats m_baseStats;
 
     Sprite* m_sprite;
+    Sprite* m_shieldSprite;
     Entity* m_owner;
     Transform2D m_transform;
     Vector2 m_velocity;
@@ -65,6 +70,7 @@ public:
     float m_collisionRadius;
     float m_age;
     float m_frictionValue;
+    float m_shieldValue;
     bool m_isDead;
     bool m_collidesWithBullets;
     bool m_noCollide;

@@ -28,15 +28,16 @@ public:
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static unsigned int const BACKGROUND_LAYER = 0;
-    static unsigned int const GRAVEYARD_LAYER = 6;
-    static unsigned int const GEOMETRY_LAYER = 7;
-    static unsigned int const ITEM_LAYER = 8;
-    static unsigned int const ENEMY_LAYER = 9;
-    static unsigned int const PLAYER_LAYER = 10;
-    static unsigned int const PLAYER_BULLET_LAYER = 11;
-    static unsigned int const ENEMY_BULLET_LAYER = 12;
-    static unsigned int const FOREGROUND_LAYER = 20;
-    static unsigned int const UI_LAYER = 30;
+    static unsigned int const GRAVEYARD_LAYER = 600;
+    static unsigned int const GEOMETRY_LAYER = 700;
+    static unsigned int const ITEM_LAYER = 800;
+    static unsigned int const ENEMY_LAYER = 900;
+    static unsigned int const PLAYER_LAYER = 1000;
+    static unsigned int const SHIELD_LAYER = 1050;
+    static unsigned int const PLAYER_BULLET_LAYER = 1100;
+    static unsigned int const ENEMY_BULLET_LAYER = 1200;
+    static unsigned int const FOREGROUND_LAYER = 2000;
+    static unsigned int const UI_LAYER = 3000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
     
