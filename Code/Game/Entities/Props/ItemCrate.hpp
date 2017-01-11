@@ -7,7 +7,8 @@ public:
     ItemCrate(const Vector2& position);
     virtual ~ItemCrate();
 
-    virtual void Update(float deltaSeconds);
+    virtual void Update(float deltaSeconds) override;
+    virtual void Die() override;
     void GenerateItems();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////

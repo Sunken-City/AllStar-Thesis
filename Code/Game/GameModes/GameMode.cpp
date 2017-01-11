@@ -6,6 +6,7 @@
 #include "Game/Entities/Pickup.hpp"
 #include "Game/Entities/Ship.hpp"
 #include "Engine/Audio/Audio.hpp"
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -90,6 +91,7 @@ void GameMode::SpawnBullet(Ship* creator)
     m_newEntities.push_back(new Projectile(creator));
 
     PlaySoundAt(bulletSound, creator->GetPosition(), 0.5f);
+    ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::PLAYER_BULLET_LAYER, creator->GetPosition(), 0.0f);
 }
 
 //-----------------------------------------------------------------------------------

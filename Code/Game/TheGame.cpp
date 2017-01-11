@@ -745,6 +745,8 @@ void TheGame::RegisterParticleEffects()
     const float DEATH_ANIMATION_LENGTH = 1.5f;
     const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.3f;
     const float DEAD_SHIP_LINGERING_SECONDS = 15.0f;
+    const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.2f;
+    const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f;
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
@@ -777,14 +779,6 @@ void TheGame::RegisterParticleEffects()
     yellowBeams->m_scaleRateOfChangePerSecond = Vector2(0.0f, 2.0f);
     yellowBeams->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
 
-    ParticleEmitterDefinition* deadShipHull = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("PlayerShip"));
-    deadShipHull->m_initialNumParticlesSpawn = 1;
-    deadShipHull->m_initialVelocity = Vector2::ZERO;
-    deadShipHull->m_lifetimePerParticle = DEAD_SHIP_LINGERING_SECONDS;
-    deadShipHull->m_particlesPerSecond = 0.0f;
-    deadShipHull->m_initialRotationDegrees = 0.0f;
-    deadShipHull->m_initialTintPerParticle = RGBA::VERY_GRAY;
-
     ParticleEmitterDefinition* powerupPickup = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
     powerupPickup->m_fadeoutEnabled = true;
     powerupPickup->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
@@ -795,7 +789,28 @@ void TheGame::RegisterParticleEffects()
     powerupPickup->m_maxLifetime = POWER_UP_PICKUP_ANIMATION_LENGTH;
     powerupPickup->m_spawnRadius = Range<float>(0.4f, 0.6f);
     powerupPickup->m_scaleRateOfChangePerSecond = Vector2(1.3f);
-    
+
+    ParticleEmitterDefinition* muzzleFlash = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    muzzleFlash->m_fadeoutEnabled = true;
+    muzzleFlash->m_initialNumParticlesSpawn = Range<unsigned int>(2,4);
+    muzzleFlash->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+    muzzleFlash->m_initialVelocity = Vector2::UNIT_Y;
+    muzzleFlash->m_lifetimePerParticle = 0.2f;
+    muzzleFlash->m_particlesPerSecond = 0.0f;
+    muzzleFlash->m_maxLifetime = MUZZLE_FLASH_ANIMATION_LENGTH;
+    muzzleFlash->m_scaleRateOfChangePerSecond = Vector2(0.3f);
+
+    ParticleEmitterDefinition* crateDestroyed = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    crateDestroyed->m_fadeoutEnabled = true;
+    crateDestroyed->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
+    crateDestroyed->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+    crateDestroyed->m_initialVelocity = Vector2::ZERO;
+    crateDestroyed->m_lifetimePerParticle = 0.5f;
+    crateDestroyed->m_particlesPerSecond = 0.0f;
+    crateDestroyed->m_maxLifetime = CRATE_DESTRUCTION_ANIMATION_LENGTH;
+    crateDestroyed->m_spawnRadius = Range<float>(0.4f, 0.6f);
+    crateDestroyed->m_scaleRateOfChangePerSecond = Vector2(1.3f);
+    crateDestroyed->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
@@ -806,6 +821,9 @@ void TheGame::RegisterParticleEffects()
     ParticleSystemDefinition* powerupPickupParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("PowerupPickup", ONE_SHOT);
     powerupPickupParticleSystem->AddEmitter(powerupPickup);
 
-    ParticleSystemDefinition* deadShipParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("DeadShip", ONE_SHOT);
-    deadShipParticleSystem->AddEmitter(deadShipHull);
+    ParticleSystemDefinition* muzzleFlashParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("MuzzleFlash", ONE_SHOT);
+    muzzleFlashParticleSystem->AddEmitter(muzzleFlash);
+
+    ParticleSystemDefinition* crateDestroyedParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("CrateDestroyed", ONE_SHOT);
+    crateDestroyedParticleSystem->AddEmitter(crateDestroyed);
 }

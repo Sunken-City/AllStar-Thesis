@@ -5,6 +5,7 @@
 #include "Game/StateMachine.hpp"
 #include "Game/Items/Item.hpp"
 #include "Game/Items/PowerUp.hpp"
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 const float ItemCrate::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -34,6 +35,15 @@ void ItemCrate::Update(float deltaSeconds)
 {
     m_sprite->m_rotationDegrees += m_angularVelocity * deltaSeconds;
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
+}
+
+//-----------------------------------------------------------------------------------
+void ItemCrate::Die()
+{
+    static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
+    Entity::Die();
+    TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), 1.0f);
+    ParticleSystem::PlayOneShotParticleEffect("CrateDestroyed", TheGame::ENEMY_LAYER, GetPosition(), 0.0f);
 }
 
 //-----------------------------------------------------------------------------------
