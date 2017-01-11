@@ -441,7 +441,10 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
     {
         ship->Update(deltaSeconds);
     }
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
+    if (keyboardStart || controllerStart)
     {
         SetGameState(MINIGAME_GET_READY);
         InitializeMinigameGetReadyState();
@@ -588,7 +591,10 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
     {
         ship->Update(deltaSeconds);
     }
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
+    if (keyboardStart || controllerStart)
     {
         if (m_queuedMinigameModes.size() > 0)
         {
@@ -638,7 +644,9 @@ void TheGame::CleanupGameOverState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateGameOver(float )
 {
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER))
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
+    if (keyboardStart || controllerStart)
     {
         SetGameState(MAIN_MENU);
         TheGame::instance->InitializeMainMenuState();
