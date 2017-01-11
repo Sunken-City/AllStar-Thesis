@@ -43,7 +43,7 @@ void ItemCrate::Die()
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
     Entity::Die();
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), 1.0f);
-    ParticleSystem::PlayOneShotParticleEffect("CrateDestroyed", TheGame::ENEMY_LAYER, GetPosition(), 0.0f);
+    ParticleSystem::PlayOneShotParticleEffect("CrateDestroyed", TheGame::PLAYER_LAYER, GetPosition(), 0.0f);
 }
 
 //-----------------------------------------------------------------------------------

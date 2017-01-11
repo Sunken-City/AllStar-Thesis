@@ -804,7 +804,6 @@ void TheGame::RegisterParticleEffects()
     crateDestroyed->m_fadeoutEnabled = true;
     crateDestroyed->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
     crateDestroyed->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
-    crateDestroyed->m_initialVelocity = Vector2::ZERO;
     crateDestroyed->m_lifetimePerParticle = 0.5f;
     crateDestroyed->m_particlesPerSecond = 0.0f;
     crateDestroyed->m_maxLifetime = CRATE_DESTRUCTION_ANIMATION_LENGTH;
