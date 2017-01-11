@@ -19,21 +19,24 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
-    virtual bool IsCollidingWith(Entity* otherEntity);
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void TakeDamage(float damage);
     virtual void Die() { m_isDead = true; };
     virtual void CalculateCollisionRadius();
-    inline virtual bool IsPlayer() { return false; }
     virtual void SetPosition(const Vector2& newPosition);
     virtual void SetRotation(const float newDegreesRotation);
-    virtual Vector2 GetPosition() { return m_transform.position; };
-    virtual float GetRotation() { return m_transform.rotationDegrees; };
     virtual void Heal(float healValue);
     virtual void DropInventory();
     virtual void SetShieldValue(float newShieldValue);
     void InitializeInventory(unsigned int inventorySize);
     void DeleteInventory();
+
+    //QUERIES/////////////////////////////////////////////////////////////////////
+    inline virtual bool IsPlayer() { return false; };
+    inline virtual bool HasShield() { return m_shieldHealth > 0.0f; };
+    inline virtual Vector2 GetPosition() { return m_transform.position; };
+    inline virtual float GetRotation() { return m_transform.rotationDegrees; };
+    virtual bool IsCollidingWith(Entity* otherEntity);
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual float GetTopSpeedStat();
@@ -70,7 +73,7 @@ public:
     float m_collisionRadius;
     float m_age;
     float m_frictionValue;
-    float m_shieldValue;
+    float m_shieldHealth;
     bool m_isDead;
     bool m_collidesWithBullets;
     bool m_noCollide;

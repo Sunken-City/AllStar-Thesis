@@ -29,7 +29,7 @@ Entity::Entity()
     , m_isInvincible(false)
     , m_owner(nullptr)
     , m_noCollide(false)
-    , m_shieldValue(0.0f)
+    , m_shieldHealth(0.0f)
 {
 }
 
@@ -95,10 +95,17 @@ void Entity::TakeDamage(float damage)
         return;
     }
 
-    m_currentHp -= damage;
-    if (m_currentHp < 0.0f)
+    if (HasShield())
     {
-        Die();
+        SetShieldValue(m_shieldHealth - damage);        
+    }
+    else
+    {
+        m_currentHp -= damage;
+        if (m_currentHp < 0.0f)
+        {
+            Die();
+        }
     }
 }
 
@@ -315,10 +322,10 @@ void Entity::DropInventory()
 //-----------------------------------------------------------------------------------
 void Entity::SetShieldValue(float newShieldValue)
 {
-    if (m_shieldValue != newShieldValue)
+    if (m_shieldHealth != newShieldValue)
     {
-        m_shieldValue = newShieldValue;
-        if (m_shieldValue > 0.0f)
+        m_shieldHealth = newShieldValue;
+        if (m_shieldHealth > 0.0f)
         {
             m_shieldSprite->Enable();
         }
