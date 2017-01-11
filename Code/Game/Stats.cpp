@@ -3,6 +3,7 @@
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
 const float Stats::CAPACITY_VALUE_PER_POINT = 5.0f;
+const float Stats::REGEN_RATE_PER_POINT = 1.0f;
 const float Stats::HP_VALUE_PER_POINT = 5.0f;
 
 //-----------------------------------------------------------------------------------

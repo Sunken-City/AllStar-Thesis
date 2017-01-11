@@ -12,12 +12,12 @@
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
     : Entity()
-    , m_timeSinceLastShot(0.0f)
+    , m_secondsSinceLastFiredWeapon(0.0f)
     , m_pilot(pilot)
 {
     m_baseStats.braking = 0.9f;
 
-    SetShieldCapacityValue(CalculateShieldCapacityValue());
+    SetShieldHealth(CalculateShieldCapacityValue());
 }
 
 //-----------------------------------------------------------------------------------
@@ -29,7 +29,8 @@ Ship::~Ship()
 void Ship::Update(float deltaSeconds)
 {
     Entity::Update(deltaSeconds);
-    m_timeSinceLastShot += deltaSeconds;
+    m_secondsSinceLastFiredWeapon += deltaSeconds;
+    RegenerateShield(deltaSeconds);
 
     if (m_pilot)
     {
@@ -38,8 +39,9 @@ void Ship::Update(float deltaSeconds)
 
         if (m_pilot->m_inputMap.FindInputValue("Suicide")->WasJustPressed())
         {
-            m_isDead = true;
-            Die();
+            TakeDamage(m_shieldHealth);
+//             m_isDead = true;
+//             Die();
         }
     }
 }
@@ -63,13 +65,24 @@ void Ship::UpdateShooting()
         }
         else
         {
-            float secondsPerShot = 1.0f / CalculateRateOfFireValue();
-            if (m_timeSinceLastShot > secondsPerShot)
+            float secondsPerWeaponFire = 1.0f / CalculateRateOfFireValue();
+            if (m_secondsSinceLastFiredWeapon > secondsPerWeaponFire)
             {
                 TheGame::instance->m_currentGameMode->SpawnBullet(this);
-                m_timeSinceLastShot = 0.0f;
+                m_secondsSinceLastFiredWeapon = 0.0f;
             }
         }
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::RegenerateShield(float deltaSeconds)
+{
+    const float SECONDS_BEFORE_SHIELD_REGEN_RESTARTS = 3.0f;
+    if (m_timeSinceLastHit > SECONDS_BEFORE_SHIELD_REGEN_RESTARTS)
+    {
+        float regenPointsThisFrame = CalculateShieldRegenValue() * deltaSeconds;
+        SetShieldHealth(m_shieldHealth + regenPointsThisFrame);
     }
 }
 

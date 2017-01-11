@@ -40,10 +40,10 @@ void Grunt::Update(float deltaSeconds)
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
     Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
     SetPosition(GetPosition() + deltaVelocity);
-    if (m_timeSinceLastShot > m_baseStats.rateOfFire)
+    if (m_secondsSinceLastFiredWeapon > m_baseStats.rateOfFire)
     {
         TheGame::instance->m_currentGameMode->SpawnBullet(this);
-        m_timeSinceLastShot = 0.0f;
+        m_secondsSinceLastFiredWeapon = 0.0f;
     }
 }
 

@@ -21,11 +21,11 @@ public:
     virtual void Die();
     void UpdateMotion(float deltaSeconds);
     void UpdateShooting();
+    void RegenerateShield(float deltaSeconds);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-
     Pilot* m_pilot;
-    float m_timeSinceLastShot;
+    float m_secondsSinceLastFiredWeapon;
     float m_hitSoundMaxVolume = 0.7f;
     bool m_lockMovement = false;
 };

@@ -26,4 +26,5 @@ struct Stats
     //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
     static const float HP_VALUE_PER_POINT;
     static const float CAPACITY_VALUE_PER_POINT;
+    static const float REGEN_RATE_PER_POINT;
 };

@@ -55,6 +55,7 @@ Entity::~Entity()
 void Entity::Update(float deltaSeconds)
 {
     m_age += deltaSeconds;
+    m_timeSinceLastHit += deltaSeconds;
 }
 
 //-----------------------------------------------------------------------------------
@@ -97,7 +98,7 @@ void Entity::TakeDamage(float damage)
 
     if (HasShield())
     {
-        SetShieldCapacityValue(m_shieldHealth - damage);        
+        SetShieldHealth(m_shieldHealth - damage);        
     }
     else
     {
@@ -107,6 +108,7 @@ void Entity::TakeDamage(float damage)
             Die();
         }
     }
+    m_timeSinceLastHit = 0.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -355,9 +357,10 @@ float Entity::CalculateShieldCapacityValue()
 }
 
 //-----------------------------------------------------------------------------------
+//This metric is in shield capacity points per second.
 float Entity::CalculateShieldRegenValue()
 {
-    return GetShieldRegenStat();
+    return GetShieldRegenStat() * Stats::REGEN_RATE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
@@ -393,8 +396,9 @@ void Entity::DropInventory()
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::SetShieldCapacityValue(float newShieldValue)
+void Entity::SetShieldHealth(float newShieldValue)
 {
+    newShieldValue = Clamp<float>(newShieldValue, 0.0f, CalculateShieldCapacityValue());
     if (m_shieldHealth != newShieldValue)
     {
         m_shieldHealth = newShieldValue;

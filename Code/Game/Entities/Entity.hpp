@@ -21,13 +21,13 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void TakeDamage(float damage);
-    virtual void Die() { m_isDead = true; SetShieldCapacityValue(0.0f); };
+    virtual void Die() { m_isDead = true; SetShieldHealth(0.0f); };
     virtual void CalculateCollisionRadius();
     virtual void SetPosition(const Vector2& newPosition);
     virtual void SetRotation(const float newDegreesRotation);
     virtual void Heal(float healValue);
     virtual void DropInventory();
-    virtual void SetShieldCapacityValue(float newShieldValue);
+    virtual void SetShieldHealth(float newShieldValue);
     void InitializeInventory(unsigned int inventorySize);
     void DeleteInventory();
 
@@ -86,6 +86,7 @@ public:
     float m_currentHp;
     float m_collisionRadius;
     float m_age;
+    float m_timeSinceLastHit = 0.0f;
     float m_frictionValue;
     float m_shieldHealth;
     bool m_isDead;

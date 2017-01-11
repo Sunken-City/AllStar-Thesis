@@ -77,7 +77,7 @@ void PlayerShip::Respawn()
 {
     m_isDead = false;
     Heal(CalculateHpValue());
-    SetShieldCapacityValue(CalculateShieldCapacityValue());
+    SetShieldHealth(CalculateShieldCapacityValue());
     m_sprite->Enable();
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
 }
