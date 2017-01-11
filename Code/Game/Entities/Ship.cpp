@@ -17,7 +17,7 @@ Ship::Ship(Pilot* pilot)
 {
     m_baseStats.braking = 0.9f;
 
-    SetShieldValue(1.0f);
+    SetShieldCapacityValue(CalculateShieldCapacityValue());
 }
 
 //-----------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ void Ship::UpdateShooting()
         }
         else
         {
-            float secondsPerShot = 1.0f / GetRateOfFireStat();
+            float secondsPerShot = 1.0f / CalculateRateOfFireValue();
             if (m_timeSinceLastShot > secondsPerShot)
             {
                 TheGame::instance->m_currentGameMode->SpawnBullet(this);
@@ -82,7 +82,6 @@ void Ship::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Ship::UpdateMotion(float deltaSeconds)
 {
-    const float speedSanityMultiplier = 3.0f / 1.0f;
     InputMap& input = m_pilot->m_inputMap;
     Vector2 inputDirection = input.GetVector2("Right", "Up");
 
@@ -95,15 +94,15 @@ void Ship::UpdateMotion(float deltaSeconds)
     Vector2 velocityDir = m_velocity.CalculateMagnitude() < 0.01f ? inputDirection.GetNorm() : m_velocity.GetNorm();
     Vector2 perpindicularVelocityDir(-velocityDir.y, velocityDir.x);
     float accelerationDot = Vector2::Dot(inputDirection, velocityDir);
-    float accelerationMultiplier = (accelerationDot >= 0.0f) ? GetAccelerationStat() : GetHandlingStat();
+    float accelerationMultiplier = (accelerationDot >= 0.0f) ? CalculateAccelerationValue() : CalculateHandlingValue();
     Vector2 accelerationComponent = accelerationComponent = velocityDir * accelerationDot * accelerationMultiplier;
-    Vector2 agilityComponent = perpindicularVelocityDir * Vector2::Dot(inputDirection, perpindicularVelocityDir) * GetHandlingStat();
+    Vector2 agilityComponent = perpindicularVelocityDir * Vector2::Dot(inputDirection, perpindicularVelocityDir) * CalculateHandlingValue();
 
     //Calculate velocity
     Vector2 totalAcceleration = accelerationComponent + agilityComponent;
     m_velocity += totalAcceleration;
-    m_velocity *= m_baseStats.braking; // +(0.1f * GetBrakingStat());
-    m_velocity.ClampMagnitude(GetTopSpeedStat() * speedSanityMultiplier);
+    m_velocity *= m_baseStats.braking; // +(0.1f * CalculateBrakingValue());
+    m_velocity.ClampMagnitude(CalculateTopSpeedValue());
 
     Vector2 attemptedPosition = m_transform.position + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);

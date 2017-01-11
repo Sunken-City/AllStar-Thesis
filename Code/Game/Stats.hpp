@@ -22,4 +22,8 @@ struct Stats
     float shieldCapacity;
     float shieldRegen;
     float shotDeflection;
+
+    //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
+    static const float HP_VALUE_PER_PICKUP;
+    static const float CAPACITY_VALUE_PER_PICKUP;
 };

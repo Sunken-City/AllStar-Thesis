@@ -36,7 +36,6 @@ public:
     inline virtual float GetShotDeflectionStat() { return Ship::GetShotDeflectionStat() + m_powerupStatModifiers.shotDeflection; };
 
     void DropPowerups();
-    void AttemptMovement(const Vector2& attemptedPosition);
     void PickUpItem(Item* pickedUpItem);
     void DropRandomPowerup();
 

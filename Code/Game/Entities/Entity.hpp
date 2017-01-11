@@ -21,19 +21,20 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void TakeDamage(float damage);
-    virtual void Die() { m_isDead = true; };
+    virtual void Die() { m_isDead = true; SetShieldCapacityValue(0.0f); };
     virtual void CalculateCollisionRadius();
     virtual void SetPosition(const Vector2& newPosition);
     virtual void SetRotation(const float newDegreesRotation);
     virtual void Heal(float healValue);
     virtual void DropInventory();
-    virtual void SetShieldValue(float newShieldValue);
+    virtual void SetShieldCapacityValue(float newShieldValue);
     void InitializeInventory(unsigned int inventorySize);
     void DeleteInventory();
 
     //QUERIES/////////////////////////////////////////////////////////////////////
     inline virtual bool IsPlayer() { return false; };
     inline virtual bool HasShield() { return m_shieldHealth > 0.0f; };
+    virtual inline bool IsProjectile() { return false; };
     inline virtual Vector2 GetPosition() { return m_transform.position; };
     inline virtual float GetRotation() { return m_transform.rotationDegrees; };
     virtual bool IsCollidingWith(Entity* otherEntity);
@@ -51,7 +52,20 @@ public:
     virtual float GetShieldCapacityStat();
     virtual float GetShieldRegenStat();
     virtual float GetShotDeflectionStat();
-    virtual inline bool IsProjectile() { return false; };
+
+    //STAT VALUE FUNCTIONS/////////////////////////////////////////////////////////////////////
+    virtual float CalculateTopSpeedValue();
+    virtual float CalculateAccelerationValue();
+    virtual float CalculateHandlingValue();
+    virtual float CalculateBrakingValue();
+    virtual float CalculateDamageValue();
+    virtual float CalculateShieldDisruptionValue();
+    virtual float CalculateShieldPenetrationValue();
+    virtual float CalculateRateOfFireValue();
+    virtual float CalculateHpValue();
+    virtual float CalculateShieldCapacityValue();
+    virtual float CalculateShieldRegenValue();
+    virtual float CalculateShotDeflectionValue();
 
     //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
     static Vector2 SHEILD_SCALE_FUDGE_VALUE;

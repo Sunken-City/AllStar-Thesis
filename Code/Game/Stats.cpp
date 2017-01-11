@@ -2,6 +2,9 @@
 #include "Game/Items/PowerUp.hpp"
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
+const float Stats::CAPACITY_VALUE_PER_PICKUP = 5.0f;
+const float Stats::HP_VALUE_PER_PICKUP = 5.0f;
+
 //-----------------------------------------------------------------------------------
 Stats::Stats(float defaultValue)
     : topSpeed(defaultValue)

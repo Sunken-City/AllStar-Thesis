@@ -97,7 +97,7 @@ void Entity::TakeDamage(float damage)
 
     if (HasShield())
     {
-        SetShieldValue(m_shieldHealth - damage);        
+        SetShieldCapacityValue(m_shieldHealth - damage);        
     }
     else
     {
@@ -158,7 +158,7 @@ void Entity::SetRotation(const float newDegreesRotation)
 void Entity::Heal(float healValue)
 {
     m_currentHp += healValue;
-    MathUtils::Clamp(m_currentHp, 0.0f, GetHpStat());
+    MathUtils::Clamp(m_currentHp, 0.0f, CalculateHpValue());
 }
 
 //-----------------------------------------------------------------------------------
@@ -294,6 +294,79 @@ float Entity::GetShotDeflectionStat()
 }
 
 //-----------------------------------------------------------------------------------
+float Entity::CalculateTopSpeedValue()
+{
+    const float BASE_SPEED = 5.0f;
+    return GetTopSpeedStat() + BASE_SPEED;
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateAccelerationValue()
+{
+    return GetAccelerationStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateHandlingValue()
+{
+    return GetHandlingStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateBrakingValue()
+{
+    return GetBrakingStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateDamageValue()
+{
+    return GetDamageStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateShieldDisruptionValue()
+{
+    return GetShieldDisruptionStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateShieldPenetrationValue()
+{
+    return GetShieldPenetrationStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateRateOfFireValue()
+{
+    return GetRateOfFireStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateHpValue()
+{
+    return GetHpStat() * Stats::HP_VALUE_PER_PICKUP;
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateShieldCapacityValue()
+{
+    return GetShieldCapacityStat() * Stats::CAPACITY_VALUE_PER_PICKUP;
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateShieldRegenValue()
+{
+    return GetShieldRegenStat();
+}
+
+//-----------------------------------------------------------------------------------
+float Entity::CalculateShotDeflectionValue()
+{
+    return GetShotDeflectionStat();
+}
+
+//-----------------------------------------------------------------------------------
 void Entity::DeleteInventory()
 {
     unsigned int inventorySize = m_inventory.size();
@@ -320,7 +393,7 @@ void Entity::DropInventory()
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::SetShieldValue(float newShieldValue)
+void Entity::SetShieldCapacityValue(float newShieldValue)
 {
     if (m_shieldHealth != newShieldValue)
     {
