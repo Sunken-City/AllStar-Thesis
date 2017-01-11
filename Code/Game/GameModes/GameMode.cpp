@@ -11,7 +11,7 @@
 GameMode::GameMode(const std::string& arenaBackgroundImage)
     : m_arenaBackground(new Sprite(arenaBackgroundImage, TheGame::BACKGROUND_LAYER))
 {
-    m_arenaBackground->m_scale = Vector2(10.0f, 10.0f);
+    m_arenaBackground->m_scale = Vector2(1.0f, 1.0f);
     SpriteGameRenderer::instance->SetWorldBounds(m_arenaBackground->GetBounds());
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
 

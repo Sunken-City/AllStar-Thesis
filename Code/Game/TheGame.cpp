@@ -47,6 +47,13 @@ TheGame::TheGame()
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
     EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
+
+//     Material* mat = new Material(
+//         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\falcoPixelation.frag"),
+//         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
+//         );
+//     mat->SetFloatUniform("gPixelationFactor", 1.0f);
+//     SpriteGameRenderer::instance->AddEffectToLayer(mat, UI_LAYER);
 }
 
 
@@ -689,8 +696,9 @@ void TheGame::RegisterSprites()
 {
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
-    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Nebula.jpg");
-    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Orange-space.jpg");
+    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");
+    //ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\DefaultBackground.jpg");
+    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\Orange-space.jpg");
     ResourceDatabase::instance->RegisterSprite("AssemblyResults", "Data\\Images\\assemblyResultsMockup.png");
     ResourceDatabase::instance->RegisterSprite("MinigameResults", "Data\\Images\\minigameResultsMockup.png");
     ResourceDatabase::instance->RegisterSprite("AssemblyGetReady", "Data\\Images\\assemblyGetReadyMockup.png");
@@ -735,6 +743,7 @@ void TheGame::RegisterSprites()
 void TheGame::RegisterParticleEffects()
 {
     const float DEATH_ANIMATION_LENGTH = 1.5f;
+    const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.3f;
     const float DEAD_SHIP_LINGERING_SECONDS = 15.0f;
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
@@ -776,16 +785,16 @@ void TheGame::RegisterParticleEffects()
     deadShipHull->m_initialRotationDegrees = 0.0f;
     deadShipHull->m_initialTintPerParticle = RGBA::VERY_GRAY;
 
-//     ParticleEmitterDefinition* powerupPickup = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
-//     powerupPickup->m_fadeoutEnabled = true;
-//     powerupPickup->m_initialNumParticlesSpawn = Range<unsigned int>(10, 15);
-//     powerupPickup->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
-//     powerupPickup->m_initialVelocity = Vector2::ZERO;
-//     powerupPickup->m_lifetimePerParticle = 0.2f;
-//     powerupPickup->m_particlesPerSecond = 40.0f;
-//     powerupPickup->m_maxLifetime = DEATH_ANIMATION_LENGTH;
-//     powerupPickup->m_spawnRadius = Range<float>(0.4f, 0.6f);
-//     powerupPickup->m_scaleRateOfChangePerSecond = Vector2(1.3f);
+    ParticleEmitterDefinition* powerupPickup = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    powerupPickup->m_fadeoutEnabled = true;
+    powerupPickup->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
+    powerupPickup->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+    powerupPickup->m_initialVelocity = Vector2::UNIT_Y;
+    powerupPickup->m_lifetimePerParticle = 0.5f;
+    powerupPickup->m_particlesPerSecond = 0.0f;
+    powerupPickup->m_maxLifetime = POWER_UP_PICKUP_ANIMATION_LENGTH;
+    powerupPickup->m_spawnRadius = Range<float>(0.4f, 0.6f);
+    powerupPickup->m_scaleRateOfChangePerSecond = Vector2(1.3f);
     
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////
@@ -793,6 +802,9 @@ void TheGame::RegisterParticleEffects()
     deathParticleSystem->AddEmitter(yellowStars);
     deathParticleSystem->AddEmitter(yellowExplosionOrb);
     deathParticleSystem->AddEmitter(yellowBeams);
+
+    ParticleSystemDefinition* powerupPickupParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("PowerupPickup", ONE_SHOT);
+    powerupPickupParticleSystem->AddEmitter(powerupPickup);
 
     ParticleSystemDefinition* deadShipParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("DeadShip", ONE_SHOT);
     deadShipParticleSystem->AddEmitter(deadShipHull);
