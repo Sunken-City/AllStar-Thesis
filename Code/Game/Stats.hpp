@@ -24,6 +24,6 @@ struct Stats
     float shotDeflection;
 
     //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
-    static const float HP_VALUE_PER_PICKUP;
-    static const float CAPACITY_VALUE_PER_PICKUP;
+    static const float HP_VALUE_PER_POINT;
+    static const float CAPACITY_VALUE_PER_POINT;
 };

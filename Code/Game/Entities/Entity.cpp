@@ -345,13 +345,13 @@ float Entity::CalculateRateOfFireValue()
 //-----------------------------------------------------------------------------------
 float Entity::CalculateHpValue()
 {
-    return GetHpStat() * Stats::HP_VALUE_PER_PICKUP;
+    return GetHpStat() * Stats::HP_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldCapacityValue()
 {
-    return GetShieldCapacityStat() * Stats::CAPACITY_VALUE_PER_PICKUP;
+    return GetShieldCapacityStat() * Stats::CAPACITY_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
