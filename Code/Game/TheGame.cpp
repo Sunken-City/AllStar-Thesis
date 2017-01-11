@@ -698,7 +698,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ReadyText", "Data\\Images\\ready.png");
 
     //Entities
-    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserGreen10.png");
+    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless10.png");
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
     ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
     ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
@@ -775,6 +775,17 @@ void TheGame::RegisterParticleEffects()
     deadShipHull->m_particlesPerSecond = 0.0f;
     deadShipHull->m_initialRotationDegrees = 0.0f;
     deadShipHull->m_initialTintPerParticle = RGBA::VERY_GRAY;
+
+//     ParticleEmitterDefinition* powerupPickup = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+//     powerupPickup->m_fadeoutEnabled = true;
+//     powerupPickup->m_initialNumParticlesSpawn = Range<unsigned int>(10, 15);
+//     powerupPickup->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+//     powerupPickup->m_initialVelocity = Vector2::ZERO;
+//     powerupPickup->m_lifetimePerParticle = 0.2f;
+//     powerupPickup->m_particlesPerSecond = 40.0f;
+//     powerupPickup->m_maxLifetime = DEATH_ANIMATION_LENGTH;
+//     powerupPickup->m_spawnRadius = Range<float>(0.4f, 0.6f);
+//     powerupPickup->m_scaleRateOfChangePerSecond = Vector2(1.3f);
     
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////

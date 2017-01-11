@@ -16,6 +16,7 @@ Projectile::Projectile(Entity* owner)
     m_staysWithinBounds = false;
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
     m_sprite->m_scale = Vector2(1.0f, 1.0f);
+    m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
 
     SetPosition(owner->GetPosition());
