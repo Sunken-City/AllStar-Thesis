@@ -90,7 +90,10 @@ void Ship::RegenerateShield(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void Ship::ApplyShotDeflection()
 {
+    static const float DEADSHOT_SLOPE_VALUE = 0.1f;
+    const float DEFLECTION_RADIUS_SQUARED = 4.0f;
     GameMode* current = GameMode::GetCurrent();
+
     for (Entity* entity : current->m_entities)
     {
         if (entity->IsProjectile() && entity->m_owner != this)
@@ -98,20 +101,22 @@ void Ship::ApplyShotDeflection()
             Projectile* projectile = (Projectile*)entity;
             Vector2 bulletPos = projectile->GetPosition();
             float distBetweenShipAndProjectileSquared = MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), bulletPos);
-            if (distBetweenShipAndProjectileSquared < 4.0f)
+
+            if (distBetweenShipAndProjectileSquared < DEFLECTION_RADIUS_SQUARED)
             {
                 Vector2 displacementFromShipToBullet = bulletPos - GetPosition();
                 float slope = displacementFromShipToBullet.y / displacementFromShipToBullet.x;
-                if (abs(slope) < 0.001f)
+                if (abs(slope) < DEADSHOT_SLOPE_VALUE)
                 {
                     break;
                 }
-                Vector3 crossFriend = slope > 0.0f ? -Vector3::UNIT_Z : Vector3::UNIT_Z;
-                Vector2 resolutionDirection = (Vector3::Cross(Vector3(projectile->m_velocity.GetNorm(), 0.0f), crossFriend));
+
+                Vector2 resolutionDirection = (Vector3::Cross(Vector3(projectile->m_velocity.GetNorm(), 0.0f), Vector3::UNIT_Z));
                 if (MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), bulletPos + resolutionDirection) < distBetweenShipAndProjectileSquared)
                 {
                     resolutionDirection *= -1.0f;
                 }
+
                 projectile->ApplyImpulse(resolutionDirection * CalculateShotDeflectionValue());
             }
         }

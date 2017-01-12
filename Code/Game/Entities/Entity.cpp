@@ -377,7 +377,7 @@ float Entity::CalculateShieldRegenValue()
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShotDeflectionValue()
 {
-    return GetShotDeflectionStat() * Stats::DEFLECTION_VALUE_PER_POINT + 200.0f;
+    return GetShotDeflectionStat() * Stats::DEFLECTION_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------

@@ -49,7 +49,7 @@ void Projectile::Update(float deltaSeconds)
         Vector2 velocity = m_velocity + (m_accelerationViaImpulse * deltaSeconds);
         position += velocity * deltaSeconds;
         SetPosition(position);
-        m_accelerationViaImpulse = 0.0f; //Only applied for a frame.
+        m_accelerationViaImpulse *= 0.5f; //Only applied for a frame.
     }
     else
     {
