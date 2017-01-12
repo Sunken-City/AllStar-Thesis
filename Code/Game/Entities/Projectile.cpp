@@ -46,7 +46,10 @@ void Projectile::Update(float deltaSeconds)
     if (m_age < m_lifeSpan)
     {
         Vector2 position = GetPosition();
-        SetPosition(position + m_velocity * deltaSeconds);
+        Vector2 velocity = m_velocity + (m_accelerationViaImpulse * deltaSeconds);
+        position += velocity * deltaSeconds;
+        SetPosition(position);
+        m_accelerationViaImpulse = 0.0f; //Only applied for a frame.
     }
     else
     {
@@ -63,5 +66,12 @@ void Projectile::ResolveCollision(Entity* otherEntity)
         otherEntity->TakeDamage(m_power, m_disruption, m_penetration);
         this->m_isDead = true;
     }
+}
+
+//-----------------------------------------------------------------------------------
+void Projectile::ApplyImpulse(const Vector2& appliedAcceleration)
+{
+    const float mass = 1.0f;
+    m_accelerationViaImpulse = mass * appliedAcceleration;
 }
 

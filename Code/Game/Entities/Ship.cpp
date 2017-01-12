@@ -8,6 +8,7 @@
 #include "Engine/Input/Logging.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
+#include "Projectile.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -31,6 +32,7 @@ void Ship::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     m_secondsSinceLastFiredWeapon += deltaSeconds;
     RegenerateShield(deltaSeconds);
+    ApplyShotDeflection();
 
     if (m_pilot)
     {
@@ -82,6 +84,26 @@ void Ship::RegenerateShield(float deltaSeconds)
     {
         float regenPointsThisFrame = CalculateShieldRegenValue() * deltaSeconds;
         SetShieldHealth(m_shieldHealth + regenPointsThisFrame);
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::ApplyShotDeflection()
+{
+    GameMode* current = GameMode::GetCurrent();
+    for (Entity* entity : current->m_entities)
+    {
+        if (entity->IsProjectile() && entity->m_owner != this)
+        {
+            Projectile* projectile = (Projectile*)entity;
+            Vector2 bulletPos = projectile->GetPosition();
+            float distBetweenShipAndProjectileSquared = MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), bulletPos);
+            if (distBetweenShipAndProjectileSquared < 4.0f)
+            {
+                Vector2 resolutionDirection = (Vector3::Cross(Vector3(projectile->m_velocity.GetNorm(), 0.0f), -Vector3::UNIT_Z));
+                projectile->ApplyImpulse(resolutionDirection * CalculateShotDeflectionValue());
+            }
+        }
     }
 }
 

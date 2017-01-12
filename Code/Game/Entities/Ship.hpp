@@ -22,7 +22,7 @@ public:
     void UpdateMotion(float deltaSeconds);
     void UpdateShooting();
     void RegenerateShield(float deltaSeconds);
-
+    void ApplyShotDeflection();
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Pilot* m_pilot;
     float m_secondsSinceLastFiredWeapon;
