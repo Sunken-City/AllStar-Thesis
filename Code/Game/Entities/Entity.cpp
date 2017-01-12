@@ -99,7 +99,7 @@ void Entity::TakeDamage(float damage, float disruption, float penetration)
     if (HasShield())
     {
         float adjustedDamage = damage * disruption;
-        SetShieldHealth(m_shieldHealth - damage);
+        SetShieldHealth(m_shieldHealth - adjustedDamage);
 
         //Apply penetration damage. Shields must be popped before penetration kills the other user.
         float penetrationDamage = damage * penetration;
@@ -112,7 +112,7 @@ void Entity::TakeDamage(float damage, float disruption, float penetration)
     else
     {
         m_currentHp -= damage;
-        if (m_currentHp < 0.0f)
+        if (m_currentHp <= 0.0f)
         {
             Die();
         }

@@ -27,6 +27,9 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_baseStats.handling = 1.0f;
     m_baseStats.topSpeed = 1.0f;
     m_baseStats.rateOfFire = 8.0f;
+    m_baseStats.shieldDisruption = 100.0f;
+    m_baseStats.damage = 0.1f;
+    m_baseStats.shieldPenetration = 100.0f;
 
     m_hitSoundMaxVolume = 1.0f;
     m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
