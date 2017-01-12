@@ -20,7 +20,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity);
-    virtual void TakeDamage(float damage);
+    virtual void TakeDamage(float damage, float disruption = 1.0f, float penetration = 0.0f);
     virtual void Die() { m_isDead = true; SetShieldHealth(0.0f); };
     virtual void CalculateCollisionRadius();
     virtual void SetPosition(const Vector2& newPosition);

@@ -20,6 +20,9 @@ public:
     virtual void Die();
     void Respawn();
     inline virtual bool IsPlayer() { return true; }
+    void DropPowerups();
+    void PickUpItem(Item* pickedUpItem);
+    void DropRandomPowerup();
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };
@@ -35,9 +38,6 @@ public:
     inline virtual float GetShieldRegenStat() { return Ship::GetShieldRegenStat() + m_powerupStatModifiers.shieldRegen; };
     inline virtual float GetShotDeflectionStat() { return Ship::GetShotDeflectionStat() + m_powerupStatModifiers.shotDeflection; };
 
-    void DropPowerups();
-    void PickUpItem(Item* pickedUpItem);
-    void DropRandomPowerup();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;

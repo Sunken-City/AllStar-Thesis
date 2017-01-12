@@ -17,7 +17,7 @@ public:
     virtual void LockMovement() { m_lockMovement = true; };
     virtual void UnlockMovement() { m_lockMovement = false; };
     virtual void ToggleMovement() { m_lockMovement = !m_lockMovement; };
-    virtual void TakeDamage(float damage);
+    virtual void TakeDamage(float damage, float disruption, float penetration);
     virtual void Die();
     void UpdateMotion(float deltaSeconds);
     void UpdateShooting();

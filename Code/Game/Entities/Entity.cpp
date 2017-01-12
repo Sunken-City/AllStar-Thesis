@@ -89,7 +89,7 @@ void Entity::ResolveCollision(Entity* otherEntity)
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::TakeDamage(float damage)
+void Entity::TakeDamage(float damage, float disruption, float penetration)
 {
     if (m_isDead || m_isInvincible)
     {
@@ -98,7 +98,16 @@ void Entity::TakeDamage(float damage)
 
     if (HasShield())
     {
-        SetShieldHealth(m_shieldHealth - damage);        
+        float adjustedDamage = damage * disruption;
+        SetShieldHealth(m_shieldHealth - damage);
+
+        //Apply penetration damage. Shields must be popped before penetration kills the other user.
+        float penetrationDamage = damage * penetration;
+        m_currentHp -= penetrationDamage;
+        if (m_currentHp < 0.1f)
+        {
+            m_currentHp = 0.1f;
+        }
     }
     else
     {

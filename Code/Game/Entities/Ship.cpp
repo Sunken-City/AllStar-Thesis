@@ -39,9 +39,8 @@ void Ship::Update(float deltaSeconds)
 
         if (m_pilot->m_inputMap.FindInputValue("Suicide")->WasJustPressed())
         {
-            TakeDamage(m_shieldHealth);
-//             m_isDead = true;
-//             Die();
+            m_isDead = true;
+            Die();
         }
     }
 }
@@ -122,7 +121,7 @@ void Ship::UpdateMotion(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void Ship::TakeDamage(float damage)
+void Ship::TakeDamage(float damage, float disruption, float penetration)
 {
     static SoundID hitHullSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
     static SoundID hitShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
@@ -130,7 +129,7 @@ void Ship::TakeDamage(float damage)
     float currentHp = m_currentHp;
     float currentShieldCapacity = m_shieldHealth;
 
-    Entity::TakeDamage(damage);
+    Entity::TakeDamage(damage, disruption, penetration);
     if (currentShieldCapacity != m_shieldHealth)
     {
         if (m_shieldHealth != 0.0f)

@@ -31,6 +31,7 @@
 #include "GameModes/Minigames/BattleRoyaleMinigameMode.hpp"
 #include "Engine/Input/InputOutputUtils.hpp"
 #include "Engine/Core/Events/EventSystem.hpp"
+#include "Engine/Time/Time.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -47,7 +48,7 @@ TheGame::TheGame()
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
     EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
-
+    srand(GetTimeBasedSeed());
 //     Material* mat = new Material(
 //         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\falcoPixelation.frag"),
 //         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)

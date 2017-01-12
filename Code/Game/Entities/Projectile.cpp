@@ -5,10 +5,12 @@
 #include <algorithm>
 
 //-----------------------------------------------------------------------------------
-Projectile::Projectile(Entity* owner) 
+Projectile::Projectile(Entity* owner, float power, float disruption, float penetration)
     : Entity()
     , m_speed(10.0f)
-    , m_power(1.0f)
+    , m_power(power)
+    , m_disruption(disruption)
+    , m_penetration(penetration)
     , m_lifeSpan(2.0f)
 {
     m_owner = owner;
@@ -58,7 +60,7 @@ void Projectile::ResolveCollision(Entity* otherEntity)
     Entity::ResolveCollision(otherEntity);
     if (otherEntity != m_owner && otherEntity->m_collidesWithBullets && !otherEntity->m_isDead)
     {
-        otherEntity->TakeDamage(m_power);
+        otherEntity->TakeDamage(m_power, m_disruption, m_penetration);
         this->m_isDead = true;
     }
 }
