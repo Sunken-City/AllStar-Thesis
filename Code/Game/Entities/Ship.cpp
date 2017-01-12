@@ -17,7 +17,6 @@ Ship::Ship(Pilot* pilot)
     , m_pilot(pilot)
 {
     m_baseStats.braking = 0.9f;
-
     SetShieldHealth(CalculateShieldCapacityValue());
 }
 

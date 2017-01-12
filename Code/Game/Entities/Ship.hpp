@@ -4,6 +4,7 @@
 class Sprite;
 class Pilot;
 class Vector2;
+class ParticleSystem;
 
 class Ship : public Entity
 {
@@ -23,6 +24,7 @@ public:
     void UpdateShooting();
     void RegenerateShield(float deltaSeconds);
     void ApplyShotDeflection();
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Pilot* m_pilot;
     float m_secondsSinceLastFiredWeapon;

@@ -2,6 +2,13 @@
 #include "Game/Items/PowerUp.hpp"
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
+const float Stats::SPEED_VALUE_PER_POINT = 1.0f;
+const float Stats::ACCELERATION_VALUE_PER_POINT = 1.0f;
+const float Stats::HANDLING_VALUE_PER_POINT = 1.0f;
+const float Stats::BRAKING_VALUE_PER_POINT = 1.0f;
+const float Stats::DAMAGE_VALUE_PER_POINT = 1.0f;
+const float Stats::DISRUPTION_PERCENTAGE_PER_POINT = 0.05f;
+const float Stats::PENETRATION_PERCENTAGE_PER_POINT = 0.05f;
 const float Stats::RATE_OF_FIRE_PER_POINT = 0.5f;
 const float Stats::HP_VALUE_PER_POINT = 5.0f;
 const float Stats::CAPACITY_VALUE_PER_POINT = 5.0f;

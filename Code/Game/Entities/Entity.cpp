@@ -98,7 +98,7 @@ void Entity::TakeDamage(float damage, float disruption, float penetration)
 
     if (HasShield())
     {
-        float adjustedDamage = damage * disruption;
+        float adjustedDamage = damage + (damage * disruption);
         SetShieldHealth(m_shieldHealth - adjustedDamage);
 
         //Apply penetration damage. Shields must be popped before penetration kills the other user.
@@ -308,43 +308,44 @@ float Entity::GetShotDeflectionStat()
 float Entity::CalculateTopSpeedValue()
 {
     const float BASE_SPEED = 5.0f;
-    return GetTopSpeedStat() + BASE_SPEED;
+    float statSpeed = GetTopSpeedStat() * Stats::SPEED_VALUE_PER_POINT;
+    return statSpeed + BASE_SPEED;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateAccelerationValue()
 {
-    return GetAccelerationStat();
+    return GetAccelerationStat() * Stats::ACCELERATION_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateHandlingValue()
 {
-    return GetHandlingStat();
+    return GetHandlingStat() * Stats::HANDLING_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateBrakingValue()
 {
-    return GetBrakingStat();
+    return GetBrakingStat() * Stats::BRAKING_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateDamageValue()
 {
-    return GetDamageStat();
+    return GetDamageStat() * Stats::DAMAGE_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldDisruptionValue()
 {
-    return GetShieldDisruptionStat();
+    return GetShieldDisruptionStat() * Stats::DISRUPTION_PERCENTAGE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldPenetrationValue()
 {
-    return GetShieldPenetrationStat();
+    return GetShieldPenetrationStat() * Stats::PENETRATION_PERCENTAGE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------

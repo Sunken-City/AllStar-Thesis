@@ -754,9 +754,8 @@ void TheGame::RegisterParticleEffects()
 {
     const float DEATH_ANIMATION_LENGTH = 1.5f;
     const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.3f;
-    const float DEAD_SHIP_LINGERING_SECONDS = 15.0f;
     const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.2f;
-    const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f;
+    const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f; 
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
@@ -821,6 +820,15 @@ void TheGame::RegisterParticleEffects()
     crateDestroyed->m_scaleRateOfChangePerSecond = Vector2(1.3f);
     crateDestroyed->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
 
+    ParticleEmitterDefinition* shipTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    shipTrail->m_fadeoutEnabled = true;
+    shipTrail->m_initialNumParticlesSpawn = 1;
+    shipTrail->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
+    shipTrail->m_initialVelocity = Vector2::ZERO;
+    shipTrail->m_lifetimePerParticle = 1.5f;
+    shipTrail->m_particlesPerSecond = 1.0f;
+    shipTrail->m_scaleRateOfChangePerSecond = Vector2(2.0f);
+
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
@@ -835,4 +843,7 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* crateDestroyedParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("CrateDestroyed", ONE_SHOT);
     crateDestroyedParticleSystem->AddEmitter(crateDestroyed);
+
+    ParticleSystemDefinition* shipTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("ShipTrail", LOOPING);
+    shipTrailParticleSystem->AddEmitter(shipTrail);
 }
