@@ -100,7 +100,18 @@ void Ship::ApplyShotDeflection()
             float distBetweenShipAndProjectileSquared = MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), bulletPos);
             if (distBetweenShipAndProjectileSquared < 4.0f)
             {
-                Vector2 resolutionDirection = (Vector3::Cross(Vector3(projectile->m_velocity.GetNorm(), 0.0f), -Vector3::UNIT_Z));
+                Vector2 displacementFromShipToBullet = bulletPos - GetPosition();
+                float slope = displacementFromShipToBullet.y / displacementFromShipToBullet.x;
+                if (abs(slope) < 0.001f)
+                {
+                    break;
+                }
+                Vector3 crossFriend = slope > 0.0f ? -Vector3::UNIT_Z : Vector3::UNIT_Z;
+                Vector2 resolutionDirection = (Vector3::Cross(Vector3(projectile->m_velocity.GetNorm(), 0.0f), crossFriend));
+                if (MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), bulletPos + resolutionDirection) < distBetweenShipAndProjectileSquared)
+                {
+                    resolutionDirection *= -1.0f;
+                }
                 projectile->ApplyImpulse(resolutionDirection * CalculateShotDeflectionValue());
             }
         }
