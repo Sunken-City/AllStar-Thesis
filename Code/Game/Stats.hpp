@@ -24,7 +24,16 @@ struct Stats
     float shotDeflection;
 
     //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
+    static const float SPEED_VALUE_PER_POINT;
+    static const float ACCELERATION_VALUE_PER_POINT;
+    static const float HANDLING_VALUE_PER_POINT;
+    static const float BRAKING_VALUE_PER_POINT;
+    static const float DAMAGE_VALUE_PER_POINT;
+    static const float DISRUPTION_PERCENTAGE_PER_POINT;
+    static const float PENETRATION_PERCENTAGE_PER_POINT;
+    static const float RATE_OF_FIRE_PER_POINT;
     static const float HP_VALUE_PER_POINT;
     static const float CAPACITY_VALUE_PER_POINT;
     static const float REGEN_RATE_PER_POINT;
+    static const float DEFLECTION_VALUE_PER_POINT;
 };

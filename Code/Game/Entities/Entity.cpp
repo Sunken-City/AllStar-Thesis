@@ -350,7 +350,9 @@ float Entity::CalculateShieldPenetrationValue()
 //-----------------------------------------------------------------------------------
 float Entity::CalculateRateOfFireValue()
 {
-    return GetRateOfFireStat();
+    float baselineRateOfFire = 7.0f;
+    float statBonusRateOfFire = (GetRateOfFireStat() * Stats::RATE_OF_FIRE_PER_POINT);
+    return baselineRateOfFire + statBonusRateOfFire;
 }
 
 //-----------------------------------------------------------------------------------
