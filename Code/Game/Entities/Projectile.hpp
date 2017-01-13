@@ -15,7 +15,7 @@ public:
     void ApplyImpulse(const Vector2& appliedAcceleration);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    Vector2 m_accelerationViaImpulse = Vector2::ZERO;
+    Vector2 m_sumOfImpulses = Vector2::ZERO;
     float m_speed;
     float m_power;
     float m_disruption;

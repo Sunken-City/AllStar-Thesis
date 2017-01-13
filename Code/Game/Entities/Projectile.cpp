@@ -42,14 +42,18 @@ Projectile::~Projectile()
 //-----------------------------------------------------------------------------------
 void Projectile::Update(float deltaSeconds)
 {
+    float mass = 1.0f;
     Entity::Update(deltaSeconds);
     if (m_age < m_lifeSpan)
     {
         Vector2 position = GetPosition();
-        Vector2 velocity = m_velocity + (m_accelerationViaImpulse * deltaSeconds);
-        position += velocity * deltaSeconds;
+        Vector2 accelerationDueToImpulses = m_sumOfImpulses / mass;
+        m_velocity += (accelerationDueToImpulses * deltaSeconds);
+        position += m_velocity * deltaSeconds;
         SetPosition(position);
-        m_accelerationViaImpulse *= 0.5f; //Only applied for a frame.
+        m_sumOfImpulses = Vector2::ZERO; //Only applied for a frame.
+        
+        m_sprite->m_rotationDegrees = -m_velocity.CalculateThetaDegrees() + 90.0f;
     }
     else
     {
@@ -72,6 +76,6 @@ void Projectile::ResolveCollision(Entity* otherEntity)
 void Projectile::ApplyImpulse(const Vector2& appliedAcceleration)
 {
     const float mass = 1.0f;
-    m_accelerationViaImpulse = mass * appliedAcceleration;
+    m_sumOfImpulses += mass * appliedAcceleration;
 }
 

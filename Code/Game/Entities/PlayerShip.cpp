@@ -30,6 +30,11 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 
     m_hitSoundMaxVolume = 1.0f;
     m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
+
+    if (g_NearlyInvulnerable)
+    {
+        m_currentHp = 99999999.0f;
+    }
 }
 
 //-----------------------------------------------------------------------------------

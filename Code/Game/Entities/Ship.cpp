@@ -91,8 +91,9 @@ void Ship::RegenerateShield(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void Ship::ApplyShotDeflection()
 {
-    static const float DEADSHOT_SLOPE_VALUE = 0.1f;
-    const float DEFLECTION_RADIUS_SQUARED = 4.0f;
+    static const float DEADSHOT_DOT_TOLERANCE = fabs(MathUtils::SinDegrees(5.0f));
+    const float DEFLECTION_RADIUS = 4.0f;
+    const float DEFLECTION_RADIUS_SQUARED = DEFLECTION_RADIUS * DEFLECTION_RADIUS;
     GameMode* current = GameMode::GetCurrent();
 
     for (Entity* entity : current->m_entities)
@@ -105,20 +106,17 @@ void Ship::ApplyShotDeflection()
 
             if (distBetweenShipAndProjectileSquared < DEFLECTION_RADIUS_SQUARED)
             {
-                Vector2 displacementFromShipToBullet = bulletPos - GetPosition();
-                float slope = displacementFromShipToBullet.y / displacementFromShipToBullet.x;
-                if (abs(slope) < DEADSHOT_SLOPE_VALUE)
-                {
-                    break;
-                }
+                Vector2 displacementFromBulletToShip = GetPosition() - bulletPos;
+                Vector2 velocityPerpendicular = Vector2(-projectile->m_velocity.y, projectile->m_velocity.x);
+                Vector2 displacementNormalized = displacementFromBulletToShip.GetNorm();
+                Vector2 normalizedVelocity = velocityPerpendicular.GetNorm();
 
-                Vector2 resolutionDirection = (Vector3::Cross(Vector3(projectile->m_velocity.GetNorm(), 0.0f), Vector3::UNIT_Z));
-                if (MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), bulletPos + resolutionDirection) < distBetweenShipAndProjectileSquared)
+                float dotProduct = Vector2::Dot(displacementNormalized, normalizedVelocity);
+                if (fabs(dotProduct) > DEADSHOT_DOT_TOLERANCE)
                 {
-                    resolutionDirection *= -1.0f;
-                }
-
-                projectile->ApplyImpulse(resolutionDirection * CalculateShotDeflectionValue());
+                    Vector2 resolutionDirection = dotProduct > 0 ? -normalizedVelocity : normalizedVelocity;
+                    projectile->ApplyImpulse(resolutionDirection * CalculateShotDeflectionValue());
+                }                
             }
         }
     }

@@ -351,7 +351,7 @@ float Entity::CalculateShieldPenetrationValue()
 //-----------------------------------------------------------------------------------
 float Entity::CalculateRateOfFireValue()
 {
-    float baselineRateOfFire = 7.0f;
+    float baselineRateOfFire = 7.0f; //Make baseline constant
     float statBonusRateOfFire = (GetRateOfFireStat() * Stats::RATE_OF_FIRE_PER_POINT);
     return baselineRateOfFire + statBonusRateOfFire;
 }
@@ -378,7 +378,7 @@ float Entity::CalculateShieldRegenValue()
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShotDeflectionValue()
 {
-    return GetShotDeflectionStat() * Stats::DEFLECTION_VALUE_PER_POINT;
+    return GetShotDeflectionStat() * Stats::DEFLECTION_VALUE_PER_POINT + 5.0f;
 }
 
 //-----------------------------------------------------------------------------------

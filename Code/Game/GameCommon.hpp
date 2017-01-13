@@ -24,3 +24,5 @@ extern bool g_isQuitting;
 extern bool g_renderDebug;
 extern int g_frameNumber;
 extern Event<float> OnUpdate;
+
+extern bool g_NearlyInvulnerable;

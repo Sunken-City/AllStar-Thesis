@@ -29,6 +29,8 @@
 const int OFFSET_FROM_WINDOWS_DESKTOP = 50;
 const extern int WINDOW_PHYSICAL_WIDTH = 1600; //Gameboy: 160
 const extern int WINDOW_PHYSICAL_HEIGHT = 900; //Gameboy: 144
+const extern int IMPORT_RESOLUTION = 1080;
+const extern float VIRTUAL_SIZE = 10.0f;
 const float VIEW_LEFT = 0.0;
 const float VIEW_RIGHT = static_cast<float>(WINDOW_PHYSICAL_WIDTH);
 const float VIEW_BOTTOM = 0.0;
@@ -231,7 +233,7 @@ void Initialize(HINSTANCE applicationInstanceHandle)
     SetProcessDPIAware();
     CreateOpenGLWindow(applicationInstanceHandle);
     Renderer::instance = new Renderer();
-    SpriteGameRenderer::instance = new SpriteGameRenderer(RGBA::CORNFLOWER_BLUE, WINDOW_PHYSICAL_WIDTH, WINDOW_PHYSICAL_HEIGHT, 1080, 9.0f);
+    SpriteGameRenderer::instance = new SpriteGameRenderer(RGBA::CORNFLOWER_BLUE, WINDOW_PHYSICAL_WIDTH, WINDOW_PHYSICAL_HEIGHT, IMPORT_RESOLUTION, VIRTUAL_SIZE);
     AudioSystem::instance = new AudioSystem();
     InputSystem::instance = new InputSystem(g_hWnd, 4);
     Console::instance = new Console();
