@@ -811,6 +811,7 @@ void TheGame::RegisterParticleEffects()
 
     ParticleEmitterDefinition* crateDestroyed = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
     crateDestroyed->m_name = "Crate Destroyed";
+    crateDestroyed->m_properties.Set<float>("Gravity Scale", 1.0f);
     crateDestroyed->m_fadeoutEnabled = true;
     crateDestroyed->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
     crateDestroyed->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
