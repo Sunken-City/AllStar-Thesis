@@ -27,6 +27,7 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Pilot* m_pilot;
+    ParticleSystem* m_smokeTrail = nullptr;
     float m_secondsSinceLastFiredWeapon;
     float m_hitSoundMaxVolume = 0.7f;
     bool m_lockMovement = false;
