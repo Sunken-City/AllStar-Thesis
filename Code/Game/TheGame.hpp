@@ -37,6 +37,7 @@ public:
     static unsigned int const PLAYER_BULLET_LAYER = 1100;
     static unsigned int const ENEMY_BULLET_LAYER = 1200;
     static unsigned int const FOREGROUND_LAYER = 2000;
+    static unsigned int const TEXT_LAYER = 2500;
     static unsigned int const UI_LAYER = 3000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
