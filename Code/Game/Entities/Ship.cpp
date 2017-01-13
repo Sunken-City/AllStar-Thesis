@@ -15,6 +15,7 @@ Ship::Ship(Pilot* pilot)
     : Entity()
     , m_secondsSinceLastFiredWeapon(0.0f)
     , m_pilot(pilot)
+    , m_smokeTrail(new ParticleSystem("ShipTrail", TheGame::PLAYER_LAYER, &m_transform.position))
 {
     m_baseStats.braking = 0.9f;
     SetShieldHealth(CalculateShieldCapacityValue());
@@ -23,6 +24,7 @@ Ship::Ship(Pilot* pilot)
 //-----------------------------------------------------------------------------------
 Ship::~Ship()
 {
+    ParticleSystem::DestroyImmediately(m_smokeTrail);
 }
 
 //-----------------------------------------------------------------------------------

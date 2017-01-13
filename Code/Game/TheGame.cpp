@@ -810,6 +810,7 @@ void TheGame::RegisterParticleEffects()
     muzzleFlash->m_scaleRateOfChangePerSecond = Vector2(0.3f);
 
     ParticleEmitterDefinition* crateDestroyed = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    crateDestroyed->m_name = "Crate Destroyed";
     crateDestroyed->m_fadeoutEnabled = true;
     crateDestroyed->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
     crateDestroyed->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
@@ -821,12 +822,14 @@ void TheGame::RegisterParticleEffects()
     crateDestroyed->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
 
     ParticleEmitterDefinition* shipTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    shipTrail->m_name = "Ship Trail";
     shipTrail->m_fadeoutEnabled = true;
     shipTrail->m_initialNumParticlesSpawn = 1;
     shipTrail->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
-    shipTrail->m_initialVelocity = Vector2::ZERO;
+    shipTrail->m_initialVelocity = Vector2::UNIT_Y * -1.0f;
     shipTrail->m_lifetimePerParticle = 1.5f;
     shipTrail->m_particlesPerSecond = 1.0f;
+    shipTrail->m_maxLifetime = 0.0f;
     shipTrail->m_scaleRateOfChangePerSecond = Vector2(2.0f);
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////
