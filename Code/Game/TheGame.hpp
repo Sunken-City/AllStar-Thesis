@@ -46,6 +46,8 @@ private:
     TheGame& operator= (const TheGame& other) = delete;
     void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
     void RegisterSprites();
+    void RegisterSpriteAnimations();
+    void RegisterParticleEffects();
     void EnqueueMinigames();
 
     void InitializeMainMenuState();
@@ -92,7 +94,6 @@ private:
     void CleanupGameOverState(unsigned int);
     void UpdateGameOver(float deltaSeconds);
     void RenderGameOver() const;
-    void RegisterParticleEffects();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:

@@ -44,6 +44,7 @@ TheGame::TheGame()
 {
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
+    RegisterSpriteAnimations();
     RegisterParticleEffects();
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
@@ -750,6 +751,12 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
     ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
     ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
+
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RegisterSpriteAnimations()
+{
 
 }
 
