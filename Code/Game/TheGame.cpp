@@ -215,7 +215,7 @@ void TheGame::UpdateMainMenu(float)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::PressStart(NamedProperties& properties)
+void TheGame::PressStart(NamedProperties&)
 {
     SetGameState(PLAYER_JOIN);
     InitializePlayerJoinState();
@@ -762,7 +762,8 @@ void TheGame::RegisterParticleEffects()
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
-    yellowStars->m_properties.Set<bool>("Fadeout Enabled", true);
+    yellowStars->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Stars");
+    yellowStars->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     yellowStars->m_initialNumParticlesSpawn = Range<unsigned int>(10,15);
     yellowStars->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
     yellowStars->m_initialVelocity = Vector2::ZERO;
@@ -773,7 +774,8 @@ void TheGame::RegisterParticleEffects()
     yellowStars->m_scaleRateOfChangePerSecond = Vector2(1.3f);
 
     ParticleEmitterDefinition* yellowExplosionOrb = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowCircle"));
-    yellowExplosionOrb->m_properties.Set<bool>("Fadeout Enabled", true);
+    yellowExplosionOrb->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Explosion Orb");
+    yellowExplosionOrb->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     yellowExplosionOrb->m_initialNumParticlesSpawn = 1;
     yellowExplosionOrb->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
     yellowExplosionOrb->m_initialVelocity = Vector2::ZERO;
@@ -782,7 +784,8 @@ void TheGame::RegisterParticleEffects()
     yellowExplosionOrb->m_scaleRateOfChangePerSecond = Vector2(1.3f);
 
     ParticleEmitterDefinition* yellowBeams = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowBeam"));
-    yellowBeams->m_properties.Set<bool>("Fadeout Enabled", true);
+    yellowBeams->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Beams");
+    yellowBeams->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     yellowBeams->m_initialNumParticlesSpawn = Range<unsigned int>(5, 10);
     yellowBeams->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f, 0.2f), Vector2(0.4f, 0.4f));
     yellowBeams->m_initialVelocity = Vector2::ZERO;
@@ -792,7 +795,8 @@ void TheGame::RegisterParticleEffects()
     yellowBeams->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
 
     ParticleEmitterDefinition* powerupPickup = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
-    powerupPickup->m_properties.Set<bool>("Fadeout Enabled", true);
+    powerupPickup->m_properties.Set<std::string>(PROPERTY_NAME, "Power Pickup");
+    powerupPickup->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     powerupPickup->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
     powerupPickup->m_initialScalePerParticle = Range<Vector2>(Vector2(0.01f), Vector2(0.1f));
     powerupPickup->m_initialVelocity = Vector2::UNIT_Y;
@@ -803,7 +807,8 @@ void TheGame::RegisterParticleEffects()
     powerupPickup->m_scaleRateOfChangePerSecond = Vector2(1.3f);
 
     ParticleEmitterDefinition* muzzleFlash = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
-    muzzleFlash->m_properties.Set<bool>("Fadeout Enabled", true);
+    muzzleFlash->m_properties.Set<std::string>(PROPERTY_NAME, "Muzzle Flash");
+    muzzleFlash->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     muzzleFlash->m_initialNumParticlesSpawn = Range<unsigned int>(2,4);
     muzzleFlash->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
     muzzleFlash->m_initialVelocity = Vector2::UNIT_Y;
@@ -813,9 +818,9 @@ void TheGame::RegisterParticleEffects()
     muzzleFlash->m_scaleRateOfChangePerSecond = Vector2(0.3f);
 
     ParticleEmitterDefinition* crateDestroyed = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
-    crateDestroyed->m_properties.Set<std::string>("Name", "Crate Destroyed");
+    crateDestroyed->m_properties.Set<std::string>(PROPERTY_NAME, "Crate Destroyed");
     crateDestroyed->m_properties.Set<float>("Gravity Scale", 1.0f);
-    crateDestroyed->m_properties.Set<bool>("Fadeout Enabled", true);
+    crateDestroyed->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     crateDestroyed->m_initialNumParticlesSpawn = Range<unsigned int>(5, 15);
     crateDestroyed->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
     crateDestroyed->m_lifetimePerParticle = 0.5f;
@@ -826,8 +831,8 @@ void TheGame::RegisterParticleEffects()
     crateDestroyed->m_initialRotationDegrees = Range<float>(0.0f, 360.0f);
 
     ParticleEmitterDefinition* shipTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
-    shipTrail->m_properties.Set<std::string>("Name", "Ship Trail");
-    shipTrail->m_properties.Set<bool>("Fadeout Enabled", true);
+    shipTrail->m_properties.Set<std::string>(PROPERTY_NAME, "Ship Trail");
+    shipTrail->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     shipTrail->m_initialNumParticlesSpawn = 1;
     shipTrail->m_initialScalePerParticle = Range<Vector2>(Vector2(0.2f), Vector2(0.4f));
     shipTrail->m_initialVelocity = Vector2::UNIT_Y * -1.0f;
