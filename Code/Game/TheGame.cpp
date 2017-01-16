@@ -746,7 +746,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\Pickups\\shotDeflection.png");
 
     //Particles
-    ResourceDatabase::instance->RegisterSprite("Placeholder", "Data\\Images\\Particles\\placeholder.png");
+    ResourceDatabase::instance->RegisterSprite("Placeholder", "Data\\Images\\Particles\\placeholder.png"); 
+    ResourceDatabase::instance->RegisterSprite("ParticleBeige", "Data\\Images\\Particles\\particle_beige.png");
     ResourceDatabase::instance->RegisterSprite("BlackSmoke", "Data\\Images\\Particles\\blackSmoke01.png");
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
@@ -830,18 +831,19 @@ void TheGame::RegisterParticleEffects()
     muzzleFlash->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
     muzzleFlash->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.3f));
 
-    ParticleEmitterDefinition* crateDestroyed = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    ParticleEmitterDefinition* crateDestroyed = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("ParticleBeige"));
     crateDestroyed->m_properties.Set<std::string>(PROPERTY_NAME, "Crate Destroyed");
-    crateDestroyed->m_properties.Set<float>("Gravity Scale", 1.0f);
+    //crateDestroyed->m_properties.Set<float>("Gravity Scale", 1.0f);
     crateDestroyed->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
-    crateDestroyed->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(5, 15));
-    crateDestroyed->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
-    crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.5f);
     crateDestroyed->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
+    crateDestroyed->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(5, 15));
+    crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_EXPLOSIVE_VELOCITY_MAGNITUDE, 5.0f);
+    crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.5f);
     crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, CRATE_DESTRUCTION_ANIMATION_LENGTH);
     crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
-    crateDestroyed->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.3f));
     crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+    crateDestroyed->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
+    crateDestroyed->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.3f));
 
     ParticleEmitterDefinition* shipTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlackSmoke"));
     shipTrail->m_properties.Set<std::string>(PROPERTY_NAME, "Ship Trail");
