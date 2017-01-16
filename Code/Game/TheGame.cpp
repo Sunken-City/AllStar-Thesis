@@ -757,7 +757,10 @@ void TheGame::RegisterSprites()
 //-----------------------------------------------------------------------------------
 void TheGame::RegisterSpriteAnimations()
 {
-
+    SpriteAnimationResource* shieldAnimation = ResourceDatabase::instance->RegisterSpriteAnimation("Shield", SpriteAnimationLoopMode::LOOP);
+    shieldAnimation->AddFrame("Shield", 0.5f);
+    shieldAnimation->AddFrame("Yellow4Star", 0.5f);
+    shieldAnimation->AddFrame("Acceleration", 0.5f);
 }
 
 //-----------------------------------------------------------------------------------
