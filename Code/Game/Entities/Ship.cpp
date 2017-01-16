@@ -15,7 +15,7 @@ Ship::Ship(Pilot* pilot)
     : Entity()
     , m_secondsSinceLastFiredWeapon(0.0f)
     , m_pilot(pilot)
-    , m_smokeTrail(new ParticleSystem("ShipTrail", TheGame::PLAYER_LAYER, &m_transform.position))
+    , m_smokeTrail(new ParticleSystem("ShipTrail", TheGame::BACKGROUND_PARTICLES_LAYER, &m_transform.position))
 {
     m_baseStats.braking = 0.9f;
     SetShieldHealth(CalculateShieldCapacityValue());
@@ -39,6 +39,8 @@ void Ship::Update(float deltaSeconds)
     {
         UpdateMotion(deltaSeconds);
         UpdateShooting();
+
+        m_velocity.CalculateMagnitudeSquared() < 0.1f ? m_smokeTrail->Pause() : m_smokeTrail->Unpause();
 
         if (m_pilot->m_inputMap.FindInputValue("Suicide")->WasJustPressed())
         {
