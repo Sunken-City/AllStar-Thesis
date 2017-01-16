@@ -135,7 +135,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         powerUp->ApplyPickupEffect(this);
 
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
-        ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::PLAYER_LAYER, GetPosition(), 0.0f, powerUp->GetSpriteResource());
+        ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::BACKGROUND_PARTICLES_LAYER, GetPosition(), 0.0f, powerUp->GetSpriteResource());
 
         delete powerUp;
     }

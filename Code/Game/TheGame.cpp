@@ -366,11 +366,11 @@ void TheGame::RenderAssemblyGetReady() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyPlayingState()
 {
+    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f, -20.0f), Vector2(20.0f, 20.0f)));
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
-    //m_currentGameMode->SetBackground("DefaultBackground", Vector2(100.0f));
-    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleChange = 1.0f;
+
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyPlayingState);
 }
 
@@ -709,7 +709,7 @@ void TheGame::RegisterSprites()
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");
-    //ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\DefaultBackground.jpg");
+    ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\Assembly.png");
     ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\Orange-space.jpg");
     ResourceDatabase::instance->RegisterSprite("AssemblyResults", "Data\\Images\\assemblyResultsMockup.png");
     ResourceDatabase::instance->RegisterSprite("MinigameResults", "Data\\Images\\minigameResultsMockup.png");
@@ -838,7 +838,7 @@ void TheGame::RegisterParticleEffects()
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Vector2(0.2f));
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
     shipTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.5f);
-    shipTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 1.0f);
+    shipTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 5.0f);
     shipTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
     crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));

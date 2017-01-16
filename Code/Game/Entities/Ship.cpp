@@ -192,5 +192,5 @@ void Ship::Die()
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/trashExplosion.ogg");
     Entity::Die();
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), m_hitSoundMaxVolume);
-    ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::PLAYER_LAYER, GetPosition(), 0.0f);
+    ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::BACKGROUND_PARTICLES_LAYER, GetPosition(), 0.0f);
 }

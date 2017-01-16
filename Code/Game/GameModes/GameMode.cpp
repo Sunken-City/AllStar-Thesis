@@ -12,10 +12,7 @@
 GameMode::GameMode(const std::string& arenaBackgroundImage)
     : m_arenaBackground(new Sprite(arenaBackgroundImage, TheGame::BACKGROUND_LAYER))
 {
-    m_arenaBackground->m_scale = Vector2(1.0f, 1.0f);
-    SpriteGameRenderer::instance->SetWorldBounds(m_arenaBackground->GetBounds());
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
-
 }
 
 //-----------------------------------------------------------------------------------
@@ -55,7 +52,7 @@ void GameMode::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 Vector2 GameMode::GetRandomLocationInArena()
 {
-    return m_arenaBackground->GetBounds().GetRandomPointInside();
+    return GetArenaBounds().GetRandomPointInside();
 }
 
 //-----------------------------------------------------------------------------------
@@ -81,7 +78,7 @@ void GameMode::AddPlayerSpawnPoint(const Vector2& newSpawnPoint)
 //-----------------------------------------------------------------------------------
 AABB2 GameMode::GetArenaBounds()
 {
-    return m_arenaBackground->GetBounds();
+    return SpriteGameRenderer::instance->m_worldBounds;
 }
 
 //-----------------------------------------------------------------------------------
@@ -112,7 +109,6 @@ void GameMode::SetBackground(const std::string& backgroundName, const Vector2& s
     m_arenaBackground = new Sprite(backgroundName, TheGame::BACKGROUND_LAYER);
     m_arenaBackground->m_scale = scale;
     m_arenaBackground->Enable();
-    SpriteGameRenderer::instance->SetWorldBounds(m_arenaBackground->GetBounds());
 }
 
 //-----------------------------------------------------------------------------------
