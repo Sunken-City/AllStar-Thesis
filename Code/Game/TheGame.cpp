@@ -838,7 +838,7 @@ void TheGame::RegisterParticleEffects()
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, -Vector2::UNIT_Y);
     shipTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.5f);
     shipTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 1.0f);
-    shipTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, 0.0f);
+    shipTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(2.0f));
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////
