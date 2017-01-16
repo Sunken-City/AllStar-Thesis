@@ -194,3 +194,9 @@ void Ship::Die()
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), m_hitSoundMaxVolume);
     ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::BACKGROUND_PARTICLES_LAYER, GetPosition(), 0.0f);
 }
+
+//-----------------------------------------------------------------------------------
+Vector2 Ship::GetMuzzlePosition()
+{
+    return GetPosition() + Vector2::CreateFromPolar(m_muzzleOffsetMagnitude, -m_sprite->m_rotationDegrees + 90.0f);
+}

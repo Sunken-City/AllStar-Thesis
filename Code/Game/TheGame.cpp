@@ -720,6 +720,7 @@ void TheGame::RegisterSprites()
 
     //Entities
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless10.png");
+    ResourceDatabase::instance->RegisterSprite("MuzzleFlash", "Data\\Images\\Lasers\\muzzleFlash.png");
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
     ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
     ResourceDatabase::instance->RegisterSprite("Shield", "Data\\Images\\Shield.png");
@@ -768,7 +769,7 @@ void TheGame::RegisterParticleEffects()
 {
     const float DEATH_ANIMATION_LENGTH = 1.5f;
     const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.3f;
-    const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.2f;
+    const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.01f;
     const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f; 
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
@@ -817,15 +818,16 @@ void TheGame::RegisterParticleEffects()
     powerupPickup->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
     powerupPickup->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
 
-    ParticleEmitterDefinition* muzzleFlash = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
+    ParticleEmitterDefinition* muzzleFlash = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("MuzzleFlash"));
     muzzleFlash->m_properties.Set<std::string>(PROPERTY_NAME, "Muzzle Flash");
     muzzleFlash->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     muzzleFlash->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(2, 4));
-    muzzleFlash->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
-    muzzleFlash->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::UNIT_Y);
-    muzzleFlash->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.2f);
+    muzzleFlash->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.6f), Vector2(0.8f)));
+    muzzleFlash->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    muzzleFlash->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, MUZZLE_FLASH_ANIMATION_LENGTH);
     muzzleFlash->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
     muzzleFlash->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, MUZZLE_FLASH_ANIMATION_LENGTH);
+    muzzleFlash->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
     muzzleFlash->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.3f));
 
     ParticleEmitterDefinition* crateDestroyed = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));

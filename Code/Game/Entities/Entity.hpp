@@ -37,6 +37,7 @@ public:
     virtual inline bool IsProjectile() { return false; };
     inline virtual Vector2 GetPosition() { return m_transform.position; };
     inline virtual float GetRotation() { return m_transform.rotationDegrees; };
+    inline virtual Vector2 GetMuzzlePosition() { return GetPosition(); };
     virtual bool IsCollidingWith(Entity* otherEntity);
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////

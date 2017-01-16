@@ -87,8 +87,9 @@ void GameMode::SpawnBullet(Ship* creator)
     static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
     m_newEntities.push_back(new Projectile(creator, creator->CalculateDamageValue(), creator->CalculateShieldDisruptionValue(), creator->CalculateShieldPenetrationValue()));
 
-    PlaySoundAt(bulletSound, creator->GetPosition(), 0.5f);
-    ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::PLAYER_BULLET_LAYER, creator->GetPosition(), 0.0f);
+    Vector2 shotPosition = creator->GetMuzzlePosition();
+    PlaySoundAt(bulletSound, shotPosition, 0.5f);
+    ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::PLAYER_BULLET_LAYER, shotPosition, 0.0f);
 }
 
 //-----------------------------------------------------------------------------------

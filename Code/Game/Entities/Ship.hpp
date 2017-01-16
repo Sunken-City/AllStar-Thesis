@@ -20,6 +20,7 @@ public:
     virtual void ToggleMovement() { m_lockMovement = !m_lockMovement; };
     virtual void TakeDamage(float damage, float disruption, float penetration);
     virtual void Die();
+    virtual Vector2 GetMuzzlePosition();
     void UpdateMotion(float deltaSeconds);
     void UpdateShooting();
     void RegenerateShield(float deltaSeconds);
@@ -28,6 +29,7 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Pilot* m_pilot;
     ParticleSystem* m_smokeTrail = nullptr;
+    float m_muzzleOffsetMagnitude = 0.25f;
     float m_secondsSinceLastFiredWeapon;
     float m_hitSoundMaxVolume = 0.7f;
     bool m_lockMovement = false;

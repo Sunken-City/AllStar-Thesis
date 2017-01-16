@@ -21,7 +21,7 @@ Projectile::Projectile(Entity* owner, float power, float disruption, float penet
     m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
 
-    SetPosition(owner->GetPosition());
+    SetPosition(owner->GetMuzzlePosition());
     m_sprite->m_rotationDegrees = m_owner->m_sprite->m_rotationDegrees;
 
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
