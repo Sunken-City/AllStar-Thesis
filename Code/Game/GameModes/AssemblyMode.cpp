@@ -4,9 +4,10 @@
 #include "Game/Pilots/PlayerPilot.hpp"
 #include "Game/Entities/Props/ItemCrate.hpp"
 #include "Game/Entities/Grunt.hpp"
+#include "Game/Entities/Props/Asteroid.hpp"
+#include "Game/GameCommon.hpp"
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
-#include "../Entities/Props/Asteroid.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -26,6 +27,7 @@ AssemblyMode::~AssemblyMode()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::Initialize()
 {
+    m_isPlaying = true;
     SpawnGeometry();
     SpawnStartingEntities();
     SpawnPlayers();
@@ -75,13 +77,15 @@ void AssemblyMode::SpawnPlayers()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::SpawnGeometry()
 {
+    if (!g_spawnGeometry)
+    {
+        return;
+    }
     //Add in some Asteroids (for color)
     for (int i = 0; i < 20; ++i)
     {
         m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
     }
-
-    m_isPlaying = true;
 }
 
 //-----------------------------------------------------------------------------------
@@ -93,7 +97,7 @@ void AssemblyMode::Update(float deltaSeconds)
         return;
     }
     m_timeSinceLastSpawn += deltaSeconds;
-    if (m_timeSinceLastSpawn > TIME_PER_SPAWN)
+    if (g_spawnEnemies && g_spawnCrates && m_timeSinceLastSpawn > TIME_PER_SPAWN)
     {
         m_entities.push_back(new ItemCrate(GetRandomLocationInArena()));
         m_entities.push_back(new Grunt(GetRandomLocationInArena()));

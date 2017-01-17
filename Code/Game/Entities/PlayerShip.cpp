@@ -23,10 +23,6 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 
     m_baseStats.hp = 5.0f;
     m_currentHp = m_baseStats.hp;
-    m_baseStats.acceleration = 1.0f;
-    m_baseStats.handling = 1.0f;
-    m_baseStats.topSpeed = 1.0f;
-    m_baseStats.rateOfFire = 1.0f;
 
     m_hitSoundMaxVolume = 1.0f;
     m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
@@ -46,6 +42,10 @@ PlayerShip::~PlayerShip()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
+    if (m_pilot->m_inputMap.FindInputValue("Pause")->WasJustPressed())
+    {
+        g_isGamePaused = !g_isGamePaused;
+    }
     if (m_isDead && m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed())
     {
         Respawn();

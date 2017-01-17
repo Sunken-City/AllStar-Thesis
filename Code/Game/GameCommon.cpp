@@ -1,7 +1,10 @@
 #include "Game\GameCommon.hpp"
 
-int g_frameNumber = 0;
+int g_frameNumber  = 0;
 bool g_renderDebug = true;
+bool g_isGamePaused = false;
 
-
-bool g_NearlyInvulnerable = true;
+bool g_spawnEnemies       = true;
+bool g_spawnCrates        = true;
+bool g_spawnGeometry      = true;
+bool g_NearlyInvulnerable = false;

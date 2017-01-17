@@ -22,7 +22,7 @@ Entity::Entity()
     , m_chassis(nullptr)
     , m_activeEffect(nullptr)
     , m_passiveEffect(nullptr)
-    , m_baseStats(1.0f)
+    , m_baseStats(0.0f)
     , m_velocity(0.0f)
     , m_frictionValue(0.9f)
     , m_collidesWithBullets(true)
@@ -307,78 +307,74 @@ float Entity::GetShotDeflectionStat()
 //-----------------------------------------------------------------------------------
 float Entity::CalculateTopSpeedValue()
 {
-    const float BASE_SPEED = 5.0f;
-    float statSpeed = GetTopSpeedStat() * Stats::SPEED_VALUE_PER_POINT;
-    return statSpeed + BASE_SPEED;
+    return Stats::BASE_SPEED_VALUE + (GetTopSpeedStat() * Stats::SPEED_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateAccelerationValue()
 {
-    return GetAccelerationStat() * Stats::ACCELERATION_VALUE_PER_POINT;
+    return Stats::BASE_ACCELERATION_VALUE + (GetAccelerationStat() * Stats::ACCELERATION_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateHandlingValue()
 {
-    return GetHandlingStat() * Stats::HANDLING_VALUE_PER_POINT;
+    return Stats::BASE_HANDLING_VALUE + (GetHandlingStat() * Stats::HANDLING_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateBrakingValue()
 {
-    return GetBrakingStat() * Stats::BRAKING_VALUE_PER_POINT;
+    return Stats::BASE_BRAKING_VALUE + (GetBrakingStat() * Stats::BRAKING_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateDamageValue()
 {
-    return GetDamageStat() * Stats::DAMAGE_VALUE_PER_POINT;
+    return Stats::BASE_DAMAGE_VALUE + (GetDamageStat() * Stats::DAMAGE_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldDisruptionValue()
 {
-    return GetShieldDisruptionStat() * Stats::DISRUPTION_PERCENTAGE_PER_POINT;
+    return Stats::BASE_DISRUPTION_PERCENTAGE + (GetShieldDisruptionStat() * Stats::DISRUPTION_PERCENTAGE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldPenetrationValue()
 {
-    return GetShieldPenetrationStat() * Stats::PENETRATION_PERCENTAGE_PER_POINT;
+    return Stats::BASE_PENETRATION_PERCENTAGE + (GetShieldPenetrationStat() * Stats::PENETRATION_PERCENTAGE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateRateOfFireValue()
 {
-    float baselineRateOfFire = 7.0f; //Make baseline constant
-    float statBonusRateOfFire = (GetRateOfFireStat() * Stats::RATE_OF_FIRE_PER_POINT);
-    return baselineRateOfFire + statBonusRateOfFire;
+    return Stats::BASE_RATE_OF_FIRE + (GetRateOfFireStat() * Stats::RATE_OF_FIRE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateHpValue()
 {
-    return GetHpStat() * Stats::HP_VALUE_PER_POINT;
+    return Stats::BASE_HP_VALUE + (GetHpStat() * Stats::HP_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldCapacityValue()
 {
-    return GetShieldCapacityStat() * Stats::CAPACITY_VALUE_PER_POINT;
+    return Stats::BASE_CAPACITY_VALUE + (GetShieldCapacityStat() * Stats::CAPACITY_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 //This metric is in shield capacity points per second.
 float Entity::CalculateShieldRegenValue()
 {
-    return GetShieldRegenStat() * Stats::REGEN_RATE_PER_POINT;
+    return Stats::BASE_REGEN_RATE + (GetShieldRegenStat() * Stats::REGEN_RATE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShotDeflectionValue()
 {
-    return GetShotDeflectionStat() * Stats::DEFLECTION_VALUE_PER_POINT;
+    return Stats::BASE_DEFLECTION_VALUE + (GetShotDeflectionStat() * Stats::DEFLECTION_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------

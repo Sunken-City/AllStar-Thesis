@@ -33,6 +33,7 @@
 #include "Engine/Core/Events/EventSystem.hpp"
 #include "Engine/Time/Time.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
+#include "GameCommon.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -388,6 +389,11 @@ void TheGame::CleanupAssemblyPlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
 {
+    if (g_isGamePaused)
+    {
+        deltaSeconds = 0.0f;
+    }
+
     m_currentGameMode->Update(deltaSeconds);
     if (!m_currentGameMode->m_isPlaying)
     {
@@ -686,6 +692,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue('R'));
+        playerPilot->m_inputMap.MapInputValue("Pause", keyboard->FindValue('P'));
     }
     else
     {
@@ -702,7 +709,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
-        playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
+        playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::BACK));
+        playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
     }
 }
 
@@ -772,7 +780,7 @@ void TheGame::RegisterSpriteAnimations()
 {
     SpriteAnimationResource* shieldAnimation = ResourceDatabase::instance->RegisterSpriteAnimation("Shield", SpriteAnimationLoopMode::LOOP);
     shieldAnimation->AddFrame("Shield", 0.5f);
-    shieldAnimation->AddFrame("Yellow4Star", 0.5f);
+    shieldAnimation->AddFrame("Yellow4Star", 0.7f);
     shieldAnimation->AddFrame("Acceleration", 0.5f);
 }
 

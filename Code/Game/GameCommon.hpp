@@ -21,8 +21,12 @@ typedef unsigned char uchar;
 #define UNUSED(x) (void)(x);
 
 extern bool g_isQuitting;
+extern bool g_isGamePaused;
 extern bool g_renderDebug;
 extern int g_frameNumber;
 extern Event<float> OnUpdate;
 
+extern bool g_spawnEnemies;
+extern bool g_spawnCrates;
+extern bool g_spawnGeometry;
 extern bool g_NearlyInvulnerable;
