@@ -2,6 +2,7 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 const float Asteroid::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -16,6 +17,7 @@ Asteroid::Asteroid(const Vector2& initialPosition)
     SetPosition(initialPosition);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
     m_isInvincible = true;
+    m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleBrown");
 }
 
 //-----------------------------------------------------------------------------------

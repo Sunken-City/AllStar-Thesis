@@ -6,6 +6,7 @@
 #include "Game/Items/Item.hpp"
 #include "Game/Items/PowerUp.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
+#include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 const float ItemCrate::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -19,6 +20,7 @@ ItemCrate::ItemCrate(const Vector2& initialPosition)
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
+    m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleBeige");
 
     InitializeInventory(MathUtils::GetRandomIntFromZeroTo(MAX_NUM_PICKUPS_PER_BOX) + 1);
     GenerateItems();

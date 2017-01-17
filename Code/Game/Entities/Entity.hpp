@@ -5,6 +5,7 @@
 #include <vector>
 
 class Sprite;
+class SpriteResource;
 class Weapon;
 class Active;
 class Passive;
@@ -39,6 +40,7 @@ public:
     inline virtual float GetRotation() { return m_transform.rotationDegrees; };
     inline virtual Vector2 GetMuzzlePosition() { return GetPosition(); };
     virtual bool IsCollidingWith(Entity* otherEntity);
+    inline virtual const SpriteResource* GetCollisionSpriteResource() { return m_collisionSpriteResource; };
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual float GetTopSpeedStat();
@@ -78,6 +80,7 @@ public:
     Chassis* m_chassis;
     Stats m_baseStats;
 
+    const SpriteResource* m_collisionSpriteResource = nullptr;
     Sprite* m_sprite;
     Sprite* m_shieldSprite;
     Entity* m_owner;

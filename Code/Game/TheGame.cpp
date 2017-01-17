@@ -749,8 +749,16 @@ void TheGame::RegisterSprites()
     //Particles
     ResourceDatabase::instance->RegisterSprite("Placeholder", "Data\\Images\\Particles\\placeholder.png"); 
     ResourceDatabase::instance->RegisterSprite("ParticleBeige", "Data\\Images\\Particles\\particle_beige.png");
+    ResourceDatabase::instance->RegisterSprite("ParticleBlue", "Data\\Images\\Particles\\particle_blue.png");
+    ResourceDatabase::instance->RegisterSprite("ParticleBrown", "Data\\Images\\Particles\\particle_brown.png");
+    ResourceDatabase::instance->RegisterSprite("ParticleDarkBrown", "Data\\Images\\Particles\\particle_darkBrown.png");
+    ResourceDatabase::instance->RegisterSprite("ParticleDarkGrey", "Data\\Images\\Particles\\particle_darkGrey.png");
+    ResourceDatabase::instance->RegisterSprite("ParticleGreen", "Data\\Images\\Particles\\particle_green.png");
+    ResourceDatabase::instance->RegisterSprite("ParticleGrey", "Data\\Images\\Particles\\particle_grey.png");
+    ResourceDatabase::instance->RegisterSprite("ParticlePink", "Data\\Images\\Particles\\particle_pink.png");
     ResourceDatabase::instance->RegisterSprite("BlackSmoke", "Data\\Images\\Particles\\blackSmoke01.png");
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
+    ResourceDatabase::instance->RegisterSprite("Yellow5Star", "Data\\Images\\Particles\\particleYellow_3.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
     ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
     ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
@@ -864,12 +872,12 @@ void TheGame::RegisterParticleEffects()
     //crateDestroyed->m_properties.Set<float>("Gravity Scale", 1.0f);
     collisionParticle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     collisionParticle->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
-    collisionParticle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(5, 15));
+    collisionParticle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(3, 10));
     collisionParticle->m_properties.Set<Range<float>>(PROPERTY_EXPLOSIVE_VELOCITY_MAGNITUDE, 2.0f);
     collisionParticle->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, COLLISION_ANIMATION_LENGTH);
     collisionParticle->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, COLLISION_ANIMATION_LENGTH);
     collisionParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
-    collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.1f), Vector2(0.2f)));
+    collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
     collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.1f));
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////

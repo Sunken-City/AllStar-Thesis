@@ -19,6 +19,8 @@ Ship::Ship(Pilot* pilot)
 {
     m_baseStats.braking = 0.9f;
     SetShieldHealth(CalculateShieldCapacityValue());
+    m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGrey");
+    m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
 }
 
 //-----------------------------------------------------------------------------------
@@ -199,4 +201,10 @@ void Ship::Die()
 Vector2 Ship::GetMuzzlePosition()
 {
     return GetPosition() + Vector2::CreateFromPolar(m_muzzleOffsetMagnitude, -m_sprite->m_rotationDegrees + 90.0f);
+}
+
+//-----------------------------------------------------------------------------------
+const SpriteResource* Ship::GetCollisionSpriteResource()
+{
+    return HasShield() ? m_shieldCollisionSpriteResource : m_collisionSpriteResource;
 }

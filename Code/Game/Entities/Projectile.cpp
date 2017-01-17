@@ -70,7 +70,7 @@ void Projectile::ResolveCollision(Entity* otherEntity)
     {
         otherEntity->TakeDamage(m_power, m_disruption, m_penetration);
         this->m_isDead = true;
-        ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, GetPosition(), 0.0f);
+        ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, GetPosition(), 0.0f, otherEntity->GetCollisionSpriteResource());
     }
 }
 
