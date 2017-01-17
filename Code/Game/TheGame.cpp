@@ -192,9 +192,7 @@ void TheGame::Render() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMainMenuState()
 {
-    m_titleText = new Sprite("TitleText", BACKGROUND_LAYER);
-    m_titleText->m_scale = Vector2(10.0f, 10.0f);
-    new TextRenderable2D("MEMES ARE COOL YEAH!", PLAYER_BULLET_LAYER);
+    m_titleText = new TextRenderable2D("GOOD GAME 2017", Transform2D(Vector2(0.0f, 0.0f)), PLAYER_BULLET_LAYER);    
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
 }
 
@@ -206,7 +204,7 @@ void TheGame::CleanupMainMenuState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateMainMenu(float)
+void TheGame::UpdateMainMenu(float deltaSeconds)
 {
     bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
@@ -215,6 +213,8 @@ void TheGame::UpdateMainMenu(float)
         NamedProperties properties;
         PressStart(properties);
     }
+    m_titleText->m_transform.rotationDegrees += 2.0f;
+    m_titleText->m_transform.scale = Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f);
 }
 
 //-----------------------------------------------------------------------------------

@@ -13,6 +13,7 @@ class Ship;
 class Item;
 class GameMode;
 class NamedProperties;
+class TextRenderable2D;
 
 //-----------------------------------------------------------------------------------
 class TheGame
@@ -108,7 +109,7 @@ public:
 
 private:
     Sprite* m_getReadyBackground = nullptr;
-    Sprite* m_titleText = nullptr;
+    TextRenderable2D* m_titleText = nullptr;
     Sprite* m_gameOverText = nullptr;
     Sprite* m_readyText[4];
 };
