@@ -709,6 +709,7 @@ void TheGame::RegisterSprites()
 {
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
+    ResourceDatabase::instance->RegisterSprite("Cloudy", "Data\\Images\\Particles\\Cloudy_Thicc.png");
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");
     ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\Assembly.png");
     ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\Orange-space.jpg");
@@ -769,9 +770,10 @@ void TheGame::RegisterSpriteAnimations()
 void TheGame::RegisterParticleEffects()
 {
     const float DEATH_ANIMATION_LENGTH = 1.5f;
-    const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.3f;
+    const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.15f;
     const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.01f;
     const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f; 
+    const float COLLISION_ANIMATION_LENGTH = 0.3f;
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
@@ -857,6 +859,19 @@ void TheGame::RegisterParticleEffects()
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
     crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
 
+    ParticleEmitterDefinition* collisionParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Cloudy"));
+    collisionParticle->m_properties.Set<std::string>(PROPERTY_NAME, "Collision");
+    //crateDestroyed->m_properties.Set<float>("Gravity Scale", 1.0f);
+    collisionParticle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    collisionParticle->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
+    collisionParticle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(5, 15));
+    collisionParticle->m_properties.Set<Range<float>>(PROPERTY_EXPLOSIVE_VELOCITY_MAGNITUDE, 2.0f);
+    collisionParticle->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, COLLISION_ANIMATION_LENGTH);
+    collisionParticle->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, COLLISION_ANIMATION_LENGTH);
+    collisionParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+    collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.1f), Vector2(0.2f)));
+    collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.1f));
+
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
@@ -871,6 +886,9 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* crateDestroyedParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("CrateDestroyed", ONE_SHOT);
     crateDestroyedParticleSystem->AddEmitter(crateDestroyed);
+
+    ParticleSystemDefinition* collisionParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Collision", ONE_SHOT);
+    collisionParticleSystem->AddEmitter(collisionParticle);
 
     ParticleSystemDefinition* shipTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("ShipTrail", LOOPING);
     shipTrailParticleSystem->AddEmitter(shipTrail);

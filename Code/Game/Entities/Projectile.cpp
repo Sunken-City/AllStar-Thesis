@@ -3,6 +3,7 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
 #include <algorithm>
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 //-----------------------------------------------------------------------------------
 Projectile::Projectile(Entity* owner, float power, float disruption, float penetration)
@@ -69,6 +70,7 @@ void Projectile::ResolveCollision(Entity* otherEntity)
     {
         otherEntity->TakeDamage(m_power, m_disruption, m_penetration);
         this->m_isDead = true;
+        ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, GetPosition(), 0.0f);
     }
 }
 
