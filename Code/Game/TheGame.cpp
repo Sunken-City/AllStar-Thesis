@@ -32,6 +32,7 @@
 #include "Engine/Input/InputOutputUtils.hpp"
 #include "Engine/Core/Events/EventSystem.hpp"
 #include "Engine/Time/Time.hpp"
+#include "Engine/Renderer/2D/TextRenderable2D.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -191,8 +192,9 @@ void TheGame::Render() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMainMenuState()
 {
-    m_titleText = new Sprite("TitleText", PLAYER_LAYER);
+    m_titleText = new Sprite("TitleText", BACKGROUND_LAYER);
     m_titleText->m_scale = Vector2(10.0f, 10.0f);
+    new TextRenderable2D("MEMES ARE COOL YEAH!", PLAYER_BULLET_LAYER);
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
 }
 
