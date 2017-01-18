@@ -49,15 +49,21 @@ TheGame::TheGame()
     RegisterSprites();
     RegisterSpriteAnimations();
     RegisterParticleEffects();
-    SetGameState(GameState::MAIN_MENU);
-    InitializeMainMenuState();
     EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
     srand(GetTimeBasedSeed());
+
     m_pauseFBOEffect = new Material(
         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\pixelation.frag"),
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
     m_pauseFBOEffect->SetFloatUniform("gPixelationFactor", 16.0f);
+    m_rainbowFBOEffect = new Material(
+        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\rainbow.frag"),
+        RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
+        );
+
+    SetGameState(GameState::MAIN_MENU);
+    InitializeMainMenuState();
 }
 
 
@@ -68,6 +74,8 @@ TheGame::~TheGame()
 
     delete m_pauseFBOEffect->m_shaderProgram;
     delete m_pauseFBOEffect;
+    delete m_rainbowFBOEffect->m_shaderProgram;
+    delete m_rainbowFBOEffect;
 
     if (m_currentGameMode)
     {
@@ -196,7 +204,9 @@ void TheGame::Render() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMainMenuState()
 {
-    m_titleText = new TextRenderable2D("GOOD GAME 2017", Transform2D(Vector2(0.0f, 0.0f)), PLAYER_BULLET_LAYER);    
+    m_titleText = new TextRenderable2D("GOOD GAME 2017", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
+    SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_LAYER);
+    m_titleParticles = new ParticleSystem("Title", BACKGROUND_LAYER, Vector2(0.0f, -15.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
 }
 
@@ -204,13 +214,15 @@ void TheGame::InitializeMainMenuState()
 void TheGame::CleanupMainMenuState(unsigned int)
 {
     delete m_titleText;
+    ParticleSystem::DestroyImmediately(m_titleParticles);
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_rainbowFBOEffect, BACKGROUND_LAYER);
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateMainMenu(float deltaSeconds)
+void TheGame::UpdateMainMenu(float )
 {
-    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
     {
@@ -231,7 +243,7 @@ void TheGame::PressStart(NamedProperties&)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMainMenu() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::CERULEAN);
+    SpriteGameRenderer::instance->SetClearColor(RGBA::BLACK);
     SpriteGameRenderer::instance->Render();
 }
 
@@ -284,7 +296,7 @@ void TheGame::UpdatePlayerJoin(float)
     //If someone presses their button a second time, we know all players are in and we're ready to start.
     for (PlayerPilot* pilot : m_playerPilots)
     {
-        if (pilot->m_inputMap.WasJustPressed("Accept"))
+        if (pilot->m_inputMap.WasJustPressed("Accept") || (m_numberOfPlayers == 4 && InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
         {
             SetGameState(ASSEMBLY_GET_READY);
             InitializeAssemblyGetReadyState();
@@ -292,7 +304,7 @@ void TheGame::UpdatePlayerJoin(float)
         }        
     }
 
-    if (!m_hasKeyboardPlayer && m_numberOfPlayers < 4 && (InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER)))
+    if (!m_hasKeyboardPlayer && m_numberOfPlayers < 4 && (InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
     {
         m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
         PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
@@ -350,10 +362,11 @@ void TheGame::UpdateAssemblyGetReady(float)
     }
     for (PlayerPilot* pilot : m_playerPilots)
     {
-        if (pilot->m_inputMap.WasJustPressed("Accept"))
+        if (pilot->m_inputMap.WasJustPressed("Accept") || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
         {
             SetGameState(ASSEMBLY_PLAYING);
             InitializeAssemblyPlayingState();
+            return;
         }
 
     }
@@ -382,26 +395,7 @@ void TheGame::InitializeAssemblyPlayingState()
     m_gamePausedLabel->SetProperty("Offset", Vector2(1600.0f/4.0f, 900.0f/2.0f));
     UISystem::instance->AddWidget(m_gamePausedLabel);
     m_gamePausedLabel->SetHidden();
-//     WidgetBase* button = CreateWidget("Button");
-//     button->SetProperty<std::string>("Name", "CodeButton");
-//     button->SetProperty<std::string>("Text", "I AM FROM CODE!");
-//     button->SetProperty<std::string>("OnClick", "StartGame");
-//     button->SetProperty("BackgroundColor", RGBA::TURQUOISE, WidgetState::HIGHLIGHTED_WIDGET_STATE);
-//     button->SetProperty("Offset", Vector2(700, 20));
-//     button->SetProperty("BorderWidth", 5.0f);
-//     button->m_currentState = WidgetState::ACTIVE_WIDGET_STATE;
-//     AddWidget(button);
-// 
-//     WidgetBase* child = CreateWidget("Button");
-//     child->SetProperty<std::string>("Name", "CodeLabel");
-//     child->SetProperty<std::string>("Text", "I AM el Nino!");
-//     child->SetProperty<std::string>("OnClick", "StartGame");
-//     child->SetProperty("BackgroundColor", RGBA::GBDARKGREEN, WidgetState::HIGHLIGHTED_WIDGET_STATE);
-//     child->SetProperty("Offset", Vector2(0, 50));
-//     child->SetProperty("TextSize", 0.5f);
-//     child->SetProperty("BorderWidth", 5.0f);
-//     child->m_currentState = WidgetState::ACTIVE_WIDGET_STATE;
-//     button->AddChild(child);
+
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f, -20.0f), Vector2(20.0f, 20.0f)));
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
@@ -446,7 +440,7 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
     }
 
     m_currentGameMode->Update(deltaSeconds);
-    if (!m_currentGameMode->m_isPlaying)
+    if (!m_currentGameMode->m_isPlaying || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
     {
         SetGameState(ASSEMBLY_RESULTS);
         TheGame::instance->InitializeAssemblyResultsState();
@@ -510,7 +504,7 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
         ship->Update(deltaSeconds);
     }
 
-    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
     {
@@ -555,10 +549,11 @@ void TheGame::UpdateMinigameGetReady(float)
     }
     for (PlayerPilot* pilot : m_playerPilots)
     {
-        if (pilot->m_inputMap.WasJustPressed("Accept"))
+        if (pilot->m_inputMap.WasJustPressed("Accept") || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
         {
             SetGameState(MINIGAME_PLAYING);
             InitializeMinigamePlayingState();
+            return;
         }
     }
 }
@@ -594,7 +589,7 @@ void TheGame::CleanupMinigamePlayingState(unsigned int)
 void TheGame::UpdateMinigamePlaying(float deltaSeconds)
 {
     m_currentGameMode->Update(deltaSeconds);
-    if (!m_currentGameMode->m_isPlaying)
+    if (!m_currentGameMode->m_isPlaying || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
     {
         SetGameState(MINIGAME_RESULTS);
         TheGame::instance->InitializeMinigameResultsState();
@@ -660,7 +655,7 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
         ship->Update(deltaSeconds);
     }
 
-    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
     {
@@ -712,7 +707,7 @@ void TheGame::CleanupGameOverState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateGameOver(float )
 {
-    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ');
+    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
     {
@@ -822,6 +817,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ParticleGrey", "Data\\Images\\Particles\\particle_grey.png");
     ResourceDatabase::instance->RegisterSprite("ParticlePink", "Data\\Images\\Particles\\particle_pink.png");
     ResourceDatabase::instance->RegisterSprite("BlackSmoke", "Data\\Images\\Particles\\blackSmoke01.png");
+    ResourceDatabase::instance->RegisterSprite("White4Star", "Data\\Images\\Particles\\particleWhite_7.png");
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
     ResourceDatabase::instance->RegisterSprite("Yellow5Star", "Data\\Images\\Particles\\particleYellow_3.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
@@ -945,6 +941,21 @@ void TheGame::RegisterParticleEffects()
     collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
     collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.1f));
 
+    ParticleEmitterDefinition* titleScreenParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("White4Star"));
+    titleScreenParticle->m_properties.Set<std::string>(PROPERTY_NAME, "TitleScreen");
+    titleScreenParticle->m_properties.Set<float>("Gravity Scale", -1.0f);
+    titleScreenParticle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    titleScreenParticle->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 30.0f);
+    titleScreenParticle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 30);
+    titleScreenParticle->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 10.0f);
+    titleScreenParticle->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
+    titleScreenParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+    titleScreenParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-360.0f, 360.0f));
+    titleScreenParticle->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, 10.0f);
+    titleScreenParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Range<Vector2>(Vector2(0.0f, 1.0f), Vector2(0.0f, 3.0f)));
+    titleScreenParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.4f), Vector2(0.8f)));
+    //titleScreenParticle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.1f));
+
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
@@ -965,4 +976,7 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* shipTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("ShipTrail", LOOPING);
     shipTrailParticleSystem->AddEmitter(shipTrail);
+
+    ParticleSystemDefinition* titleScreenParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Title", LOOPING);
+    titleScreenParticleSystem->AddEmitter(titleScreenParticle);
 }

@@ -15,6 +15,7 @@ class GameMode;
 class NamedProperties;
 class TextRenderable2D;
 class WidgetBase;
+class ParticleSystem;
 
 //-----------------------------------------------------------------------------------
 class TheGame
@@ -112,6 +113,8 @@ public:
 
 private:
     Material* m_pauseFBOEffect = nullptr;
+    Material* m_rainbowFBOEffect = nullptr;
+    ParticleSystem* m_titleParticles = nullptr;
     Sprite* m_getReadyBackground = nullptr;
     TextRenderable2D* m_titleText = nullptr;
     Sprite* m_gameOverText = nullptr;
