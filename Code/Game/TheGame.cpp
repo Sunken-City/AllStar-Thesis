@@ -530,7 +530,7 @@ void TheGame::RenderAssemblyResults() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMinigameGetReadyState()
 {
-    m_getReadyBackground = new Sprite("BattleRoyaleGetReady", PLAYER_LAYER);
+    m_getReadyBackground = new Sprite("BattleRoyaleGetReady", UI_LAYER);
     m_getReadyBackground->m_scale = Vector2(1.75f);
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameGetReadyState);
 }
