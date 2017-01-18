@@ -14,7 +14,7 @@ AssemblyMode::AssemblyMode()
     : GameMode()
 {
     SetBackground("Assembly", Vector2(70.0f));
-    SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleChange = 20.0f;
+    SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 20.0f;
     m_gameLengthSeconds = 200.0f;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Foxx - Sweet Tooth - 02 Jawbreaker.flac");
 }
@@ -22,6 +22,7 @@ AssemblyMode::AssemblyMode()
 //-----------------------------------------------------------------------------------
 AssemblyMode::~AssemblyMode()
 {
+    SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
 }
 
 //-----------------------------------------------------------------------------------

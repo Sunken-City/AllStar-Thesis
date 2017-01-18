@@ -82,6 +82,7 @@ TheGame::~TheGame()
         m_currentGameMode->CleanUp();
         delete m_currentGameMode;
     }
+
     unsigned int numModes = m_queuedMinigameModes.size();
     for (unsigned int i = 0; i < numModes; ++i)
     {
@@ -204,6 +205,7 @@ void TheGame::Render() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMainMenuState()
 {
+    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     m_titleText = new TextRenderable2D("GOOD GAME 2017", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
     SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_LAYER);
     m_titleParticles = new ParticleSystem("Title", BACKGROUND_LAYER, Vector2(0.0f, -15.0f));
@@ -467,6 +469,7 @@ void TheGame::RenderAssemblyPlaying() const
 void TheGame::InitializeAssemblyResultsState()
 {
     m_currentGameMode->SetBackground("AssemblyResults", Vector2(1.75f));
+    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {

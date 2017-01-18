@@ -15,7 +15,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity);
-    virtual void LockMovement() { m_lockMovement = true; };
+    virtual void LockMovement() { m_lockMovement = true; m_velocity = Vector2::ZERO; };
     virtual void UnlockMovement() { m_lockMovement = false; };
     virtual void ToggleMovement() { m_lockMovement = !m_lockMovement; };
     virtual void TakeDamage(float damage, float disruption, float penetration);
