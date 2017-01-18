@@ -42,10 +42,6 @@ PlayerShip::~PlayerShip()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
-    if (m_pilot->m_inputMap.FindInputValue("Pause")->WasJustPressed())
-    {
-        g_isGamePaused = !g_isGamePaused;
-    }
     if (m_isDead && m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed())
     {
         Respawn();

@@ -52,12 +52,11 @@ TheGame::TheGame()
     InitializeMainMenuState();
     EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
     srand(GetTimeBasedSeed());
-//     Material* mat = new Material(
-//         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\falcoPixelation.frag"),
-//         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
-//         );
-//     mat->SetFloatUniform("gPixelationFactor", 1.0f);
-//     SpriteGameRenderer::instance->AddEffectToLayer(mat, UI_LAYER);
+    m_pauseFBOEffect = new Material(
+        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\pixelation.frag"),
+        RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
+        );
+    m_pauseFBOEffect->SetFloatUniform("gPixelationFactor", 16.0f);
 }
 
 
@@ -65,6 +64,9 @@ TheGame::TheGame()
 TheGame::~TheGame()
 {
     SetGameState(GameState::SHUTDOWN);
+
+    delete m_pauseFBOEffect->m_shaderProgram;
+    delete m_pauseFBOEffect;
 
     if (m_currentGameMode)
     {
@@ -389,6 +391,22 @@ void TheGame::CleanupAssemblyPlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
 {
+    for (PlayerPilot* pilot : m_playerPilots)
+    {
+        if (pilot->m_inputMap.FindInputValue("Pause")->WasJustReleased())
+        {
+            g_isGamePaused = !g_isGamePaused;
+            if (g_isGamePaused)
+            {
+                SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, UI_LAYER);
+            }
+            else
+            {
+                SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, UI_LAYER);
+            }
+            break;
+        }
+    }
     if (g_isGamePaused)
     {
         deltaSeconds = 0.0f;
@@ -408,6 +426,10 @@ void TheGame::RenderAssemblyPlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
     SpriteGameRenderer::instance->Render();
+    if (g_isGamePaused)
+    {
+
+    }
 }
 
 //-----------------------------------------------------------------------------------

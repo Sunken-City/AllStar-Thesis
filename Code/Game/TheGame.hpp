@@ -108,6 +108,7 @@ public:
     GameMode* m_currentGameMode;
 
 private:
+    Material* m_pauseFBOEffect = nullptr;
     Sprite* m_getReadyBackground = nullptr;
     TextRenderable2D* m_titleText = nullptr;
     Sprite* m_gameOverText = nullptr;
