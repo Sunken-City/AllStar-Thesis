@@ -14,6 +14,7 @@ class Item;
 class GameMode;
 class NamedProperties;
 class TextRenderable2D;
+class WidgetBase;
 
 //-----------------------------------------------------------------------------------
 class TheGame
@@ -40,6 +41,8 @@ public:
     static unsigned int const FOREGROUND_LAYER = 2000;
     static unsigned int const TEXT_LAYER = 2500;
     static unsigned int const UI_LAYER = 3000;
+    static unsigned int const FULL_SCREEN_EFFECT_LAYER = 4000;
+    static unsigned int const FULL_SCREEN_EFFECT_OVERLAY_LAYER = 5000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
     
@@ -113,4 +116,5 @@ private:
     TextRenderable2D* m_titleText = nullptr;
     Sprite* m_gameOverText = nullptr;
     Sprite* m_readyText[4];
+    WidgetBase* m_gamePausedLabel;
 };

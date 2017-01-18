@@ -7,6 +7,7 @@
 #include "Game/Entities/Ship.hpp"
 #include "Engine/Audio/Audio.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
+#include "../Entities/PlayerShip.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -115,8 +116,13 @@ void GameMode::SetBackground(const std::string& backgroundName, const Vector2& s
 //-----------------------------------------------------------------------------------
 float GameMode::CalculateAttenuation(const Vector2& soundPosition)
 {
-    float distance = MathUtils::CalcDistSquaredBetweenPoints(SpriteGameRenderer::instance->GetCameraPositionInWorld(), soundPosition);
-    float attenuationVolume = 1.0f - (distance / 100.0f);
+    float attenuationVolume = 0.0f;
+    for (PlayerShip* player : TheGame::instance->m_players)
+    {
+        float distance = MathUtils::CalcDistSquaredBetweenPoints(player->GetPosition(), soundPosition);
+        float currentAttenuationVolume = 1.0f - (distance / 100.0f);
+        attenuationVolume = Max(attenuationVolume, currentAttenuationVolume);
+    }
     return attenuationVolume;
 }
 

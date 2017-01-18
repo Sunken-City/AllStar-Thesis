@@ -34,6 +34,7 @@
 #include "Engine/Time/Time.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
 #include "GameCommon.hpp"
+#include "Engine/UI/UISystem.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -372,6 +373,35 @@ void TheGame::RenderAssemblyGetReady() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyPlayingState()
 {
+    m_gamePausedLabel = UISystem::instance->CreateWidget("Label");
+    m_gamePausedLabel->SetProperty<std::string>("Name", "GamePausedLabel");
+    m_gamePausedLabel->SetProperty<std::string>("Text", "Game Paused");
+    m_gamePausedLabel->SetProperty("BackgroundColor", RGBA::CLEAR);
+    m_gamePausedLabel->SetProperty("BorderWidth", 0.0f);
+    m_gamePausedLabel->SetProperty("TextSize", 7.0f);
+    m_gamePausedLabel->SetProperty("Offset", Vector2(1600.0f/4.0f, 900.0f/2.0f));
+    UISystem::instance->AddWidget(m_gamePausedLabel);
+    m_gamePausedLabel->SetHidden();
+//     WidgetBase* button = CreateWidget("Button");
+//     button->SetProperty<std::string>("Name", "CodeButton");
+//     button->SetProperty<std::string>("Text", "I AM FROM CODE!");
+//     button->SetProperty<std::string>("OnClick", "StartGame");
+//     button->SetProperty("BackgroundColor", RGBA::TURQUOISE, WidgetState::HIGHLIGHTED_WIDGET_STATE);
+//     button->SetProperty("Offset", Vector2(700, 20));
+//     button->SetProperty("BorderWidth", 5.0f);
+//     button->m_currentState = WidgetState::ACTIVE_WIDGET_STATE;
+//     AddWidget(button);
+// 
+//     WidgetBase* child = CreateWidget("Button");
+//     child->SetProperty<std::string>("Name", "CodeLabel");
+//     child->SetProperty<std::string>("Text", "I AM el Nino!");
+//     child->SetProperty<std::string>("OnClick", "StartGame");
+//     child->SetProperty("BackgroundColor", RGBA::GBDARKGREEN, WidgetState::HIGHLIGHTED_WIDGET_STATE);
+//     child->SetProperty("Offset", Vector2(0, 50));
+//     child->SetProperty("TextSize", 0.5f);
+//     child->SetProperty("BorderWidth", 5.0f);
+//     child->m_currentState = WidgetState::ACTIVE_WIDGET_STATE;
+//     button->AddChild(child);
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f, -20.0f), Vector2(20.0f, 20.0f)));
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
@@ -383,6 +413,7 @@ void TheGame::InitializeAssemblyPlayingState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupAssemblyPlayingState(unsigned int)
 {
+    UISystem::instance->DeleteAllUI();
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
@@ -398,18 +429,20 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
             g_isGamePaused = !g_isGamePaused;
             if (g_isGamePaused)
             {
-                SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, UI_LAYER);
+                SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
+                m_gamePausedLabel->SetVisible();
             }
             else
             {
-                SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, UI_LAYER);
+                SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
+                m_gamePausedLabel->SetHidden();
             }
             break;
         }
     }
     if (g_isGamePaused)
     {
-        deltaSeconds = 0.0f;
+        return;
     }
 
     m_currentGameMode->Update(deltaSeconds);
@@ -724,7 +757,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputAxis("Right")->AddMapping(&controller->GetLeftStick()->m_xAxis);
         playerPilot->m_inputMap.MapInputAxis("ShootUp")->AddMapping(&controller->GetRightStick()->m_yAxis);
         playerPilot->m_inputMap.MapInputAxis("ShootRight")->AddMapping(&controller->GetRightStick()->m_xAxis);
-        playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::BACK));
+        playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::B));
         playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightStickMagnitude());

@@ -2,7 +2,7 @@
 #include "Game/Items/PowerUp.hpp"
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
-const float Stats::BASE_SPEED_VALUE = 3.0f;
+const float Stats::BASE_SPEED_VALUE = 4.0f;
 const float Stats::BASE_ACCELERATION_VALUE = 0.5f;
 const float Stats::BASE_HANDLING_VALUE = 0.5f;
 const float Stats::BASE_BRAKING_VALUE = 0.5f;
@@ -15,7 +15,7 @@ const float Stats::BASE_CAPACITY_VALUE = 1.0f;
 const float Stats::BASE_REGEN_RATE = 1.0f;
 const float Stats::BASE_DEFLECTION_VALUE = 0.0f;
 
-const float Stats::SPEED_VALUE_PER_POINT = 1.0f;
+const float Stats::SPEED_VALUE_PER_POINT = 0.3333333f;
 const float Stats::ACCELERATION_VALUE_PER_POINT = 1.0f;
 const float Stats::HANDLING_VALUE_PER_POINT = 1.0f;
 const float Stats::BRAKING_VALUE_PER_POINT = 1.0f;

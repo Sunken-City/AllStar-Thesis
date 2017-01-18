@@ -6,6 +6,7 @@
 #include "Game/Items/Passives/Passive.hpp"
 #include "Game/StateMachine.hpp"
 #include "Game/TheGame.hpp"
+#include "Game/GameCommon.hpp"
 #include <algorithm>
 
 Vector2 Entity::SHEILD_SCALE_FUDGE_VALUE = Vector2(0.25f);
@@ -126,8 +127,8 @@ void Entity::CalculateCollisionRadius()
     Vector2 virtualSize = m_sprite->m_spriteResource->m_virtualSize;
     Vector2 spriteScale = m_sprite->m_scale;
 
-    float maxVirtualSize = std::max(virtualSize.x, virtualSize.y);
-    float maxSpriteScale = std::max(spriteScale.x, spriteScale.y);
+    float maxVirtualSize = Max(virtualSize.x, virtualSize.y);
+    float maxSpriteScale = Max(spriteScale.x, spriteScale.y);
     maxVirtualSize *= 0.5f;
     m_collisionRadius = maxVirtualSize * maxSpriteScale;
 
