@@ -8,6 +8,7 @@ class PlayerShip;
 class Ship;
 class Item;
 class Vector2;
+class WidgetBase;
 
 class GameMode
 {
@@ -29,21 +30,23 @@ public:
     void SetBackground(const std::string& backgroundName, const Vector2& scale);
     void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);
     float CalculateAttenuation(const Vector2& soundPosition);
+    void StopPlaying();
     
     static GameMode* GetCurrent();
-
+    
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
-    bool m_isPlaying = false;
     float m_gameLengthSeconds = 2000.0f;
     bool m_enablesRespawn = true;
     SoundID m_backgroundMusic = 0;
     bool m_muteMusic = true;
+    bool m_isPlaying = false;
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;
-    Sprite* m_arenaBackground;
+    Sprite* m_arenaBackground = nullptr;
     float m_timerSecondsElapsed = 0.0f;
+    WidgetBase* m_timerWidget = nullptr;
 };

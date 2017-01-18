@@ -409,7 +409,7 @@ void TheGame::InitializeAssemblyPlayingState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupAssemblyPlayingState(unsigned int)
 {
-    UISystem::instance->DeleteAllUI();
+    UISystem::instance->DeleteWidget(m_gamePausedLabel);
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
@@ -583,6 +583,7 @@ void TheGame::InitializeMinigamePlayingState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupMinigamePlayingState(unsigned int)
 {
+    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);

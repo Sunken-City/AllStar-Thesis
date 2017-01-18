@@ -1,13 +1,14 @@
 #include "Game/GameModes/GameMode.hpp"
 #include "Game/TheGame.hpp"
-#include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Game/StateMachine.hpp"
 #include "Game/Entities/Projectile.hpp"
 #include "Game/Entities/Pickup.hpp"
 #include "Game/Entities/Ship.hpp"
+#include "Game/Entities/PlayerShip.hpp"
 #include "Engine/Audio/Audio.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
-#include "../Entities/PlayerShip.hpp"
+#include "Engine/UI/UISystem.hpp"
+#include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -19,7 +20,11 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
 //-----------------------------------------------------------------------------------
 GameMode::~GameMode()
 {
+    StopPlaying();
     delete m_arenaBackground;
+    m_arenaBackground = nullptr;
+    UISystem::instance->DeleteWidget(m_timerWidget);
+    m_timerWidget = nullptr;
 }
 
 //-----------------------------------------------------------------------------------
@@ -29,11 +34,21 @@ void GameMode::Initialize()
     {
         AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
     }
+
+    m_timerWidget = UISystem::instance->CreateWidget("Label");
+    m_timerWidget->SetProperty<std::string>("Name", "GameTimer");
+    m_timerWidget->SetProperty<std::string>("Text", "00:00");
+    m_timerWidget->SetProperty("BackgroundColor", RGBA::CLEAR);
+    m_timerWidget->SetProperty("BorderWidth", 0.0f);
+    m_timerWidget->SetProperty("TextSize", 4.0f);
+    m_timerWidget->SetProperty("Offset", Vector2(675.0f, 750.0f));
+    UISystem::instance->AddWidget(m_timerWidget);
 }
 
 //-----------------------------------------------------------------------------------
 void GameMode::CleanUp()
 {
+    StopPlaying();
     AudioSystem::instance->StopSound(m_backgroundMusic);
 }
 
@@ -43,10 +58,12 @@ void GameMode::Update(float deltaSeconds)
     if (m_isPlaying)
     {
         m_timerSecondsElapsed += deltaSeconds;
+        int timeRemainingSeconds = static_cast<int>(m_gameLengthSeconds - m_timerSecondsElapsed);
+        m_timerWidget->SetProperty<std::string>("Text", Stringf("%02i:%02i", timeRemainingSeconds / 60, timeRemainingSeconds % 60));
     }
     if (m_timerSecondsElapsed >= m_gameLengthSeconds)
     {
-        m_isPlaying = false; 
+        StopPlaying();
     }
 }
 
@@ -138,4 +155,14 @@ void GameMode::PlaySoundAt(const SoundID sound, const Vector2& soundPosition, fl
 GameMode* GameMode::GetCurrent()
 {
     return TheGame::instance->m_currentGameMode;
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::StopPlaying()
+{
+    m_isPlaying = false;
+    if (m_timerWidget)
+    {
+        m_timerWidget->SetHidden();
+    }
 }

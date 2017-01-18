@@ -8,7 +8,7 @@
 BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
     : BaseMinigameMode()
 {
-    m_gameLengthSeconds = 5.0f;
+    m_gameLengthSeconds = 61.0f;
     m_enablesRespawn = false;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Persona 4 Golden - Time To Make History.mp3");
 }
@@ -22,7 +22,9 @@ BattleRoyaleMinigameMode::~BattleRoyaleMinigameMode()
 //-----------------------------------------------------------------------------------
 void BattleRoyaleMinigameMode::Initialize()
 {
-    SetBackground("BattleBackground", Vector2(2.0f));
+    SetBackground("BattleBackground", Vector2(50.0f));
+    SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
+    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f), Vector2(20.0f)));
     SpawnGeometry();
     SpawnPlayers();
     m_isPlaying = true;
@@ -49,6 +51,7 @@ void BattleRoyaleMinigameMode::SpawnPlayers()
     for (PlayerShip* player : TheGame::instance->m_players)
     {
         m_entities.push_back(player);
+        player->Respawn();
     }
 }
 
@@ -111,7 +114,7 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
     }
     if (numPlayersAlive < 0)
     {
-        m_isPlaying = false;
+        StopPlaying();
     }
 }
 
