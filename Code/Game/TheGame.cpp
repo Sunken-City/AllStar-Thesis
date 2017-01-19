@@ -224,6 +224,9 @@ void TheGame::CleanupMainMenuState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMainMenu(float )
 {
+    m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetWorldRotationDegrees() + 2.0f);
+    m_titleText->m_transform.SetScale(Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f));
+
     bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
@@ -231,8 +234,6 @@ void TheGame::UpdateMainMenu(float )
         NamedProperties properties;
         PressStart(properties);
     }
-    m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetRotationDegrees() + 2.0f);
-    m_titleText->m_transform.SetScale(Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f));
 }
 
 //-----------------------------------------------------------------------------------
