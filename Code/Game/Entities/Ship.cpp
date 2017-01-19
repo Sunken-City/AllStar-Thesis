@@ -15,7 +15,7 @@ Ship::Ship(Pilot* pilot)
     : Entity()
     , m_secondsSinceLastFiredWeapon(0.0f)
     , m_pilot(pilot)
-    , m_smokeTrail(new ParticleSystem("ShipTrail", TheGame::BACKGROUND_PARTICLES_LAYER, &m_transform.position))
+    , m_smokeTrail(new RibbonParticleSystem("ShipTrail", TheGame::BACKGROUND_PARTICLES_LAYER, &m_transform.GetPosition()))
 {
     m_baseStats.braking = 0.9f;
     SetShieldHealth(CalculateShieldCapacityValue());
@@ -157,7 +157,7 @@ void Ship::UpdateMotion(float deltaSeconds)
     m_velocity *= m_baseStats.braking; // +(0.1f * CalculateBrakingValue());
     m_velocity.ClampMagnitude(CalculateTopSpeedValue());
 
-    Vector2 attemptedPosition = m_transform.position + (m_velocity * deltaSeconds);
+    Vector2 attemptedPosition = m_transform.GetPosition() + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);
 }
 

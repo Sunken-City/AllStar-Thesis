@@ -113,7 +113,7 @@ void PlayerShip::DropRandomPowerup()
         statValue = m_powerupStatModifiers.GetStatReference(type);
     } while (*statValue < 1.0f);
 
-    TheGame::instance->m_currentGameMode->SpawnPickup(new PowerUp(type), m_transform.position);
+    TheGame::instance->m_currentGameMode->SpawnPickup(new PowerUp(type), m_transform.GetPosition());
     *statValue -= 1.0f;
 }
 

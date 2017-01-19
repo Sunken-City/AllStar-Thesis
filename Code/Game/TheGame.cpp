@@ -231,8 +231,8 @@ void TheGame::UpdateMainMenu(float )
         NamedProperties properties;
         PressStart(properties);
     }
-    m_titleText->m_transform.rotationDegrees += 2.0f;
-    m_titleText->m_transform.scale = Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f);
+    m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetRotationDegrees() + 2.0f);
+    m_titleText->m_transform.SetScale(Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f));
 }
 
 //-----------------------------------------------------------------------------------
@@ -811,7 +811,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\Pickups\\shotDeflection.png");
 
     //Particles
-    ResourceDatabase::instance->RegisterSprite("Placeholder", "Data\\Images\\Particles\\placeholder.png"); 
+    ResourceDatabase::instance->RegisterSprite("Placeholder", "Data\\Images\\Particles\\placeholder.png");
+    ResourceDatabase::instance->RegisterSprite("PlaceholderTrail", "Data\\Images\\Particles\\PlaceholderTrail.png");
     ResourceDatabase::instance->RegisterSprite("ParticleBeige", "Data\\Images\\Particles\\particle_beige.png");
     ResourceDatabase::instance->RegisterSprite("ParticleBlue", "Data\\Images\\Particles\\particle_blue.png");
     ResourceDatabase::instance->RegisterSprite("ParticleBrown", "Data\\Images\\Particles\\particle_brown.png");
@@ -920,7 +921,7 @@ void TheGame::RegisterParticleEffects()
     crateDestroyed->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
     crateDestroyed->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.3f));
 
-    ParticleEmitterDefinition* shipTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlackSmoke"));
+    ParticleEmitterDefinition* shipTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("PlaceholderTrail"));
     shipTrail->m_properties.Set<std::string>(PROPERTY_NAME, "Ship Trail");
     shipTrail->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     shipTrail->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
