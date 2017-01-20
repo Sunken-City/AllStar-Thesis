@@ -202,6 +202,11 @@ void Update()
     deltaSeconds = Clamp<float>(deltaSeconds, 0.0f, MAX_FRAME_TIME);
     s_timeLastFrameStarted = timeNow;
 
+    if (InputSystem::instance->IsKeyDown('T'))
+    {
+        deltaSeconds /= 4.0f;
+    }
+
     InputSystem::instance->Update(deltaSeconds);
     AudioSystem::instance->Update(deltaSeconds);
     Console::instance->Update(deltaSeconds);
