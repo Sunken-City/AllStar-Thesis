@@ -107,7 +107,7 @@ void GameMode::SpawnBullet(Ship* creator)
 
     Vector2 shotPosition = creator->GetMuzzlePosition();
     PlaySoundAt(bulletSound, shotPosition, 0.5f);
-    ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::PLAYER_BULLET_LAYER, shotPosition, 0.0f);
+    ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::PLAYER_BULLET_LAYER, Transform2D(shotPosition));
 }
 
 //-----------------------------------------------------------------------------------
