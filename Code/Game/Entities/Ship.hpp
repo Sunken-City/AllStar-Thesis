@@ -29,7 +29,7 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Pilot* m_pilot;
-    ParticleSystem* m_smokeTrail = nullptr;
+    ParticleSystem* m_shipTrail = nullptr;
     const SpriteResource* m_shieldCollisionSpriteResource = nullptr;
     float m_muzzleOffsetMagnitude = 0.25f;
     float m_secondsSinceLastFiredWeapon;
