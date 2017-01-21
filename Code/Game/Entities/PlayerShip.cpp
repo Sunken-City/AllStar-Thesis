@@ -16,14 +16,17 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
 {
     m_isDead = false;
+    
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
-    m_speedometer = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
     m_sprite->m_tintColor = GetPlayerColor(); 
-    m_speedometer->m_tintColor = GetPlayerColor();
     m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
-    m_speedometer->m_transform.SetScale(Vector2(20.0f));
+
+    m_speedometer = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
+    m_speedometer->m_tintColor = GetPlayerColor();
+    m_speedometer->m_tintColor.SetAlphaFloat(0.75f);
+    m_speedometer->m_transform.SetScale(Vector2(15.0f));
     m_speedometer->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
-    SpriteGameRenderer::instance->m_bottomRight.AddChild(&m_speedometer->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_speedometer->m_transform);
 
     CalculateCollisionRadius();
 
@@ -42,7 +45,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 PlayerShip::~PlayerShip()
 {
     //Casual reminder that the sprite is deleted on the entity
-    SpriteGameRenderer::instance->m_bottomRight.RemoveChild(&m_speedometer->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedometer->m_transform);
 }
 
 //-----------------------------------------------------------------------------------
