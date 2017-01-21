@@ -45,12 +45,13 @@ TheGame::TheGame()
     : m_currentGameMode(nullptr)
     , SFX_UI_ADVANCE(AudioSystem::instance->CreateOrGetSound("Data/SFX/UI/UI_Select_01.wav"))
 {
+    srand(GetTimeBasedSeed());
     ResourceDatabase::instance = new ResourceDatabase();
     RegisterSprites();
     RegisterSpriteAnimations();
     RegisterParticleEffects();
     EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
-    srand(GetTimeBasedSeed());
+    InitializeSpriteLayers();
 
     m_pauseFBOEffect = new Material(
         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\pixelation.frag"),
@@ -266,10 +267,10 @@ void TheGame::EnqueueMinigames()
 //-----------------------------------------------------------------------------------
 void TheGame::InitializePlayerJoinState()
 {
-    m_readyText[0] = new Sprite("ReadyText", PLAYER_LAYER);
-    m_readyText[1] = new Sprite("ReadyText", PLAYER_LAYER);
-    m_readyText[2] = new Sprite("ReadyText", PLAYER_LAYER);
-    m_readyText[3] = new Sprite("ReadyText", PLAYER_LAYER);
+    m_readyText[0] = new Sprite("ReadyText", TEXT_LAYER);
+    m_readyText[1] = new Sprite("ReadyText", TEXT_LAYER);
+    m_readyText[2] = new Sprite("ReadyText", TEXT_LAYER);
+    m_readyText[3] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[0]->m_position = Vector2(-1.0f, 1.0f);
     m_readyText[1]->m_position = Vector2(1.0f, 1.0f);
     m_readyText[2]->m_position = Vector2(-1.0f, -1.0f);
@@ -727,6 +728,15 @@ void TheGame::RenderGameOver() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::DISEASED);
     SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::InitializeSpriteLayers()
+{
+    SpriteGameRenderer::instance->CreateOrGetLayer(TEXT_LAYER)->m_isWorldSpaceLayer = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(TEXT_LAYER)->m_isCullingEnabled = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isWorldSpaceLayer = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isCullingEnabled = false;
 }
 
 //-----------------------------------------------------------------------------------

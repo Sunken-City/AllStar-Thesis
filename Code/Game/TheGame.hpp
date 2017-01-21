@@ -54,6 +54,7 @@ private:
     void RegisterSpriteAnimations();
     void RegisterParticleEffects();
     void EnqueueMinigames();
+    void InitializeSpriteLayers();
 
     void InitializeMainMenuState();
     void CleanupMainMenuState(unsigned int);
