@@ -30,7 +30,7 @@ Entity::Entity()
     , m_isInvincible(false)
     , m_owner(nullptr)
     , m_noCollide(false)
-    , m_shieldHealth(0.0f)
+    , m_currentShieldHealth(0.0f)
 {
 }
 
@@ -100,7 +100,7 @@ void Entity::TakeDamage(float damage, float disruption, float penetration)
     if (HasShield())
     {
         float adjustedDamage = damage + (damage * disruption);
-        SetShieldHealth(m_shieldHealth - adjustedDamage);
+        SetShieldHealth(m_currentShieldHealth - adjustedDamage);
 
         //Apply penetration damage. Shields must be popped before penetration kills the other user.
         float penetrationDamage = damage * penetration;
@@ -408,10 +408,10 @@ void Entity::DropInventory()
 void Entity::SetShieldHealth(float newShieldValue)
 {
     newShieldValue = Clamp<float>(newShieldValue, 0.0f, CalculateShieldCapacityValue());
-    if (m_shieldHealth != newShieldValue)
+    if (m_currentShieldHealth != newShieldValue)
     {
-        m_shieldHealth = newShieldValue;
-        if (m_shieldHealth > 0.0f)
+        m_currentShieldHealth = newShieldValue;
+        if (m_currentShieldHealth > 0.0f)
         {
             m_shieldSprite->Enable();
         }

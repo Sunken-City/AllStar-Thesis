@@ -34,7 +34,7 @@ public:
 
     //QUERIES/////////////////////////////////////////////////////////////////////
     inline virtual bool IsPlayer() { return false; };
-    inline virtual bool HasShield() { return m_shieldHealth > 0.0f; };
+    inline virtual bool HasShield() { return m_currentShieldHealth > 0.0f; };
     virtual inline bool IsProjectile() { return false; };
     inline virtual Vector2 GetPosition() { return m_transform.GetWorldPosition(); };
     inline virtual float GetRotation() { return m_transform.GetWorldRotationDegrees(); };
@@ -92,7 +92,7 @@ public:
     float m_age;
     float m_timeSinceLastHit = 0.0f;
     float m_frictionValue;
-    float m_shieldHealth;
+    float m_currentShieldHealth;
     bool m_isDead;
     bool m_collidesWithBullets;
     bool m_noCollide;

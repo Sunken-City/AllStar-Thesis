@@ -6,6 +6,7 @@
 
 enum class PowerUpType;
 class PlayerPilot;
+class TextRenderable2D;
 
 class PlayerShip : public Ship
 {
@@ -43,4 +44,6 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;
     Sprite* m_speedometer = nullptr;
+    TextRenderable2D* m_healthText = nullptr;
+    TextRenderable2D* m_shieldText = nullptr;
 };

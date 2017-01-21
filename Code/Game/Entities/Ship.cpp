@@ -90,7 +90,7 @@ void Ship::RegenerateShield(float deltaSeconds)
     if (m_timeSinceLastHit > SECONDS_BEFORE_SHIELD_REGEN_RESTARTS)
     {
         float regenPointsThisFrame = CalculateShieldRegenValue() * deltaSeconds;
-        SetShieldHealth(m_shieldHealth + regenPointsThisFrame);
+        SetShieldHealth(m_currentShieldHealth + regenPointsThisFrame);
     }
 }
 
@@ -170,12 +170,12 @@ void Ship::TakeDamage(float damage, float disruption, float penetration)
     static SoundID hitShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
     static SoundID brokeShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
     float currentHp = m_currentHp;
-    float currentShieldCapacity = m_shieldHealth;
+    float currentShieldCapacity = m_currentShieldHealth;
 
     Entity::TakeDamage(damage, disruption, penetration);
-    if (currentShieldCapacity != m_shieldHealth)
+    if (currentShieldCapacity != m_currentShieldHealth)
     {
-        if (m_shieldHealth != 0.0f)
+        if (m_currentShieldHealth != 0.0f)
         {
             TheGame::instance->m_currentGameMode->PlaySoundAt(hitShieldSound, GetPosition(), m_hitSoundMaxVolume);
         }

@@ -10,10 +10,13 @@
 #include "Game/Items/PowerUp.hpp"
 #include "Game/Pilots/PlayerPilot.hpp"
 #include "Engine/Audio/Audio.hpp"
+#include "Engine/Renderer/2D/TextRenderable2D.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
+    , m_healthText(new TextRenderable2D("HP: 00", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_shieldText(new TextRenderable2D("SH: 00", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
 {
     m_isDead = false;
     
@@ -28,10 +31,17 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_speedometer->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_speedometer->m_transform);
 
+    m_healthText->m_color = RGBA::RED;
+    m_shieldText->m_color = RGBA::CERULEAN;
+    m_healthText->m_transform.SetPosition(Vector2(-1.0f, 1.4f));
+    m_shieldText->m_transform.SetPosition(Vector2(-1.0f, 0.8f));
+    m_healthText->m_fontSize = 0.2f;
+    m_shieldText->m_fontSize = 0.2f;
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_healthText->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_shieldText->m_transform);
+
     CalculateCollisionRadius();
-
     m_currentHp = CalculateHpValue();
-
     m_hitSoundMaxVolume = 1.0f;
     m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
 
@@ -46,6 +56,10 @@ PlayerShip::~PlayerShip()
 {
     //Casual reminder that the sprite is deleted on the entity
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedometer->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_healthText->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_shieldText->m_transform);
+    delete m_healthText;
+    delete m_shieldText;
 }
 
 //-----------------------------------------------------------------------------------
@@ -62,6 +76,9 @@ void PlayerShip::Update(float deltaSeconds)
 
     float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + 0.1f;
     m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
+
+    m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp * 10.0f));
+    m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth * 10.0f));
 }
 
 //-----------------------------------------------------------------------------------
