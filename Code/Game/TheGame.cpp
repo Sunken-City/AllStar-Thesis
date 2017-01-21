@@ -399,7 +399,8 @@ void TheGame::InitializeAssemblyPlayingState()
     UISystem::instance->AddWidget(m_gamePausedLabel);
     m_gamePausedLabel->SetHidden();
 
-    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f, -20.0f), Vector2(20.0f, 20.0f)));
+    const float worldSize = 10.0f;
+    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-worldSize, -worldSize), Vector2(worldSize, worldSize)));
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
@@ -757,6 +758,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputAxis("Right")->AddMapping(&controller->GetLeftStick()->m_xAxis);
         playerPilot->m_inputMap.MapInputAxis("ShootUp")->AddMapping(&controller->GetRightStick()->m_yAxis);
         playerPilot->m_inputMap.MapInputAxis("ShootRight")->AddMapping(&controller->GetRightStick()->m_xAxis);
+        playerPilot->m_inputMap.FindInputAxis("ShootUp")->m_deadzoneValue = 0.3f;
+        playerPilot->m_inputMap.FindInputAxis("ShootRight")->m_deadzoneValue = 0.3f;
         playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::B));
         playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());

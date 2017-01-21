@@ -2,6 +2,7 @@
 #include "Game/Entities/Ship.hpp"
 #include "Game/Stats.hpp"
 #include <stdint.h>
+#include "Engine/Renderer/RGBA.hpp"
 
 enum class PowerUpType;
 class PlayerPilot;
@@ -23,6 +24,7 @@ public:
     void DropPowerups();
     void PickUpItem(Item* pickedUpItem);
     void DropRandomPowerup();
+    RGBA GetPlayerColor();
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };
@@ -37,7 +39,6 @@ public:
     inline virtual float GetShieldCapacityStat() { return Ship::GetShieldCapacityStat() + m_powerupStatModifiers.shieldCapacity; };
     inline virtual float GetShieldRegenStat() { return Ship::GetShieldRegenStat() + m_powerupStatModifiers.shieldRegen; };
     inline virtual float GetShotDeflectionStat() { return Ship::GetShotDeflectionStat() + m_powerupStatModifiers.shotDeflection; };
-
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;

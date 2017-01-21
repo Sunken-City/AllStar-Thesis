@@ -17,12 +17,11 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 {
     m_isDead = false;
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
-    m_sprite->m_tintColor = RGBA::GetRandom(); 
+    m_sprite->m_tintColor = GetPlayerColor(); 
     m_sprite->m_scale = Vector2(0.25f, 0.25f);
     CalculateCollisionRadius();
 
-    m_baseStats.hp = 5.0f;
-    m_currentHp = m_baseStats.hp;
+    m_currentHp = CalculateHpValue();
 
     m_hitSoundMaxVolume = 1.0f;
     m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
@@ -79,6 +78,8 @@ void PlayerShip::Respawn()
     m_isDead = false;
     Heal(CalculateHpValue());
     SetShieldHealth(CalculateShieldCapacityValue());
+    m_velocity = Vector2::ZERO;
+    m_shipTrail->Flush();
     m_sprite->Enable();
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
 }
@@ -115,6 +116,24 @@ void PlayerShip::DropRandomPowerup()
 
     TheGame::instance->m_currentGameMode->SpawnPickup(new PowerUp(type), m_transform.GetWorldPosition());
     *statValue -= 1.0f;
+}
+
+//-----------------------------------------------------------------------------------
+RGBA PlayerShip::GetPlayerColor()
+{
+    PlayerPilot* pilot = (PlayerPilot*)m_pilot;
+    switch (pilot->m_playerNumber)
+    {
+    case 0:
+        return RGBA::WHITE;
+    case 1:
+        return RGBA::GREEN;
+    case 2:
+        return RGBA::RED;
+    case 3:
+        return RGBA::CYAN;
+    }
+    ERROR_AND_DIE("Invalid Player number used to get a player color, have you spawned more than 4 players?");
 }
 
 //-----------------------------------------------------------------------------------

@@ -17,7 +17,6 @@ Ship::Ship(Pilot* pilot)
     , m_pilot(pilot)
     , m_shipTrail(new RibbonParticleSystem("ShipTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_transform))
 {
-    m_baseStats.braking = 0.9f;
     SetShieldHealth(CalculateShieldCapacityValue());
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGrey");
     m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
@@ -55,10 +54,13 @@ void Ship::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void Ship::UpdateShooting()
 {
+    static const float deadzoneBeforeRotation = 0.3f;
+    static const float deadzoneBeforeRotationSquared = deadzoneBeforeRotation * deadzoneBeforeRotation;
     InputMap& input = m_pilot->m_inputMap;
     Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
-    if (shootDirection != Vector2::ZERO)
+
+    if (shootDirection.CalculateMagnitudeSquared() > deadzoneBeforeRotationSquared)
     {
         SetRotation(shootDirection.GetDirectionDegreesFromNormalizedVector());
     }
@@ -148,13 +150,13 @@ void Ship::UpdateMotion(float deltaSeconds)
     Vector2 perpindicularVelocityDir(-velocityDir.y, velocityDir.x);
     float accelerationDot = Vector2::Dot(inputDirection, velocityDir);
     float accelerationMultiplier = (accelerationDot >= 0.0f) ? CalculateAccelerationValue() : CalculateHandlingValue();
-    Vector2 accelerationComponent = accelerationComponent = velocityDir * accelerationDot * accelerationMultiplier;
+    Vector2 accelerationComponent = velocityDir * accelerationDot * accelerationMultiplier;
     Vector2 agilityComponent = perpindicularVelocityDir * Vector2::Dot(inputDirection, perpindicularVelocityDir) * CalculateHandlingValue();
 
     //Calculate velocity
     Vector2 totalAcceleration = accelerationComponent + agilityComponent;
     m_velocity += totalAcceleration;
-    m_velocity *= m_baseStats.braking; // +(0.1f * CalculateBrakingValue());
+    m_velocity *= CalculateBrakingValue();
     m_velocity.ClampMagnitude(CalculateTopSpeedValue());
 
     Vector2 attemptedPosition = m_transform.GetWorldPosition() + (m_velocity * deltaSeconds);

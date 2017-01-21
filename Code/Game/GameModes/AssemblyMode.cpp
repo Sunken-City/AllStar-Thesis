@@ -52,15 +52,18 @@ void AssemblyMode::CleanUp()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::SpawnStartingEntities()
 {
-    ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
-    ItemCrate* box2 = new ItemCrate(Vector2(1.0f));
-    Grunt* g1 = new Grunt(Vector2(-2.0f));
-    Grunt* g2 = new Grunt(Vector2(-1.0f));
+    if (g_spawnEnemies && g_spawnCrates)
+    {
+        ItemCrate* box1 = new ItemCrate(Vector2(2.0f));
+        ItemCrate* box2 = new ItemCrate(Vector2(1.0f));
+        Grunt* g1 = new Grunt(Vector2(-2.0f));
+        Grunt* g2 = new Grunt(Vector2(-1.0f));
 
-    m_entities.push_back(box1);
-    m_entities.push_back(box2);
-    m_entities.push_back(g1);
-    m_entities.push_back(g2);
+        m_entities.push_back(box1);
+        m_entities.push_back(box2);
+        m_entities.push_back(g1);
+        m_entities.push_back(g2);
+    }
 }
 
 //-----------------------------------------------------------------------------------

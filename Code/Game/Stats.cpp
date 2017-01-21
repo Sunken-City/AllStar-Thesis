@@ -5,13 +5,13 @@
 const float Stats::BASE_SPEED_VALUE = 4.0f;
 const float Stats::BASE_ACCELERATION_VALUE = 0.5f;
 const float Stats::BASE_HANDLING_VALUE = 0.5f;
-const float Stats::BASE_BRAKING_VALUE = 0.5f;
+const float Stats::BASE_BRAKING_VALUE = 0.96f;
 const float Stats::BASE_DAMAGE_VALUE = 1.0f;
 const float Stats::BASE_DISRUPTION_PERCENTAGE = 0.0f;
 const float Stats::BASE_PENETRATION_PERCENTAGE = 0.0f;
-const float Stats::BASE_RATE_OF_FIRE = 7.0f;
+const float Stats::BASE_RATE_OF_FIRE = 3.0f;
 const float Stats::BASE_HP_VALUE = 5.0f;
-const float Stats::BASE_CAPACITY_VALUE = 1.0f;
+const float Stats::BASE_CAPACITY_VALUE = 3.0f;
 const float Stats::BASE_REGEN_RATE = 1.0f;
 const float Stats::BASE_DEFLECTION_VALUE = 0.0f;
 
