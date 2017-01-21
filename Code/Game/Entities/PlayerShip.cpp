@@ -21,7 +21,9 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite->m_tintColor = GetPlayerColor(); 
     m_speedometer->m_tintColor = GetPlayerColor();
     m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
-    m_speedometer->m_transform.SetScale(Vector2(3.0f));
+    m_speedometer->m_transform.SetScale(Vector2(20.0f));
+    m_speedometer->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
+    SpriteGameRenderer::instance->m_bottomRight.AddChild(&m_speedometer->m_transform);
 
     CalculateCollisionRadius();
 
@@ -40,6 +42,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 PlayerShip::~PlayerShip()
 {
     //Casual reminder that the sprite is deleted on the entity
+    SpriteGameRenderer::instance->m_bottomRight.RemoveChild(&m_speedometer->m_transform);
 }
 
 //-----------------------------------------------------------------------------------
