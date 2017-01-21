@@ -125,7 +125,7 @@ void Entity::TakeDamage(float damage, float disruption, float penetration)
 void Entity::CalculateCollisionRadius()
 {
     Vector2 virtualSize = m_sprite->m_spriteResource->m_virtualSize;
-    Vector2 spriteScale = m_sprite->m_scale;
+    Vector2 spriteScale = m_sprite->m_transform.GetWorldScale();;
 
     float maxVirtualSize = Max(virtualSize.x, virtualSize.y);
     float maxSpriteScale = Max(spriteScale.x, spriteScale.y);
@@ -133,7 +133,7 @@ void Entity::CalculateCollisionRadius()
     m_collisionRadius = maxVirtualSize * maxSpriteScale;
 
     //Get the shield to match the scale of the entity, then add more to encompass it entirely.
-    m_shieldSprite->m_scale = Vector2(m_collisionRadius * 2.5f) / (m_shieldSprite->m_spriteResource->m_virtualSize);
+    m_shieldSprite->m_transform.SetScale(Vector2(m_collisionRadius * 2.5f) / (m_shieldSprite->m_spriteResource->m_virtualSize));
     //m_shieldSprite->m_scale += SHEILD_SCALE_FUDGE_VALUE;
 }
 
@@ -155,14 +155,14 @@ void Entity::SetPosition(const Vector2& newPosition)
     }
 
     m_transform.SetPosition(adjustedPosition);
-    m_sprite->m_position = adjustedPosition;
-    m_shieldSprite->m_position = adjustedPosition;
+    m_sprite->m_transform.SetPosition(adjustedPosition);
+    m_shieldSprite->m_transform.SetPosition(adjustedPosition);
 }
 
 //-----------------------------------------------------------------------------------
 void Entity::SetRotation(const float newDegreesRotation)
 {
-    m_sprite->m_rotationDegrees = newDegreesRotation;
+    m_sprite->m_transform.SetRotationDegrees(newDegreesRotation);
     m_transform.SetRotationDegrees(newDegreesRotation);
 }
 

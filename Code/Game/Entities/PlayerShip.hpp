@@ -42,4 +42,5 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;
+    Sprite* m_speedometer = nullptr;
 };

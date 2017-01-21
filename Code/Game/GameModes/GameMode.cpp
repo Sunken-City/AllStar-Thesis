@@ -126,7 +126,7 @@ void GameMode::SetBackground(const std::string& backgroundName, const Vector2& s
         m_arenaBackground = nullptr;
     }
     m_arenaBackground = new Sprite(backgroundName, TheGame::BACKGROUND_LAYER);
-    m_arenaBackground->m_scale = scale;
+    m_arenaBackground->m_transform.SetScale(scale);
     m_arenaBackground->Enable();
 }
 

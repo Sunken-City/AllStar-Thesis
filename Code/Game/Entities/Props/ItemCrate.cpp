@@ -16,10 +16,10 @@ ItemCrate::ItemCrate(const Vector2& initialPosition)
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("ItemBox", TheGame::ENEMY_LAYER);
-    m_sprite->m_scale = Vector2(0.5f);
+    m_sprite->m_transform.SetScale(Vector2(0.5f));
     CalculateCollisionRadius();
     SetPosition(initialPosition);
-    m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
+    m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleBeige");
 
     InitializeInventory(MathUtils::GetRandomIntFromZeroTo(MAX_NUM_PICKUPS_PER_BOX) + 1);
@@ -35,8 +35,9 @@ ItemCrate::~ItemCrate()
 //-----------------------------------------------------------------------------------
 void ItemCrate::Update(float deltaSeconds)
 {
-    m_sprite->m_rotationDegrees += m_angularVelocity * deltaSeconds;
-    Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
+    float newRotation = m_sprite->m_transform.GetWorldRotationDegrees() + m_angularVelocity * deltaSeconds;
+    Vector2 direction = Vector2::DegreesToDirection(-newRotation, Vector2::ZERO_DEGREES_UP);
+    m_sprite->m_transform.SetRotationDegrees(newRotation);
 }
 
 //-----------------------------------------------------------------------------------

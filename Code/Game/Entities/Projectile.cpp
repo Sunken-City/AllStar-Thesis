@@ -18,14 +18,14 @@ Projectile::Projectile(Entity* owner, float power, float disruption, float penet
     m_collidesWithBullets = false;
     m_staysWithinBounds = false;
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
-    m_sprite->m_scale = Vector2(1.0f, 1.0f);
     m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
 
     SetPosition(owner->GetMuzzlePosition());
-    m_sprite->m_rotationDegrees = m_owner->m_sprite->m_rotationDegrees;
 
-    Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
+    float parentRotationDegrees = m_owner->m_sprite->m_transform.GetWorldRotationDegrees();
+    m_sprite->m_transform.SetRotationDegrees(parentRotationDegrees);
+    Vector2 direction = Vector2::DegreesToDirection(-parentRotationDegrees, Vector2::ZERO_DEGREES_UP);
 
     float ownerForwardSpeed = Vector2::Dot(direction, m_owner->m_velocity);
     ownerForwardSpeed = std::max<float>(0.0f, ownerForwardSpeed);
@@ -54,7 +54,7 @@ void Projectile::Update(float deltaSeconds)
         SetPosition(position);
         m_sumOfImpulses = Vector2::ZERO; //Only applied for a frame.
         
-        m_sprite->m_rotationDegrees = -m_velocity.CalculateThetaDegrees() + 90.0f;
+        m_sprite->m_transform.SetRotationDegrees(-m_velocity.CalculateThetaDegrees() + 90.0f);
     }
     else
     {

@@ -13,10 +13,9 @@ Grunt::Grunt(const Vector2& initialPosition)
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("GreenEnemy", TheGame::ENEMY_LAYER);
-    m_sprite->m_scale = Vector2(1.0f, 1.0f);
     CalculateCollisionRadius();
     SetPosition(initialPosition);
-    m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
+    m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
     m_baseStats.rateOfFire = 1.5f;
 }
@@ -37,7 +36,7 @@ void Grunt::Update(float deltaSeconds)
     float degrees = GetRotation() + m_angularVelocity * deltaSeconds;
     SetRotation(degrees);
 
-    Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
+    Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_transform.GetWorldRotationDegrees(), Vector2::ZERO_DEGREES_UP);
     Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
     SetPosition(GetPosition() + deltaVelocity);
     if (m_secondsSinceLastFiredWeapon > m_baseStats.rateOfFire)

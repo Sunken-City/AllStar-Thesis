@@ -12,10 +12,9 @@ Asteroid::Asteroid(const Vector2& initialPosition)
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("Asteroid", TheGame::GEOMETRY_LAYER);
-    m_sprite->m_scale = Vector2::ONE;
     CalculateCollisionRadius();
     SetPosition(initialPosition);
-    m_sprite->m_rotationDegrees = MathUtils::GetRandomFloatFromZeroTo(15.0f);
+    m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_isInvincible = true;
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleBrown");
 }
@@ -29,6 +28,7 @@ Asteroid::~Asteroid()
 //-----------------------------------------------------------------------------------
 void Asteroid::Update(float deltaSeconds)
 {
-    m_sprite->m_rotationDegrees += m_angularVelocity * deltaSeconds;
-    Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_rotationDegrees, Vector2::ZERO_DEGREES_UP);
+    float newRotationDegrees = m_sprite->m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
+    m_sprite->m_transform.SetRotationDegrees(newRotationDegrees);
+    Vector2 direction = Vector2::DegreesToDirection(-newRotationDegrees, Vector2::ZERO_DEGREES_UP);
 }

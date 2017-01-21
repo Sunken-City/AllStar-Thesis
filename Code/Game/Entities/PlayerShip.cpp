@@ -17,8 +17,12 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 {
     m_isDead = false;
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
+    m_speedometer = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
     m_sprite->m_tintColor = GetPlayerColor(); 
-    m_sprite->m_scale = Vector2(0.25f, 0.25f);
+    m_speedometer->m_tintColor = GetPlayerColor();
+    m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
+    m_speedometer->m_transform.SetScale(Vector2(3.0f));
+
     CalculateCollisionRadius();
 
     m_currentHp = CalculateHpValue();
@@ -49,6 +53,9 @@ void PlayerShip::Update(float deltaSeconds)
     {
         Ship::Update(deltaSeconds);
     }
+
+    float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + 0.1f;
+    m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
 }
 
 //-----------------------------------------------------------------------------------

@@ -271,10 +271,10 @@ void TheGame::InitializePlayerJoinState()
     m_readyText[1] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[2] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[3] = new Sprite("ReadyText", TEXT_LAYER);
-    m_readyText[0]->m_position = Vector2(-1.0f, 1.0f);
-    m_readyText[1]->m_position = Vector2(1.0f, 1.0f);
-    m_readyText[2]->m_position = Vector2(-1.0f, -1.0f);
-    m_readyText[3]->m_position = Vector2(1.0f, -1.0f);
+    m_readyText[0]->m_transform.SetPosition(Vector2(-1.0f, 1.0f));
+    m_readyText[1]->m_transform.SetPosition(Vector2(1.0f, 1.0f));
+    m_readyText[2]->m_transform.SetPosition(Vector2(-1.0f, -1.0f));
+    m_readyText[3]->m_transform.SetPosition(Vector2(1.0f, -1.0f));
     m_numberOfPlayers = 0;
     m_hasKeyboardPlayer = false;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayerJoinState);
@@ -345,7 +345,7 @@ void TheGame::RenderPlayerJoin() const
 void TheGame::InitializeAssemblyGetReadyState()
 {
     m_getReadyBackground = new Sprite("AssemblyGetReady", PLAYER_LAYER);
-    m_getReadyBackground->m_scale = Vector2(1.75f);
+    m_getReadyBackground->m_transform.SetScale(Vector2(1.75f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyGetReadyState);
 }
 
@@ -534,7 +534,7 @@ void TheGame::RenderAssemblyResults() const
 void TheGame::InitializeMinigameGetReadyState()
 {
     m_getReadyBackground = new Sprite("BattleRoyaleGetReady", UI_LAYER);
-    m_getReadyBackground->m_scale = Vector2(1.75f);
+    m_getReadyBackground->m_transform.SetScale(Vector2(1.75f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameGetReadyState);
 }
 
@@ -695,7 +695,7 @@ void TheGame::RenderMinigameResults() const
 void TheGame::InitializeGameOverState()
 {
     m_gameOverText = new Sprite("GameOverText", PLAYER_LAYER);
-    m_gameOverText->m_scale = Vector2(10.0f, 10.0f);
+    m_gameOverText->m_transform.SetScale(Vector2(10.0f, 10.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupGameOverState);
 }
 
