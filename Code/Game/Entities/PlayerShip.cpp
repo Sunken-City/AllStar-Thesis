@@ -15,8 +15,8 @@
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
-    , m_healthText(new TextRenderable2D("HP: 00", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
-    , m_shieldText(new TextRenderable2D("SH: 00", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_healthText(new TextRenderable2D("HP:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
 {
     m_isDead = false;
     
@@ -39,6 +39,11 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_shieldText->m_fontSize = 0.2f;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_healthText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomRight(&m_shieldText->m_transform);
+
+    uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
+    m_speedometer->m_viewableBy = visibilityFilter;
+    m_healthText->m_viewableBy = visibilityFilter;
+    m_shieldText->m_viewableBy = visibilityFilter;
 
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
