@@ -186,6 +186,11 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         PowerUp* powerUp = ((PowerUp*)pickedUpItem);
         powerUp->ApplyPickupEffect(this);
 
+        if (powerUp->m_powerUpType == PowerUpType::HP)
+        {
+            Heal(Stats::HP_VALUE_PER_POINT);
+        }
+
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
         ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, powerUp->GetSpriteResource());
 

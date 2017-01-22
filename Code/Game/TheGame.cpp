@@ -950,7 +950,6 @@ void TheGame::RegisterParticleEffects()
 
     ParticleEmitterDefinition* collisionParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Cloudy"));
     collisionParticle->m_properties.Set<std::string>(PROPERTY_NAME, "Collision");
-    //crateDestroyed->m_properties.Set<float>("Gravity Scale", 1.0f);
     collisionParticle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     collisionParticle->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
     collisionParticle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(3, 10));
@@ -963,7 +962,7 @@ void TheGame::RegisterParticleEffects()
 
     ParticleEmitterDefinition* titleScreenParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("White4Star"));
     titleScreenParticle->m_properties.Set<std::string>(PROPERTY_NAME, "TitleScreen");
-    titleScreenParticle->m_properties.Set<float>("Gravity Scale", -1.0f);
+    titleScreenParticle->m_properties.Set<float>(PROPERTY_GRAVITY_SCALE, -1.0f);
     titleScreenParticle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     titleScreenParticle->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 30.0f);
     titleScreenParticle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 30);
