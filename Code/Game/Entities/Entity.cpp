@@ -170,7 +170,7 @@ void Entity::SetRotation(const float newDegreesRotation)
 void Entity::Heal(float healValue)
 {
     m_currentHp += healValue;
-    MathUtils::Clamp(m_currentHp, 0.0f, CalculateHpValue());
+    m_currentHp = MathUtils::Clamp(m_currentHp, 0.0f, CalculateHpValue());
 }
 
 //-----------------------------------------------------------------------------------

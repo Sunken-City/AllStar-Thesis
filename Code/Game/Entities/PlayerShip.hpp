@@ -26,6 +26,8 @@ public:
     void PickUpItem(Item* pickedUpItem);
     void DropRandomPowerup();
     RGBA GetPlayerColor();
+    void HideUI();
+    void ShowUI();
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };

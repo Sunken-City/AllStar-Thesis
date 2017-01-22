@@ -65,6 +65,7 @@ PlayerShip::~PlayerShip()
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_shieldText->m_transform);
     delete m_healthText;
     delete m_shieldText;
+    delete m_speedometer;
 }
 
 //-----------------------------------------------------------------------------------
@@ -92,6 +93,22 @@ void PlayerShip::Update(float deltaSeconds)
 void PlayerShip::Render() const
 {
 
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::HideUI()
+{
+    m_shieldText->Disable();
+    m_healthText->Disable();
+    m_speedometer->Disable();
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::ShowUI()
+{
+    m_shieldText->Enable();
+    m_healthText->Enable();
+    m_speedometer->Enable();
 }
 
 //-----------------------------------------------------------------------------------

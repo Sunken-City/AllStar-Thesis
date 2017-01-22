@@ -390,6 +390,10 @@ void TheGame::RenderAssemblyGetReady() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyPlayingState()
 {
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->ShowUI();
+    }
     m_gamePausedLabel = UISystem::instance->CreateWidget("Label");
     m_gamePausedLabel->SetProperty<std::string>("Name", "GamePausedLabel");
     m_gamePausedLabel->SetProperty<std::string>("Text", "Game Paused");
@@ -412,6 +416,10 @@ void TheGame::InitializeAssemblyPlayingState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupAssemblyPlayingState(unsigned int)
 {
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->HideUI();
+    }
     UISystem::instance->DeleteWidget(m_gamePausedLabel);
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
@@ -492,7 +500,7 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
     {
         ship->UnlockMovement();
         ship->m_isDead = false;
-        ship->Heal(999999999.0f);
+        ship->Respawn();
     }
     delete m_currentGameMode;
     m_currentGameMode = m_queuedMinigameModes.front();
@@ -578,6 +586,10 @@ void TheGame::RenderMinigameGetReady() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMinigamePlayingState()
 {
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->ShowUI();
+    }
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigamePlayingState);
@@ -586,6 +598,10 @@ void TheGame::InitializeMinigamePlayingState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupMinigamePlayingState(unsigned int)
 {
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->HideUI();
+    }
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
@@ -639,7 +655,7 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
     {
         ship->UnlockMovement();
         ship->m_isDead = false;
-        ship->Heal(999999999.0f);
+        ship->Respawn();
     }
     delete m_currentGameMode;
     if (m_queuedMinigameModes.size() > 0)
