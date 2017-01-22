@@ -400,7 +400,7 @@ void TheGame::InitializeAssemblyPlayingState()
     UISystem::instance->AddWidget(m_gamePausedLabel);
     m_gamePausedLabel->SetHidden();
 
-    const float worldSize = 10.0f;
+    const float worldSize = 20.0f;
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-worldSize, -worldSize), Vector2(worldSize, worldSize)));
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();

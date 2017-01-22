@@ -79,7 +79,9 @@ void PlayerShip::Update(float deltaSeconds)
         Ship::Update(deltaSeconds);
     }
 
-    float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + 0.1f;
+    float speed = m_velocity.CalculateMagnitude();
+    float rotationFromSpeed = 0.075f + (0.05f * speed);
+    float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
     m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
 
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp * 10.0f));
