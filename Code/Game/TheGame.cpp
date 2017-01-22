@@ -896,6 +896,7 @@ void TheGame::RegisterParticleEffects()
     yellowBeams->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
     yellowBeams->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.0f, 2.0f));
     yellowBeams->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+    yellowBeams->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-30.0f, 30.0f));
 
     ParticleEmitterDefinition* powerupPickup = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Placeholder"));
     powerupPickup->m_properties.Set<std::string>(PROPERTY_NAME, "Power Pickup");
