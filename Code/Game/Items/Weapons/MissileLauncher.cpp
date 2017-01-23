@@ -22,6 +22,7 @@ MissileLauncher::~MissileLauncher()
 //-----------------------------------------------------------------------------------
 const SpriteResource* MissileLauncher::GetSpriteResource()
 {
+    return ResourceDatabase::instance->GetSpriteResource("MissileLauncher");
 }
 
 //-----------------------------------------------------------------------------------
