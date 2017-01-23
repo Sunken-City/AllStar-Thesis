@@ -9,8 +9,8 @@
 //-----------------------------------------------------------------------------------
 MissileLauncher::MissileLauncher()
 {
-    m_statBonuses.shotHoming = 50.0f;
-    m_statBonuses.rateOfFire = -3.0f;
+    m_statBonuses.shotHoming = m_shotHomingBonus;
+    m_statBonuses.rateOfFire = m_rateOfFireBonus;
 }
 
 //-----------------------------------------------------------------------------------
@@ -22,7 +22,6 @@ MissileLauncher::~MissileLauncher()
 //-----------------------------------------------------------------------------------
 const SpriteResource* MissileLauncher::GetSpriteResource()
 {
-    return ResourceDatabase::instance->GetSpriteResource("Placeholder");
 }
 
 //-----------------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/Entities/Projectiles/Projectile.hpp"
+#include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon::Weapon()
@@ -15,6 +16,12 @@ Weapon::Weapon()
 Weapon::~Weapon()
 {
 
+}
+
+//-----------------------------------------------------------------------------------
+const SpriteResource* Weapon::GetSpriteResource()
+{
+    return ResourceDatabase::instance->GetSpriteResource("DefaultWeapon");
 }
 
 //-----------------------------------------------------------------------------------

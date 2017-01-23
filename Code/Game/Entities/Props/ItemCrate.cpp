@@ -7,6 +7,7 @@
 #include "Game/Items/PowerUp.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
+#include "Game/Items/Weapons/MissileLauncher.hpp"
 
 const float ItemCrate::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -54,9 +55,19 @@ void ItemCrate::Die()
 //-----------------------------------------------------------------------------------
 void ItemCrate::GenerateItems()
 {
+    static const float ITEM_PERCENTAGE_CHANCE = 0.7f;
+    static const float EQUIPMENT_PERCENTAGE_CHANCE = 1.0f - ITEM_PERCENTAGE_CHANCE;
+
     unsigned int inventorySize = m_inventory.size();
     for (unsigned int i = 0; i < inventorySize; ++i)
     {
-        m_inventory[i] = new PowerUp();
+        if (MathUtils::GetRandomFloatFromZeroTo(1.0f) < ITEM_PERCENTAGE_CHANCE)
+        {
+            m_inventory[i] = new PowerUp();
+        }
+        else
+        {
+            m_inventory[i] = new MissileLauncher();
+        }
     }
 }

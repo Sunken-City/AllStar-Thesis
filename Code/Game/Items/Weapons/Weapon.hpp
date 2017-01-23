@@ -11,6 +11,6 @@ public:
     virtual ~Weapon();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual const SpriteResource* GetSpriteResource() { return nullptr; };
+    virtual const SpriteResource* GetSpriteResource();
     virtual bool AttemptFire(Ship* shooter);
 };

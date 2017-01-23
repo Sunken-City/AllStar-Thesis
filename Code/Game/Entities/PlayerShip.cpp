@@ -74,6 +74,12 @@ void PlayerShip::InitializeUI()
 }
 
 //-----------------------------------------------------------------------------------
+void PlayerShip::Eject(Item* item)
+{
+    delete item;
+}
+
+//-----------------------------------------------------------------------------------
 PlayerShip::~PlayerShip()
 {
     //Casual reminder that the sprite is deleted on the entity
@@ -235,9 +241,14 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 
         delete powerUp;
     }
+    if (pickedUpItem->IsWeapon())
+    {
+        Eject((Item*)m_weapon);
+        m_weapon = (Weapon*)pickedUpItem;
+    }
     if (pickedUpItem->IsChassis())
     {
-        //Eject(m_chassis);
+        Eject((Item*)m_chassis);
         m_chassis = (Chassis*)pickedUpItem;
     }
 }
