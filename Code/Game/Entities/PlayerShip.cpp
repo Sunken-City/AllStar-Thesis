@@ -12,6 +12,9 @@
 #include "Engine/Audio/Audio.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
 #include "Game/Items/Weapons/MissileLauncher.hpp"
+#include "Game/Items/Chassis/Chassis.hpp"
+#include "Game/Items/Actives/Actives.hpp"
+#include "Game/Items/Passives/Passive.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -71,12 +74,6 @@ void PlayerShip::InitializeUI()
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
     m_speedText->m_viewableBy = visibilityFilter;
-}
-
-//-----------------------------------------------------------------------------------
-void PlayerShip::Eject(Item* item)
-{
-    delete item;
 }
 
 //-----------------------------------------------------------------------------------
@@ -201,6 +198,34 @@ void PlayerShip::DropRandomPowerup()
 }
 
 //-----------------------------------------------------------------------------------
+void PlayerShip::EjectWeapon()
+{
+    TheGame::instance->m_currentGameMode->SpawnPickup(m_weapon, m_transform.GetWorldPosition());
+    m_weapon = nullptr;
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::EjectChassis()
+{
+    TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition());
+    m_chassis = nullptr;
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::EjectActive()
+{
+    TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition());
+    m_activeEffect = nullptr;
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::EjectPassive()
+{
+    TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition());
+    m_passiveEffect = nullptr;
+}
+
+//-----------------------------------------------------------------------------------
 RGBA PlayerShip::GetPlayerColor()
 {
     PlayerPilot* pilot = (PlayerPilot*)m_pilot;
@@ -243,12 +268,12 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     }
     if (pickedUpItem->IsWeapon())
     {
-        Eject((Item*)m_weapon);
+        EjectWeapon();
         m_weapon = (Weapon*)pickedUpItem;
     }
     if (pickedUpItem->IsChassis())
     {
-        Eject((Item*)m_chassis);
+        EjectChassis();
         m_chassis = (Chassis*)pickedUpItem;
     }
 }

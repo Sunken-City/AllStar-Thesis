@@ -29,7 +29,13 @@ public:
     void HideUI();
     void ShowUI();
     void InitializeUI();
-    
+
+    //EQUIPMENT/////////////////////////////////////////////////////////////////////
+    void EjectWeapon();
+    void EjectChassis();
+    void EjectActive();
+    void EjectPassive();
+
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };
     inline virtual float GetAccelerationStat() { return Ship::GetAccelerationStat() + m_powerupStatModifiers.acceleration; };
@@ -43,7 +49,7 @@ public:
     inline virtual float GetShieldCapacityStat() { return Ship::GetShieldCapacityStat() + m_powerupStatModifiers.shieldCapacity; };
     inline virtual float GetShieldRegenStat() { return Ship::GetShieldRegenStat() + m_powerupStatModifiers.shieldRegen; };
     inline virtual float GetShotDeflectionStat() { return Ship::GetShotDeflectionStat() + m_powerupStatModifiers.shotDeflection; };
-    void Eject(Item* item);
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;
     Sprite* m_speedometer = nullptr;
