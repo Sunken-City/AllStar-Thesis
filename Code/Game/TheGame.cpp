@@ -90,7 +90,17 @@ TheGame::~TheGame()
         GameMode* mode = m_queuedMinigameModes.front();
         delete mode;
         m_queuedMinigameModes.pop();
-    }
+    }ClearPlayers();
+
+    delete ResourceDatabase::instance;
+    ResourceDatabase::instance = nullptr;
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::ClearPlayers()
+{
+    m_numberOfPlayers = 0;
+    m_hasKeyboardPlayer = false;
     for (PlayerPilot* pilot : m_playerPilots)
     {
         delete pilot;
@@ -101,8 +111,8 @@ TheGame::~TheGame()
         delete ship;
     }
     m_players.clear();
-    delete ResourceDatabase::instance;
-    ResourceDatabase::instance = nullptr;
+
+    InputSystem::instance->ClearAndRecreateInputDevices();
 }
 
 //-----------------------------------------------------------------------------------
@@ -267,6 +277,7 @@ void TheGame::EnqueueMinigames()
 //-----------------------------------------------------------------------------------
 void TheGame::InitializePlayerJoinState()
 {
+    ClearPlayers();
     m_readyText[0] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[1] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[2] = new Sprite("ReadyText", TEXT_LAYER);
@@ -275,8 +286,6 @@ void TheGame::InitializePlayerJoinState()
     m_readyText[1]->m_transform.SetPosition(Vector2(1.0f, 1.0f));
     m_readyText[2]->m_transform.SetPosition(Vector2(-1.0f, -1.0f));
     m_readyText[3]->m_transform.SetPosition(Vector2(1.0f, -1.0f));
-    m_numberOfPlayers = 0;
-    m_hasKeyboardPlayer = false;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayerJoinState);
 }
 

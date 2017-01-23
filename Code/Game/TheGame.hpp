@@ -23,6 +23,9 @@ class TheGame
 public:
     TheGame();
     ~TheGame();
+
+    void ClearPlayers();
+
     void Update(float deltaTime);
     void Render() const;
     void InitializeGameOverState();
