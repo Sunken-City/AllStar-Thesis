@@ -3,8 +3,8 @@
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
 const float Stats::BASE_SPEED_VALUE = 4.0f;
-const float Stats::BASE_ACCELERATION_VALUE = 0.5f;
-const float Stats::BASE_HANDLING_VALUE = 0.5f;
+const float Stats::BASE_ACCELERATION_VALUE = 0.1f;
+const float Stats::BASE_HANDLING_VALUE = 0.1f;
 const float Stats::BASE_BRAKING_VALUE = 0.97f;
 const float Stats::BASE_DAMAGE_VALUE = 0.5f;
 const float Stats::BASE_DISRUPTION_PERCENTAGE = 0.0f;
@@ -16,10 +16,10 @@ const float Stats::BASE_REGEN_RATE = 1.0f;
 const float Stats::BASE_DEFLECTION_VALUE = 0.0f;
 
 const float Stats::SPEED_VALUE_PER_POINT = 0.3333333f;
-const float Stats::ACCELERATION_VALUE_PER_POINT = 1.0f;
-const float Stats::HANDLING_VALUE_PER_POINT = 1.0f;
-const float Stats::BRAKING_VALUE_PER_POINT = -0.05f;
-const float Stats::DAMAGE_VALUE_PER_POINT = 1.0f;
+const float Stats::ACCELERATION_VALUE_PER_POINT = 0.1f;
+const float Stats::HANDLING_VALUE_PER_POINT = 0.1f;
+const float Stats::BRAKING_VALUE_PER_POINT = -0.005f;
+const float Stats::DAMAGE_VALUE_PER_POINT = 0.5f;
 const float Stats::DISRUPTION_PERCENTAGE_PER_POINT = 0.05f;
 const float Stats::PENETRATION_PERCENTAGE_PER_POINT = 0.05f;
 const float Stats::RATE_OF_FIRE_PER_POINT = 0.5f;

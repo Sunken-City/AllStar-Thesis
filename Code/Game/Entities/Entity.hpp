@@ -26,7 +26,7 @@ public:
     virtual void CalculateCollisionRadius();
     virtual void SetPosition(const Vector2& newPosition);
     virtual void SetRotation(const float newDegreesRotation);
-    virtual void Heal(float healValue);
+    virtual void Heal(float healValue = 99999999.0f);
     virtual void DropInventory();
     virtual void SetShieldHealth(float newShieldValue);
     void InitializeInventory(unsigned int inventorySize);

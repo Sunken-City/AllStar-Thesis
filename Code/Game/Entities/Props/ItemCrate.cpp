@@ -21,6 +21,8 @@ ItemCrate::ItemCrate(const Vector2& initialPosition)
     SetPosition(initialPosition);
     m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleBeige");
+    
+    Heal();
 
     InitializeInventory(MathUtils::GetRandomIntFromZeroTo(MAX_NUM_PICKUPS_PER_BOX) + 1);
     GenerateItems();
