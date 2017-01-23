@@ -147,11 +147,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Entities\Projectile.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Grunt.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\PlayerShip.cpp" />
+    <ClCompile Include="Entities\Projectiles\Projectile.cpp" />
     <ClCompile Include="Entities\Props\Asteroid.cpp" />
     <ClCompile Include="Entities\Props\ItemCrate.cpp" />
     <ClCompile Include="Entities\Ship.cpp" />
@@ -177,11 +177,11 @@
     <ClCompile Include="TheGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entities\Projectile.hpp" />
     <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="Entities\Grunt.hpp" />
     <ClInclude Include="Entities\Pickup.hpp" />
     <ClInclude Include="Entities\PlayerShip.hpp" />
+    <ClInclude Include="Entities\Projectiles\Projectile.hpp" />
     <ClInclude Include="Entities\Props\Asteroid.hpp" />
     <ClInclude Include="Entities\Props\ItemCrate.hpp" />
     <ClInclude Include="Entities\Ship.hpp" />

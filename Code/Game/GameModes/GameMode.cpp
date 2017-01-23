@@ -1,7 +1,7 @@
 #include "Game/GameModes/GameMode.hpp"
 #include "Game/TheGame.hpp"
 #include "Game/StateMachine.hpp"
-#include "Game/Entities/Projectile.hpp"
+#include "Game/Entities/Projectiles/Projectile.hpp"
 #include "Game/Entities/Pickup.hpp"
 #include "Game/Entities/Ship.hpp"
 #include "Game/Entities/PlayerShip.hpp"

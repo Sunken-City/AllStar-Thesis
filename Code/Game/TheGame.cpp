@@ -17,7 +17,7 @@
 #include "Engine/Input/XMLUtils.hpp"
 #include "Game/Entities/Entity.hpp"
 #include "Game/Entities/PlayerShip.hpp"
-#include "Game/Entities/Projectile.hpp"
+#include "Game/Entities/Projectiles/Projectile.hpp"
 #include "Game/Entities/Ship.hpp"
 #include "Entities/Props/ItemCrate.hpp"
 #include "Entities/Grunt.hpp"

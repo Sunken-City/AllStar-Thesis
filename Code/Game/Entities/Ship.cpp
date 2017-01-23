@@ -8,7 +8,7 @@
 #include "Engine/Input/Logging.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
-#include "Projectile.hpp"
+#include "Game/Entities/Projectiles/Projectile.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)

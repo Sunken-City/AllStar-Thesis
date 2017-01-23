@@ -1,4 +1,4 @@
-#include "Game/Entities/Projectile.hpp"
+#include "Game/Entities/Projectiles/Projectile.hpp"
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"

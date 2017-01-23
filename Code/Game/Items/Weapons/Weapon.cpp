@@ -2,7 +2,7 @@
 #include "Game/Entities/Ship.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
-#include "Game/Entities/Projectile.hpp"
+#include "Game/Entities/Projectiles/Projectile.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon::Weapon()

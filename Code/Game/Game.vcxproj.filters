@@ -39,6 +39,9 @@
     <Filter Include="General\UI">
       <UniqueIdentifier>{e9886ac7-b92a-4ea1-bc27-9cdb8aa5a2fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="General\Entities\Projectiles">
+      <UniqueIdentifier>{db48448b-8fb1-4d6f-aef1-cd3318695554}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameCommon.cpp">
@@ -83,9 +86,6 @@
     <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp">
       <Filter>General\GameModes\Minigames</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Projectile.cpp">
-      <Filter>General\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Items\Item.cpp">
       <Filter>General\Items</Filter>
     </ClCompile>
@@ -124,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="Items\Weapons\MissileLauncher.cpp">
       <Filter>General\Items\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Projectiles\Projectile.cpp">
+      <Filter>General\Entities\Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,9 +169,6 @@
     <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp">
       <Filter>General\GameModes\Minigames</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Projectile.hpp">
-      <Filter>General\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Items\Item.hpp">
       <Filter>General\Items</Filter>
     </ClInclude>
@@ -207,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="Items\Weapons\MissileLauncher.hpp">
       <Filter>General\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Projectiles\Projectile.hpp">
+      <Filter>General\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
