@@ -20,6 +20,7 @@ Ship::Ship(Pilot* pilot)
     SetShieldHealth(CalculateShieldCapacityValue());
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGrey");
     m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
+    m_weapon = new Weapon();
 }
 
 //-----------------------------------------------------------------------------------
@@ -70,15 +71,6 @@ void Ship::UpdateShooting()
         if (m_weapon)
         {
             m_weapon->AttemptFire(this);
-        }
-        else
-        {
-            float secondsPerWeaponFire = 1.0f / CalculateRateOfFireValue();
-            if (m_secondsSinceLastFiredWeapon > secondsPerWeaponFire)
-            {
-                TheGame::instance->m_currentGameMode->SpawnBullet(this);
-                m_secondsSinceLastFiredWeapon = 0.0f;
-            }
         }
     }
 }

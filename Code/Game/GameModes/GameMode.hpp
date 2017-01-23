@@ -9,6 +9,7 @@ class Ship;
 class Item;
 class Vector2;
 class WidgetBase;
+class Projectile;
 
 class GameMode
 {
@@ -25,7 +26,7 @@ public:
     virtual Vector2 GetRandomPlayerSpawnPoint();
     void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
     AABB2 GetArenaBounds();
-    void SpawnBullet(Ship* creator);
+    void SpawnBullet(Projectile* bullet);
     void SpawnPickup(Item* item, const Vector2& spawnPosition);
     void SetBackground(const std::string& backgroundName, const Vector2& scale);
     void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);

@@ -28,7 +28,8 @@ public:
     RGBA GetPlayerColor();
     void HideUI();
     void ShowUI();
-
+    void InitializeUI();
+    
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
     inline virtual float GetTopSpeedStat() { return Ship::GetTopSpeedStat() + m_powerupStatModifiers.topSpeed; };
     inline virtual float GetAccelerationStat() { return Ship::GetAccelerationStat() + m_powerupStatModifiers.acceleration; };

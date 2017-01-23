@@ -2,7 +2,8 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
-#include "../Items/PowerUp.hpp"
+#include "Game/Items/PowerUp.hpp"
+#include "Game/Items/Weapons/Weapon.hpp"
 #include "Game/Pilots/Pilot.hpp"
 
 const float Grunt::MAX_ANGULAR_VELOCITY = 15.0f;
@@ -17,7 +18,7 @@ Grunt::Grunt(const Vector2& initialPosition)
     SetPosition(initialPosition);
     m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
-    m_baseStats.rateOfFire = 1.5f;
+    m_baseStats.rateOfFire = (1.5f - Stats::BASE_RATE_OF_FIRE) / Stats::RATE_OF_FIRE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------
@@ -33,17 +34,15 @@ Grunt::~Grunt()
 void Grunt::Update(float deltaSeconds)
 {
     Ship::Update(deltaSeconds);
+
     float degrees = GetRotation() + m_angularVelocity * deltaSeconds;
     SetRotation(degrees);
 
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_transform.GetWorldRotationDegrees(), Vector2::ZERO_DEGREES_UP);
     Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
     SetPosition(GetPosition() + deltaVelocity);
-    if (m_secondsSinceLastFiredWeapon > m_baseStats.rateOfFire)
-    {
-        TheGame::instance->m_currentGameMode->SpawnBullet(this);
-        m_secondsSinceLastFiredWeapon = 0.0f;
-    }
+
+    m_weapon->AttemptFire(this);
 }
 
 //-----------------------------------------------------------------------------------

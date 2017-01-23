@@ -29,4 +29,5 @@ extern Event<float> OnUpdate;
 extern bool g_spawnEnemies;
 extern bool g_spawnCrates;
 extern bool g_spawnGeometry;
-extern bool g_NearlyInvulnerable;
+extern bool g_nearlyInvulnerable;
+extern bool g_spawnWithWeapon;

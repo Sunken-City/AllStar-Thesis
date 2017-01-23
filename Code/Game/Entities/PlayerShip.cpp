@@ -11,6 +11,7 @@
 #include "Game/Pilots/PlayerPilot.hpp"
 #include "Engine/Audio/Audio.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
+#include "Game/Items/Weapons/MissileLauncher.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -24,7 +25,27 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_tintColor = GetPlayerColor(); 
     m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
+    InitializeUI();
 
+    CalculateCollisionRadius();
+    m_currentHp = CalculateHpValue();
+    m_hitSoundMaxVolume = 1.0f;
+    m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
+
+    if (g_nearlyInvulnerable)
+    {
+        m_currentHp = 99999999.0f;
+    }
+    if (g_spawnWithWeapon)
+    {
+        delete m_weapon;
+        m_weapon = new MissileLauncher();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::InitializeUI()
+{
     m_speedometer = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
     m_speedometer->m_tintColor = GetPlayerColor();
     m_speedometer->m_tintColor.SetAlphaFloat(0.75f);
@@ -50,16 +71,6 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
     m_speedText->m_viewableBy = visibilityFilter;
-
-    CalculateCollisionRadius();
-    m_currentHp = CalculateHpValue();
-    m_hitSoundMaxVolume = 1.0f;
-    m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
-
-    if (g_NearlyInvulnerable)
-    {
-        m_currentHp = 99999999.0f;
-    }
 }
 
 //-----------------------------------------------------------------------------------

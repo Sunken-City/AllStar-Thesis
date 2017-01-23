@@ -7,4 +7,5 @@ bool g_isGamePaused = false;
 bool g_spawnEnemies       = true;
 bool g_spawnCrates        = true;
 bool g_spawnGeometry      = true;
-bool g_NearlyInvulnerable = false;
+bool g_nearlyInvulnerable = false;
+bool g_spawnWithWeapon    = true;

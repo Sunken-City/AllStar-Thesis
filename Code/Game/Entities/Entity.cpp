@@ -50,6 +50,22 @@ Entity::~Entity()
     {
         DeleteInventory();
     }
+    if (m_weapon)
+    {
+        delete m_weapon;
+    }
+    if (m_chassis)
+    {
+        delete m_chassis;
+    }
+    if (m_passiveEffect)
+    {
+        delete m_passiveEffect;
+    }
+    if (m_activeEffect)
+    {
+        delete m_activeEffect;
+    }
 }
 
 //-----------------------------------------------------------------------------------
