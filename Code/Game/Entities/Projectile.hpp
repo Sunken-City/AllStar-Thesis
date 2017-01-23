@@ -5,7 +5,7 @@ class Projectile : public Entity
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    Projectile(Entity* Owner, float power = 1.0f, float disruption = 0.0f, float penetration = 0.0f);
+    Projectile(Entity* Owner, float power = 1.0f, float disruption = 0.0f, float homing = 0.0f);
     virtual ~Projectile();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
@@ -19,6 +19,6 @@ public:
     float m_speed;
     float m_power;
     float m_disruption;
-    float m_penetration;
+    float m_shotHoming;
     float m_lifeSpan;
 };

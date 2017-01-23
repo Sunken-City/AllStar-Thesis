@@ -12,7 +12,7 @@ enum class PowerUpType
     BRAKING,
     DAMAGE,
     SHIELD_DISRUPTION,
-    SHIELD_PENETRATION,
+    SHOT_HOMING,
     RATE_OF_FIRE,
     HP,
     SHIELD_CAPACITY,

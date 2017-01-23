@@ -167,6 +167,7 @@
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Passives\Passive.cpp" />
     <ClCompile Include="Items\PowerUp.cpp" />
+    <ClCompile Include="Items\Weapons\MissileLauncher.cpp" />
     <ClCompile Include="Items\Weapons\Weapon.cpp" />
     <ClCompile Include="Main_Win32.cpp" />
     <ClCompile Include="Pilots\Pilot.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Items\Item.hpp" />
     <ClInclude Include="Items\Passives\Passive.hpp" />
     <ClInclude Include="Items\PowerUp.hpp" />
+    <ClInclude Include="Items\Weapons\MissileLauncher.hpp" />
     <ClInclude Include="Items\Weapons\Weapon.hpp" />
     <ClInclude Include="Pilots\Pilot.hpp" />
     <ClInclude Include="Pilots\PlayerPilot.hpp" />

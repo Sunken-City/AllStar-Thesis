@@ -6,22 +6,22 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 //-----------------------------------------------------------------------------------
-Projectile::Projectile(Entity* owner, float power, float disruption, float penetration)
+Projectile::Projectile(Entity* Owner, float power /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) 
     : Entity()
     , m_speed(10.0f)
     , m_power(power)
     , m_disruption(disruption)
-    , m_penetration(penetration)
+    , m_shotHoming(homing)
     , m_lifeSpan(2.0f)
 {
-    m_owner = owner;
+    m_owner = Owner;
     m_collidesWithBullets = false;
     m_staysWithinBounds = false;
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
-    m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
+    m_sprite->m_tintColor = Owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
 
-    SetPosition(owner->GetMuzzlePosition());
+    SetPosition(Owner->GetMuzzlePosition());
 
     float parentRotationDegrees = m_owner->m_sprite->m_transform.GetWorldRotationDegrees();
     m_sprite->m_transform.SetRotationDegrees(parentRotationDegrees);
@@ -68,7 +68,7 @@ void Projectile::ResolveCollision(Entity* otherEntity)
     Entity::ResolveCollision(otherEntity);
     if (otherEntity != m_owner && otherEntity->m_collidesWithBullets && !otherEntity->m_isDead)
     {
-        otherEntity->TakeDamage(m_power, m_disruption, m_penetration);
+        otherEntity->TakeDamage(m_power, m_disruption);
         this->m_isDead = true;
         ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, otherEntity->GetCollisionSpriteResource());
     }

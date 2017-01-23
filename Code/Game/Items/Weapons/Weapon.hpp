@@ -1,6 +1,8 @@
 #pragma once
 #include "Game/Items/Item.hpp"
 
+class Ship;
+
 class Weapon : public Item
 {
 public:
@@ -10,5 +12,5 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() = 0;
-    virtual bool AttemptFire() = 0;
+    virtual bool AttemptFire(Ship* shooter) = 0;
 };

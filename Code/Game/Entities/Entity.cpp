@@ -90,7 +90,7 @@ void Entity::ResolveCollision(Entity* otherEntity)
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::TakeDamage(float damage, float disruption, float penetration)
+void Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
     if (m_isDead || m_isInvincible)
     {
@@ -101,14 +101,6 @@ void Entity::TakeDamage(float damage, float disruption, float penetration)
     {
         float adjustedDamage = damage + (damage * disruption);
         SetShieldHealth(m_currentShieldHealth - adjustedDamage);
-
-        //Apply penetration damage. Shields must be popped before penetration kills the other user.
-        float penetrationDamage = damage * penetration;
-        m_currentHp -= penetrationDamage;
-        if (m_currentHp < 0.1f)
-        {
-            m_currentHp = 0.1f;
-        }
     }
     else
     {
@@ -240,14 +232,14 @@ float Entity::GetShieldDisruptionStat()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::GetShieldPenetrationStat()
+float Entity::GetShotHomingStat()
 {
-    float shieldPenetration = m_baseStats.shieldPenetration;
-    shieldPenetration += m_weapon ? m_weapon->m_statBonuses.shieldPenetration : 0.0f;
-    shieldPenetration += m_chassis ? m_chassis->m_statBonuses.shieldPenetration : 0.0f;
-    shieldPenetration += m_activeEffect ? m_activeEffect->m_statBonuses.shieldPenetration : 0.0f;
-    shieldPenetration += m_passiveEffect ? m_passiveEffect->m_statBonuses.shieldPenetration : 0.0f;
-    return shieldPenetration;
+    float shotHoming = m_baseStats.shotHoming;
+    shotHoming += m_weapon ? m_weapon->m_statBonuses.shotHoming : 0.0f;
+    shotHoming += m_chassis ? m_chassis->m_statBonuses.shotHoming : 0.0f;
+    shotHoming += m_activeEffect ? m_activeEffect->m_statBonuses.shotHoming : 0.0f;
+    shotHoming += m_passiveEffect ? m_passiveEffect->m_statBonuses.shotHoming : 0.0f;
+    return shotHoming;
 }
 
 //-----------------------------------------------------------------------------------
@@ -342,9 +334,9 @@ float Entity::CalculateShieldDisruptionValue()
 }
 
 //-----------------------------------------------------------------------------------
-float Entity::CalculateShieldPenetrationValue()
+float Entity::CalculateShotHomingValue()
 {
-    return Stats::BASE_PENETRATION_PERCENTAGE + (GetShieldPenetrationStat() * Stats::PENETRATION_PERCENTAGE_PER_POINT);
+    return Stats::BASE_SHOT_HOMING_VALUE + (GetShotHomingStat() * Stats::SHOT_HOMING_VALUE_PER_POINT);
 }
 
 //-----------------------------------------------------------------------------------

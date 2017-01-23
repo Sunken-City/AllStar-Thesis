@@ -18,7 +18,7 @@ public:
     virtual void LockMovement() { m_lockMovement = true; m_velocity = Vector2::ZERO; };
     virtual void UnlockMovement() { m_lockMovement = false; };
     virtual void ToggleMovement() { m_lockMovement = !m_lockMovement; };
-    virtual void TakeDamage(float damage, float disruption, float penetration);
+    virtual void TakeDamage(float damage, float disruption = 1.0f);
     virtual void Die();
     virtual Vector2 GetMuzzlePosition();
     virtual const SpriteResource* GetCollisionSpriteResource() override;

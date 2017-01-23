@@ -122,6 +122,9 @@
     <ClCompile Include="Entities\Props\Asteroid.cpp">
       <Filter>General\Entities\Props</Filter>
     </ClCompile>
+    <ClCompile Include="Items\Weapons\MissileLauncher.cpp">
+      <Filter>General\Items\Weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -201,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="Entities\Props\Asteroid.hpp">
       <Filter>General\Entities\Props</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Weapons\MissileLauncher.hpp">
+      <Filter>General\Items\Weapons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

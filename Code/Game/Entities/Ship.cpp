@@ -69,7 +69,7 @@ void Ship::UpdateShooting()
     {
         if (m_weapon)
         {
-            m_weapon->AttemptFire();
+            m_weapon->AttemptFire(this);
         }
         else
         {
@@ -121,7 +121,8 @@ void Ship::ApplyShotDeflection()
                 if (fabs(dotProduct) > DEADSHOT_DOT_TOLERANCE)
                 {
                     Vector2 resolutionDirection = dotProduct > 0 ? -normalizedVelocity : normalizedVelocity;
-                    projectile->ApplyImpulse(resolutionDirection * CalculateShotDeflectionValue());
+                    float totalShotModificationConstant = CalculateShotDeflectionValue() - projectile->m_shotHoming;
+                    projectile->ApplyImpulse(resolutionDirection * totalShotModificationConstant);
                 }                
             }
         }
@@ -164,7 +165,7 @@ void Ship::UpdateMotion(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void Ship::TakeDamage(float damage, float disruption, float penetration)
+void Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
     static SoundID hitHullSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
     static SoundID hitShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
@@ -172,7 +173,7 @@ void Ship::TakeDamage(float damage, float disruption, float penetration)
     float currentHp = m_currentHp;
     float currentShieldCapacity = m_currentShieldHealth;
 
-    Entity::TakeDamage(damage, disruption, penetration);
+    Entity::TakeDamage(damage, disruption);
     if (currentShieldCapacity != m_currentShieldHealth)
     {
         if (m_currentShieldHealth != 0.0f)

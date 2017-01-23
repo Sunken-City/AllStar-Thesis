@@ -55,8 +55,8 @@ void PowerUp::SetStatChangeFromType(PowerUpType type)
     case PowerUpType::SHIELD_DISRUPTION:
         m_statChanges.shieldDisruption = 1;
         break;
-    case PowerUpType::SHIELD_PENETRATION:
-        m_statChanges.shieldPenetration = 1;
+    case PowerUpType::SHOT_HOMING:
+        m_statChanges.shotHoming = 1;
         break;
     case PowerUpType::RATE_OF_FIRE:
         m_statChanges.rateOfFire = 1;
@@ -122,8 +122,8 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
         return "Damage";
     case PowerUpType::SHIELD_DISRUPTION:
         return "ShieldDisruption";
-    case PowerUpType::SHIELD_PENETRATION:
-        return "ShieldPenetration";
+    case PowerUpType::SHOT_HOMING:
+        return "ShotHoming";
     case PowerUpType::RATE_OF_FIRE:
         return "RateOfFire";
     case PowerUpType::HP:

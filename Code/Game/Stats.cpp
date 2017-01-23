@@ -8,7 +8,7 @@ const float Stats::BASE_HANDLING_VALUE = 0.1f;
 const float Stats::BASE_BRAKING_VALUE = 0.97f;
 const float Stats::BASE_DAMAGE_VALUE = 0.5f;
 const float Stats::BASE_DISRUPTION_PERCENTAGE = 0.0f;
-const float Stats::BASE_PENETRATION_PERCENTAGE = 0.0f;
+const float Stats::BASE_SHOT_HOMING_VALUE = 0.0f;
 const float Stats::BASE_RATE_OF_FIRE = 4.0f;
 const float Stats::BASE_HP_VALUE = 5.0f;
 const float Stats::BASE_CAPACITY_VALUE = 3.0f;
@@ -21,7 +21,7 @@ const float Stats::HANDLING_VALUE_PER_POINT = 0.1f;
 const float Stats::BRAKING_VALUE_PER_POINT = -0.005f;
 const float Stats::DAMAGE_VALUE_PER_POINT = 0.5f;
 const float Stats::DISRUPTION_PERCENTAGE_PER_POINT = 0.05f;
-const float Stats::PENETRATION_PERCENTAGE_PER_POINT = 0.05f;
+const float Stats::SHOT_HOMING_VALUE_PER_POINT = 0.05f;
 const float Stats::RATE_OF_FIRE_PER_POINT = 0.5f;
 const float Stats::HP_VALUE_PER_POINT = 2.0f;
 const float Stats::CAPACITY_VALUE_PER_POINT = 5.0f;
@@ -36,7 +36,7 @@ Stats::Stats(float defaultValue)
     , braking(defaultValue)
     , damage(defaultValue)
     , shieldDisruption(defaultValue)
-    , shieldPenetration(defaultValue)
+    , shotHoming(defaultValue)
     , rateOfFire(defaultValue)
     , hp(defaultValue)
     , shieldCapacity(defaultValue)
@@ -57,7 +57,7 @@ unsigned int Stats::GetTotalNumberOfDroppablePowerUps()
     totalCount += static_cast<unsigned int>(braking > 0 ? braking : 0);
     totalCount += static_cast<unsigned int>(damage > 0 ? damage : 0);
     totalCount += static_cast<unsigned int>(shieldDisruption > 0 ? shieldDisruption : 0);
-    totalCount += static_cast<unsigned int>(shieldPenetration > 0 ? shieldPenetration : 0);
+    totalCount += static_cast<unsigned int>(shotHoming > 0 ? shotHoming : 0);
     totalCount += static_cast<unsigned int>(rateOfFire > 0 ? rateOfFire : 0);
     totalCount += static_cast<unsigned int>(hp > 0 ? hp : 0);
     totalCount += static_cast<unsigned int>(shieldCapacity > 0 ? shieldCapacity : 0);
@@ -83,8 +83,8 @@ float* Stats::GetStatReference(PowerUpType type)
         return &damage;
     case PowerUpType::SHIELD_DISRUPTION:
         return &shieldDisruption;
-    case PowerUpType::SHIELD_PENETRATION:
-        return &shieldPenetration;
+    case PowerUpType::SHOT_HOMING:
+        return &shotHoming;
     case PowerUpType::RATE_OF_FIRE:
         return &rateOfFire;
     case PowerUpType::HP:
@@ -109,7 +109,7 @@ Stats& Stats::operator+=(const Stats& rhs)
     braking += rhs.braking;
     damage += rhs.damage;
     shieldDisruption += rhs.shieldDisruption;
-    shieldPenetration += rhs.shieldPenetration;
+    shotHoming += rhs.shotHoming;
     rateOfFire += rhs.rateOfFire;
     hp += rhs.hp;
     shieldCapacity += rhs.shieldCapacity;

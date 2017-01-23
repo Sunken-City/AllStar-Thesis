@@ -842,7 +842,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\braking.png");
     ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\damage.png");
     ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\Pickups\\shieldDisruption.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldPenetration", "Data\\Images\\Pickups\\shieldPenetration.png");
+    ResourceDatabase::instance->RegisterSprite("ShotHoming", "Data\\Images\\Pickups\\shotHoming.png");
     ResourceDatabase::instance->RegisterSprite("RateOfFire", "Data\\Images\\Pickups\\fireRate.png");
     ResourceDatabase::instance->RegisterSprite("Hp", "Data\\Images\\Pickups\\hp.png");
     ResourceDatabase::instance->RegisterSprite("ShieldCapacity", "Data\\Images\\Pickups\\shieldCapacity.png");

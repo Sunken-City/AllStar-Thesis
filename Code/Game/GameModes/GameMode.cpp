@@ -103,7 +103,7 @@ AABB2 GameMode::GetArenaBounds()
 void GameMode::SpawnBullet(Ship* creator)
 {
     static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
-    m_newEntities.push_back(new Projectile(creator, creator->CalculateDamageValue(), creator->CalculateShieldDisruptionValue(), creator->CalculateShieldPenetrationValue()));
+    m_newEntities.push_back(new Projectile(creator, creator->CalculateDamageValue(), creator->CalculateShieldDisruptionValue(), creator->CalculateShotHomingValue()));
 
     Vector2 shotPosition = creator->GetMuzzlePosition();
     PlaySoundAt(bulletSound, shotPosition, 0.5f);
