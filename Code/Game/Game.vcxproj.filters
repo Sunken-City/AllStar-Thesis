@@ -128,6 +128,9 @@
     <ClCompile Include="Entities\Projectiles\Projectile.cpp">
       <Filter>General\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Projectiles\Missile.cpp">
+      <Filter>General\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -209,6 +212,9 @@
       <Filter>General\Items\Weapons</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Projectiles\Projectile.hpp">
+      <Filter>General\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Projectiles\Missile.hpp">
       <Filter>General\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>

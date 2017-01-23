@@ -28,7 +28,7 @@ bool Weapon::AttemptFire(Ship* shooter)
     {
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
-        Projectile* bullet = new Projectile(shooter, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+        Projectile* bullet = new Projectile(shooter, 0.0f, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
         currentGameMode->SpawnBullet(bullet);
         shooter->m_secondsSinceLastFiredWeapon = 0.0f;
         successfullyFired = true;

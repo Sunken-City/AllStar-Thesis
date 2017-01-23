@@ -6,26 +6,26 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 //-----------------------------------------------------------------------------------
-Projectile::Projectile(Entity* Owner, float power /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) 
-    : Entity()
+Projectile::Projectile(Entity* owner, float degreesOffset /*= 0.0f*/, float power /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) : Entity()
     , m_speed(10.0f)
     , m_power(power)
     , m_disruption(disruption)
     , m_shotHoming(homing)
     , m_lifeSpan(2.0f)
 {
-    m_owner = Owner;
+    m_owner = owner;
     m_collidesWithBullets = false;
     m_staysWithinBounds = false;
     m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
-    m_sprite->m_tintColor = Owner->m_sprite->m_tintColor;
+    m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
 
-    SetPosition(Owner->GetMuzzlePosition());
+    SetPosition(owner->GetMuzzlePosition());
 
     float parentRotationDegrees = m_owner->m_sprite->m_transform.GetWorldRotationDegrees();
-    m_sprite->m_transform.SetRotationDegrees(parentRotationDegrees);
-    Vector2 direction = Vector2::DegreesToDirection(-parentRotationDegrees, Vector2::ZERO_DEGREES_UP);
+    float totalRotationDegrees = parentRotationDegrees + degreesOffset;
+    m_sprite->m_transform.SetRotationDegrees(totalRotationDegrees);
+    Vector2 direction = Vector2::DegreesToDirection(-totalRotationDegrees, Vector2::ZERO_DEGREES_UP);
 
     float ownerForwardSpeed = Vector2::Dot(direction, m_owner->m_velocity);
     ownerForwardSpeed = std::max<float>(0.0f, ownerForwardSpeed);

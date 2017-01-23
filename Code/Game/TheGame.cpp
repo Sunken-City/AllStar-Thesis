@@ -824,6 +824,7 @@ void TheGame::RegisterSprites()
 
     //Entities
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless10.png");
+    ResourceDatabase::instance->RegisterSprite("Missile", "Data\\Images\\Missiles\\spaceMissiles_002.png");
     ResourceDatabase::instance->RegisterSprite("MuzzleFlash", "Data\\Images\\Lasers\\muzzleFlash.png");
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
     ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
@@ -971,7 +972,17 @@ void TheGame::RegisterParticleEffects()
     shipTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 20.0f);
     shipTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
-    crateDestroyed->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+
+    ParticleEmitterDefinition* missileTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BeamTrail"));
+    missileTrail->m_properties.Set<std::string>(PROPERTY_NAME, "Missile Trail");
+    missileTrail->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    missileTrail->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
+    missileTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Vector2(0.05f));
+    missileTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    missileTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.5f);
+    missileTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 10.0f);
+    missileTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
+    missileTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
 
     ParticleEmitterDefinition* collisionParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Cloudy"));
     collisionParticle->m_properties.Set<std::string>(PROPERTY_NAME, "Collision");
@@ -1020,6 +1031,9 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* shipTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("ShipTrail", LOOPING);
     shipTrailParticleSystem->AddEmitter(shipTrail);
+
+    ParticleSystemDefinition* missileTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("MissileTrail", LOOPING);
+    missileTrailParticleSystem->AddEmitter(missileTrail);
 
     ParticleSystemDefinition* titleScreenParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Title", LOOPING);
     titleScreenParticleSystem->AddEmitter(titleScreenParticle);

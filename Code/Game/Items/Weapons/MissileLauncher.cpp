@@ -4,6 +4,7 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/Entities/Projectiles/Projectile.hpp"
+#include "Game/Entities/Projectiles/Missile.hpp"
 
 //-----------------------------------------------------------------------------------
 MissileLauncher::MissileLauncher()
@@ -35,8 +36,12 @@ bool MissileLauncher::AttemptFire(Ship* shooter)
     {
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
-        Projectile* bullet = new Projectile(shooter, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
-        currentGameMode->SpawnBullet(bullet);
+        for (unsigned int i = 0; i < m_numMisslesPerShot; i++)
+        {
+            Projectile* bullet = (Projectile*)new Missile(shooter, MathUtils::GetRandom(-45.0f, 45.0f), shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+            currentGameMode->SpawnBullet(bullet);
+        }
+
         shooter->m_secondsSinceLastFiredWeapon = 0.0f;
         successfullyFired = true;
 

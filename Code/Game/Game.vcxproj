@@ -151,6 +151,7 @@
     <ClCompile Include="Entities\Grunt.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\PlayerShip.cpp" />
+    <ClCompile Include="Entities\Projectiles\Missile.cpp" />
     <ClCompile Include="Entities\Projectiles\Projectile.cpp" />
     <ClCompile Include="Entities\Props\Asteroid.cpp" />
     <ClCompile Include="Entities\Props\ItemCrate.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Entities\Grunt.hpp" />
     <ClInclude Include="Entities\Pickup.hpp" />
     <ClInclude Include="Entities\PlayerShip.hpp" />
+    <ClInclude Include="Entities\Projectiles\Missile.hpp" />
     <ClInclude Include="Entities\Projectiles\Projectile.hpp" />
     <ClInclude Include="Entities\Props\Asteroid.hpp" />
     <ClInclude Include="Entities\Props\ItemCrate.hpp" />
