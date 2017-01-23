@@ -15,5 +15,5 @@ public:
     virtual bool AttemptFire(Ship* shooter);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    unsigned int m_numMisslesPerShot = 3;
+    unsigned int m_numMisslesPerShot = 5;
 };

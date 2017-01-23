@@ -966,7 +966,7 @@ void TheGame::RegisterParticleEffects()
     shipTrail->m_properties.Set<std::string>(PROPERTY_NAME, "Ship Trail");
     shipTrail->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     shipTrail->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
-    shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Vector2(0.2f));
+    shipTrail->m_properties.Set<float>(PROPERTY_WIDTH, 0.25f);
     shipTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
     shipTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.5f);
     shipTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 20.0f);
@@ -977,7 +977,7 @@ void TheGame::RegisterParticleEffects()
     missileTrail->m_properties.Set<std::string>(PROPERTY_NAME, "Missile Trail");
     missileTrail->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     missileTrail->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
-    missileTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Vector2(0.05f));
+    missileTrail->m_properties.Set<float>(PROPERTY_WIDTH, 0.125f);
     missileTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
     missileTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.5f);
     missileTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 10.0f);
