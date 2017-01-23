@@ -17,6 +17,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
     , m_healthText(new TextRenderable2D("HP:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
 {
     m_isDead = false;
     
@@ -33,17 +34,22 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 
     m_healthText->m_color = RGBA::RED;
     m_shieldText->m_color = RGBA::CERULEAN;
-    m_healthText->m_transform.SetPosition(Vector2(-1.0f, 1.4f));
-    m_shieldText->m_transform.SetPosition(Vector2(-1.0f, 0.8f));
+    m_speedText->m_color = RGBA::GBDARKGREEN;
+    m_healthText->m_transform.SetPosition(Vector2(-1.0f, 1.5f));
+    m_shieldText->m_transform.SetPosition(Vector2(-1.0f, 1.0f));
+    m_speedText->m_transform.SetPosition(Vector2(-1.0f, 0.5f));
     m_healthText->m_fontSize = 0.2f;
     m_shieldText->m_fontSize = 0.2f;
+    m_speedText->m_fontSize = 0.2f;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_healthText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomRight(&m_shieldText->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_speedText->m_transform);
 
     uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
     m_speedometer->m_viewableBy = visibilityFilter;
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
+    m_speedText->m_viewableBy = visibilityFilter;
 
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
@@ -63,8 +69,10 @@ PlayerShip::~PlayerShip()
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedometer->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_healthText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_shieldText->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedText->m_transform);
     delete m_healthText;
     delete m_shieldText;
+    delete m_speedText;
     delete m_speedometer;
 }
 
@@ -87,6 +95,7 @@ void PlayerShip::Update(float deltaSeconds)
 
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp * 10.0f));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth * 10.0f));
+    m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>(speed * 10.0f));
 }
 
 //-----------------------------------------------------------------------------------
@@ -98,16 +107,18 @@ void PlayerShip::Render() const
 //-----------------------------------------------------------------------------------
 void PlayerShip::HideUI()
 {
-    m_shieldText->Disable();
     m_healthText->Disable();
+    m_shieldText->Disable();
+    m_speedText->Disable();
     m_speedometer->Disable();
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::ShowUI()
 {
-    m_shieldText->Enable();
     m_healthText->Enable();
+    m_shieldText->Enable();
+    m_speedText->Enable();
     m_speedometer->Enable();
 }
 

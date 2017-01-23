@@ -48,4 +48,5 @@ public:
     Sprite* m_speedometer = nullptr;
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;
+    TextRenderable2D* m_speedText = nullptr;
 };
