@@ -38,12 +38,24 @@ Pickup::~Pickup()
 //-----------------------------------------------------------------------------------
 void Pickup::Update(float deltaSeconds)
 {
+    static const float FLASH_AGE_SECONDS = 25.0f;
     Entity::Update(deltaSeconds);
+
     Vector2 newScale = Vector2(1.0f) + Vector2(sin(m_age * 2.0f) / 4.0f);
     m_sprite->m_transform.SetScale(newScale);
     m_velocity *= 0.9f;
     Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);
+
+    if (m_age > FLASH_AGE_SECONDS)
+    {
+        float alphaValue = static_cast<int>(m_age * 10.0f) % 2 == 0 ? 1.0f : 0.0f;
+        m_sprite->m_tintColor.SetAlphaFloat(alphaValue);
+    }
+    if (m_age > m_maxAge)
+    {
+        m_isDead = true;
+    }
 }
 
 //-----------------------------------------------------------------------------------
