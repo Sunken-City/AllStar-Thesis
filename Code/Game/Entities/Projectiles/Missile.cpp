@@ -13,6 +13,7 @@ Missile::Missile(Entity* owner, float degreesOffset, float power, float disrupti
     m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
     m_missileTrail = new RibbonParticleSystem("MissileTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_sprite->m_transform);
+    m_missileTrail->m_colorOverride = RGBA::GRAY;
     SetPosition(owner->GetMuzzlePosition());
 
     float parentRotationDegrees = m_owner->m_sprite->m_transform.GetWorldRotationDegrees();

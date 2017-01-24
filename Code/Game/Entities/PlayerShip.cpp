@@ -28,6 +28,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_tintColor = GetPlayerColor(); 
     m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
+    m_shipTrail->m_colorOverride = m_sprite->m_tintColor;
     InitializeUI();
 
     CalculateCollisionRadius();

@@ -3,8 +3,8 @@
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
 const float Stats::BASE_SPEED_VALUE = 4.0f;
-const float Stats::BASE_ACCELERATION_VALUE = 0.1f;
-const float Stats::BASE_HANDLING_VALUE = 0.1f;
+const float Stats::BASE_ACCELERATION_VALUE = 0.15f;
+const float Stats::BASE_HANDLING_VALUE = 0.15f;
 const float Stats::BASE_BRAKING_VALUE = 0.97f;
 const float Stats::BASE_DAMAGE_VALUE = 0.5f;
 const float Stats::BASE_DISRUPTION_PERCENTAGE = 0.0f;
