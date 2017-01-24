@@ -38,7 +38,7 @@ Pickup::~Pickup()
 //-----------------------------------------------------------------------------------
 void Pickup::Update(float deltaSeconds)
 {
-    static const float FLASH_AGE_SECONDS = 25.0f;
+    const float FLASH_AGE_SECONDS = m_maxAge - 5.0f;
     Entity::Update(deltaSeconds);
 
     Vector2 newScale = Vector2(1.0f) + Vector2(sin(m_age * 2.0f) / 4.0f);
