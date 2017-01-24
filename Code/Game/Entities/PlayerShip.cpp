@@ -200,29 +200,41 @@ void PlayerShip::DropRandomPowerup()
 //-----------------------------------------------------------------------------------
 void PlayerShip::EjectWeapon()
 {
-    TheGame::instance->m_currentGameMode->SpawnPickup(m_weapon, m_transform.GetWorldPosition());
-    m_weapon = nullptr;
+    if (m_weapon)
+    {
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_weapon, m_transform.GetWorldPosition());
+        m_weapon = nullptr;
+    }
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::EjectChassis()
 {
-    TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition());
-    m_chassis = nullptr;
+    if (m_chassis)
+    {
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition());
+        m_chassis = nullptr;
+    }
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::EjectActive()
 {
-    TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition());
-    m_activeEffect = nullptr;
+    if (m_activeEffect)
+    {
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition());
+        m_activeEffect = nullptr;
+    }
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::EjectPassive()
 {
-    TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition());
-    m_passiveEffect = nullptr;
+    if (m_passiveEffect)
+    {
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition());
+        m_passiveEffect = nullptr;
+    }
 }
 
 //-----------------------------------------------------------------------------------

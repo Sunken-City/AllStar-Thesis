@@ -1,18 +1,14 @@
-#include "Game/Entities/Projectiles/Missile.hpp"
+#include "Game/Entities/Projectiles/Laser.hpp"
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
-#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 //-----------------------------------------------------------------------------------
-Missile::Missile(Entity* owner, float degreesOffset, float power, float disruption, float homing)
+Laser::Laser(Entity* owner, float degreesOffset /*= 0.0f*/, float power /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/)
     : Projectile(owner, degreesOffset, power, disruption, homing)
 {
-    m_speed = 4.0f;
-
-    m_sprite = new Sprite("Missile", TheGame::PLAYER_BULLET_LAYER);
+    m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
     m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
-    m_missileTrail = new RibbonParticleSystem("MissileTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_sprite->m_transform);
     SetPosition(owner->GetMuzzlePosition());
 
     float parentRotationDegrees = m_owner->m_sprite->m_transform.GetWorldRotationDegrees();
@@ -29,7 +25,7 @@ Missile::Missile(Entity* owner, float degreesOffset, float power, float disrupti
 }
 
 //-----------------------------------------------------------------------------------
-Missile::~Missile()
+Laser::~Laser()
 {
-    delete m_missileTrail;
+
 }

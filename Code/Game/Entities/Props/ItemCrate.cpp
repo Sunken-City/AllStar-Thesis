@@ -8,6 +8,7 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Game/Items/Weapons/MissileLauncher.hpp"
+#include "Game/Items/DropTable.hpp"
 
 const float ItemCrate::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -67,7 +68,7 @@ void ItemCrate::GenerateItems()
         }
         else
         {
-            m_inventory[i] = new MissileLauncher();
+            m_inventory[i] = GetRandomWeapon();
         }
     }
 }

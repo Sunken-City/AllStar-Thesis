@@ -3,7 +3,7 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Engine/Input/InputMap.hpp"
 #include "Engine/Input/InputValues.hpp"
-#include "Game/Items/Weapons/Weapon.hpp"
+#include "Game/Items/Weapons/LaserGun.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Input/Logging.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
@@ -20,7 +20,7 @@ Ship::Ship(Pilot* pilot)
     SetShieldHealth(CalculateShieldCapacityValue());
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGrey");
     m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
-    m_weapon = new Weapon();
+    m_weapon = new LaserGun();
 }
 
 //-----------------------------------------------------------------------------------

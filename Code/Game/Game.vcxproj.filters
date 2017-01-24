@@ -131,6 +131,12 @@
     <ClCompile Include="Entities\Projectiles\Missile.cpp">
       <Filter>General\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Projectiles\Laser.cpp">
+      <Filter>General\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Weapons\LaserGun.cpp">
+      <Filter>General\Items\Weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -216,6 +222,15 @@
     </ClInclude>
     <ClInclude Include="Entities\Projectiles\Missile.hpp">
       <Filter>General\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Projectiles\Laser.hpp">
+      <Filter>General\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Weapons\LaserGun.hpp">
+      <Filter>General\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\DropTable.hpp">
+      <Filter>General\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
