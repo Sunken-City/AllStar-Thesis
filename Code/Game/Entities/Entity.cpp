@@ -117,7 +117,7 @@ float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
     float damageDealt = 0.0f;
     float randomPercentage = MathUtils::GetRandomFloatFromZeroTo(1.0f) - 0.5f;
     damage += damage * randomPercentage;
-    float randomDegrees = MathUtils::GetRandom(-45, 45);
+    float randomDegrees = MathUtils::GetRandom(-90.0f, 90.0f);
     Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
 
     if (HasShield())
