@@ -9,8 +9,9 @@
 //-----------------------------------------------------------------------------------
 MissileLauncher::MissileLauncher()
 {
-    m_statBonuses.shotHoming = m_shotHomingBonus;
-    m_statBonuses.rateOfFire = m_rateOfFireBonus;
+    m_statBonuses.shotHoming = 50.0f;
+    m_statBonuses.rateOfFire = -4.0f;
+    m_statBonuses.damage = -1.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -38,7 +39,7 @@ bool MissileLauncher::AttemptFire(Ship* shooter)
 
         for (unsigned int i = 0; i < m_numMisslesPerShot; i++)
         {
-            Projectile* bullet = (Projectile*)new Missile(shooter, MathUtils::GetRandom(-45.0f, 45.0f), shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+            Projectile* bullet = (Projectile*)new Missile(shooter, MathUtils::GetRandom(-m_spreadDegrees, m_spreadDegrees), shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
             if (shooter->IsPlayer())
             {
                 bullet->m_reportDPSToPlayer = true;

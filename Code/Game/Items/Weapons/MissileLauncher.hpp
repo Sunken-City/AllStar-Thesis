@@ -15,7 +15,6 @@ public:
     virtual bool AttemptFire(Ship* shooter);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    unsigned int m_numMisslesPerShot = 3;
-    float m_shotHomingBonus = 50.0f;
-    float m_rateOfFireBonus = -10.0f;
+    unsigned int m_numMisslesPerShot = 1;
+    float m_spreadDegrees = 20.0f;
 };

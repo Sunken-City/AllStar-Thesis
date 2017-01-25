@@ -7,9 +7,9 @@
 #include "../PlayerShip.hpp"
 
 //-----------------------------------------------------------------------------------
-Projectile::Projectile(Entity* owner, float degreesOffset /*= 0.0f*/, float power /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) : Entity()
+Projectile::Projectile(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) : Entity()
     , m_speed(10.0f)
-    , m_power(power)
+    , m_damage(damage)
     , m_disruption(disruption)
     , m_shotHoming(homing)
     , m_lifeSpan(2.0f)
@@ -52,7 +52,7 @@ void Projectile::ResolveCollision(Entity* otherEntity)
     Entity::ResolveCollision(otherEntity);
     if (otherEntity != m_owner && otherEntity->m_collidesWithBullets && !otherEntity->m_isDead)
     {
-        float damageDealt = otherEntity->TakeDamage(m_power, m_disruption);
+        float damageDealt = otherEntity->TakeDamage(m_damage, m_disruption);
         if (m_reportDPSToPlayer)
         {
             PlayerShip* player = dynamic_cast<PlayerShip*>(m_owner);

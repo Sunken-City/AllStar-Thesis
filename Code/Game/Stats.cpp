@@ -6,26 +6,26 @@ const float Stats::BASE_SPEED_VALUE = 4.0f;
 const float Stats::BASE_ACCELERATION_VALUE = 0.2f;
 const float Stats::BASE_HANDLING_VALUE = 0.2f;
 const float Stats::BASE_BRAKING_VALUE = 0.97f;
-const float Stats::BASE_DAMAGE_VALUE = 0.5f;
+const float Stats::BASE_DAMAGE_VALUE = 5.0f;
 const float Stats::BASE_DISRUPTION_PERCENTAGE = 0.0f;
 const float Stats::BASE_SHOT_HOMING_VALUE = 0.0f;
-const float Stats::BASE_RATE_OF_FIRE = 4.0f;
-const float Stats::BASE_HP_VALUE = 5.0f;
-const float Stats::BASE_CAPACITY_VALUE = 3.0f;
-const float Stats::BASE_REGEN_RATE = 1.0f;
+const float Stats::BASE_RATE_OF_FIRE = 3.0f;
+const float Stats::BASE_HP_VALUE = 50.0f;
+const float Stats::BASE_CAPACITY_VALUE = 30.0f;
+const float Stats::BASE_REGEN_RATE = 3.0f;
 const float Stats::BASE_DEFLECTION_VALUE = 0.0f;
 
 const float Stats::SPEED_VALUE_PER_POINT = 0.3333333f;
 const float Stats::ACCELERATION_VALUE_PER_POINT = 0.1f;
 const float Stats::HANDLING_VALUE_PER_POINT = 0.1f;
 const float Stats::BRAKING_VALUE_PER_POINT = -0.005f;
-const float Stats::DAMAGE_VALUE_PER_POINT = 0.5f;
+const float Stats::DAMAGE_VALUE_PER_POINT = 3.0f;
 const float Stats::DISRUPTION_PERCENTAGE_PER_POINT = 0.05f;
 const float Stats::SHOT_HOMING_VALUE_PER_POINT = 0.5f;
 const float Stats::RATE_OF_FIRE_PER_POINT = 0.25f;
-const float Stats::HP_VALUE_PER_POINT = 2.0f;
-const float Stats::CAPACITY_VALUE_PER_POINT = 2.5f;
-const float Stats::REGEN_RATE_PER_POINT = 0.5f;
+const float Stats::HP_VALUE_PER_POINT = 20.0f;
+const float Stats::CAPACITY_VALUE_PER_POINT = 25.0f;
+const float Stats::REGEN_RATE_PER_POINT = 2.0f;
 const float Stats::DEFLECTION_VALUE_PER_POINT = 0.5f;
 
 //-----------------------------------------------------------------------------------

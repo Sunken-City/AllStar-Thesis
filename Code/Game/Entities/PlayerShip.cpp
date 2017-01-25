@@ -117,14 +117,14 @@ void PlayerShip::Update(float deltaSeconds)
         timeOfLastReset = m_age - deltaSeconds;
         m_totalDamageDone = 0.0f;
     }
-    float dps = (m_totalDamageDone * 10.0f) / (m_age - timeOfLastReset);
+    float dps = (m_totalDamageDone) / (m_age - timeOfLastReset);
     float speed = m_velocity.CalculateMagnitude();
     float rotationFromSpeed = 0.075f + (0.05f * speed);
     float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
     m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
 
-    m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp * 10.0f));
-    m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth * 10.0f));
+    m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
+    m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
     m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>(speed * 10.0f));
     m_dpsText->m_text = Stringf("DPS: %03i", static_cast<int>(dps));
 }
@@ -263,13 +263,13 @@ RGBA PlayerShip::GetPlayerColor()
     switch (pilot->m_playerNumber)
     {
     case 0:
-        return RGBA::WHITE;
+        return RGBA::VAPORWAVE;
     case 1:
-        return RGBA::GREEN;
-    case 2:
-        return RGBA::RED;
-    case 3:
         return RGBA::CYAN;
+    case 2:
+        return RGBA::GREEN;
+    case 3:
+        return RGBA::YELLOW;
     }
     ERROR_AND_DIE("Invalid Player number used to get a player color, have you spawned more than 4 players?");
 }

@@ -4,8 +4,8 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 //-----------------------------------------------------------------------------------
-Missile::Missile(Entity* owner, float degreesOffset, float power, float disruption, float homing)
-    : Projectile(owner, degreesOffset, power, disruption, homing)
+Missile::Missile(Entity* owner, float degreesOffset, float damage, float disruption, float homing)
+    : Projectile(owner, degreesOffset, damage, disruption, homing)
 {
     m_speed = 4.0f;
 

@@ -117,7 +117,7 @@ float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
     float damageDealt = 0.0f;
     float randomPercentage = MathUtils::GetRandomFloatFromZeroTo(1.0f) - 0.5f;
     damage += damage * randomPercentage;
-    float randomDegrees = MathUtils::GetRandom(-90.0f, 90.0f);
+    float randomDegrees = MathUtils::GetRandom(-70.0f, 70.0f);
     Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
 
     if (HasShield())
@@ -125,13 +125,13 @@ float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
         float adjustedDamage = damage + (damage * disruption);
         SetShieldHealth(m_currentShieldHealth - adjustedDamage);
         damageDealt = adjustedDamage;
-        TextSplash::CreateTextSplash(Stringf("%i", (int)(damageDealt * 10.0f)), m_transform, velocity, RGBA(0.0f, 0.5 + randomPercentage, 1.0f, 1.0f));
+        TextSplash::CreateTextSplash(Stringf("%i", static_cast<int>(damageDealt)), m_transform, velocity, RGBA(0.0f, 0.5 + randomPercentage, 1.0f, 1.0f));
     }
     else
     {
         m_currentHp -= damage;
         damageDealt = damage;
-        TextSplash::CreateTextSplash(Stringf("%i", (int)(damageDealt * 10.0f)), m_transform, velocity, RGBA(1.0f, 1.0f - (0.5 + randomPercentage), 0.0f, 1.0f));
+        TextSplash::CreateTextSplash(Stringf("%i", static_cast<int>(damageDealt)), m_transform, velocity, RGBA(1.0f, 1.0f - (0.5 + randomPercentage), 0.0f, 1.0f));
         if (m_currentHp <= 0.0f)
         {
             Die();

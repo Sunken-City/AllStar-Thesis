@@ -17,7 +17,7 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Vector2 m_sumOfImpulses = Vector2::ZERO;
     float m_speed;
-    float m_power;
+    float m_damage;
     float m_disruption;
     float m_shotHoming;
     float m_lifeSpan;
