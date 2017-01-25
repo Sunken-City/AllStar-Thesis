@@ -36,7 +36,11 @@ bool LaserGun::AttemptFire(Ship* shooter)
     {
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
-        Projectile* bullet = (Projectile*)new Laser(shooter, 0.0f, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+        Projectile* bullet = (Projectile*)new Laser(shooter, 0.0f, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());            
+        if (shooter->IsPlayer())
+        {
+            bullet->m_reportDPSToPlayer = true;
+        }
         currentGameMode->SpawnBullet(bullet);
         shooter->m_secondsSinceLastFiredWeapon = 0.0f;
         successfullyFired = true;

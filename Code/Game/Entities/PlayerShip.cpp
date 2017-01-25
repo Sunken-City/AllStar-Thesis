@@ -22,6 +22,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_healthText(new TextRenderable2D("HP:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_dpsText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
 {
     m_isDead = false;
     
@@ -60,21 +61,26 @@ void PlayerShip::InitializeUI()
     m_healthText->m_color = RGBA::RED;
     m_shieldText->m_color = RGBA::CERULEAN;
     m_speedText->m_color = RGBA::GBDARKGREEN;
-    m_healthText->m_transform.SetPosition(Vector2(-1.0f, 1.5f));
-    m_shieldText->m_transform.SetPosition(Vector2(-1.0f, 1.0f));
-    m_speedText->m_transform.SetPosition(Vector2(-1.0f, 0.5f));
+    m_dpsText->m_color = RGBA::GBLIGHTGREEN;
+    m_healthText->m_transform.SetPosition(Vector2(-1.0f, 1.8f));
+    m_shieldText->m_transform.SetPosition(Vector2(-1.0f, 1.3f));
+    m_speedText->m_transform.SetPosition(Vector2(-1.0f, 0.8f));
+    m_dpsText->m_transform.SetPosition(Vector2(-1.0f, 0.3f));
     m_healthText->m_fontSize = 0.2f;
     m_shieldText->m_fontSize = 0.2f;
     m_speedText->m_fontSize = 0.2f;
+    m_dpsText->m_fontSize = 0.2f;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_healthText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomRight(&m_shieldText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomRight(&m_speedText->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_dpsText->m_transform);
 
     uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
     m_speedometer->m_viewableBy = visibilityFilter;
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
     m_speedText->m_viewableBy = visibilityFilter;
+    m_dpsText->m_viewableBy = visibilityFilter;
 }
 
 //-----------------------------------------------------------------------------------
@@ -85,15 +91,18 @@ PlayerShip::~PlayerShip()
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_healthText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_shieldText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedText->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_dpsText->m_transform);
     delete m_healthText;
     delete m_shieldText;
     delete m_speedText;
+    delete m_dpsText;
     delete m_speedometer;
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
+    static float timeOfLastReset = 0.0f;
     if (m_isDead && m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed())
     {
         Respawn();
@@ -103,6 +112,12 @@ void PlayerShip::Update(float deltaSeconds)
         Ship::Update(deltaSeconds);
     }
 
+    if (InputSystem::instance->WasKeyJustPressed('R'))
+    {
+        timeOfLastReset = m_age - deltaSeconds;
+        m_totalDamageDone = 0.0f;
+    }
+    float dps = (m_totalDamageDone * 10.0f) / (m_age - timeOfLastReset);
     float speed = m_velocity.CalculateMagnitude();
     float rotationFromSpeed = 0.075f + (0.05f * speed);
     float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
@@ -111,6 +126,7 @@ void PlayerShip::Update(float deltaSeconds)
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp * 10.0f));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth * 10.0f));
     m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>(speed * 10.0f));
+    m_dpsText->m_text = Stringf("DPS: %03i", static_cast<int>(dps));
 }
 
 //-----------------------------------------------------------------------------------
@@ -125,6 +141,7 @@ void PlayerShip::HideUI()
     m_healthText->Disable();
     m_shieldText->Disable();
     m_speedText->Disable();
+    m_dpsText->Disable();
     m_speedometer->Disable();
 }
 
@@ -134,6 +151,7 @@ void PlayerShip::ShowUI()
     m_healthText->Enable();
     m_shieldText->Enable();
     m_speedText->Enable();
+    m_dpsText->Enable();
     m_speedometer->Enable();
 }
 
@@ -203,7 +221,7 @@ void PlayerShip::EjectWeapon()
 {
     if (m_weapon)
     {
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_weapon, m_transform.GetWorldPosition());
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_weapon, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_weapon = nullptr;
     }
 }
@@ -213,7 +231,7 @@ void PlayerShip::EjectChassis()
 {
     if (m_chassis)
     {
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition());
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_chassis = nullptr;
     }
 }
@@ -223,7 +241,7 @@ void PlayerShip::EjectActive()
 {
     if (m_activeEffect)
     {
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition());
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_activeEffect = nullptr;
     }
 }
@@ -233,7 +251,7 @@ void PlayerShip::EjectPassive()
 {
     if (m_passiveEffect)
     {
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition());
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition() - (m_velocity * 0.5f));
         m_passiveEffect = nullptr;
     }
 }

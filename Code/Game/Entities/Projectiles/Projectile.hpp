@@ -21,4 +21,5 @@ public:
     float m_disruption;
     float m_shotHoming;
     float m_lifeSpan;
+    bool m_reportDPSToPlayer = false;
 };

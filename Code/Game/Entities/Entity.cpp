@@ -107,13 +107,14 @@ void Entity::ResolveCollision(Entity* otherEntity)
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
+float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
     if (m_isDead || m_isInvincible)
     {
-        return;
+        return -1.0f;
     }
 
+    float damageDealt = 0.0f;
     float randomDegrees = MathUtils::GetRandom(-45, 45);
     Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
 
@@ -121,18 +122,21 @@ void Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
     {
         float adjustedDamage = damage + (damage * disruption);
         SetShieldHealth(m_currentShieldHealth - adjustedDamage);
-        TextSplash::CreateTextSplash(Stringf("%i", (int)(adjustedDamage * 10.0f)), m_transform, velocity, RGBA::CYAN);
+        damageDealt = adjustedDamage;
+        TextSplash::CreateTextSplash(Stringf("%i", (int)(damageDealt * 10.0f)), m_transform, velocity, RGBA(0.0f, MathUtils::GetRandomFloatFromZeroTo(1.0f), 1.0f, 1.0f));
     }
     else
     {
         m_currentHp -= damage;
-        TextSplash::CreateTextSplash(Stringf("%i", (int)(damage * 10.0f)), m_transform, velocity, RGBA::RED);
+        damageDealt = damage;
+        TextSplash::CreateTextSplash(Stringf("%i", (int)(damageDealt * 10.0f)), m_transform, velocity, RGBA(1.0f, MathUtils::GetRandomFloatFromZeroTo(1.0f), 0.0f, 1.0f));
         if (m_currentHp <= 0.0f)
         {
             Die();
         }
     }
     m_timeSinceLastHit = 0.0f;
+    return damageDealt;
 }
 
 //-----------------------------------------------------------------------------------

@@ -4,6 +4,7 @@
 #include "Engine/Input/Logging.hpp"
 #include <algorithm>
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
+#include "../PlayerShip.hpp"
 
 //-----------------------------------------------------------------------------------
 Projectile::Projectile(Entity* owner, float degreesOffset /*= 0.0f*/, float power /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) : Entity()
@@ -51,7 +52,12 @@ void Projectile::ResolveCollision(Entity* otherEntity)
     Entity::ResolveCollision(otherEntity);
     if (otherEntity != m_owner && otherEntity->m_collidesWithBullets && !otherEntity->m_isDead)
     {
-        otherEntity->TakeDamage(m_power, m_disruption);
+        float damageDealt = otherEntity->TakeDamage(m_power, m_disruption);
+        if (m_reportDPSToPlayer)
+        {
+            PlayerShip* player = dynamic_cast<PlayerShip*>(m_owner);
+            player->m_totalDamageDone += damageDealt;
+        }
         this->m_isDead = true;
         ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, otherEntity->GetCollisionSpriteResource());
     }

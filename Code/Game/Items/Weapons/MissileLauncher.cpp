@@ -39,6 +39,10 @@ bool MissileLauncher::AttemptFire(Ship* shooter)
         for (unsigned int i = 0; i < m_numMisslesPerShot; i++)
         {
             Projectile* bullet = (Projectile*)new Missile(shooter, MathUtils::GetRandom(-45.0f, 45.0f), shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+            if (shooter->IsPlayer())
+            {
+                bullet->m_reportDPSToPlayer = true;
+            }
             currentGameMode->SpawnBullet(bullet);
         }
 

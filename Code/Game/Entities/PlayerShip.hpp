@@ -56,4 +56,6 @@ public:
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;
     TextRenderable2D* m_speedText = nullptr;
+    TextRenderable2D* m_dpsText = nullptr;
+    float m_totalDamageDone = 0.0f;
 };

@@ -157,15 +157,15 @@ void Ship::UpdateMotion(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
+float Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
     static SoundID hitHullSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
     static SoundID hitShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
     static SoundID brokeShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
     float currentHp = m_currentHp;
     float currentShieldCapacity = m_currentShieldHealth;
-
-    Entity::TakeDamage(damage, disruption);
+    
+    float damageTaken = Entity::TakeDamage(damage, disruption);
     if (currentShieldCapacity != m_currentShieldHealth)
     {
         if (m_currentShieldHealth != 0.0f)
@@ -181,6 +181,8 @@ void Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
     {
         TheGame::instance->m_currentGameMode->PlaySoundAt(hitHullSound, GetPosition(), m_hitSoundMaxVolume);
     }
+
+    return damageTaken;
 }
 
 //-----------------------------------------------------------------------------------
