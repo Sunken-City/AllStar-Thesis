@@ -44,6 +44,7 @@ public:
     SoundID m_backgroundMusic = 0;
     bool m_muteMusic = true;
     bool m_isPlaying = false;
+    bool m_dropItemsOnDeath = false;
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;

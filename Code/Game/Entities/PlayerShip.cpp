@@ -46,6 +46,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
         delete m_weapon;
         m_weapon = new MissileLauncher();
     }
+    m_equipUI->Disable();
+    m_currentWeaponUI->Disable();
 }
 
 //-----------------------------------------------------------------------------------
@@ -191,7 +193,10 @@ void PlayerShip::ResolveCollision(Entity* otherEntity)
 void PlayerShip::Die()
 {
     Ship::Die();
-    DropPowerups();
+    if (GameMode::GetCurrent()->m_dropItemsOnDeath)
+    {
+        DropPowerups();
+    }
     m_velocity = Vector2::ZERO;
     m_sprite->Disable();
 }
