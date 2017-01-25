@@ -15,6 +15,7 @@
 #include "Game/Items/Chassis/Chassis.hpp"
 #include "Game/Items/Actives/Actives.hpp"
 #include "Game/Items/Passives/Passive.hpp"
+#include "../Items/Weapons/LaserGun.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -216,16 +217,16 @@ void PlayerShip::Respawn()
 //-----------------------------------------------------------------------------------
 void PlayerShip::DropPowerups()
 {
+    if (!dynamic_cast<LaserGun*>(m_weapon))
+    {
+        EjectWeapon();
+        m_weapon = new LaserGun();
+    }
+
     unsigned int numPowerups = m_powerupStatModifiers.GetTotalNumberOfDroppablePowerUps();
-    unsigned int numPowerupsToSpawn = 0;
-    if (numPowerups <= 3)
-    {
-        numPowerupsToSpawn = numPowerups;
-    }
-    else
-    {
-        numPowerupsToSpawn = 3;
-    }
+    unsigned int numPowerupsToDrop = (unsigned int)(numPowerups * 0.2f);
+    unsigned int numPowerupsToSpawn = (numPowerups <= 3) ? numPowerups : numPowerupsToDrop;
+
     for (unsigned int i = 0; i < numPowerupsToSpawn; ++i)
     {
         DropRandomPowerup();
