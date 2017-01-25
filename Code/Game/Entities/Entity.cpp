@@ -8,6 +8,7 @@
 #include "Game/TheGame.hpp"
 #include "Game/GameCommon.hpp"
 #include <algorithm>
+#include "TextSplash.hpp"
 
 Vector2 Entity::SHEILD_SCALE_FUDGE_VALUE = Vector2(0.25f);
 
@@ -113,14 +114,19 @@ void Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
         return;
     }
 
+    float randomDegrees = MathUtils::GetRandom(-45, 45);
+    Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP);
+
     if (HasShield())
     {
         float adjustedDamage = damage + (damage * disruption);
         SetShieldHealth(m_currentShieldHealth - adjustedDamage);
+        TextSplash::CreateTextSplash(Stringf("%i", (int)(adjustedDamage * 10.0f)), m_transform, velocity);
     }
     else
     {
         m_currentHp -= damage;
+        TextSplash::CreateTextSplash(Stringf("%i", (int)(damage * 10.0f)), m_transform, velocity);
         if (m_currentHp <= 0.0f)
         {
             Die();

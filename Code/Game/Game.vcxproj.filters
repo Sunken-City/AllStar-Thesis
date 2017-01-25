@@ -137,6 +137,9 @@
     <ClCompile Include="Items\Weapons\LaserGun.cpp">
       <Filter>General\Items\Weapons</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\TextSplash.cpp">
+      <Filter>General\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -231,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="Items\DropTable.hpp">
       <Filter>General\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\TextSplash.hpp">
+      <Filter>General\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

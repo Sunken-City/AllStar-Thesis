@@ -35,6 +35,7 @@
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
 #include "GameCommon.hpp"
 #include "Engine/UI/UISystem.hpp"
+#include "Game/Entities/TextSplash.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -72,6 +73,7 @@ TheGame::TheGame()
 TheGame::~TheGame()
 {
     SetGameState(GameState::SHUTDOWN);
+    TextSplash::Cleanup();
 
     delete m_pauseFBOEffect->m_shaderProgram;
     delete m_pauseFBOEffect;
@@ -90,7 +92,8 @@ TheGame::~TheGame()
         GameMode* mode = m_queuedMinigameModes.front();
         delete mode;
         m_queuedMinigameModes.pop();
-    }ClearPlayers();
+    }
+    ClearPlayers();
 
     delete ResourceDatabase::instance;
     ResourceDatabase::instance = nullptr;
@@ -160,8 +163,8 @@ void TheGame::Update(float deltaSeconds)
         break;
     default:
         break;
-
     }
+    TextSplash::Update(deltaSeconds);
 }
 
 //-----------------------------------------------------------------------------------
