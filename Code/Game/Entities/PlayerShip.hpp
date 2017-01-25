@@ -53,6 +53,8 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;
     Sprite* m_speedometer = nullptr;
+    Sprite* m_equipUI = nullptr;
+    Sprite* m_currentWeaponUI = nullptr;
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;
     TextRenderable2D* m_speedText = nullptr;

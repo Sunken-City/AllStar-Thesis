@@ -11,7 +11,7 @@ MissileLauncher::MissileLauncher()
 {
     m_statBonuses.shotHoming = 50.0f;
     m_statBonuses.rateOfFire = -4.0f;
-    m_statBonuses.damage = -1.0f;
+    m_statBonuses.damage = -1.0f / Stats::DAMAGE_VALUE_PER_POINT;
 }
 
 //-----------------------------------------------------------------------------------

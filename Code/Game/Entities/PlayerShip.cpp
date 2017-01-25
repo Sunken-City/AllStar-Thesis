@@ -58,6 +58,20 @@ void PlayerShip::InitializeUI()
     m_speedometer->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_speedometer->m_transform);
 
+    m_equipUI = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
+    m_equipUI->m_tintColor = GetPlayerColor();
+    m_equipUI->m_tintColor.SetAlphaFloat(0.75f);
+    m_equipUI->m_transform.SetScale(Vector2(15.0f));
+    m_equipUI->m_transform.SetPosition(Vector2(0.5f, 0.5f));
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_equipUI->m_transform);
+
+    m_currentWeaponUI = new Sprite("DefaultWeapon", TheGame::UI_LAYER);
+    m_currentWeaponUI->m_tintColor = RGBA::GREEN;
+    m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
+    m_currentWeaponUI->m_transform.SetScale(Vector2(0.5f));
+    m_currentWeaponUI->m_transform.SetPosition(Vector2(0.5f, 0.5f));
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_currentWeaponUI->m_transform);
+
     m_healthText->m_color = RGBA::RED;
     m_shieldText->m_color = RGBA::CERULEAN;
     m_speedText->m_color = RGBA::GBDARKGREEN;
@@ -77,6 +91,8 @@ void PlayerShip::InitializeUI()
 
     uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
     m_speedometer->m_viewableBy = visibilityFilter;
+    m_equipUI->m_viewableBy = visibilityFilter;
+    m_currentWeaponUI->m_viewableBy = visibilityFilter;
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
     m_speedText->m_viewableBy = visibilityFilter;
@@ -88,15 +104,19 @@ PlayerShip::~PlayerShip()
 {
     //Casual reminder that the sprite is deleted on the entity
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedometer->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_equipUI->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_currentWeaponUI->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_healthText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_shieldText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_dpsText->m_transform);
+    delete m_speedometer;
+    delete m_equipUI;
+    delete m_currentWeaponUI;
     delete m_healthText;
     delete m_shieldText;
     delete m_speedText;
     delete m_dpsText;
-    delete m_speedometer;
 }
 
 //-----------------------------------------------------------------------------------
@@ -122,6 +142,8 @@ void PlayerShip::Update(float deltaSeconds)
     float rotationFromSpeed = 0.075f + (0.05f * speed);
     float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
     m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
+    m_equipUI->m_transform.SetRotationDegrees(-newRotationDegrees);
+    m_currentWeaponUI->m_spriteResource = m_weapon->GetSpriteResource();
 
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
@@ -138,21 +160,25 @@ void PlayerShip::Render() const
 //-----------------------------------------------------------------------------------
 void PlayerShip::HideUI()
 {
+    m_speedometer->Disable();
+    m_equipUI->Disable();
+    m_currentWeaponUI->Disable();
     m_healthText->Disable();
     m_shieldText->Disable();
     m_speedText->Disable();
     m_dpsText->Disable();
-    m_speedometer->Disable();
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::ShowUI()
 {
+    m_speedometer->Enable();
+    m_equipUI->Enable();
+    m_currentWeaponUI->Enable();
     m_healthText->Enable();
     m_shieldText->Enable();
     m_speedText->Enable();
     m_dpsText->Enable();
-    m_speedometer->Enable();
 }
 
 //-----------------------------------------------------------------------------------
@@ -299,12 +325,14 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     }
     if (pickedUpItem->IsWeapon())
     {
-        EjectWeapon();
+        delete m_weapon;
+        //EjectWeapon();
         m_weapon = (Weapon*)pickedUpItem;
     }
     if (pickedUpItem->IsChassis())
     {
-        EjectChassis();
+        delete m_chassis;
+        //EjectChassis();
         m_chassis = (Chassis*)pickedUpItem;
     }
 }
