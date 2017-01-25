@@ -5,12 +5,13 @@
 std::vector<TextSplash*, UntrackedAllocator<TextSplash*>> TextSplash::m_textSplashes;
 
 //-----------------------------------------------------------------------------------
-TextSplash::TextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity)
+TextSplash::TextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color)
     : m_velocity(velocity)
 {
     m_textRenderable = new TextRenderable2D(text, spawnTransform, TheGame::TEXT_PARTICLE_LAYER, true);
     m_textRenderable->m_fontSize /= 4.0f;
     m_textRenderable->m_transform.SetRotationDegrees(0.0f);
+    m_textRenderable->m_color = color;
 }
 
 //-----------------------------------------------------------------------------------
@@ -31,9 +32,9 @@ void TextSplash::Cleanup()
 }
 
 //-----------------------------------------------------------------------------------
-void TextSplash::CreateTextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity)
+void TextSplash::CreateTextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color)
 {
-    m_textSplashes.push_back(new TextSplash(text, spawnTransform, velocity));
+    m_textSplashes.push_back(new TextSplash(text, spawnTransform, velocity, color));
 }
 
 //-----------------------------------------------------------------------------------

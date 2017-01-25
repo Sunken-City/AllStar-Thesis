@@ -115,18 +115,18 @@ void Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
     }
 
     float randomDegrees = MathUtils::GetRandom(-45, 45);
-    Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP);
+    Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
 
     if (HasShield())
     {
         float adjustedDamage = damage + (damage * disruption);
         SetShieldHealth(m_currentShieldHealth - adjustedDamage);
-        TextSplash::CreateTextSplash(Stringf("%i", (int)(adjustedDamage * 10.0f)), m_transform, velocity);
+        TextSplash::CreateTextSplash(Stringf("%i", (int)(adjustedDamage * 10.0f)), m_transform, velocity, RGBA::CYAN);
     }
     else
     {
         m_currentHp -= damage;
-        TextSplash::CreateTextSplash(Stringf("%i", (int)(damage * 10.0f)), m_transform, velocity);
+        TextSplash::CreateTextSplash(Stringf("%i", (int)(damage * 10.0f)), m_transform, velocity, RGBA::RED);
         if (m_currentHp <= 0.0f)
         {
             Die();
