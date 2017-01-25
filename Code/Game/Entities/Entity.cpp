@@ -111,12 +111,13 @@ float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
     if (m_isDead || m_isInvincible)
     {
-        return -1.0f;
+        return 0.0f;
     }
 
     float damageDealt = 0.0f;
     float randomPercentage = MathUtils::GetRandomFloatFromZeroTo(1.0f) - 0.5f;
     damage += damage * randomPercentage;
+    randomPercentage = 0.5f;
     float randomDegrees = MathUtils::GetRandom(-70.0f, 70.0f);
     Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
 

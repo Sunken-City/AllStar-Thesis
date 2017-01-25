@@ -14,6 +14,7 @@ AssemblyMode::AssemblyMode()
     : GameMode()
 {
     SetBackground("Assembly", Vector2(70.0f));
+    
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 20.0f;
     m_gameLengthSeconds = 301.0f;
     m_dropItemsOnDeath = true;
