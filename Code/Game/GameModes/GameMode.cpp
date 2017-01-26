@@ -9,12 +9,20 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Engine/UI/UISystem.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
+#include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
     : m_arenaBackground(new Sprite(arenaBackgroundImage, TheGame::BACKGROUND_LAYER))
+    , m_starfield(new Sprite("Starfield", TheGame::BACKGROUND_STARS_LAYER))
+    , m_starfield2(new Sprite("Starfield", TheGame::BACKGROUND_STARS_LAYER_SLOWER))
 {
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
+    
+    m_starfield->m_transform.SetScale(Vector2(5.0f));
+    m_starfield2->m_transform.SetScale(Vector2(16.0f));
+    SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER)->m_virtualScaleMultiplier = 0.98f;
+    SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER_SLOWER)->m_virtualScaleMultiplier = 2.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -23,6 +31,10 @@ GameMode::~GameMode()
     StopPlaying();
     delete m_arenaBackground;
     m_arenaBackground = nullptr;
+    delete m_starfield;
+    m_starfield = nullptr;
+    delete m_starfield2;
+    m_starfield2 = nullptr;
     UISystem::instance->DeleteWidget(m_timerWidget);
     m_timerWidget = nullptr;
 }

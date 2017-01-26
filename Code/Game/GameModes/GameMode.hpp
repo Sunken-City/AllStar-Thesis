@@ -49,6 +49,8 @@ public:
 private:
     std::vector<Vector2> m_playerSpawnPoints;
     Sprite* m_arenaBackground = nullptr;
+    Sprite* m_starfield = nullptr;
+    Sprite* m_starfield2 = nullptr;
     float m_timerSecondsElapsed = 0.0f;
     WidgetBase* m_timerWidget = nullptr;
 };

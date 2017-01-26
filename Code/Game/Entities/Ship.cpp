@@ -35,6 +35,7 @@ void Ship::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     m_secondsSinceLastFiredWeapon += deltaSeconds;
     RegenerateShield(deltaSeconds);
+    FlickerShield(deltaSeconds);
     ApplyShotDeflection();
 
     if (m_pilot)
@@ -119,6 +120,13 @@ void Ship::ApplyShotDeflection()
             }
         }
     }
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::FlickerShield(float deltaSeconds)
+{
+    //m_currentShieldHealth
+    //m_shieldSprite->m_tintColor.SetAlphaFloat();
 }
 
 //-----------------------------------------------------------------------------------

@@ -34,6 +34,8 @@ public:
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static unsigned int const BACKGROUND_LAYER = 0;
+    static unsigned int const BACKGROUND_STARS_LAYER_SLOWER = 100;
+    static unsigned int const BACKGROUND_STARS_LAYER = 200;
     static unsigned int const BACKGROUND_PARTICLES_LAYER = 600;
     static unsigned int const GEOMETRY_LAYER = 700;
     static unsigned int const ITEM_LAYER = 800;

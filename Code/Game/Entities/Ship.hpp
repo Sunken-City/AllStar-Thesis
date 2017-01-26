@@ -26,7 +26,7 @@ public:
     void UpdateShooting();
     void RegenerateShield(float deltaSeconds);
     void ApplyShotDeflection();
-
+    void FlickerShield(float deltaSeconds);
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Pilot* m_pilot;
     ParticleSystem* m_shipTrail = nullptr;
