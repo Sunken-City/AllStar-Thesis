@@ -64,6 +64,9 @@ TheGame::TheGame()
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
 
+    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_PARTICLES_BLOOM_LAYER)->m_isBloomEnabled = true;
+    SpriteGameRenderer::instance->CreateOrGetLayer(BULLET_LAYER)->m_isBloomEnabled = true;
+
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
 }
@@ -221,8 +224,8 @@ void TheGame::InitializeMainMenuState()
 {
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     m_titleText = new TextRenderable2D("GOOD GAME 2017", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
-    SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_LAYER);
-    m_titleParticles = new ParticleSystem("Title", BACKGROUND_LAYER, Vector2(0.0f, -15.0f));
+    SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
+    m_titleParticles = new ParticleSystem("Title", BACKGROUND_PARTICLES_BLOOM_LAYER, Vector2(0.0f, -15.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
 }
 
@@ -231,7 +234,7 @@ void TheGame::CleanupMainMenuState(unsigned int)
 {
     delete m_titleText;
     ParticleSystem::DestroyImmediately(m_titleParticles);
-    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_rainbowFBOEffect, BACKGROUND_LAYER);
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
