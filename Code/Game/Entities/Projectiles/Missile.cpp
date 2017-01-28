@@ -9,7 +9,7 @@ Missile::Missile(Entity* owner, float degreesOffset, float damage, float disrupt
 {
     m_speed = 4.0f;
 
-    m_sprite = new Sprite("Missile", TheGame::PLAYER_BULLET_LAYER);
+    m_sprite = new Sprite("Missile", TheGame::BULLET_LAYER);
     m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
     m_missileTrail = new RibbonParticleSystem("MissileTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_sprite->m_transform);

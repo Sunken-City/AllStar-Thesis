@@ -6,7 +6,7 @@
 Laser::Laser(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/)
     : Projectile(owner, degreesOffset, damage, disruption, homing)
 {
-    m_sprite = new Sprite("Laser", TheGame::PLAYER_BULLET_LAYER);
+    m_sprite = new Sprite("Laser", TheGame::BULLET_LAYER);
     m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
     CalculateCollisionRadius();
     SetPosition(owner->GetMuzzlePosition());

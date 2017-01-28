@@ -37,13 +37,13 @@ public:
     static unsigned int const BACKGROUND_STARS_LAYER_SLOWER = 100;
     static unsigned int const BACKGROUND_STARS_LAYER = 200;
     static unsigned int const BACKGROUND_PARTICLES_LAYER = 600;
+    static unsigned int const BACKGROUND_PARTICLES_BLOOM_LAYER = 650;
     static unsigned int const GEOMETRY_LAYER = 700;
     static unsigned int const ITEM_LAYER = 800;
     static unsigned int const ENEMY_LAYER = 900;
     static unsigned int const PLAYER_LAYER = 1000;
     static unsigned int const SHIELD_LAYER = 1050;
-    static unsigned int const PLAYER_BULLET_LAYER = 1100;
-    static unsigned int const ENEMY_BULLET_LAYER = 1200;
+    static unsigned int const BULLET_LAYER = 1100;
     static unsigned int const TEXT_PARTICLE_LAYER = 1300;
     static unsigned int const FOREGROUND_LAYER = 2000;
     static unsigned int const UI_LAYER = 3000;
