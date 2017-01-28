@@ -167,6 +167,8 @@
     <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp" />
     <ClCompile Include="Items\Actives\Actives.cpp" />
     <ClCompile Include="Items\Chassis\Chassis.cpp" />
+    <ClCompile Include="Items\Chassis\DefaultChassis.cpp" />
+    <ClCompile Include="Items\Chassis\SpeedChassis.cpp" />
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Passives\Passive.cpp" />
     <ClCompile Include="Items\PowerUp.cpp" />
@@ -201,6 +203,8 @@
     <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp" />
     <ClInclude Include="Items\Actives\Actives.hpp" />
     <ClInclude Include="Items\Chassis\Chassis.hpp" />
+    <ClInclude Include="Items\Chassis\DefaultChassis.hpp" />
+    <ClInclude Include="Items\Chassis\SpeedChassis.hpp" />
     <ClInclude Include="Items\DropTable.hpp" />
     <ClInclude Include="Items\Item.hpp" />
     <ClInclude Include="Items\Passives\Passive.hpp" />

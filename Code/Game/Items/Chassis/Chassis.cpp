@@ -13,9 +13,3 @@ Chassis::~Chassis()
 {
 
 }
-
-//-----------------------------------------------------------------------------------
-const SpriteResource* Chassis::GetSpriteResource()
-{
-    return nullptr;
-}

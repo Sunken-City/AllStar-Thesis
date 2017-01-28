@@ -18,6 +18,7 @@
 #include "../Items/Weapons/LaserGun.hpp"
 #include "Engine/Renderer/ShaderProgram.hpp"
 #include "Engine/Renderer/Material.hpp"
+#include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -273,6 +274,7 @@ void PlayerShip::EjectChassis()
     {
         TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_chassis = nullptr;
+        m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("PlayerShip");
     }
 }
 
@@ -348,5 +350,6 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         delete m_chassis;
         //EjectChassis();
         m_chassis = (Chassis*)pickedUpItem;
+        m_sprite->m_spriteResource = m_chassis->GetShipSpriteResource();
     }
 }

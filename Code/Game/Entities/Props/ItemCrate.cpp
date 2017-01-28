@@ -68,7 +68,13 @@ void ItemCrate::GenerateItems()
         }
         else
         {
-            m_inventory[i] = GetRandomWeapon();
+            switch (MathUtils::GetRandomIntFromZeroTo(2))
+            {
+            case 0:
+                m_inventory[i] = GetRandomWeapon();
+            case 1:
+                m_inventory[i] = GetRandomChassis();
+            }
         }
     }
 }

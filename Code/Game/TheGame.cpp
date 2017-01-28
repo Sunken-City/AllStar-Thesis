@@ -845,9 +845,13 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 
+    //Chassis Pickups
+    ResourceDatabase::instance->RegisterSprite("DefaultChassisPickup", "Data\\Images\\Chassis\\normalPickup.png");
+    ResourceDatabase::instance->RegisterSprite("SpeedChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
+
     //Chassis
     ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\Chassis\\spaceShips_005.png");
-    ResourceDatabase::instance->RegisterSprite("SpeedShip", "Data\\Images\\Chassis\\spaceShips_004.png");
+    ResourceDatabase::instance->RegisterSprite("SpeedChassis", "Data\\Images\\Chassis\\spaceShips_004.png");
 
     //Weapon Pickups
     ResourceDatabase::instance->RegisterSprite("MissileLauncher", "Data\\Images\\Weapons\\missileLauncher.png");
