@@ -108,6 +108,7 @@ void GameMode::AddPlayerSpawnPoint(const Vector2& newSpawnPoint)
 //-----------------------------------------------------------------------------------
 AABB2 GameMode::GetArenaBounds()
 {
+    DebuggerPrintf("%f, %f to %f, %f\n", SpriteGameRenderer::instance->m_worldBounds.mins.x, SpriteGameRenderer::instance->m_worldBounds.mins.y, SpriteGameRenderer::instance->m_worldBounds.maxs.x, SpriteGameRenderer::instance->m_worldBounds.maxs.y);
     return SpriteGameRenderer::instance->m_worldBounds;
 }
 

@@ -93,9 +93,9 @@ public:
     float m_timeSinceLastHit = 0.0f;
     float m_frictionValue;
     float m_currentShieldHealth;
-    bool m_isDead;
-    bool m_collidesWithBullets;
-    bool m_noCollide;
-    bool m_isInvincible;
-    bool m_staysWithinBounds;
+    bool m_isDead = false;
+    bool m_collidesWithBullets = true;
+    bool m_noCollide = false;
+    bool m_isInvincible = false;
+    bool m_staysWithinBounds = true;
 };
