@@ -7,6 +7,8 @@
 enum class PowerUpType;
 class PlayerPilot;
 class TextRenderable2D;
+class Material;
+class ShaderProgram;
 
 class PlayerShip : public Ship
 {
@@ -52,6 +54,8 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;
+    ShaderProgram* m_recolorShader = nullptr;
+    Material* m_recolorMaterial = nullptr;
     Sprite* m_speedometer = nullptr;
     Sprite* m_equipUI = nullptr;
     Sprite* m_currentWeaponUI = nullptr;

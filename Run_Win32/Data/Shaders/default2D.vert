@@ -8,7 +8,7 @@ uniform mat4 gProj;
 
 //INPUTS/////////////////////////////////////////////////////////////////////
 in vec2 inPosition;
-in vec2 inUV;
+in vec2 inUV0;
 in vec4 inColor;
 
 //OUTPUTS/////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ void main()
 {
   mat4 mvp = gModel * gView * gProj;
 
-  passUV = inUV;
+  passUV = inUV0;
   passColor = inColor;
 
   // gl_Position is always a vec4 - clip space vector

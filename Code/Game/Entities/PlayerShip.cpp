@@ -16,6 +16,8 @@
 #include "Game/Items/Actives/Actives.hpp"
 #include "Game/Items/Passives/Passive.hpp"
 #include "../Items/Weapons/LaserGun.hpp"
+#include "Engine/Renderer/ShaderProgram.hpp"
+#include "Engine/Renderer/Material.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -24,19 +26,22 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_dpsText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_recolorShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/recolorable2D.frag"))
 {
     m_isDead = false;
+    m_recolorMaterial = new Material(m_recolorShader, SpriteGameRenderer::instance->m_defaultRenderState);
     
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
-    m_sprite->m_tintColor = GetPlayerColor(); 
+    m_sprite->m_material = m_recolorMaterial;
+    m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
-    m_shipTrail->m_colorOverride = m_sprite->m_tintColor;
+    m_shipTrail->m_colorOverride = GetPlayerColor();
     InitializeUI();
 
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;
-    m_shieldSprite->m_tintColor = m_sprite->m_tintColor;
+    m_shieldSprite->m_tintColor = RGBA::WHITE;// GetPlayerColor();
 
     if (g_nearlyInvulnerable)
     {
@@ -120,6 +125,9 @@ PlayerShip::~PlayerShip()
     delete m_shieldText;
     delete m_speedText;
     delete m_dpsText;
+
+    delete m_recolorShader;
+    delete m_recolorMaterial;
 }
 
 //-----------------------------------------------------------------------------------

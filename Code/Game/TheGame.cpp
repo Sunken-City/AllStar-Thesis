@@ -837,7 +837,6 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Missile", "Data\\Images\\Missiles\\spaceMissiles_002.png");
     ResourceDatabase::instance->RegisterSprite("MuzzleFlash", "Data\\Images\\Lasers\\muzzleFlash.png");
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
-    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\garbageRecolorableShip.png");
     ResourceDatabase::instance->RegisterSprite("Shield", "Data\\Images\\Shield.png");
     ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
@@ -845,6 +844,10 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("GreenEnemy", "Data\\Images\\Enemies\\enemyGreen1.png");
     ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
+
+    //Chassis
+    ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\Chassis\\spaceShips_005.png");
+    ResourceDatabase::instance->RegisterSprite("SpeedShip", "Data\\Images\\Chassis\\spaceShips_004.png");
 
     //Weapon Pickups
     ResourceDatabase::instance->RegisterSprite("MissileLauncher", "Data\\Images\\Weapons\\missileLauncher.png");
