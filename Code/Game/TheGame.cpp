@@ -785,6 +785,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Suicide", keyboard->FindValue('K'));
         playerPilot->m_inputMap.MapInputValue("Shoot", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
+        playerPilot->m_inputMap.MapInputValue("Activate", mouse->FindButtonValue(InputSystem::MouseButton::RIGHT_MOUSE_BUTTON));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue(' '));
@@ -804,6 +805,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::B));
         playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
+        playerPilot->m_inputMap.MapInputValue("Activate", controller->GetLeftTrigger());
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightStickMagnitude());
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
@@ -848,6 +850,12 @@ void TheGame::RegisterSprites()
     //Chassis Pickups
     ResourceDatabase::instance->RegisterSprite("DefaultChassisPickup", "Data\\Images\\Chassis\\normalPickup.png");
     ResourceDatabase::instance->RegisterSprite("SpeedChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
+
+    //Passive Pickups
+    ResourceDatabase::instance->RegisterSprite("CloakPassive", "Data\\Images\\Passives\\cloakPassive.png");
+
+    //Active Pickups
+    ResourceDatabase::instance->RegisterSprite("WarpActive", "Data\\Images\\Actives\\warpActive.png");
 
     //Chassis
     ResourceDatabase::instance->RegisterSprite("PlayerShip", "Data\\Images\\Chassis\\spaceShips_005.png");

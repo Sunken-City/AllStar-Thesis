@@ -11,6 +11,7 @@ Missile::Missile(Entity* owner, float degreesOffset, float damage, float disrupt
 
     m_sprite = new Sprite("Missile", TheGame::BULLET_LAYER);
     m_sprite->m_tintColor = owner->m_sprite->m_tintColor;
+    m_sprite->m_tintColor.SetAlphaFloat(1.0f);
     CalculateCollisionRadius();
     m_missileTrail = new RibbonParticleSystem("MissileTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_sprite->m_transform);
     m_missileTrail->m_colorOverride = RGBA::GRAY;

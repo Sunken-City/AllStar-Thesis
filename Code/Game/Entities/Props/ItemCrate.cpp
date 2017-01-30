@@ -68,12 +68,20 @@ void ItemCrate::GenerateItems()
         }
         else
         {
-            switch (MathUtils::GetRandomIntFromZeroTo(2))
+            switch (2)//MathUtils::GetRandomIntFromZeroTo(4))
             {
             case 0:
                 m_inventory[i] = GetRandomWeapon();
+                break;
             case 1:
                 m_inventory[i] = GetRandomChassis();
+                break;
+            case 2:
+                m_inventory[i] = GetRandomActive();
+                break;
+            case 3:
+                m_inventory[i] = GetRandomPassive();
+                break;
             }
         }
     }

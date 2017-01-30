@@ -7,8 +7,8 @@
 class Sprite;
 class SpriteResource;
 class Weapon;
-class Active;
-class Passive;
+class ActiveEffect;
+class PassiveEffect;
 class Chassis;
 class Item;
 
@@ -75,8 +75,8 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Weapon* m_weapon;
-    Active* m_activeEffect;
-    Passive* m_passiveEffect;
+    ActiveEffect* m_activeEffect;
+    PassiveEffect* m_passiveEffect;
     Chassis* m_chassis;
     Stats m_baseStats;
 

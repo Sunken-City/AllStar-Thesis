@@ -95,12 +95,6 @@
     <ClCompile Include="Items\Weapons\Weapon.cpp">
       <Filter>General\Items\Weapons</Filter>
     </ClCompile>
-    <ClCompile Include="Items\Passives\Passive.cpp">
-      <Filter>General\Items\Passives</Filter>
-    </ClCompile>
-    <ClCompile Include="Items\Actives\Actives.cpp">
-      <Filter>General\Items\Actives</Filter>
-    </ClCompile>
     <ClCompile Include="Items\Chassis\Chassis.cpp">
       <Filter>General\Items\Chassis</Filter>
     </ClCompile>
@@ -145,6 +139,21 @@
     </ClCompile>
     <ClCompile Include="Items\Chassis\SpeedChassis.cpp">
       <Filter>General\Items\Chassis</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Passives\PassiveEffect.cpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Actives\ActiveEffect.cpp">
+      <Filter>General\Items\Actives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Passives\CloakPassive.cpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Passives\NoPassive.cpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Actives\WarpActive.cpp">
+      <Filter>General\Items\Actives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,12 +205,6 @@
     <ClInclude Include="Items\Weapons\Weapon.hpp">
       <Filter>General\Items\Weapons</Filter>
     </ClInclude>
-    <ClInclude Include="Items\Passives\Passive.hpp">
-      <Filter>General\Items\Passives</Filter>
-    </ClInclude>
-    <ClInclude Include="Items\Actives\Actives.hpp">
-      <Filter>General\Items\Actives</Filter>
-    </ClInclude>
     <ClInclude Include="Items\Chassis\Chassis.hpp">
       <Filter>General\Items\Chassis</Filter>
     </ClInclude>
@@ -249,6 +252,21 @@
     </ClInclude>
     <ClInclude Include="Items\Chassis\SpeedChassis.hpp">
       <Filter>General\Items\Chassis</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Passives\PassiveEffect.hpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Actives\ActiveEffect.hpp">
+      <Filter>General\Items\Actives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Passives\CloakPassive.hpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Passives\NoPassive.hpp">
+      <Filter>General\Items\Passives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Actives\WarpActive.hpp">
+      <Filter>General\Items\Actives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

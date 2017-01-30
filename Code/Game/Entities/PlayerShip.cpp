@@ -13,8 +13,8 @@
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
 #include "Game/Items/Weapons/MissileLauncher.hpp"
 #include "Game/Items/Chassis/Chassis.hpp"
-#include "Game/Items/Actives/Actives.hpp"
-#include "Game/Items/Passives/Passive.hpp"
+#include "Game/Items/Actives/ActiveEffect.hpp"
+#include "Game/Items/Passives/PassiveEffect.hpp"
 #include "../Items/Weapons/LaserGun.hpp"
 #include "Engine/Renderer/ShaderProgram.hpp"
 #include "Engine/Renderer/Material.hpp"
@@ -149,6 +149,22 @@ void PlayerShip::Update(float deltaSeconds)
         timeOfLastReset = m_age - deltaSeconds;
         m_totalDamageDone = 0.0f;
     }
+
+    if (m_passiveEffect)
+    {
+        m_passiveEffect->Update(deltaSeconds);
+    }
+    if (m_activeEffect)
+    {
+        if (m_pilot->m_inputMap.WasJustPressed("Activate"))
+        {
+            NamedProperties props;
+            props.Set<Ship*>("ShipPtr", (Ship*)this);
+            m_activeEffect->Activate(props);
+        }
+        m_activeEffect->Update(deltaSeconds);
+    }
+
     float dps = (m_totalDamageDone) / (m_age - timeOfLastReset);
     float speed = m_velocity.CalculateMagnitude();
     float rotationFromSpeed = 0.075f + (0.05f * speed);
@@ -283,6 +299,7 @@ void PlayerShip::EjectActive()
 {
     if (m_activeEffect)
     {
+        m_activeEffect->Deactivate(NamedProperties::NONE);
         TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_activeEffect = nullptr;
     }
@@ -293,6 +310,7 @@ void PlayerShip::EjectPassive()
 {
     if (m_passiveEffect)
     {
+        m_passiveEffect->Deactivate(NamedProperties::NONE);
         TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition() - (m_velocity * 0.5f));
         m_passiveEffect = nullptr;
     }
@@ -341,15 +359,32 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     }
     if (pickedUpItem->IsWeapon())
     {
-        delete m_weapon;
-        //EjectWeapon();
+        EjectWeapon();
         m_weapon = (Weapon*)pickedUpItem;
     }
     if (pickedUpItem->IsChassis())
     {
-        delete m_chassis;
-        //EjectChassis();
+        EjectChassis();
         m_chassis = (Chassis*)pickedUpItem;
         m_sprite->m_spriteResource = m_chassis->GetShipSpriteResource();
+    }
+    if (pickedUpItem->IsPassiveEffect())
+    {
+        if (m_passiveEffect)
+        {
+            EjectPassive();
+        }
+        m_passiveEffect = (PassiveEffect*)pickedUpItem;
+        NamedProperties props;
+        props.Set<Ship*>("ShipPtr", (Ship*)this);
+        m_passiveEffect->Activate(props);
+    }
+    if (pickedUpItem->IsActiveEffect())
+    {
+        if (m_activeEffect)
+        {
+            EjectActive();
+        }
+        m_activeEffect = (ActiveEffect*)pickedUpItem;
     }
 }

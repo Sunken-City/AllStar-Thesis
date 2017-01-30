@@ -1,20 +1,19 @@
-#include "Game/Items/Passives/Passive.hpp"
+#include "Game/Items/Passives/PassiveEffect.hpp"
 
 //-----------------------------------------------------------------------------------
-Passive::Passive()
+PassiveEffect::PassiveEffect()
     : Item(ItemType::PASSIVE)
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-Passive::~Passive()
+PassiveEffect::~PassiveEffect()
 {
-
 }
 
 //-----------------------------------------------------------------------------------
-const SpriteResource* Passive::GetSpriteResource()
+const SpriteResource* PassiveEffect::GetSpriteResource()
 {
     return nullptr;
 }
