@@ -10,7 +10,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     : Entity()
     , m_item(item)
     , m_descriptionTextRenderable(new TextRenderable2D(item->m_name, Transform2D(Vector2(0.0f, 0.7f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
-    , m_equipTextRenderable(new TextRenderable2D(m_equipText, Transform2D(Vector2(0.0f, 0.4f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
+    , m_equipTextRenderable(new TextRenderable2D(item->m_equipText, Transform2D(Vector2(0.0f, 0.4f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
 {
     m_collidesWithBullets = false;
     m_noCollide = true;

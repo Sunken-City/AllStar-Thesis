@@ -17,7 +17,6 @@ public:
     virtual void ResolveCollision(Entity* otherEntity);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    const char* m_equipText = "Hold A to Equip";
     Item* m_item;
     TextRenderable2D* m_descriptionTextRenderable;
     TextRenderable2D* m_equipTextRenderable;

@@ -51,6 +51,7 @@ void WarpActive::Activate(NamedProperties& parameters)
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", m_transportee) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
         m_lastActivatedMiliseconds = GetCurrentTimeMilliseconds();
         m_isActive = true;
+        m_energy = m_energy - m_costToActivate;
 
         ParticleSystem::PlayOneShotParticleEffect("Warping", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &m_transportee->m_transform);
         GameMode::GetCurrent()->PlaySoundAt(warpingSound, m_transportee->GetPosition());
@@ -61,7 +62,6 @@ void WarpActive::Activate(NamedProperties& parameters)
 void WarpActive::Deactivate(NamedProperties& parameters)
 {
     m_isActive = false;
-    m_energy = m_energy - m_costToActivate;
 }
 
 //-----------------------------------------------------------------------------------

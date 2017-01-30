@@ -18,7 +18,7 @@ Ship::Ship(Pilot* pilot)
     , m_shipTrail(new RibbonParticleSystem("ShipTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_transform))
 {
     SetShieldHealth(CalculateShieldCapacityValue());
-    m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGrey");
+    m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("Explosion");
     m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
     m_weapon = new LaserGun();
 }

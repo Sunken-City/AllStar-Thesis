@@ -868,18 +868,18 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("DefaultWeapon", "Data\\Images\\Weapons\\defaultWeapon.png");
 
     //Pickups
-    ResourceDatabase::instance->RegisterSprite("TopSpeed", "Data\\Images\\Pickups\\speed.png");
+    ResourceDatabase::instance->RegisterSprite("Top Speed", "Data\\Images\\Pickups\\speed.png");
     ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\acceleration.png");
     ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\handling.png");
     ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\braking.png");
     ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\damage.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldDisruption", "Data\\Images\\Pickups\\shieldDisruption.png");
-    ResourceDatabase::instance->RegisterSprite("ShotHoming", "Data\\Images\\Pickups\\shotHoming.png");
-    ResourceDatabase::instance->RegisterSprite("RateOfFire", "Data\\Images\\Pickups\\fireRate.png");
+    ResourceDatabase::instance->RegisterSprite("Shield Disruption", "Data\\Images\\Pickups\\shieldDisruption.png");
+    ResourceDatabase::instance->RegisterSprite("Shot Homing", "Data\\Images\\Pickups\\shotHoming.png");
+    ResourceDatabase::instance->RegisterSprite("Rate Of Fire", "Data\\Images\\Pickups\\fireRate.png");
     ResourceDatabase::instance->RegisterSprite("Hp", "Data\\Images\\Pickups\\hp.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldCapacity", "Data\\Images\\Pickups\\shieldCapacity.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldRegen", "Data\\Images\\Pickups\\shieldRegen.png");
-    ResourceDatabase::instance->RegisterSprite("ShotDeflection", "Data\\Images\\Pickups\\shotDeflection.png");
+    ResourceDatabase::instance->RegisterSprite("Shield Capacity", "Data\\Images\\Pickups\\shieldCapacity.png");
+    ResourceDatabase::instance->RegisterSprite("Shield Regen", "Data\\Images\\Pickups\\shieldRegen.png");
+    ResourceDatabase::instance->RegisterSprite("Shot Deflection", "Data\\Images\\Pickups\\shotDeflection.png");
 
     //Particles
     ResourceDatabase::instance->RegisterSprite("Placeholder", "Data\\Images\\Particles\\placeholder.png");
@@ -893,6 +893,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ParticleGrey", "Data\\Images\\Particles\\particle_grey.png");
     ResourceDatabase::instance->RegisterSprite("ParticlePink", "Data\\Images\\Particles\\particle_pink.png");
     ResourceDatabase::instance->RegisterSprite("BlackSmoke", "Data\\Images\\Particles\\blackSmoke01.png");
+    ResourceDatabase::instance->RegisterSprite("Explosion", "Data\\Images\\Particles\\explosion08.png");
     ResourceDatabase::instance->RegisterSprite("BlueWarp", "Data\\Images\\Particles\\particleBlue_2.png");
     ResourceDatabase::instance->RegisterSprite("White4Star", "Data\\Images\\Particles\\particleWhite_7.png");
     ResourceDatabase::instance->RegisterSprite("Blue4Star", "Data\\Images\\Particles\\particleBlue_7.png");

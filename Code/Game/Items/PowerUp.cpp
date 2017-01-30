@@ -112,7 +112,7 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
     switch (m_powerUpType)
     {
     case PowerUpType::TOP_SPEED:
-        return "TopSpeed";
+        return "Top Speed";
     case PowerUpType::ACCELERATION:
         return "Acceleration";
     case PowerUpType::HANDLING:
@@ -122,19 +122,19 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
     case PowerUpType::DAMAGE:
         return "Damage";
     case PowerUpType::SHIELD_DISRUPTION:
-        return "ShieldDisruption";
+        return "Shield Disruption";
     case PowerUpType::SHOT_HOMING:
-        return "ShotHoming";
+        return "Shot Homing";
     case PowerUpType::RATE_OF_FIRE:
-        return "RateOfFire";
+        return "Rate Of Fire";
     case PowerUpType::HP:
         return "Hp";
     case PowerUpType::SHIELD_CAPACITY:
-        return "ShieldCapacity";
+        return "Shield Capacity";
     case PowerUpType::SHIELD_REGEN:
-        return "ShieldRegen";
+        return "Shield Regen";
     case PowerUpType::SHOT_DEFLECTION:
-        return "ShotDeflection";
+        return "Shot Deflection";
     case PowerUpType::HYBRID:
         return "Hybrid";
     default:

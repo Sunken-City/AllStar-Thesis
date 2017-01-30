@@ -19,6 +19,7 @@
 #include "Engine/Renderer/ShaderProgram.hpp"
 #include "Engine/Renderer/Material.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
+#include "TextSplash.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -357,6 +358,10 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
         ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, powerUp->GetSpriteResource());
+
+        float randomDegrees = MathUtils::GetRandom(-80.0f, 80.0f);
+        Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
+        TextSplash::CreateTextSplash(Stringf("%s Up", powerUp->GetPowerUpSpriteResourceName()), m_transform, velocity, RGBA::GBLIGHTGREEN);
 
         delete powerUp;
     }

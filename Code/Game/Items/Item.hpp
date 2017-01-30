@@ -34,4 +34,5 @@ public:
     ItemType m_itemType;
     Stats m_statBonuses;
     const char* m_name = "Item";
+    const char* m_equipText = "Hold A to Equip";
 };
