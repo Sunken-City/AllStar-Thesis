@@ -15,12 +15,15 @@
 #include "Game/Items/Chassis/Chassis.hpp"
 #include "Game/Items/Actives/ActiveEffect.hpp"
 #include "Game/Items/Passives/PassiveEffect.hpp"
-#include "../Items/Weapons/LaserGun.hpp"
 #include "Engine/Renderer/ShaderProgram.hpp"
 #include "Engine/Renderer/Material.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "TextSplash.hpp"
 #include "Engine/Time/Time.hpp"
+#include "../Items/Weapons/LaserGun.hpp"
+#include "../Items/Chassis/SpeedChassis.hpp"
+#include "../Items/Passives/CloakPassive.hpp"
+#include "../Items/Actives/TeleportActive.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -50,10 +53,12 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         m_currentHp = 99999999.0f;
     }
-    if (g_spawnWithWeapon)
+    if (g_spawnWithDebugLoadout)
     {
-        delete m_weapon;
-        m_weapon = new MissileLauncher();
+        PickUpItem(new MissileLauncher());
+        PickUpItem(new SpeedChassis());
+        PickUpItem(new TeleportActive());
+        PickUpItem(new CloakPassive());
     }
     m_equipUI->Disable();
     m_currentWeaponUI->Disable();

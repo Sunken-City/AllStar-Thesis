@@ -30,4 +30,4 @@ extern bool g_spawnEnemies;
 extern bool g_spawnCrates;
 extern bool g_spawnGeometry;
 extern bool g_nearlyInvulnerable;
-extern bool g_spawnWithWeapon;
+extern bool g_spawnWithDebugLoadout;

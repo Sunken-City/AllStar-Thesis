@@ -12,6 +12,7 @@
 #include "Passives\PassiveEffect.hpp"
 #include "Passives\CloakPassive.hpp"
 #include "Passives\StealthTrailPassive.hpp"
+#include "Actives\TeleportActive.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon* GetRandomWeapon()
@@ -44,10 +45,14 @@ Chassis* GetRandomChassis()
 //-----------------------------------------------------------------------------------
 ActiveEffect* GetRandomActive()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(3);
     if (randomNumber == 0)
     {
         return new WarpActive();
+    }
+    else if (randomNumber == 1)
+    {
+        return new TeleportActive();
     }
     else
     {

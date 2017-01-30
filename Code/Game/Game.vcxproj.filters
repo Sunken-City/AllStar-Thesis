@@ -158,6 +158,7 @@
     <ClCompile Include="Items\Actives\QuickshotActive.cpp">
       <Filter>General\Items\Actives</Filter>
     </ClCompile>
+    <ClCompile Include="Items\Actives\TeleportActive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -274,6 +275,7 @@
     <ClInclude Include="Items\Actives\QuickshotActive.hpp">
       <Filter>General\Items\Actives</Filter>
     </ClInclude>
+    <ClInclude Include="Items\Actives\TeleportActive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
