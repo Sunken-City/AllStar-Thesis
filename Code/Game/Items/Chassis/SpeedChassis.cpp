@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------------
 SpeedChassis::SpeedChassis()
 {
+    m_name = "Speed Chassis";
     m_statBonuses.topSpeed = 10.0f;
     m_statBonuses.handling = -0.5f;
 }

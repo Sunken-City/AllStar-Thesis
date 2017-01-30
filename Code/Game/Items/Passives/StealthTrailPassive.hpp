@@ -5,7 +5,7 @@ class StealthTrailPassive : public PassiveEffect
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    StealthTrailPassive() {};
+    StealthTrailPassive();
     virtual ~StealthTrailPassive() {};
     virtual void Update(float deltaSeconds) {};
     virtual void Activate(NamedProperties& parameters);

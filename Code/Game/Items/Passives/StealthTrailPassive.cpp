@@ -5,6 +5,12 @@
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 //-----------------------------------------------------------------------------------
+StealthTrailPassive::StealthTrailPassive()
+{
+    m_name = "Stealth Trail";
+}
+
+//-----------------------------------------------------------------------------------
 void StealthTrailPassive::Activate(NamedProperties& parameters)
 {
     ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", m_owner) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");

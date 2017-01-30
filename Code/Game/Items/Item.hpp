@@ -33,4 +33,5 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     ItemType m_itemType;
     Stats m_statBonuses;
+    const char* m_name = "Item";
 };

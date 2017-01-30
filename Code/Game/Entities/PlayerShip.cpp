@@ -42,7 +42,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;
-    m_shieldSprite->m_tintColor = RGBA::WHITE;// GetPlayerColor();
+    m_shieldSprite->m_tintColor = GetPlayerColor();
 
     if (g_nearlyInvulnerable)
     {
@@ -89,10 +89,10 @@ void PlayerShip::InitializeUI()
     m_shieldText->m_transform.SetPosition(Vector2(-1.0f, 1.3f));
     m_speedText->m_transform.SetPosition(Vector2(-1.0f, 0.8f));
     m_dpsText->m_transform.SetPosition(Vector2(-1.0f, 0.3f));
-    m_healthText->m_fontSize = 0.2f;
-    m_shieldText->m_fontSize = 0.2f;
-    m_speedText->m_fontSize = 0.2f;
-    m_dpsText->m_fontSize = 0.2f;
+    m_healthText->m_fontSize = 0.1f;
+    m_shieldText->m_fontSize = 0.1f;
+    m_speedText->m_fontSize = 0.1f;
+    m_dpsText->m_fontSize = 0.1f;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_healthText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomRight(&m_shieldText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomRight(&m_speedText->m_transform);

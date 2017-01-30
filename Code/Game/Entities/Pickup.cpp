@@ -3,11 +3,14 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "PlayerShip.hpp"
+#include "Engine/Renderer/2D/TextRenderable2D.hpp"
 
 //-----------------------------------------------------------------------------------
 Pickup::Pickup(Item* item, const Vector2& initialPosition)
     : Entity()
     , m_item(item)
+    , m_descriptionTextRenderable(new TextRenderable2D(item->m_name, Transform2D(Vector2(0.0f, 0.7f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
+    , m_equipTextRenderable(new TextRenderable2D(m_equipText, Transform2D(Vector2(0.0f, 0.4f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
 {
     m_collidesWithBullets = false;
     m_noCollide = true;
@@ -24,6 +27,20 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
 
     float directionDegrees = MathUtils::GetRandomFloatFromZeroTo(360.0f);
     m_velocity = Vector2::DegreesToDirection(directionDegrees) * 10.0f;
+
+    if (!m_item->IsPowerUp())
+    {
+        m_transform.AddChild(&m_descriptionTextRenderable->m_transform);
+        m_descriptionTextRenderable->m_fontSize = 0.03f;
+
+        m_transform.AddChild(&m_equipTextRenderable->m_transform);
+        m_equipTextRenderable->m_fontSize = 0.015f;
+    }
+    else
+    {
+        m_descriptionTextRenderable->Disable();
+        m_equipTextRenderable->Disable();
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -33,6 +50,8 @@ Pickup::~Pickup()
     {
         delete m_item;
     }
+    delete m_equipTextRenderable;
+    delete m_descriptionTextRenderable;
 }
 
 //-----------------------------------------------------------------------------------

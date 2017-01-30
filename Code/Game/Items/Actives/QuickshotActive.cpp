@@ -10,6 +10,7 @@ QuickshotActive::QuickshotActive()
 {
     m_energyRestorationPerSecond = 0.05f;
     m_costToActivate = 1.0f;
+    m_name = "Quickshot";
 }
 
 //-----------------------------------------------------------------------------------

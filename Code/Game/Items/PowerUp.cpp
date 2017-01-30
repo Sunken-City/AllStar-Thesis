@@ -10,6 +10,7 @@ PowerUp::PowerUp(PowerUpType type)
     : Item(ItemType::POWER_UP)
     , m_powerUpType(type)
 {
+    m_name = "Pickup";
     if (m_powerUpType == PowerUpType::RANDOM)
     {
         m_powerUpType = static_cast<PowerUpType>(MathUtils::GetRandomIntFromZeroTo((int)PowerUpType::HYBRID));
