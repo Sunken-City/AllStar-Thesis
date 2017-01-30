@@ -891,7 +891,9 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ParticleGrey", "Data\\Images\\Particles\\particle_grey.png");
     ResourceDatabase::instance->RegisterSprite("ParticlePink", "Data\\Images\\Particles\\particle_pink.png");
     ResourceDatabase::instance->RegisterSprite("BlackSmoke", "Data\\Images\\Particles\\blackSmoke01.png");
+    ResourceDatabase::instance->RegisterSprite("BlueWarp", "Data\\Images\\Particles\\particleBlue_2.png");
     ResourceDatabase::instance->RegisterSprite("White4Star", "Data\\Images\\Particles\\particleWhite_7.png");
+    ResourceDatabase::instance->RegisterSprite("Blue4Star", "Data\\Images\\Particles\\particleBlue_7.png");
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
     ResourceDatabase::instance->RegisterSprite("Yellow5Star", "Data\\Images\\Particles\\particleYellow_3.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
@@ -913,12 +915,36 @@ void TheGame::RegisterSpriteAnimations()
 void TheGame::RegisterParticleEffects()
 {
     const float DEATH_ANIMATION_LENGTH = 1.5f;
+    const float WARP_ANIMATION_LENGTH = 1.5f;
     const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.15f;
     const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.01f;
     const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f; 
     const float COLLISION_ANIMATION_LENGTH = 0.3f;
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
+    ParticleEmitterDefinition* blueStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Blue4Star"));
+    blueStars->m_properties.Set<std::string>(PROPERTY_NAME, "Blue Stars");
+    blueStars->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    blueStars->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(10, 15));
+    blueStars->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
+    blueStars->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    blueStars->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.2f);
+    blueStars->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, WARP_ANIMATION_LENGTH);
+    blueStars->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 40.0f);
+    blueStars->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
+    blueStars->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.3f));
+
+    ParticleEmitterDefinition* blueWarpOrb = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlueWarp"));
+    blueWarpOrb->m_properties.Set<std::string>(PROPERTY_NAME, "Blue Warp");
+    blueWarpOrb->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    blueWarpOrb->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
+    blueWarpOrb->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(1.8f), Vector2(2.0f)));
+    blueWarpOrb->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    blueWarpOrb->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, WARP_ANIMATION_LENGTH);
+    blueWarpOrb->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(180.0f, 270.0f));
+    blueWarpOrb->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
+    blueWarpOrb->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-1.5f, -1.5f));
+
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
     yellowStars->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Stars");
     yellowStars->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
@@ -1045,6 +1071,12 @@ void TheGame::RegisterParticleEffects()
     deathParticleSystem->AddEmitter(yellowStars);
     deathParticleSystem->AddEmitter(yellowExplosionOrb);
     deathParticleSystem->AddEmitter(yellowBeams);
+
+    ParticleSystemDefinition* warpingParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Warping", ONE_SHOT);
+    warpingParticleSystem->AddEmitter(blueStars);
+
+    ParticleSystemDefinition* warpedParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Warped", ONE_SHOT);
+    warpedParticleSystem->AddEmitter(blueWarpOrb);
 
     ParticleSystemDefinition* powerupPickupParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("PowerupPickup", ONE_SHOT);
     powerupPickupParticleSystem->AddEmitter(powerupPickup);
