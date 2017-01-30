@@ -45,7 +45,8 @@ void Ship::Update(float deltaSeconds)
 
         m_velocity.CalculateMagnitudeSquared() < 0.1f ? m_shipTrail->Pause() : m_shipTrail->Unpause();
 
-        if (m_pilot->m_inputMap.FindInputValue("Suicide")->WasJustPressed())
+        InputValue* suicideInput = m_pilot->m_inputMap.FindInputValue("Suicide");
+        if (suicideInput && suicideInput->WasJustPressed())
         {
             m_isDead = true;
             Die();

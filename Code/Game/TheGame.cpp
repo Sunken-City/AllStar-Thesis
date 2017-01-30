@@ -806,7 +806,6 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputAxis("ShootRight")->AddMapping(&controller->GetRightStick()->m_xAxis);
         playerPilot->m_inputMap.FindInputAxis("ShootUp")->m_deadzoneValue = 0.3f;
         playerPilot->m_inputMap.FindInputAxis("ShootRight")->m_deadzoneValue = 0.3f;
-        playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::B));
         playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightStickMagnitude());
