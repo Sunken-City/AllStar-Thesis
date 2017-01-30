@@ -15,9 +15,11 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource();
     virtual void Cooldown(float deltaSeconds);
+    virtual inline bool IsActive() { return m_isActive; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     float m_energy = 1.0f;
     float m_energyRestorationPerSecond = 0.0f;
     float m_costToActivate = 0.0f;
+    bool m_isActive = false;
 };

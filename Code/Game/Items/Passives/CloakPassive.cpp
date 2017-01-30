@@ -22,10 +22,10 @@ CloakPassive::~CloakPassive()
 //-----------------------------------------------------------------------------------
 void CloakPassive::Update(float deltaSeconds)
 {
-    static const float SPEED_THRESHOLD_FOR_CLOAK = 2.0f; //2.0f does a neat little flicker, 4.0f is more reasonable and smooth.
+    static const float SPEED_THRESHOLD_FOR_CLOAK = 4.0f; //2.0f does a neat little flicker, 4.0f is more reasonable and smooth.
     static const float SPEED_THRESHOLD_FOR_CLOAK_SQUARED = SPEED_THRESHOLD_FOR_CLOAK * SPEED_THRESHOLD_FOR_CLOAK;
     float squaredMagnitude = m_owner->m_velocity.CalculateMagnitudeSquared();
-    float alphaValue = squaredMagnitude / SPEED_THRESHOLD_FOR_CLOAK_SQUARED;
+    float alphaValue = Clamp<float>(squaredMagnitude / SPEED_THRESHOLD_FOR_CLOAK_SQUARED, 0.0f, 1.0f);
     m_owner->m_sprite->m_tintColor.SetAlphaFloat(alphaValue);
     m_owner->m_shieldSprite->m_tintColor.SetAlphaFloat(alphaValue);
     m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(alphaValue);

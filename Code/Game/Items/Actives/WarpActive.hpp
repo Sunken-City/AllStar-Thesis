@@ -19,7 +19,6 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Ship* m_transportee = nullptr;
     double m_warpTimeStart;
-    bool m_isWarping = false;
 
     static const double SECONDS_UNTIL_WARP;
     static const double MILISECONDS_UNTIL_WARP;

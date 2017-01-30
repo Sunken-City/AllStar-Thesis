@@ -26,7 +26,7 @@ WarpActive::~WarpActive()
 //-----------------------------------------------------------------------------------
 void WarpActive::Update(float deltaSeconds)
 {
-    if (m_isWarping)
+    if (m_isActive)
     {
         if (GetCurrentTimeMilliseconds() - m_warpTimeStart > MILISECONDS_UNTIL_WARP)
         {
@@ -45,11 +45,12 @@ void WarpActive::Update(float deltaSeconds)
 void WarpActive::Activate(NamedProperties& parameters)
 {
     static SoundID warpingSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
-    if (m_energy >= m_costToActivate && !m_isWarping)
+    if (m_energy >= m_costToActivate && !m_isActive)
     {
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", m_transportee) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
         m_warpTimeStart = GetCurrentTimeMilliseconds();
-        m_isWarping = true;
+        m_isActive = true;
+
         ParticleSystem::PlayOneShotParticleEffect("Warping", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &m_transportee->m_transform);
         GameMode::GetCurrent()->PlaySoundAt(warpingSound, m_transportee->GetPosition());
     }
@@ -58,7 +59,7 @@ void WarpActive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void WarpActive::Deactivate(NamedProperties& parameters)
 {
-    m_isWarping = false;
+    m_isActive = false;
     m_energy = m_energy - m_costToActivate;
 }
 

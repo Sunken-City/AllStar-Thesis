@@ -299,7 +299,10 @@ void PlayerShip::EjectActive()
 {
     if (m_activeEffect)
     {
-        m_activeEffect->Deactivate(NamedProperties::NONE);
+        if (m_activeEffect->IsActive())
+        {
+            m_activeEffect->Deactivate(NamedProperties::NONE);
+        }
         TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_activeEffect = nullptr;
     }
