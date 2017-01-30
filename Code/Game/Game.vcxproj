@@ -166,6 +166,7 @@
     <ClCompile Include="GameModes\Minigames\RaceMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp" />
     <ClCompile Include="Items\Actives\ActiveEffect.cpp" />
+    <ClCompile Include="Items\Actives\QuickshotActive.cpp" />
     <ClCompile Include="Items\Actives\WarpActive.cpp" />
     <ClCompile Include="Items\Chassis\Chassis.cpp" />
     <ClCompile Include="Items\Chassis\DefaultChassis.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="GameModes\Minigames\RaceMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp" />
     <ClInclude Include="Items\Actives\ActiveEffect.hpp" />
+    <ClInclude Include="Items\Actives\QuickshotActive.hpp" />
     <ClInclude Include="Items\Actives\WarpActive.hpp" />
     <ClInclude Include="Items\Chassis\Chassis.hpp" />
     <ClInclude Include="Items\Chassis\DefaultChassis.hpp" />

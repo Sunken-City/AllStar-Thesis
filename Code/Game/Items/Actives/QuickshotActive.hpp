@@ -3,12 +3,12 @@
 
 class Ship;
 
-class WarpActive : public ActiveEffect
+class QuickshotActive : public ActiveEffect
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    WarpActive();
-    virtual ~WarpActive();
+    QuickshotActive();
+    virtual ~QuickshotActive();
     virtual void Update(float deltaSeconds);
     virtual void Activate(NamedProperties& parameters);
     virtual void Deactivate(NamedProperties& parameters);
@@ -17,8 +17,7 @@ public:
     virtual const SpriteResource* GetSpriteResource();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    Ship* m_transportee = nullptr;
-
-    static const double SECONDS_UNTIL_WARP;
-    static const double MILISECONDS_UNTIL_WARP;
+    static const double SECONDS_DURATION;
+    static const double MILISECONDS_DURATION;
 };
+

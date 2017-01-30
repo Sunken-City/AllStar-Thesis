@@ -155,6 +155,9 @@
     <ClCompile Include="Items\Passives\StealthTrailPassive.cpp">
       <Filter>General\Items\Passives</Filter>
     </ClCompile>
+    <ClCompile Include="Items\Actives\QuickshotActive.cpp">
+      <Filter>General\Items\Actives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -267,6 +270,9 @@
     </ClInclude>
     <ClInclude Include="Items\Passives\StealthTrailPassive.hpp">
       <Filter>General\Items\Passives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Actives\QuickshotActive.hpp">
+      <Filter>General\Items\Actives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

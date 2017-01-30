@@ -8,6 +8,7 @@
 #include "Chassis\SpeedChassis.hpp"
 #include "Actives\ActiveEffect.hpp"
 #include "Actives\WarpActive.hpp"
+#include "Actives\QuickshotActive.hpp"
 #include "Passives\PassiveEffect.hpp"
 #include "Passives\CloakPassive.hpp"
 #include "Passives\StealthTrailPassive.hpp"
@@ -46,13 +47,12 @@ ActiveEffect* GetRandomActive()
     int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
     if (randomNumber == 0)
     {
-        //return new DefaultChassis();
+        return new WarpActive();
     }
     else
     {
-        //return new SpeedChassis();
+        return new QuickshotActive();
     }
-    return new WarpActive();
 }
 
 //-----------------------------------------------------------------------------------
