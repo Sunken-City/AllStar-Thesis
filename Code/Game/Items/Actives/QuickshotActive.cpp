@@ -1,6 +1,9 @@
 #include "Game/Items/Actives/QuickshotActive.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Time/Time.hpp"
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
+#include "Game/TheGame.hpp"
+#include "Game/Entities/Ship.hpp"
 
 const double QuickshotActive::SECONDS_DURATION = 5.0f;
 const double QuickshotActive::MILISECONDS_DURATION = SECONDS_DURATION * 1000.0f;
@@ -44,6 +47,10 @@ void QuickshotActive::Activate(NamedProperties& parameters)
         m_isActive = true;
         m_lastActivatedMiliseconds = GetCurrentTimeMilliseconds();
         m_energy -= m_costToActivate;
+
+        Ship* ship = nullptr;
+        ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", ship) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
+        ParticleSystem::PlayOneShotParticleEffect("Buff", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
     }
 }
 
