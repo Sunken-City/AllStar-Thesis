@@ -172,7 +172,7 @@
     <ClCompile Include="Items\Chassis\SpeedChassis.cpp" />
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Passives\CloakPassive.cpp" />
-    <ClCompile Include="Items\Passives\NoPassive.cpp" />
+    <ClCompile Include="Items\Passives\StealthTrailPassive.cpp" />
     <ClCompile Include="Items\Passives\PassiveEffect.cpp" />
     <ClCompile Include="Items\PowerUp.cpp" />
     <ClCompile Include="Items\Weapons\LaserGun.cpp" />
@@ -212,7 +212,7 @@
     <ClInclude Include="Items\DropTable.hpp" />
     <ClInclude Include="Items\Item.hpp" />
     <ClInclude Include="Items\Passives\CloakPassive.hpp" />
-    <ClInclude Include="Items\Passives\NoPassive.hpp" />
+    <ClInclude Include="Items\Passives\StealthTrailPassive.hpp" />
     <ClInclude Include="Items\Passives\PassiveEffect.hpp" />
     <ClInclude Include="Items\PowerUp.hpp" />
     <ClInclude Include="Items\Weapons\LaserGun.hpp" />

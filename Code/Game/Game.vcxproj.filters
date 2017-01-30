@@ -149,11 +149,11 @@
     <ClCompile Include="Items\Passives\CloakPassive.cpp">
       <Filter>General\Items\Passives</Filter>
     </ClCompile>
-    <ClCompile Include="Items\Passives\NoPassive.cpp">
-      <Filter>General\Items\Passives</Filter>
-    </ClCompile>
     <ClCompile Include="Items\Actives\WarpActive.cpp">
       <Filter>General\Items\Actives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Passives\StealthTrailPassive.cpp">
+      <Filter>General\Items\Passives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -262,11 +262,11 @@
     <ClInclude Include="Items\Passives\CloakPassive.hpp">
       <Filter>General\Items\Passives</Filter>
     </ClInclude>
-    <ClInclude Include="Items\Passives\NoPassive.hpp">
-      <Filter>General\Items\Passives</Filter>
-    </ClInclude>
     <ClInclude Include="Items\Actives\WarpActive.hpp">
       <Filter>General\Items\Actives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Passives\StealthTrailPassive.hpp">
+      <Filter>General\Items\Passives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

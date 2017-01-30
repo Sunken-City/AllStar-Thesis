@@ -1,15 +1,15 @@
 #pragma once
 #include "Game/Items/Passives/PassiveEffect.hpp"
 
-class NoPassive : public PassiveEffect
+class StealthTrailPassive : public PassiveEffect
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    NoPassive() {};
-    virtual ~NoPassive() {};
+    StealthTrailPassive() {};
+    virtual ~StealthTrailPassive() {};
     virtual void Update(float deltaSeconds) {};
-    virtual void Activate(NamedProperties& parameters) {};
-    virtual void Deactivate(NamedProperties& parameters) {};
+    virtual void Activate(NamedProperties& parameters);
+    virtual void Deactivate(NamedProperties& parameters);
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() { return nullptr; };
