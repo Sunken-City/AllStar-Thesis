@@ -12,5 +12,5 @@ public:
     virtual void Deactivate(NamedProperties& parameters);
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual const SpriteResource* GetSpriteResource() { return nullptr; };
+    virtual const SpriteResource* GetSpriteResource();
 };

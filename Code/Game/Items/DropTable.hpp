@@ -10,6 +10,7 @@
 #include "Actives\WarpActive.hpp"
 #include "Passives\PassiveEffect.hpp"
 #include "Passives\CloakPassive.hpp"
+#include "Passives\StealthTrailPassive.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon* GetRandomWeapon()
@@ -60,11 +61,10 @@ PassiveEffect* GetRandomPassive()
     int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
     if (randomNumber == 0)
     {
-        //return new DefaultChassis();
+        return new CloakPassive();
     }
     else
     {
-        //return new SpeedChassis();
+        return new StealthTrailPassive();
     }
-    return new CloakPassive();
 }
