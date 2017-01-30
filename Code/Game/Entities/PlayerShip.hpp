@@ -19,6 +19,9 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
+
+    void UpdateEquips(float deltaSeconds);
+
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity);
     virtual void Die();
@@ -31,6 +34,8 @@ public:
     void HideUI();
     void ShowUI();
     void InitializeUI();
+    bool CanPickUp(Item* item);
+    void CheckToEjectEquipment(float deltaSeconds);
 
     //EQUIPMENT/////////////////////////////////////////////////////////////////////
     void EjectWeapon();
@@ -64,4 +69,8 @@ public:
     TextRenderable2D* m_speedText = nullptr;
     TextRenderable2D* m_dpsText = nullptr;
     float m_totalDamageDone = 0.0f;
+    double m_activeBeginEjectMilliseconds = -10.0f;
+    double m_passiveBeginEjectMilliseconds = -10.0f;
+    double m_weaponBeginEjectMilliseconds = -10.0f;
+    double m_chassisBeginEjectMilliseconds = -10.0f;
 };

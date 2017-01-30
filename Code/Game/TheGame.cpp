@@ -790,6 +790,10 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue('R'));
+        playerPilot->m_inputMap.MapInputValue("EjectActive", keyboard->FindValue('Z'));
+        playerPilot->m_inputMap.MapInputValue("EjectWeapon", keyboard->FindValue('X'));
+        playerPilot->m_inputMap.MapInputValue("EjectPassive", keyboard->FindValue('C'));
+        playerPilot->m_inputMap.MapInputValue("EjectChassis", keyboard->FindValue('V'));
         playerPilot->m_inputMap.MapInputValue("Pause", keyboard->FindValue('P'));
     }
     else
@@ -805,9 +809,12 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Suicide", controller->FindButton(XboxButton::B));
         playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
-        playerPilot->m_inputMap.MapInputValue("Activate", controller->GetLeftTrigger());
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightStickMagnitude());
-        playerPilot->m_inputMap.MapInputValue("Shoot", controller->FindButton(XboxButton::A));
+        playerPilot->m_inputMap.MapInputValue("Activate", controller->GetLeftTrigger());
+        playerPilot->m_inputMap.MapInputValue("EjectActive", controller->FindButton(XboxButton::A));
+        playerPilot->m_inputMap.MapInputValue("EjectWeapon", controller->FindButton(XboxButton::B));
+        playerPilot->m_inputMap.MapInputValue("EjectPassive", controller->FindButton(XboxButton::X));
+        playerPilot->m_inputMap.MapInputValue("EjectChassis", controller->FindButton(XboxButton::Y));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::BACK));

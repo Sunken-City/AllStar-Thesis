@@ -20,6 +20,7 @@
 #include "Engine/Renderer/Material.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "TextSplash.hpp"
+#include "Engine/Time/Time.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -151,6 +152,26 @@ void PlayerShip::Update(float deltaSeconds)
         m_totalDamageDone = 0.0f;
     }
 
+    CheckToEjectEquipment(deltaSeconds);
+    UpdateEquips(deltaSeconds);
+
+    float dps = (m_totalDamageDone) / (m_age - timeOfLastReset);
+    float speed = m_velocity.CalculateMagnitude();
+    float rotationFromSpeed = 0.075f + (0.05f * speed);
+    float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
+    m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
+    m_equipUI->m_transform.SetRotationDegrees(-newRotationDegrees);
+    m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
+
+    m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
+    m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
+    m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>(speed * 10.0f));
+    m_dpsText->m_text = Stringf("DPS: %03i", static_cast<int>(dps));
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::UpdateEquips(float deltaSeconds)
+{
     if (m_passiveEffect)
     {
         m_passiveEffect->Update(deltaSeconds);
@@ -165,19 +186,6 @@ void PlayerShip::Update(float deltaSeconds)
         }
         m_activeEffect->Update(deltaSeconds);
     }
-
-    float dps = (m_totalDamageDone) / (m_age - timeOfLastReset);
-    float speed = m_velocity.CalculateMagnitude();
-    float rotationFromSpeed = 0.075f + (0.05f * speed);
-    float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
-    m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
-    m_equipUI->m_transform.SetRotationDegrees(-newRotationDegrees);
-    m_currentWeaponUI->m_spriteResource = m_weapon->GetSpriteResource();
-
-    m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
-    m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
-    m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>(speed * 10.0f));
-    m_dpsText->m_text = Stringf("DPS: %03i", static_cast<int>(dps));
 }
 
 //-----------------------------------------------------------------------------------
@@ -279,7 +287,7 @@ void PlayerShip::EjectWeapon()
 {
     if (m_weapon)
     {
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_weapon, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_weapon, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_weapon = nullptr;
     }
 }
@@ -289,7 +297,7 @@ void PlayerShip::EjectChassis()
 {
     if (m_chassis)
     {
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_chassis = nullptr;
         m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("PlayerShip");
     }
@@ -304,7 +312,7 @@ void PlayerShip::EjectActive()
         {
             m_activeEffect->Deactivate(NamedProperties::NONE);
         }
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(m_transform.GetWorldRotationDegrees()) * 0.5f));
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_activeEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_activeEffect = nullptr;
     }
 }
@@ -315,7 +323,7 @@ void PlayerShip::EjectPassive()
     if (m_passiveEffect)
     {
         m_passiveEffect->Deactivate(NamedProperties::NONE);
-        TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition() - (m_velocity * 0.5f));
+        TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_passiveEffect = nullptr;
     }
 }
@@ -346,6 +354,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     {
         return;
     }
+
     if (pickedUpItem->IsPowerUp())
     {
         PowerUp* powerUp = ((PowerUp*)pickedUpItem);
@@ -365,18 +374,18 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 
         delete powerUp;
     }
-    if (pickedUpItem->IsWeapon())
+    else if (pickedUpItem->IsWeapon())
     {
         EjectWeapon();
         m_weapon = (Weapon*)pickedUpItem;
     }
-    if (pickedUpItem->IsChassis())
+    else if (pickedUpItem->IsChassis())
     {
         EjectChassis();
         m_chassis = (Chassis*)pickedUpItem;
         m_sprite->m_spriteResource = m_chassis->GetShipSpriteResource();
     }
-    if (pickedUpItem->IsPassiveEffect())
+    else if (pickedUpItem->IsPassiveEffect())
     {
         if (m_passiveEffect)
         {
@@ -387,12 +396,83 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         props.Set<Ship*>("ShipPtr", (Ship*)this);
         m_passiveEffect->Activate(props);
     }
-    if (pickedUpItem->IsActiveEffect())
+    else if (pickedUpItem->IsActiveEffect())
     {
         if (m_activeEffect)
         {
             EjectActive();
         }
         m_activeEffect = (ActiveEffect*)pickedUpItem;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+bool PlayerShip::CanPickUp(Item* item)
+{
+    if (item->IsWeapon() && m_weapon == nullptr)
+    {
+        return true;
+    }
+    else if (item->IsChassis() && m_chassis == nullptr)
+    {
+        return true;
+    }
+    else if (item->IsPassiveEffect() && m_passiveEffect == nullptr)
+    {
+        return true;
+    }
+    else if (item->IsActiveEffect() && m_activeEffect == nullptr)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::CheckToEjectEquipment(float deltaSeconds)
+{
+    static const double EJECT_TIME_SECONDS = 1.0f;
+    static const double EJECT_TIME_MILLISECONDS = EJECT_TIME_SECONDS * 1000.0f;
+    double currentTimeMilliseconds = GetCurrentTimeMilliseconds();
+
+    if (m_pilot->m_inputMap.WasJustPressed("EjectActive"))
+    {
+        m_activeBeginEjectMilliseconds = currentTimeMilliseconds;
+    }
+    if (m_pilot->m_inputMap.WasJustPressed("EjectPassive"))
+    {
+        m_passiveBeginEjectMilliseconds = currentTimeMilliseconds;
+    }
+    if (m_pilot->m_inputMap.WasJustPressed("EjectWeapon"))
+    {
+        m_weaponBeginEjectMilliseconds = currentTimeMilliseconds;
+    }
+    if (m_pilot->m_inputMap.WasJustPressed("EjectChassis"))
+    {
+        m_chassisBeginEjectMilliseconds = currentTimeMilliseconds;
+    }
+
+    if (currentTimeMilliseconds - m_activeBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectActive"))
+    {
+        EjectActive();
+        m_activeBeginEjectMilliseconds = currentTimeMilliseconds;
+    }
+    if (currentTimeMilliseconds - m_passiveBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectPassive"))
+    {
+        EjectPassive();
+        m_passiveBeginEjectMilliseconds = currentTimeMilliseconds;
+    }
+    if (currentTimeMilliseconds - m_weaponBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectWeapon"))
+    {
+        EjectWeapon();
+        m_weaponBeginEjectMilliseconds = currentTimeMilliseconds;
+    }
+    if (currentTimeMilliseconds - m_chassisBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectChassis"))
+    {
+        EjectChassis();
+        m_chassisBeginEjectMilliseconds = currentTimeMilliseconds;
     }
 }

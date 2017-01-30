@@ -12,6 +12,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     , m_descriptionTextRenderable(new TextRenderable2D(item->m_name, Transform2D(Vector2(0.0f, 0.7f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
     , m_equipTextRenderable(new TextRenderable2D(item->m_equipText, Transform2D(Vector2(0.0f, 0.4f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
 {
+    ASSERT_OR_DIE(m_item, "Attempted to create a pickup with no item!");
     m_collidesWithBullets = false;
     m_noCollide = true;
     m_sprite = new Sprite("Invalid", TheGame::ITEM_LAYER);
@@ -86,13 +87,21 @@ void Pickup::Render() const
 //-----------------------------------------------------------------------------------
 void Pickup::ResolveCollision(Entity* otherEntity)
 {
-    for (PlayerShip* ent : TheGame::instance->m_players)
+    if (m_age < 0.05f)
     {
-        if ((Entity*)ent == otherEntity && !ent->m_isDead)
+        return;
+    }
+
+    for (PlayerShip* player : TheGame::instance->m_players)
+    {
+        if ((Entity*)player == otherEntity && !player->m_isDead)
         {
-            ent->PickUpItem(m_item);
-            m_item = nullptr;
-            this->m_isDead = true;
+            if (m_item && (m_item->IsPowerUp() || player->CanPickUp(m_item)))
+            {
+                player->PickUpItem(m_item);
+                m_item = nullptr;
+                this->m_isDead = true;
+            }
         }
     }
 }
