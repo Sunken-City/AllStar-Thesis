@@ -16,17 +16,20 @@ Ship::Ship(Pilot* pilot)
     , m_secondsSinceLastFiredWeapon(0.0f)
     , m_pilot(pilot)
     , m_shipTrail(new RibbonParticleSystem("ShipTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_transform))
+    , m_smokeDamage(new ParticleSystem("SmokeTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_transform))
 {
     SetShieldHealth(CalculateShieldCapacityValue());
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("Explosion");
     m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
     m_weapon = new LaserGun();
+    m_smokeDamage->Disable();
 }
 
 //-----------------------------------------------------------------------------------
 Ship::~Ship()
 {
     ParticleSystem::DestroyImmediately(m_shipTrail);
+    ParticleSystem::DestroyImmediately(m_smokeDamage);
 }
 
 //-----------------------------------------------------------------------------------
@@ -189,9 +192,27 @@ float Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
     else if (currentHp != m_currentHp)
     {
         TheGame::instance->m_currentGameMode->PlaySoundAt(hitHullSound, GetPosition(), m_hitSoundMaxVolume);
+
+        float halfHealth = CalculateHpValue() * 0.5f;
+        if (m_currentHp < halfHealth && !m_smokeDamage->m_isEnabled)
+        {
+            m_smokeDamage->Enable();
+        }
     }
 
     return damageTaken;
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::Heal(float healValue /*= 99999999.0f*/)
+{
+    Entity::Heal(healValue);
+    
+    float halfHealth = CalculateHpValue() * 0.5f;
+    if (m_currentHp > halfHealth && m_smokeDamage->m_isEnabled)
+    {
+        m_smokeDamage->Disable();
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -200,6 +221,7 @@ void Ship::Die()
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/trashExplosion.ogg");
     Entity::Die();
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), m_hitSoundMaxVolume);
+    m_smokeDamage->Disable();
     ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(GetPosition()));
 }
 

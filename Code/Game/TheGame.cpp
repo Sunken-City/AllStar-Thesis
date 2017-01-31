@@ -1090,6 +1090,19 @@ void TheGame::RegisterParticleEffects()
     titleScreenParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.4f), Vector2(0.8f)));
     //titleScreenParticle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.1f));
 
+    ParticleEmitterDefinition* smokeTrail = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlackSmoke"));
+    smokeTrail->m_properties.Set<std::string>(PROPERTY_NAME, "Smoke Trail");
+    smokeTrail->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    smokeTrail->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
+    smokeTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Vector2(0.1f));
+    smokeTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    smokeTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.0f);
+    smokeTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 2.0f);
+    smokeTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
+    smokeTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.5f));
+    smokeTrail->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+    titleScreenParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-90.0f, 90.0f));
+
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
@@ -1119,6 +1132,9 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* shipTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("ShipTrail", LOOPING);
     shipTrailParticleSystem->AddEmitter(shipTrail);
+
+    ParticleSystemDefinition* smokeTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("SmokeTrail", LOOPING);
+    smokeTrailParticleSystem->AddEmitter(smokeTrail);
 
     ParticleSystemDefinition* missileTrailParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("MissileTrail", LOOPING);
     missileTrailParticleSystem->AddEmitter(missileTrail);
