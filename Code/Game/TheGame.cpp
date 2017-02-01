@@ -356,9 +356,6 @@ void TheGame::RenderPlayerJoin() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyGetReadyState()
 {
-    m_getReadyBackground = new Sprite("AssemblyGetReady", PLAYER_LAYER);
-    m_getReadyBackground->m_transform.SetScale(Vector2(1.75f));
-
     m_rotationTime = 0.0f;
     m_leftSpindleCenter.SetPosition(Vector2(-16.0f, 5.5f));
     m_rightSpindleCenter.SetPosition(Vector2(12.0f, -3.0f));
@@ -368,15 +365,24 @@ void TheGame::InitializeAssemblyGetReadyState()
         m_leftSpindleCenter.AddChild(&leftSpindle->m_transform);
         leftSpindle->m_transform.SetScale(Vector2(7.0f));
         leftSpindle->m_transform.SetRotationDegrees((i + 1) * 90.0f);
+        leftSpindle->m_tintColor = RGBA::BLACK;
         m_leftSpindles[i] = leftSpindle;
 
         Sprite* rightSpindle = new Sprite("SpindleArm", UI_LAYER);
         m_rightSpindleCenter.AddChild(&rightSpindle->m_transform);
-        rightSpindle->m_transform.SetScale(Vector2(5.0f));
+        rightSpindle->m_transform.SetScale(Vector2(5.1f));
         rightSpindle->m_transform.SetRotationDegrees((i) * 90.0f);
-        rightSpindle->m_tintColor = RGBA::VAPORWAVE;
+        rightSpindle->m_tintColor = RGBA::BLACK;
         m_rightSpindles[i] = rightSpindle;
     }
+
+    m_modeTitle = new TextRenderable2D("ASSEMBLY MODE", Transform2D(Vector2(0.0f, 1.0f)), TEXT_LAYER, true);
+    m_getReadyText = new TextRenderable2D("Get Ready!", Transform2D(Vector2(0.0f, -3.0f)), TEXT_LAYER, true);
+    m_modeTitle->m_color = RGBA::RED;
+    m_getReadyText->m_color = RGBA::RED;
+    m_modeTitle->m_fontSize = 1.2f;
+    m_modeTitle->Disable();
+    m_getReadyText->Disable();
 
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyGetReadyState);
 }
@@ -384,13 +390,14 @@ void TheGame::InitializeAssemblyGetReadyState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupAssemblyGetReadyState(unsigned int)
 {
-    delete m_getReadyBackground;
     for (int i = 0; i < 3; ++i)
     {
         delete m_leftSpindles[i];
         delete m_rightSpindles[i];
     }
     m_getReadyBackground = nullptr;
+    delete m_modeTitle;
+    delete m_getReadyText;
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
@@ -398,9 +405,18 @@ void TheGame::CleanupAssemblyGetReadyState(unsigned int)
 void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
 {
     m_rotationTime = Lerp<float>(0.0f, 1.0f, Clamp<float>(g_secondsInState * 2.0f, 0.0f, 1.0f));
-    float m_rotationTime2 = Lerp<float>(0.0f, 1.0f, Clamp<float>((g_secondsInState * 2.0f) - 0.5f, 0.0f, 1.0f));
+    float rotationTime2 = Lerp<float>(0.0f, 1.0f, Clamp<float>((g_secondsInState * 2.0f) - 0.5f, 0.0f, 1.0f));
     m_leftSpindleCenter.SetRotationDegrees(45.0f + (45.0f * m_rotationTime));
-    m_rightSpindleCenter.SetRotationDegrees(-90.0f + (75.0f * m_rotationTime2));
+    m_rightSpindleCenter.SetRotationDegrees(-90.0f + (75.0f * rotationTime2));
+
+    if (m_rotationTime == 1.0f)
+    {
+        m_modeTitle->Enable();
+    }
+    if (rotationTime2 == 1.0f)
+    {
+        m_getReadyText->Enable();
+    }
 
     if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
     {

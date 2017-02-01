@@ -131,6 +131,8 @@ private:
     Sprite* m_gameOverText = nullptr;
     Sprite* m_readyText[4];
     TextRenderable2D* m_titleText = nullptr;
+    TextRenderable2D* m_modeTitle = nullptr;
+    TextRenderable2D* m_getReadyText = nullptr;
     WidgetBase* m_gamePausedLabel = nullptr;
     Transform2D m_leftSpindleCenter;
     Transform2D m_rightSpindleCenter;
