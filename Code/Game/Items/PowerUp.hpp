@@ -1,6 +1,5 @@
 #pragma once
 #include "Game/Items/Item.hpp"
-#include "Game/Entities/PlayerShip.hpp"
 #include "Game/GameCommon.hpp"
 
 //-----------------------------------------------------------------------------------
@@ -18,7 +17,6 @@ enum class PowerUpType
     SHIELD_CAPACITY,
     SHIELD_REGEN,
     SHOT_DEFLECTION,
-    HYBRID,
     NUM_POWERUP_TYPES,
     RANDOM
 };
@@ -35,6 +33,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() override;
     const char* GetPowerUpSpriteResourceName();
+    static const char* GetPowerUpSpriteResourceName(PowerUpType type);
     void ApplyPickupEffect(PlayerShip* player);
     void SetStatChangeFromType(PowerUpType type);
     SoundID GetPickupSFXID();

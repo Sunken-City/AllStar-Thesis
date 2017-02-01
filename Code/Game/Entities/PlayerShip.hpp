@@ -3,6 +3,7 @@
 #include "Game/Stats.hpp"
 #include <stdint.h>
 #include "Engine/Renderer/RGBA.hpp"
+#include "../Items/PowerUp.hpp"
 
 enum class PowerUpType;
 class PlayerPilot;
@@ -18,13 +19,11 @@ public:
     virtual ~PlayerShip();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Update(float deltaSeconds);
-
+    virtual void Update(float deltaSeconds) override;
     void UpdateEquips(float deltaSeconds);
-
     virtual void Render() const;
-    virtual void ResolveCollision(Entity* otherEntity);
-    virtual void Die();
+    virtual void ResolveCollision(Entity* otherEntity) override;
+    virtual void Die() override;
     void Respawn();
     inline virtual bool IsPlayer() { return true; }
     void DropPowerups();
@@ -33,6 +32,9 @@ public:
     RGBA GetPlayerColor();
     void HideUI();
     void ShowUI();
+    void InitializeStatGraph();
+    void ShowStatGraph();
+    void HideStatGraph();
     void InitializeUI();
     bool CanPickUp(Item* item);
     void CheckToEjectEquipment(float deltaSeconds);
@@ -64,10 +66,12 @@ public:
     Sprite* m_speedometer = nullptr;
     Sprite* m_equipUI = nullptr;
     Sprite* m_currentWeaponUI = nullptr;
+    Sprite* m_statValuesBG = nullptr;
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;
     TextRenderable2D* m_speedText = nullptr;
     TextRenderable2D* m_dpsText = nullptr;
+    TextRenderable2D* m_statValues[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     float m_totalDamageDone = 0.0f;
     double m_activeBeginEjectMilliseconds = -10.0f;
     double m_passiveBeginEjectMilliseconds = -10.0f;

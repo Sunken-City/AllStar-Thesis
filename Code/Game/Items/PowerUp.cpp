@@ -2,8 +2,9 @@
 #include "Engine/Core/ErrorWarningAssert.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Renderer/2D/Sprite.hpp"
+#include "Game/GameModes/GameMode.hpp"
+#include "Game/Entities/PlayerShip.hpp"
 #include <string>
-#include "../GameModes/GameMode.hpp"
 
 //-----------------------------------------------------------------------------------
 PowerUp::PowerUp(PowerUpType type)
@@ -13,18 +14,9 @@ PowerUp::PowerUp(PowerUpType type)
     m_name = "Pickup";
     if (m_powerUpType == PowerUpType::RANDOM)
     {
-        m_powerUpType = static_cast<PowerUpType>(MathUtils::GetRandomIntFromZeroTo((int)PowerUpType::HYBRID));
+        m_powerUpType = static_cast<PowerUpType>(MathUtils::GetRandomIntFromZeroTo((int)PowerUpType::NUM_POWERUP_TYPES));
     }
     SetStatChangeFromType(m_powerUpType);
-}
-
-//-----------------------------------------------------------------------------------
-PowerUp::PowerUp(Stats statChanges)
-    : Item(ItemType::POWER_UP)
-    , m_powerUpType(PowerUpType::HYBRID)
-    , m_statChanges(statChanges)
-{
-
 }
 
 //-----------------------------------------------------------------------------------
@@ -109,7 +101,13 @@ const SpriteResource* PowerUp::GetSpriteResource()
 //-----------------------------------------------------------------------------------
 const char* PowerUp::GetPowerUpSpriteResourceName()
 {
-    switch (m_powerUpType)
+    return PowerUp::GetPowerUpSpriteResourceName(m_powerUpType);
+}
+
+//-----------------------------------------------------------------------------------
+const char* PowerUp::GetPowerUpSpriteResourceName(PowerUpType type)
+{
+    switch (type)
     {
     case PowerUpType::TOP_SPEED:
         return "Top Speed";
@@ -135,8 +133,6 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
         return "Shield Regen";
     case PowerUpType::SHOT_DEFLECTION:
         return "Shot Deflection";
-    case PowerUpType::HYBRID:
-        return "Hybrid";
     default:
         ERROR_AND_DIE("Invalid Pickup type");
     }

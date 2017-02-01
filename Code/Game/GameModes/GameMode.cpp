@@ -156,7 +156,7 @@ float GameMode::CalculateAttenuation(const Vector2& soundPosition)
 void GameMode::PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume)
 {
     float attenuationVolume = CalculateAttenuation(soundPosition);
-    float clampedVolume = std::min(attenuationVolume, maxVolume);
+    float clampedVolume = Min<float>(attenuationVolume, maxVolume);
     AudioSystem::instance->PlaySound(sound, clampedVolume);
 }
 

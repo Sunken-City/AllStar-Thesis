@@ -64,9 +64,6 @@ TheGame::TheGame()
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
 
-    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_PARTICLES_BLOOM_LAYER)->m_isBloomEnabled = true;
-    SpriteGameRenderer::instance->CreateOrGetLayer(BULLET_LAYER)->m_isBloomEnabled = true;
-
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
 }
@@ -409,15 +406,16 @@ void TheGame::InitializeAssemblyPlayingState()
     {
         ship->ShowUI();
     }
-    m_gamePausedLabel = UISystem::instance->CreateWidget("Label");
-    m_gamePausedLabel->SetProperty<std::string>("Name", "GamePausedLabel");
-    m_gamePausedLabel->SetProperty<std::string>("Text", "Game Paused");
-    m_gamePausedLabel->SetProperty("BackgroundColor", RGBA::CLEAR);
-    m_gamePausedLabel->SetProperty("BorderWidth", 0.0f);
-    m_gamePausedLabel->SetProperty("TextSize", 7.0f);
-    m_gamePausedLabel->SetProperty("Offset", Vector2(1600.0f/4.0f, 900.0f/2.0f));
-    UISystem::instance->AddWidget(m_gamePausedLabel);
-    m_gamePausedLabel->SetHidden();
+
+//     m_gamePausedLabel = UISystem::instance->CreateWidget("Label");
+//     m_gamePausedLabel->SetProperty<std::string>("Name", "GamePausedLabel");
+//     m_gamePausedLabel->SetProperty<std::string>("Text", "Game Paused");
+//     m_gamePausedLabel->SetProperty("BackgroundColor", RGBA::CLEAR);
+//     m_gamePausedLabel->SetProperty("BorderWidth", 0.0f);
+//     m_gamePausedLabel->SetProperty("TextSize", 7.0f);
+//     m_gamePausedLabel->SetProperty("Offset", Vector2(1600.0f/4.0f, 900.0f/2.0f));
+//     UISystem::instance->AddWidget(m_gamePausedLabel);
+//     m_gamePausedLabel->SetHidden();
 
     const float worldSize = 20.0f;
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-worldSize, -worldSize), Vector2(worldSize, worldSize)));
@@ -435,7 +433,7 @@ void TheGame::CleanupAssemblyPlayingState(unsigned int)
     {
         ship->HideUI();
     }
-    UISystem::instance->DeleteWidget(m_gamePausedLabel);
+    //UISystem::instance->DeleteWidget(m_gamePausedLabel);
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
@@ -452,12 +450,20 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
             if (g_isGamePaused)
             {
                 SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
-                m_gamePausedLabel->SetVisible();
+                //m_gamePausedLabel->SetVisible();
+                for (PlayerShip* ship : m_players)
+                {
+                    ship->ShowStatGraph();
+                }
             }
             else
             {
                 SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
-                m_gamePausedLabel->SetHidden();
+                //m_gamePausedLabel->SetHidden();
+                for (PlayerShip* ship : m_players)
+                {
+                    ship->HideStatGraph();
+                }
             }
             break;
         }
@@ -768,6 +774,11 @@ void TheGame::InitializeSpriteLayers()
     SpriteGameRenderer::instance->CreateOrGetLayer(TEXT_LAYER)->m_isCullingEnabled = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isCullingEnabled = false;
+
+    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_PARTICLES_BLOOM_LAYER)->m_isBloomEnabled = true;
+    SpriteGameRenderer::instance->CreateOrGetLayer(BULLET_LAYER)->m_isBloomEnabled = true;
+    SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER)->m_isWorldSpaceLayer = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER_BACKGROUND)->m_isWorldSpaceLayer = false;
 }
 
 //-----------------------------------------------------------------------------------
@@ -826,6 +837,7 @@ void TheGame::RegisterSprites()
 {
     //Debug
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
+    ResourceDatabase::instance->RegisterSprite("Quad", "Data\\Images\\whitePixel.png");
     ResourceDatabase::instance->RegisterSprite("Cloudy", "Data\\Images\\Particles\\Cloudy_Thicc.png");
 
     //Backgrounds

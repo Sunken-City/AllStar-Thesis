@@ -43,6 +43,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
     m_shipTrail->m_colorOverride = GetPlayerColor();
     InitializeUI();
+    InitializeStatGraph();
 
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
@@ -133,6 +134,12 @@ PlayerShip::~PlayerShip()
     delete m_shieldText;
     delete m_speedText;
     delete m_dpsText;
+
+    delete m_statValuesBG;
+    for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
+    {
+        delete m_statValues[i];
+    }
 
     delete m_recolorShader;
     delete m_recolorMaterial;
@@ -279,7 +286,7 @@ void PlayerShip::DropRandomPowerup()
     float* statValue = nullptr;
     do 
     {
-        type = static_cast<PowerUpType>(MathUtils::GetRandomIntFromZeroTo((int)PowerUpType::HYBRID));
+        type = static_cast<PowerUpType>(MathUtils::GetRandomIntFromZeroTo((int)PowerUpType::NUM_POWERUP_TYPES));
         statValue = m_powerupStatModifiers.GetStatReference(type);
     } while (*statValue < 1.0f);
 
@@ -330,6 +337,50 @@ void PlayerShip::EjectPassive()
         m_passiveEffect->Deactivate(NamedProperties::NONE);
         TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_passiveEffect = nullptr;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::InitializeStatGraph()
+{
+    uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
+
+    m_statValuesBG = new Sprite("Quad", TheGame::STAT_GRAPH_LAYER_BACKGROUND, true);
+    m_statValuesBG->m_transform.SetScale(Vector2(8.0f, 11.0f));
+    m_statValuesBG->m_tintColor = RGBA::GBDARKGREEN;
+    m_statValuesBG->m_transform.SetPosition(Vector2::ZERO);
+    m_statValuesBG->m_viewableBy = visibilityFilter;
+    m_statValuesBG->Disable();
+
+    for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
+    {
+        TextRenderable2D* statLine = new TextRenderable2D(Stringf("%s: %i", PowerUp::GetPowerUpSpriteResourceName((PowerUpType)i), 0), Transform2D(Vector2(0.0f, 3.0f - (0.5f * i))), TheGame::STAT_GRAPH_LAYER);
+        statLine->m_fontSize = 0.3f;
+        statLine->Disable();
+        statLine->m_viewableBy = visibilityFilter;
+        m_statValues[i] = statLine;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::ShowStatGraph()
+{
+    m_statValuesBG->Enable();
+    for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
+    {
+        PowerUpType type = (PowerUpType)i;
+        m_statValues[i]->m_text = Stringf("%s : %i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
+        m_statValues[i]->Enable();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::HideStatGraph()
+{
+    m_statValuesBG->Disable();
+    for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
+    {
+        m_statValues[i]->Disable();
     }
 }
 
@@ -437,7 +488,7 @@ bool PlayerShip::CanPickUp(Item* item)
 }
 
 //-----------------------------------------------------------------------------------
-void PlayerShip::CheckToEjectEquipment(float deltaSeconds)
+void PlayerShip::CheckToEjectEquipment(float)
 {
     static const double EJECT_TIME_SECONDS = 1.0f;
     static const double EJECT_TIME_MILLISECONDS = EJECT_TIME_SECONDS * 1000.0f;

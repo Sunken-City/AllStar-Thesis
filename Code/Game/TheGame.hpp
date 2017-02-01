@@ -50,6 +50,8 @@ public:
     static unsigned int const UI_LAYER = 3000;
     static unsigned int const TEXT_LAYER = 3500;
     static unsigned int const FULL_SCREEN_EFFECT_LAYER = 4000;
+    static unsigned int const STAT_GRAPH_LAYER_BACKGROUND = 4400;
+    static unsigned int const STAT_GRAPH_LAYER = 4500;
     static unsigned int const FULL_SCREEN_EFFECT_OVERLAY_LAYER = 5000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
@@ -127,5 +129,5 @@ private:
     TextRenderable2D* m_titleText = nullptr;
     Sprite* m_gameOverText = nullptr;
     Sprite* m_readyText[4];
-    WidgetBase* m_gamePausedLabel;
+    WidgetBase* m_gamePausedLabel = nullptr;
 };
