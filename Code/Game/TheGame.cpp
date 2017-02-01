@@ -358,6 +358,26 @@ void TheGame::InitializeAssemblyGetReadyState()
 {
     m_getReadyBackground = new Sprite("AssemblyGetReady", PLAYER_LAYER);
     m_getReadyBackground->m_transform.SetScale(Vector2(1.75f));
+
+    m_rotationTime = 0.0f;
+    m_leftSpindleCenter.SetPosition(Vector2(-16.0f, 5.5f));
+    m_rightSpindleCenter.SetPosition(Vector2(12.0f, -3.0f));
+    for (int i = 0; i < 3; ++i)
+    {
+        Sprite* leftSpindle = new Sprite("SpindleArm", UI_LAYER);
+        m_leftSpindleCenter.AddChild(&leftSpindle->m_transform);
+        leftSpindle->m_transform.SetScale(Vector2(7.0f));
+        leftSpindle->m_transform.SetRotationDegrees((i + 1) * 90.0f);
+        m_leftSpindles[i] = leftSpindle;
+
+        Sprite* rightSpindle = new Sprite("SpindleArm", UI_LAYER);
+        m_rightSpindleCenter.AddChild(&rightSpindle->m_transform);
+        rightSpindle->m_transform.SetScale(Vector2(5.0f));
+        rightSpindle->m_transform.SetRotationDegrees((i) * 90.0f);
+        rightSpindle->m_tintColor = RGBA::VAPORWAVE;
+        m_rightSpindles[i] = rightSpindle;
+    }
+
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyGetReadyState);
 }
 
@@ -365,13 +385,23 @@ void TheGame::InitializeAssemblyGetReadyState()
 void TheGame::CleanupAssemblyGetReadyState(unsigned int)
 {
     delete m_getReadyBackground;
+    for (int i = 0; i < 3; ++i)
+    {
+        delete m_leftSpindles[i];
+        delete m_rightSpindles[i];
+    }
     m_getReadyBackground = nullptr;
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateAssemblyGetReady(float)
+void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
 {
+    m_rotationTime = Lerp<float>(0.0f, 1.0f, Clamp<float>(g_secondsInState * 2.0f, 0.0f, 1.0f));
+    float m_rotationTime2 = Lerp<float>(0.0f, 1.0f, Clamp<float>((g_secondsInState * 2.0f) - 0.5f, 0.0f, 1.0f));
+    m_leftSpindleCenter.SetRotationDegrees(45.0f + (45.0f * m_rotationTime));
+    m_rightSpindleCenter.SetRotationDegrees(-90.0f + (75.0f * m_rotationTime2));
+
     if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
     {
         return;
@@ -839,6 +869,10 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
     ResourceDatabase::instance->RegisterSprite("Quad", "Data\\Images\\whitePixel.png");
     ResourceDatabase::instance->RegisterSprite("Cloudy", "Data\\Images\\Particles\\Cloudy_Thicc.png");
+
+    //UI
+    ResourceDatabase::instance->RegisterSprite("SpindleArm", "Data\\Images\\spindleArm.png");
+    ResourceDatabase::instance->EditSpriteResource("SpindleArm")->m_pivotPoint = Vector2(0.0f, 1.0f);
 
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");
