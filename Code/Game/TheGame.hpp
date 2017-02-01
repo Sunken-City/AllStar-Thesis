@@ -52,6 +52,7 @@ public:
     static unsigned int const FULL_SCREEN_EFFECT_LAYER = 4000;
     static unsigned int const STAT_GRAPH_LAYER_BACKGROUND = 4400;
     static unsigned int const STAT_GRAPH_LAYER = 4500;
+    static unsigned int const STAT_GRAPH_LAYER_TEXT = 4600;
     static unsigned int const FULL_SCREEN_EFFECT_OVERLAY_LAYER = 5000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
