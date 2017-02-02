@@ -356,33 +356,8 @@ void TheGame::RenderPlayerJoin() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyGetReadyState()
 {
-    m_rotationTime = 0.0f;
-    m_leftSpindleCenter.SetPosition(Vector2(-16.0f, 5.5f));
-    m_rightSpindleCenter.SetPosition(Vector2(12.0f, -3.0f));
-    for (int i = 0; i < 3; ++i)
-    {
-        Sprite* leftSpindle = new Sprite("SpindleArm", UI_LAYER);
-        m_leftSpindleCenter.AddChild(&leftSpindle->m_transform);
-        leftSpindle->m_transform.SetScale(Vector2(7.0f));
-        leftSpindle->m_transform.SetRotationDegrees((i + 1) * 90.0f);
-        leftSpindle->m_tintColor = RGBA::BLACK;
-        m_leftSpindles[i] = leftSpindle;
-
-        Sprite* rightSpindle = new Sprite("SpindleArm", UI_LAYER);
-        m_rightSpindleCenter.AddChild(&rightSpindle->m_transform);
-        rightSpindle->m_transform.SetScale(Vector2(5.1f));
-        rightSpindle->m_transform.SetRotationDegrees((i) * 90.0f);
-        rightSpindle->m_tintColor = RGBA::BLACK;
-        m_rightSpindles[i] = rightSpindle;
-    }
-
-    m_modeTitle = new TextRenderable2D("ASSEMBLY MODE", Transform2D(Vector2(0.0f, 1.0f)), TEXT_LAYER, true);
-    m_getReadyText = new TextRenderable2D("Get Ready!", Transform2D(Vector2(0.0f, -3.0f)), TEXT_LAYER, true);
-    m_modeTitle->m_color = RGBA::RED;
-    m_getReadyText->m_color = RGBA::RED;
-    m_modeTitle->m_fontSize = 1.2f;
-    m_modeTitle->Disable();
-    m_getReadyText->Disable();
+    m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
+    m_currentGameMode->InitializeReadyAnim();
 
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyGetReadyState);
 }
@@ -390,33 +365,14 @@ void TheGame::InitializeAssemblyGetReadyState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupAssemblyGetReadyState(unsigned int)
 {
-    for (int i = 0; i < 3; ++i)
-    {
-        delete m_leftSpindles[i];
-        delete m_rightSpindles[i];
-    }
-    m_getReadyBackground = nullptr;
-    delete m_modeTitle;
-    delete m_getReadyText;
+    m_currentGameMode->CleanupReadyAnim();
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
 {
-    m_rotationTime = Lerp<float>(0.0f, 1.0f, Clamp<float>(g_secondsInState * 2.0f, 0.0f, 1.0f));
-    float rotationTime2 = Lerp<float>(0.0f, 1.0f, Clamp<float>((g_secondsInState * 2.0f) - 0.5f, 0.0f, 1.0f));
-    m_leftSpindleCenter.SetRotationDegrees(45.0f + (45.0f * m_rotationTime));
-    m_rightSpindleCenter.SetRotationDegrees(-90.0f + (75.0f * rotationTime2));
-
-    if (m_rotationTime == 1.0f)
-    {
-        m_modeTitle->Enable();
-    }
-    if (rotationTime2 == 1.0f)
-    {
-        m_getReadyText->Enable();
-    }
+    m_currentGameMode->UpdateReadyAnim(deltaSeconds);
 
     if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
     {
@@ -465,7 +421,6 @@ void TheGame::InitializeAssemblyPlayingState()
 
     const float worldSize = 20.0f;
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-worldSize, -worldSize), Vector2(worldSize, worldSize)));
-    m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->Initialize();
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
 
@@ -547,6 +502,7 @@ void TheGame::RenderAssemblyPlaying() const
 void TheGame::InitializeAssemblyResultsState()
 {
     m_currentGameMode->SetBackground("AssemblyResults", Vector2(1.75f));
+    m_currentGameMode->HideBackground();
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
@@ -569,6 +525,7 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
         ship->m_isDead = false;
         ship->Respawn();
     }
+    m_currentGameMode->HideBackground();
     delete m_currentGameMode;
     m_currentGameMode = m_queuedMinigameModes.front();
     m_queuedMinigameModes.pop();
@@ -608,22 +565,23 @@ void TheGame::RenderAssemblyResults() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMinigameGetReadyState()
 {
-    m_getReadyBackground = new Sprite("BattleRoyaleGetReady", UI_LAYER);
-    m_getReadyBackground->m_transform.SetScale(Vector2(1.75f));
+    m_currentGameMode->InitializeReadyAnim();
+    m_currentGameMode->SetBackground("Twah", Vector2::ONE);
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameGetReadyState);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupMinigameGetReadyState(unsigned int)
 {
-    delete m_getReadyBackground;
-    m_getReadyBackground = nullptr;
+    m_currentGameMode->CleanupReadyAnim();
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateMinigameGetReady(float)
+void TheGame::UpdateMinigameGetReady(float deltaSeconds)
 {
+    m_currentGameMode->HideBackground();
+    m_currentGameMode->UpdateReadyAnim(deltaSeconds);
     if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
     {
         return;

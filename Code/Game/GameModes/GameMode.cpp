@@ -10,12 +10,14 @@
 #include "Engine/UI/UISystem.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
+#include "Engine/Renderer/2D/TextRenderable2D.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
     : m_arenaBackground(new Sprite(arenaBackgroundImage, TheGame::BACKGROUND_LAYER))
     , m_starfield(new Sprite("Starfield", TheGame::BACKGROUND_STARS_LAYER))
     , m_starfield2(new Sprite("Starfield", TheGame::BACKGROUND_STARS_LAYER_SLOWER))
+    , m_modeTitleText("MODE NAME")
 {
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
     
@@ -46,6 +48,8 @@ void GameMode::Initialize()
     {
         AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
     }
+
+    ShowBackground();
 
     m_timerWidget = UISystem::instance->CreateWidget("Label");
     m_timerWidget->SetProperty<std::string>("Name", "GameTimer");
@@ -174,4 +178,83 @@ void GameMode::StopPlaying()
     {
         m_timerWidget->SetHidden();
     }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::HideBackground()
+{
+    m_arenaBackground->Disable();
+    m_starfield->Disable();
+    m_starfield2->Disable();
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::ShowBackground()
+{
+    m_arenaBackground->Enable();
+    m_starfield->Enable();
+    m_starfield2->Enable();
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::InitializeReadyAnim()
+{
+    m_rotationTime = 0.0f;
+    m_leftSpindleCenter.SetPosition(Vector2(-16.0f, 5.5f));
+    m_rightSpindleCenter.SetPosition(Vector2(12.0f, -3.0f));
+    for (int i = 0; i < 3; ++i)
+    {
+        Sprite* leftSpindle = new Sprite("SpindleArm", TheGame::UI_LAYER);
+        m_leftSpindleCenter.AddChild(&leftSpindle->m_transform);
+        leftSpindle->m_transform.SetScale(Vector2(7.0f));
+        leftSpindle->m_transform.SetRotationDegrees((i + 1) * 90.0f);
+        leftSpindle->m_tintColor = RGBA::BLACK;
+        m_leftSpindles[i] = leftSpindle;
+
+        Sprite* rightSpindle = new Sprite("SpindleArm", TheGame::UI_LAYER);
+        m_rightSpindleCenter.AddChild(&rightSpindle->m_transform);
+        rightSpindle->m_transform.SetScale(Vector2(5.1f));
+        rightSpindle->m_transform.SetRotationDegrees((i)* 90.0f);
+        rightSpindle->m_tintColor = RGBA::BLACK;
+        m_rightSpindles[i] = rightSpindle;
+    }
+
+    m_modeTitleRenderable = new TextRenderable2D(m_modeTitleText, Transform2D(Vector2(0.0f, 1.0f)), TheGame::TEXT_LAYER, true);
+    m_getReadyRenderable = new TextRenderable2D("Get Ready!", Transform2D(Vector2(0.0f, -3.0f)), TheGame::TEXT_LAYER, true);
+    m_modeTitleRenderable->m_color = RGBA::RED;
+    m_getReadyRenderable->m_color = RGBA::RED;
+    m_modeTitleRenderable->m_fontSize = 1.2f;
+    m_modeTitleRenderable->Disable();
+    m_getReadyRenderable->Disable();
+    HideBackground();
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::UpdateReadyAnim(float deltaSeconds)
+{
+    m_rotationTime = Lerp<float>(0.0f, 1.0f, Clamp<float>(g_secondsInState * 2.0f, 0.0f, 1.0f));
+    float rotationTime2 = Lerp<float>(0.0f, 1.0f, Clamp<float>((g_secondsInState * 2.0f) - 0.5f, 0.0f, 1.0f));
+    m_leftSpindleCenter.SetRotationDegrees(45.0f + (45.0f * m_rotationTime));
+    m_rightSpindleCenter.SetRotationDegrees(-90.0f + (75.0f * rotationTime2));
+
+    if (m_rotationTime == 1.0f)
+    {
+        m_modeTitleRenderable->Enable();
+    }
+    if (rotationTime2 == 1.0f)
+    {
+        m_getReadyRenderable->Enable();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::CleanupReadyAnim()
+{
+    for (int i = 0; i < 3; ++i)
+    {
+        delete m_leftSpindles[i];
+        delete m_rightSpindles[i];
+    }
+    delete m_modeTitleRenderable;
+    delete m_getReadyRenderable;
 }

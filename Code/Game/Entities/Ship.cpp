@@ -9,6 +9,7 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Game/Entities/Projectiles/Projectile.hpp"
+#include "../GameCommon.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -129,6 +130,7 @@ void Ship::ApplyShotDeflection()
 //-----------------------------------------------------------------------------------
 void Ship::FlickerShield(float deltaSeconds)
 {
+    UNUSED(deltaSeconds);
     //m_currentShieldHealth
     //m_shieldSprite->m_tintColor.SetAlphaFloat();
 }

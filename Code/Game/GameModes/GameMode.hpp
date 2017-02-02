@@ -10,6 +10,7 @@ class Item;
 class Vector2;
 class WidgetBase;
 class Projectile;
+class TextRenderable2D;
 
 class GameMode
 {
@@ -32,6 +33,11 @@ public:
     void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);
     float CalculateAttenuation(const Vector2& soundPosition);
     void StopPlaying();
+    void HideBackground();
+    void ShowBackground();
+    virtual void InitializeReadyAnim();
+    virtual void UpdateReadyAnim(float deltaSeconds);
+    virtual void CleanupReadyAnim();
     
     static GameMode* GetCurrent();
     
@@ -39,6 +45,7 @@ public:
 public:
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
+    const char* m_modeTitleText;
     float m_gameLengthSeconds = 2000.0f;
     bool m_enablesRespawn = true;
     SoundID m_backgroundMusic = 0;
@@ -53,4 +60,12 @@ private:
     Sprite* m_starfield2 = nullptr;
     float m_timerSecondsElapsed = 0.0f;
     WidgetBase* m_timerWidget = nullptr;
+
+    float m_rotationTime = 0.0f;
+    TextRenderable2D* m_modeTitleRenderable = nullptr;
+    TextRenderable2D* m_getReadyRenderable = nullptr;
+    Transform2D m_leftSpindleCenter;
+    Transform2D m_rightSpindleCenter;
+    Sprite* m_leftSpindles[3];
+    Sprite* m_rightSpindles[3];
 };

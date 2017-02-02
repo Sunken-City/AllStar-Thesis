@@ -127,13 +127,13 @@ float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
         float adjustedDamage = damage + (damage * disruption);
         SetShieldHealth(m_currentShieldHealth - adjustedDamage);
         damageDealt = adjustedDamage;
-        TextSplash::CreateTextSplash(Stringf("%i", static_cast<int>(damageDealt)), m_transform, velocity, RGBA(0.0f, 0.8 + randomPercentage, 1.0f, 1.0f));
+        TextSplash::CreateTextSplash(Stringf("%i", static_cast<int>(damageDealt)), m_transform, velocity, RGBA(0.0f, 0.8f + randomPercentage, 1.0f, 1.0f));
     }
     else
     {
         m_currentHp -= damage;
         damageDealt = damage;
-        TextSplash::CreateTextSplash(Stringf("%i", static_cast<int>(damageDealt)), m_transform, velocity, RGBA(1.0f, 1.0f - (0.8 + randomPercentage), 0.0f, 1.0f));
+        TextSplash::CreateTextSplash(Stringf("%i", static_cast<int>(damageDealt)), m_transform, velocity, RGBA(1.0f, 1.0f - (0.8f + randomPercentage), 0.0f, 1.0f));
         if (m_currentHp <= 0.0f)
         {
             Die();

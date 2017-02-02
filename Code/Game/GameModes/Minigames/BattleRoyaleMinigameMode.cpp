@@ -11,6 +11,7 @@ BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
     m_gameLengthSeconds = 61.0f;
     m_enablesRespawn = false;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Persona 4 Golden - Time To Make History.mp3");
+    m_modeTitleText = "BATTLE ROYALE";
 }
 
 //-----------------------------------------------------------------------------------

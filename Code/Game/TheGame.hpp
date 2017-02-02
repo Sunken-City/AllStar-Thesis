@@ -123,19 +123,11 @@ public:
     GameMode* m_currentGameMode;
 
 private:
-    Sprite* m_leftSpindles[4];
-    Sprite* m_rightSpindles[4];
     Material* m_pauseFBOEffect = nullptr;
     Material* m_rainbowFBOEffect = nullptr;
     ParticleSystem* m_titleParticles = nullptr;
-    Sprite* m_getReadyBackground = nullptr;
     Sprite* m_gameOverText = nullptr;
     Sprite* m_readyText[4];
     TextRenderable2D* m_titleText = nullptr;
-    TextRenderable2D* m_modeTitle = nullptr;
-    TextRenderable2D* m_getReadyText = nullptr;
     WidgetBase* m_gamePausedLabel = nullptr;
-    Transform2D m_leftSpindleCenter;
-    Transform2D m_rightSpindleCenter;
-    float m_rotationTime = 0.0f;
 };
