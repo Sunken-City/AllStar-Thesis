@@ -159,6 +159,7 @@
       <Filter>General\Items\Actives</Filter>
     </ClCompile>
     <ClCompile Include="Items\Actives\TeleportActive.cpp" />
+    <ClCompile Include="UI\ReadyAnimationWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -276,6 +277,7 @@
       <Filter>General\Items\Actives</Filter>
     </ClInclude>
     <ClInclude Include="Items\Actives\TeleportActive.hpp" />
+    <ClInclude Include="UI\ReadyAnimationWidget.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

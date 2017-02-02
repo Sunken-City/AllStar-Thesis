@@ -186,6 +186,7 @@
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="TheGame.cpp" />
+    <ClCompile Include="UI\ReadyAnimationWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\Entity.hpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="StateMachine.hpp" />
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="TheGame.hpp" />
+    <ClInclude Include="UI\ReadyAnimationWidget.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Styles.xml" />
