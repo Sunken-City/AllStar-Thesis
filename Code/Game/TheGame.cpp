@@ -780,7 +780,7 @@ void TheGame::InitializeSpriteLayers()
     SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isCullingEnabled = false;
 
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_PARTICLES_BLOOM_LAYER)->m_isBloomEnabled = true;
-    SpriteGameRenderer::instance->CreateOrGetLayer(BULLET_LAYER)->m_isBloomEnabled = true;
+    SpriteGameRenderer::instance->CreateOrGetLayer(BULLET_LAYER_BLOOM)->m_isBloomEnabled = true;
     SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER)->m_isWorldSpaceLayer = false; 
     SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER_BACKGROUND)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER_TEXT)->m_isWorldSpaceLayer = false;

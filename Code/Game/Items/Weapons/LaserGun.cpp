@@ -47,7 +47,7 @@ bool LaserGun::AttemptFire(Ship* shooter)
 
         Vector2 shotPosition = shooter->GetMuzzlePosition();
         currentGameMode->PlaySoundAt(bulletSound, shotPosition, 0.5f);
-        ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::BULLET_LAYER, Transform2D(shotPosition));
+        ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::BULLET_LAYER_BLOOM, Transform2D(shotPosition));
     }
     return successfullyFired;
 }

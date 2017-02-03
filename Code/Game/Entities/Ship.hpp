@@ -1,5 +1,6 @@
 #pragma once
 #include "Game/Entities/Entity.hpp"
+#include "Engine/Renderer/RGBA.hpp"
 
 class Sprite;
 class Pilot;
@@ -38,4 +39,6 @@ public:
     float m_secondsSinceLastFiredWeapon;
     float m_hitSoundMaxVolume = 0.7f;
     bool m_lockMovement = false;
+    RGBA m_factionColor = RGBA::WHITE;
+    RGBA m_factionAltColor = RGBA::GBWHITE;
 };
