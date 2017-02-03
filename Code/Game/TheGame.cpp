@@ -880,7 +880,8 @@ void TheGame::RegisterSprites()
 
     //Passive Pickups
     ResourceDatabase::instance->RegisterSprite("CloakPassive", "Data\\Images\\Passives\\cloakPassive.png");
-    ResourceDatabase::instance->RegisterSprite("StealthTrailPassive", "Data\\Images\\Passives\\stealthTrailPassive.png");
+    ResourceDatabase::instance->RegisterSprite("StealthTrailPassive", "Data\\Images\\Passives\\stealthTrailPassive.png"); 
+    ResourceDatabase::instance->RegisterSprite("SpecialTrailPassiveLol", "Data\\Images\\Passives\\specialTrailPassiveLol.png"); 
 
     //Active Pickups
     ResourceDatabase::instance->RegisterSprite("WarpActive", "Data\\Images\\Actives\\warpActive.png");
@@ -909,9 +910,16 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Shield Regen", "Data\\Images\\Pickups\\shieldRegen.png");
     ResourceDatabase::instance->RegisterSprite("Shot Deflection", "Data\\Images\\Pickups\\shotDeflection.png");
 
+    //Trails
+    ResourceDatabase::instance->RegisterSprite("BeamTrail", "Data\\Images\\Particles\\beamTrail.png");
+    ResourceDatabase::instance->RegisterSprite("SpecialTrailVStripe", "Data\\Images\\Particles\\vStripeTrail.png");
+    ResourceDatabase::instance->RegisterSprite("SpecialTrailRacingStripe", "Data\\Images\\Particles\\racingStripeTrail.png");
+    ResourceDatabase::instance->RegisterSprite("SpecialTrailVarying", "Data\\Images\\Particles\\varyingTrail.png");
+    ResourceDatabase::instance->RegisterSprite("SpecialTrailLol", "Data\\Images\\Particles\\lolTrail.png");
+    ResourceDatabase::instance->RegisterSprite("SpecialTrailBubble", "Data\\Images\\Particles\\bitTrail.png");
+
     //Particles
     ResourceDatabase::instance->RegisterSprite("Placeholder", "Data\\Images\\Particles\\placeholder.png");
-    ResourceDatabase::instance->RegisterSprite("BeamTrail", "Data\\Images\\Particles\\beamTrail.png");
     ResourceDatabase::instance->RegisterSprite("ParticleBeige", "Data\\Images\\Particles\\particle_beige.png");
     ResourceDatabase::instance->RegisterSprite("ParticleBlue", "Data\\Images\\Particles\\particle_blue.png");
     ResourceDatabase::instance->RegisterSprite("ParticleBrown", "Data\\Images\\Particles\\particle_brown.png");

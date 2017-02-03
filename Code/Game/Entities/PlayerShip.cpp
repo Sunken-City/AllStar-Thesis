@@ -20,10 +20,11 @@
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "TextSplash.hpp"
 #include "Engine/Time/Time.hpp"
-#include "../Items/Weapons/LaserGun.hpp"
-#include "../Items/Chassis/SpeedChassis.hpp"
-#include "../Items/Passives/CloakPassive.hpp"
-#include "../Items/Actives/TeleportActive.hpp"
+#include "Game/Items/Weapons/LaserGun.hpp"
+#include "Game/Items/Chassis/SpeedChassis.hpp"
+#include "Game/Items/Passives/CloakPassive.hpp"
+#include "Game/Items/Actives/WarpActive.hpp"
+#include "Game/Items/Chassis/DefaultChassis.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -33,9 +34,11 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_dpsText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_recolorShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/recolorable2D.frag"))
+    , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
 {
     m_isDead = false;
     m_recolorMaterial = new Material(m_recolorShader, SpriteGameRenderer::instance->m_defaultRenderState);
+    m_cooldownMaterial = new Material(m_cooldownShader, SpriteGameRenderer::instance->m_defaultRenderState);
     
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_material = m_recolorMaterial;
@@ -49,6 +52,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;
     m_shieldSprite->m_tintColor = GetPlayerColor();
+    PickUpItem(new DefaultChassis());
 
     if (g_nearlyInvulnerable)
     {
@@ -58,78 +62,31 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         PickUpItem(new MissileLauncher());
         PickUpItem(new SpeedChassis());
-        PickUpItem(new TeleportActive());
+        PickUpItem(new WarpActive());
         PickUpItem(new CloakPassive());
     }
-    m_equipUI->Disable();
-    m_currentWeaponUI->Disable();
-}
-
-//-----------------------------------------------------------------------------------
-void PlayerShip::InitializeUI()
-{
-    m_speedometer = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
-    m_speedometer->m_tintColor = GetPlayerColor();
-    m_speedometer->m_tintColor.SetAlphaFloat(0.75f);
-    m_speedometer->m_transform.SetScale(Vector2(15.0f));
-    m_speedometer->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
-    SpriteGameRenderer::instance->AnchorBottomRight(&m_speedometer->m_transform);
-
-    m_equipUI = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
-    m_equipUI->m_tintColor = GetPlayerColor();
-    m_equipUI->m_tintColor.SetAlphaFloat(0.75f);
-    m_equipUI->m_transform.SetScale(Vector2(15.0f));
-    m_equipUI->m_transform.SetPosition(Vector2(0.5f, 0.5f));
-    SpriteGameRenderer::instance->AnchorBottomLeft(&m_equipUI->m_transform);
-
-    m_currentWeaponUI = new Sprite("DefaultWeapon", TheGame::UI_LAYER);
-    m_currentWeaponUI->m_tintColor = RGBA::GREEN;
-    m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
-    m_currentWeaponUI->m_transform.SetScale(Vector2(0.5f));
-    m_currentWeaponUI->m_transform.SetPosition(Vector2(0.5f, 0.5f));
-    SpriteGameRenderer::instance->AnchorBottomLeft(&m_currentWeaponUI->m_transform);
-
-    m_healthText->m_color = RGBA::RED;
-    m_shieldText->m_color = RGBA::CERULEAN;
-    m_speedText->m_color = RGBA::GBDARKGREEN;
-    m_dpsText->m_color = RGBA::GBLIGHTGREEN;
-    m_healthText->m_transform.SetPosition(Vector2(-1.0f, 1.8f));
-    m_shieldText->m_transform.SetPosition(Vector2(-1.0f, 1.3f));
-    m_speedText->m_transform.SetPosition(Vector2(-1.0f, 0.8f));
-    m_dpsText->m_transform.SetPosition(Vector2(-1.0f, 0.3f));
-    m_healthText->m_fontSize = 0.1f;
-    m_shieldText->m_fontSize = 0.1f;
-    m_speedText->m_fontSize = 0.1f;
-    m_dpsText->m_fontSize = 0.1f;
-    SpriteGameRenderer::instance->AnchorBottomRight(&m_healthText->m_transform);
-    SpriteGameRenderer::instance->AnchorBottomRight(&m_shieldText->m_transform);
-    SpriteGameRenderer::instance->AnchorBottomRight(&m_speedText->m_transform);
-    SpriteGameRenderer::instance->AnchorBottomRight(&m_dpsText->m_transform);
-
-    uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
-    m_speedometer->m_viewableBy = visibilityFilter;
-    m_equipUI->m_viewableBy = visibilityFilter;
-    m_currentWeaponUI->m_viewableBy = visibilityFilter;
-    m_healthText->m_viewableBy = visibilityFilter;
-    m_shieldText->m_viewableBy = visibilityFilter;
-    m_speedText->m_viewableBy = visibilityFilter;
-    m_dpsText->m_viewableBy = visibilityFilter;
 }
 
 //-----------------------------------------------------------------------------------
 PlayerShip::~PlayerShip()
 {
     //Casual reminder that the sprite is deleted on the entity
-    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedometer->m_transform);
-    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_equipUI->m_transform);
-    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_currentWeaponUI->m_transform);
-    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_healthText->m_transform);
-    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_shieldText->m_transform);
-    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_speedText->m_transform);
-    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_dpsText->m_transform);
-    delete m_speedometer;
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_equipUI->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentWeaponUI->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentActiveUI->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentChassisUI->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentPassiveUI->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_playerData->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_healthText->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_shieldText->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_speedText->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_dpsText->m_transform);
     delete m_equipUI;
+    delete m_playerData;
     delete m_currentWeaponUI;
+    delete m_currentActiveUI;
+    delete m_currentChassisUI;
+    delete m_currentPassiveUI;
     delete m_healthText;
     delete m_shieldText;
     delete m_speedText;
@@ -143,6 +100,81 @@ PlayerShip::~PlayerShip()
 
     delete m_recolorShader;
     delete m_recolorMaterial;
+
+    delete m_cooldownShader;
+    delete m_cooldownMaterial;
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::InitializeUI()
+{
+    m_equipUI = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
+    m_equipUI->m_tintColor = GetPlayerColor();
+    m_equipUI->m_tintColor.SetAlphaFloat(0.75f);
+    m_equipUI->m_transform.SetScale(Vector2(15.0f));
+    m_equipUI->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_equipUI->m_transform);
+
+    m_playerData = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
+    m_playerData->m_tintColor = GetPlayerColor();
+    m_playerData->m_tintColor.SetAlphaFloat(0.75f);
+    m_playerData->m_transform.SetScale(Vector2(15.0f));
+    m_playerData->m_transform.SetPosition(Vector2(0.5f, 0.5f));
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_playerData->m_transform);
+
+    m_currentWeaponUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
+    m_currentWeaponUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentWeaponUI->m_transform.SetPosition(Vector2(-0.4f, 1.0f));
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_currentWeaponUI->m_transform);
+
+    m_currentActiveUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentActiveUI->m_tintColor.SetAlphaFloat(0.75f);
+    m_currentActiveUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentActiveUI->m_transform.SetPosition(Vector2(-1.0f, 0.4f));
+    m_currentActiveUI->m_material = m_cooldownMaterial;
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_currentActiveUI->m_transform);
+
+    m_currentChassisUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentChassisUI->m_tintColor.SetAlphaFloat(0.75f);
+    m_currentChassisUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentChassisUI->m_transform.SetPosition(Vector2(-1.0f, 1.6f));
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_currentChassisUI->m_transform);
+
+    m_currentPassiveUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentPassiveUI->m_tintColor.SetAlphaFloat(0.75f);
+    m_currentPassiveUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentPassiveUI->m_transform.SetPosition(Vector2(-1.6f, 1.0f));
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_currentPassiveUI->m_transform);
+          
+    m_healthText->m_color = RGBA::RED;
+    m_shieldText->m_color = RGBA::CERULEAN;
+    m_speedText->m_color = RGBA::GBDARKGREEN;
+    m_dpsText->m_color = RGBA::GBLIGHTGREEN;
+    m_healthText->m_transform.SetPosition(Vector2(1.0f, 1.8f));
+    m_shieldText->m_transform.SetPosition(Vector2(1.0f, 1.3f));
+    m_speedText->m_transform.SetPosition(Vector2(1.1f, 0.8f));
+    m_dpsText->m_transform.SetPosition(Vector2(1.1f, 0.3f));
+    m_healthText->m_fontSize = 0.1f;
+    m_shieldText->m_fontSize = 0.1f;
+    m_speedText->m_fontSize = 0.1f;
+    m_dpsText->m_fontSize = 0.1f;
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthText->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_shieldText->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_speedText->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_dpsText->m_transform);
+
+    uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
+    m_equipUI->m_viewableBy = visibilityFilter;
+    m_playerData->m_viewableBy = visibilityFilter;
+    m_currentWeaponUI->m_viewableBy = visibilityFilter;
+    m_currentChassisUI->m_viewableBy = visibilityFilter;
+    m_currentActiveUI->m_viewableBy = visibilityFilter;
+    m_currentPassiveUI->m_viewableBy = visibilityFilter;
+    m_healthText->m_viewableBy = visibilityFilter;
+    m_shieldText->m_viewableBy = visibilityFilter;
+    m_speedText->m_viewableBy = visibilityFilter;
+    m_dpsText->m_viewableBy = visibilityFilter;
 }
 
 //-----------------------------------------------------------------------------------
@@ -170,15 +202,27 @@ void PlayerShip::Update(float deltaSeconds)
     float dps = (m_totalDamageDone) / (m_age - timeOfLastReset);
     float speed = m_velocity.CalculateMagnitude();
     float rotationFromSpeed = 0.075f + (0.05f * speed);
-    float newRotationDegrees = m_speedometer->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
-    m_speedometer->m_transform.SetRotationDegrees(newRotationDegrees);
-    m_equipUI->m_transform.SetRotationDegrees(-newRotationDegrees);
+    float newRotationDegrees = m_equipUI->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
+    m_equipUI->m_transform.SetRotationDegrees(newRotationDegrees);
+    m_playerData->m_transform.SetRotationDegrees(-newRotationDegrees);
     m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
+    m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
+    m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
+    m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
 
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
     m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>(speed * 10.0f));
     m_dpsText->m_text = Stringf("DPS: %03i", static_cast<int>(dps));
+
+    if (m_activeEffect)
+    {
+        m_cooldownMaterial->SetFloatUniform("gPercentage", m_activeEffect->m_energy);
+    }
+    else
+    {
+        m_cooldownMaterial->SetFloatUniform("gPercentage", 1.0f);
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -209,9 +253,12 @@ void PlayerShip::Render() const
 //-----------------------------------------------------------------------------------
 void PlayerShip::HideUI()
 {
-    m_speedometer->Disable();
     m_equipUI->Disable();
+    m_playerData->Disable();
     m_currentWeaponUI->Disable();
+    m_currentChassisUI->Disable();
+    m_currentActiveUI->Disable();
+    m_currentPassiveUI->Disable();
     m_healthText->Disable();
     m_shieldText->Disable();
     m_speedText->Disable();
@@ -221,9 +268,12 @@ void PlayerShip::HideUI()
 //-----------------------------------------------------------------------------------
 void PlayerShip::ShowUI()
 {
-    m_speedometer->Enable();
     m_equipUI->Enable();
+    m_playerData->Enable();
     m_currentWeaponUI->Enable();
+    m_currentChassisUI->Enable();
+    m_currentActiveUI->Enable();
+    m_currentPassiveUI->Enable();
     m_healthText->Enable();
     m_shieldText->Enable();
     m_speedText->Enable();

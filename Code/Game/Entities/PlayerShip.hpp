@@ -62,10 +62,15 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;
     ShaderProgram* m_recolorShader = nullptr;
+    ShaderProgram* m_cooldownShader = nullptr;
     Material* m_recolorMaterial = nullptr;
-    Sprite* m_speedometer = nullptr;
+    Material* m_cooldownMaterial = nullptr;
     Sprite* m_equipUI = nullptr;
+    Sprite* m_playerData = nullptr;
     Sprite* m_currentWeaponUI = nullptr;
+    Sprite* m_currentActiveUI = nullptr;
+    Sprite* m_currentPassiveUI = nullptr;
+    Sprite* m_currentChassisUI = nullptr;
     Sprite* m_statValuesBG = nullptr;
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;

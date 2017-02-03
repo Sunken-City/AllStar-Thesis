@@ -7,15 +7,15 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/TheGame.hpp"
 
-const double WarpActive::SECONDS_UNTIL_WARP = 1.0;
-const double WarpActive::MILISECONDS_UNTIL_WARP = SECONDS_UNTIL_WARP * 1000.0f;
+const double WarpActive::SECONDS_UNTIL_WARP = 0.0;
+const double WarpActive::MILISECONDS_UNTIL_WARP = SECONDS_UNTIL_WARP * 1000.0;
 
 //-----------------------------------------------------------------------------------
 WarpActive::WarpActive()
 {
     m_energyRestorationPerSecond = 0.05f;
-    m_costToActivate = 1.0f;
-    m_name = "Warp";
+    m_costToActivate = 0.25f;
+    m_name = "Teleport";
 }
 
 //-----------------------------------------------------------------------------------
@@ -32,7 +32,8 @@ void WarpActive::Update(float deltaSeconds)
         if (GetCurrentTimeMilliseconds() - m_lastActivatedMiliseconds > MILISECONDS_UNTIL_WARP)
         {
             ParticleSystem::PlayOneShotParticleEffect("Warped", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &m_transportee->m_transform);
-            m_transportee->SetPosition(GameMode::GetCurrent()->GetRandomLocationInArena());
+            Vector2 jumpedPosition = m_transportee->GetPosition() + m_transportee->m_velocity * 1.0f;
+            m_transportee->SetPosition(jumpedPosition);
             Deactivate(NamedProperties::NONE);
         }
     }
@@ -45,7 +46,7 @@ void WarpActive::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void WarpActive::Activate(NamedProperties& parameters)
 {
-    static SoundID warpingSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
+    static SoundID warpingSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/swapDimensions.wav");
     if (CanActivate())
     {
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", m_transportee) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
@@ -67,6 +68,6 @@ void WarpActive::Deactivate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 const SpriteResource* WarpActive::GetSpriteResource()
 {
-    return ResourceDatabase::instance->GetSpriteResource("WarpActive");
+    return ResourceDatabase::instance->GetSpriteResource("TeleportActive");
 }
 

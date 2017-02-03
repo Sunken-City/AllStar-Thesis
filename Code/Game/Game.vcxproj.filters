@@ -149,17 +149,18 @@
     <ClCompile Include="Items\Passives\CloakPassive.cpp">
       <Filter>General\Items\Passives</Filter>
     </ClCompile>
-    <ClCompile Include="Items\Actives\WarpActive.cpp">
-      <Filter>General\Items\Actives</Filter>
-    </ClCompile>
     <ClCompile Include="Items\Passives\StealthTrailPassive.cpp">
       <Filter>General\Items\Passives</Filter>
     </ClCompile>
     <ClCompile Include="Items\Actives\QuickshotActive.cpp">
       <Filter>General\Items\Actives</Filter>
     </ClCompile>
-    <ClCompile Include="Items\Actives\TeleportActive.cpp" />
     <ClCompile Include="UI\ReadyAnimationWidget.cpp" />
+    <ClCompile Include="Items\Passives\SpecialTrailPassive.cpp" />
+    <ClCompile Include="Items\Actives\WarpActive.cpp" />
+    <ClCompile Include="Items\Actives\TeleportActive.cpp">
+      <Filter>General\Items\Actives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -267,17 +268,18 @@
     <ClInclude Include="Items\Passives\CloakPassive.hpp">
       <Filter>General\Items\Passives</Filter>
     </ClInclude>
-    <ClInclude Include="Items\Actives\WarpActive.hpp">
-      <Filter>General\Items\Actives</Filter>
-    </ClInclude>
     <ClInclude Include="Items\Passives\StealthTrailPassive.hpp">
       <Filter>General\Items\Passives</Filter>
     </ClInclude>
     <ClInclude Include="Items\Actives\QuickshotActive.hpp">
       <Filter>General\Items\Actives</Filter>
     </ClInclude>
-    <ClInclude Include="Items\Actives\TeleportActive.hpp" />
     <ClInclude Include="UI\ReadyAnimationWidget.hpp" />
+    <ClInclude Include="Items\Passives\SpecialTrailPassive.hpp" />
+    <ClInclude Include="Items\Actives\WarpActive.hpp" />
+    <ClInclude Include="Items\Actives\TeleportActive.hpp">
+      <Filter>General\Items\Actives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
