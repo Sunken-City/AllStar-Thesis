@@ -10,7 +10,8 @@ Missile::Missile(Entity* owner, float degreesOffset, float damage, float disrupt
 {
     m_speed = 4.0f;
 
-    m_sprite = new Sprite("Missile", TheGame::BULLET_LAYER);
+    m_sprite = new AnimatedSprite("Missile", "Missile1", TheGame::BULLET_LAYER);
+    m_sprite->m_transform.SetScale(Vector2(3.0f));
     m_sprite->m_tintColor = ((Ship*)owner)->m_factionColor;
     m_sprite->m_tintColor.SetAlphaFloat(1.0f);
     CalculateCollisionRadius();

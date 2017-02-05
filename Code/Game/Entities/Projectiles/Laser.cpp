@@ -8,6 +8,7 @@ Laser::Laser(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0
     : Projectile(owner, degreesOffset, damage, disruption, homing)
 {
     m_sprite = new Sprite("Laser", TheGame::BULLET_LAYER_BLOOM);
+    m_sprite->m_transform.SetScale(Vector2(1.5f));
     m_sprite->m_tintColor = ((Ship*)owner)->m_factionColor;
     m_sprite->m_tintColor.SetAlphaFloat(1.0f);
     CalculateCollisionRadius();

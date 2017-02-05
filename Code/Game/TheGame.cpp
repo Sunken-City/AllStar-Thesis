@@ -862,8 +862,6 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->EditSpriteResource("Starfield")->m_uvBounds = AABB2(Vector2(-15.0f), Vector2(15.0f));
 
     //Entities
-    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless10.png");
-    ResourceDatabase::instance->RegisterSprite("Missile", "Data\\Images\\Missiles\\spaceMissiles_002.png");
     ResourceDatabase::instance->RegisterSprite("MuzzleFlash", "Data\\Images\\Lasers\\muzzleFlash.png");
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
     ResourceDatabase::instance->RegisterSprite("Shield", "Data\\Images\\Shield.png");
@@ -873,6 +871,11 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Enemies\\grunt.png");
     ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
+
+    //Projectiles
+    ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless.png");
+    ResourceDatabase::instance->RegisterSprite("Missile1", "Data\\Images\\Lasers\\basicMissile.png");
+    ResourceDatabase::instance->RegisterSprite("Missile2", "Data\\Images\\Lasers\\basicMissile2.png");
 
     //Chassis
     ResourceDatabase::instance->RegisterSprite("DefaultChassis", "Data\\Images\\Chassis\\defaultChassis.png");
@@ -945,10 +948,9 @@ void TheGame::RegisterSprites()
 //-----------------------------------------------------------------------------------
 void TheGame::RegisterSpriteAnimations()
 {
-    SpriteAnimationResource* shieldAnimation = ResourceDatabase::instance->RegisterSpriteAnimation("Shield", SpriteAnimationLoopMode::LOOP);
-    shieldAnimation->AddFrame("Shield", 0.5f);
-    shieldAnimation->AddFrame("Yellow4Star", 0.7f);
-    shieldAnimation->AddFrame("Acceleration", 0.5f);
+    SpriteAnimationResource* missileAnimation = ResourceDatabase::instance->RegisterSpriteAnimation("Missile", SpriteAnimationLoopMode::LOOP);
+    missileAnimation->AddFrame("Missile1", 0.05f);
+    missileAnimation->AddFrame("Missile2", 0.05f);
 }
 
 //-----------------------------------------------------------------------------------
