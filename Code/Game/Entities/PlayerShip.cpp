@@ -40,7 +40,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_recolorMaterial = new Material(m_recolorShader, SpriteGameRenderer::instance->m_defaultRenderState);
     m_cooldownMaterial = new Material(m_cooldownShader, SpriteGameRenderer::instance->m_defaultRenderState);
     
-    m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
+    m_sprite = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
     m_sprite->m_material = m_recolorMaterial;
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_transform.SetScale(Vector2(2.0f));
@@ -362,7 +362,7 @@ void PlayerShip::EjectChassis()
     {
         TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_chassis = nullptr;
-        m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("PlayerShip");
+        m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("DefaultChassis");
     }
 }
 

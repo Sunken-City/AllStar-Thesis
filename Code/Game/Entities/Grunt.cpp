@@ -13,7 +13,8 @@ Grunt::Grunt(const Vector2& initialPosition)
     : Ship()
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
-    m_sprite = new Sprite("GreenEnemy", TheGame::ENEMY_LAYER);
+    m_sprite = new Sprite("Grunt", TheGame::ENEMY_LAYER);
+    m_sprite->m_transform.SetScale(Vector2(2.0f));
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));

@@ -22,6 +22,6 @@ const SpriteResource* DefaultChassis::GetSpriteResource()
 //-----------------------------------------------------------------------------------
 const SpriteResource* DefaultChassis::GetShipSpriteResource()
 {
-    return ResourceDatabase::instance->GetSpriteResource("PlayerShip");
+    return ResourceDatabase::instance->GetSpriteResource("DefaultChassis");
 }
 
