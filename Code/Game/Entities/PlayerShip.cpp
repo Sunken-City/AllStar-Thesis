@@ -43,7 +43,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite = new Sprite("PlayerShip", TheGame::PLAYER_LAYER);
     m_sprite->m_material = m_recolorMaterial;
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
-    m_sprite->m_transform.SetScale(Vector2(0.25f, 0.25f));
+    m_sprite->m_transform.SetScale(Vector2(2.0f));
     m_shipTrail->m_colorOverride = GetPlayerColor();
     m_factionColor = GetPlayerColor();
     InitializeUI();
