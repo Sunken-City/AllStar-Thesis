@@ -27,7 +27,7 @@ void CloakPassive::Update(float deltaSeconds)
     float squaredMagnitude = m_owner->m_velocity.CalculateMagnitudeSquared();
     float alphaValue = Clamp<float>(squaredMagnitude / SPEED_THRESHOLD_FOR_CLOAK_SQUARED, 0.0f, 1.0f);
     m_owner->m_sprite->m_tintColor.SetAlphaFloat(alphaValue);
-    m_owner->m_shieldSprite->m_tintColor.SetAlphaFloat(alphaValue);
+    m_owner->m_shieldSprite->m_tintColor.SetAlphaFloat(Min<float>(alphaValue, m_owner->m_shieldSprite->m_tintColor.GetAlphaFloat()));
     m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(alphaValue);
 }
 
