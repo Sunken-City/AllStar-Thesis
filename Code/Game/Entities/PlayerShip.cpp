@@ -516,7 +516,32 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 //-----------------------------------------------------------------------------------
 bool PlayerShip::CanPickUp(Item* item)
 {
-    if (item->IsWeapon() && m_weapon == nullptr)
+    static const double FULL_TIME_SECONDS = 1.0f;
+    static const double FULL_TIME_MILLISECONDS = FULL_TIME_SECONDS * 1000.0f;
+
+    if (item->IsPowerUp())
+    {
+        PowerUp* powerUp = (PowerUp*)item;
+        if (*m_powerupStatModifiers.GetStatReference(powerUp->m_powerUpType) < 20.0f)
+        {
+            return true;
+        }
+        else
+        {
+            double currTimeMilliseconds = GetCurrentTimeMilliseconds();
+            if (currTimeMilliseconds - m_timeSinceFullDisplayedMilliseconds > FULL_TIME_MILLISECONDS)
+            {
+                m_timeSinceFullDisplayedMilliseconds = currTimeMilliseconds;
+
+                float randomDegrees = MathUtils::GetRandom(-80.0f, 80.0f);
+                Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
+                TextSplash::CreateTextSplash("Full", m_transform, velocity, RGBA::RED);
+            }
+
+            return false;
+        }
+    }
+    else if (item->IsWeapon() && m_weapon == nullptr)
     {
         return true;
     }

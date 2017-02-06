@@ -10,6 +10,7 @@
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Game/Entities/Projectiles/Projectile.hpp"
 #include "../GameCommon.hpp"
+#include "Engine/Math/Noise.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -130,9 +131,13 @@ void Ship::ApplyShotDeflection()
 //-----------------------------------------------------------------------------------
 void Ship::FlickerShield(float deltaSeconds)
 {
+    static int index = 0;
     UNUSED(deltaSeconds);
-    //m_currentShieldHealth
-    //m_shieldSprite->m_tintColor.SetAlphaFloat();
+    float ratio = m_currentShieldHealth / CalculateShieldCapacityValue();
+    float noiseValue = Get1dNoiseNegOneToOne(++index);
+    float mappedNoiseValue = MathUtils::RangeMap(noiseValue, -1.0f, 1.0f, 0.0f, 1.0f);
+    float alphaValue = Max<float>(ratio, noiseValue);
+    m_shieldSprite->m_tintColor.SetAlphaFloat(alphaValue);
 }
 
 //-----------------------------------------------------------------------------------

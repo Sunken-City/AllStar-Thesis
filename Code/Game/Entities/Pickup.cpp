@@ -96,7 +96,7 @@ void Pickup::ResolveCollision(Entity* otherEntity)
     {
         if ((Entity*)player == otherEntity && !player->m_isDead)
         {
-            if (m_item && (m_item->IsPowerUp() || player->CanPickUp(m_item)))
+            if (m_item && player->CanPickUp(m_item))
             {
                 player->PickUpItem(m_item);
                 m_item = nullptr;

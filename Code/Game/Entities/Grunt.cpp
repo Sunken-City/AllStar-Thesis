@@ -19,9 +19,9 @@ Grunt::Grunt(const Vector2& initialPosition)
     SetPosition(initialPosition);
     m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
-    m_baseStats.rateOfFire = (1.5f - Stats::BASE_RATE_OF_FIRE) / Stats::RATE_OF_FIRE_PER_POINT;
-    m_baseStats.hp -= 2;
-    m_baseStats.shieldCapacity -= 2; 
+    m_baseStats.rateOfFire -= 3.0f;
+    m_baseStats.hp -= 2.0f;
+    m_baseStats.shieldCapacity -= 2.0f; 
     SetShieldHealth(100000.0f);
     Heal();
 }

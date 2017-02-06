@@ -82,4 +82,5 @@ public:
     double m_passiveBeginEjectMilliseconds = -10.0f;
     double m_weaponBeginEjectMilliseconds = -10.0f;
     double m_chassisBeginEjectMilliseconds = -10.0f;
+    double m_timeSinceFullDisplayedMilliseconds = -10.0f;
 };
