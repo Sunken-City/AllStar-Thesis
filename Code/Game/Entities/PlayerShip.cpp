@@ -199,19 +199,19 @@ void PlayerShip::Update(float deltaSeconds)
     
     if (InputSystem::instance->WasKeyJustPressed('1'))
     {
-        m_baseStats = Stats(1.0f);
+        m_powerupStatModifiers = Stats(-5.0f);
     }
     else if (InputSystem::instance->WasKeyJustPressed('2'))
     {
-        m_baseStats = Stats(6.0f);
+        m_powerupStatModifiers = Stats(0.0f);
     }
     else if (InputSystem::instance->WasKeyJustPressed('3'))
     {
-        m_baseStats = Stats(26.0f);
+        m_powerupStatModifiers = Stats(20.0f);
     }
     else if (InputSystem::instance->WasKeyJustPressed('4'))
     {
-        m_baseStats = Stats(36.0f);
+        m_powerupStatModifiers = Stats(30.0f);
     }
 
     CheckToEjectEquipment(deltaSeconds);

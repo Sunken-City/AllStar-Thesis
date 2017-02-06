@@ -203,7 +203,7 @@ float Entity::GetTopSpeedStat()
     topSpeed += m_chassis ? m_chassis->m_statBonuses.topSpeed : 0.0f;
     topSpeed += m_activeEffect ? m_activeEffect->m_statBonuses.topSpeed : 0.0f;
     topSpeed += m_passiveEffect ? m_passiveEffect->m_statBonuses.topSpeed : 0.0f;
-    return topSpeed;
+    return Clamp<float>(topSpeed, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -214,7 +214,7 @@ float Entity::GetAccelerationStat()
     totalAcceleration += m_chassis ? m_chassis->m_statBonuses.acceleration : 0.0f;
     totalAcceleration += m_activeEffect ? m_activeEffect->m_statBonuses.acceleration : 0.0f;
     totalAcceleration += m_passiveEffect ? m_passiveEffect->m_statBonuses.acceleration : 0.0f;
-    return totalAcceleration;
+    return Clamp<float>(totalAcceleration, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ float Entity::GetHandlingStat()
     handling += m_chassis ? m_chassis->m_statBonuses.handling : 0.0f;
     handling += m_activeEffect ? m_activeEffect->m_statBonuses.handling : 0.0f;
     handling += m_passiveEffect ? m_passiveEffect->m_statBonuses.handling : 0.0f;
-    return handling;
+    return Clamp<float>(handling, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ float Entity::GetBrakingStat()
     braking += m_chassis ? m_chassis->m_statBonuses.braking : 0.0f;
     braking += m_activeEffect ? m_activeEffect->m_statBonuses.braking : 0.0f;
     braking += m_passiveEffect ? m_passiveEffect->m_statBonuses.braking : 0.0f;
-    return braking;
+    return Clamp<float>(braking, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -247,7 +247,7 @@ float Entity::GetDamageStat()
     damage += m_chassis ? m_chassis->m_statBonuses.damage : 0.0f;
     damage += m_activeEffect ? m_activeEffect->m_statBonuses.damage : 0.0f;
     damage += m_passiveEffect ? m_passiveEffect->m_statBonuses.damage : 0.0f;
-    return damage;
+    return Clamp<float>(damage, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -258,7 +258,7 @@ float Entity::GetShieldDisruptionStat()
     shieldDisruption += m_chassis ? m_chassis->m_statBonuses.shieldDisruption : 0.0f;
     shieldDisruption += m_activeEffect ? m_activeEffect->m_statBonuses.shieldDisruption : 0.0f;
     shieldDisruption += m_passiveEffect ? m_passiveEffect->m_statBonuses.shieldDisruption : 0.0f;
-    return shieldDisruption;
+    return Clamp<float>(shieldDisruption, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -269,7 +269,7 @@ float Entity::GetShotHomingStat()
     shotHoming += m_chassis ? m_chassis->m_statBonuses.shotHoming : 0.0f;
     shotHoming += m_activeEffect ? m_activeEffect->m_statBonuses.shotHoming : 0.0f;
     shotHoming += m_passiveEffect ? m_passiveEffect->m_statBonuses.shotHoming : 0.0f;
-    return shotHoming;
+    return Clamp<float>(shotHoming, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -280,7 +280,7 @@ float Entity::GetRateOfFireStat()
     rateOfFire += m_chassis ? m_chassis->m_statBonuses.rateOfFire : 0.0f;
     rateOfFire += m_activeEffect ? m_activeEffect->m_statBonuses.rateOfFire : 0.0f;
     rateOfFire += m_passiveEffect ? m_passiveEffect->m_statBonuses.rateOfFire : 0.0f;
-    return rateOfFire;
+    return Clamp<float>(rateOfFire, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ float Entity::GetHpStat()
     hp += m_chassis ? m_chassis->m_statBonuses.hp : 0.0f;
     hp += m_activeEffect ? m_activeEffect->m_statBonuses.hp : 0.0f;
     hp += m_passiveEffect ? m_passiveEffect->m_statBonuses.hp : 0.0f;
-    return hp;
+    return Clamp<float>(hp, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -302,7 +302,7 @@ float Entity::GetShieldCapacityStat()
     shieldCapacity += m_chassis ? m_chassis->m_statBonuses.shieldCapacity : 0.0f;
     shieldCapacity += m_activeEffect ? m_activeEffect->m_statBonuses.shieldCapacity : 0.0f;
     shieldCapacity += m_passiveEffect ? m_passiveEffect->m_statBonuses.shieldCapacity : 0.0f;
-    return shieldCapacity;
+    return Clamp<float>(shieldCapacity, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -313,7 +313,7 @@ float Entity::GetShieldRegenStat()
     shieldRegen += m_chassis ? m_chassis->m_statBonuses.shieldRegen : 0.0f;
     shieldRegen += m_activeEffect ? m_activeEffect->m_statBonuses.shieldRegen : 0.0f;
     shieldRegen += m_passiveEffect ? m_passiveEffect->m_statBonuses.shieldRegen : 0.0f;
-    return shieldRegen;
+    return Clamp<float>(shieldRegen, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -324,7 +324,7 @@ float Entity::GetShotDeflectionStat()
     shotDeflection += m_chassis ? m_chassis->m_statBonuses.shotDeflection : 0.0f;
     shotDeflection += m_activeEffect ? m_activeEffect->m_statBonuses.shotDeflection : 0.0f;
     shotDeflection += m_passiveEffect ? m_passiveEffect->m_statBonuses.shotDeflection : 0.0f;
-    return shotDeflection;
+    return Clamp<float>(shotDeflection, Stats::MIN_LEVEL, Stats::MAX_LEVEL);
 }
 
 //-----------------------------------------------------------------------------------
