@@ -330,74 +330,122 @@ float Entity::GetShotDeflectionStat()
 //-----------------------------------------------------------------------------------
 float Entity::CalculateTopSpeedValue()
 {
-    return Stats::BASE_SPEED_VALUE + (GetTopSpeedStat() * Stats::SPEED_VALUE_PER_POINT);
+    float topSpeedStat = GetTopSpeedStat();
+    float topSpeedStatZeroOne = MathUtils::RangeMap(topSpeedStat, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    topSpeedStatZeroOne = MathUtils::SmoothStep(topSpeedStatZeroOne);
+    float topSpeedStatAdjusted = MathUtils::RangeMap(topSpeedStatZeroOne, 0.0f, 1.0f, Stats::MIN_SPEED_VALUE, Stats::MAX_SPEED_VALUE);
+    return topSpeedStatAdjusted;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateAccelerationValue()
 {
-    return Stats::BASE_ACCELERATION_VALUE + (GetAccelerationStat() * Stats::ACCELERATION_VALUE_PER_POINT);
+    float accelerationStat = GetAccelerationStat();
+    float accelerationStatZeroOne = MathUtils::RangeMap(accelerationStat, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    accelerationStatZeroOne = MathUtils::SmoothStop2(accelerationStatZeroOne);
+    float accelerationStatAdjusted = MathUtils::RangeMap(accelerationStatZeroOne, 0.0f, 1.0f, Stats::MIN_ACCELERATION_VALUE, Stats::MAX_ACCELERATION_VALUE);
+    return accelerationStatAdjusted;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateHandlingValue()
 {
-    return Stats::BASE_HANDLING_VALUE + (GetHandlingStat() * Stats::HANDLING_VALUE_PER_POINT);
+    float handlingStat = GetHandlingStat();
+    float handlingStatZeroOne = MathUtils::RangeMap(handlingStat, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    handlingStatZeroOne = MathUtils::SmoothStop2(handlingStatZeroOne);
+    float handlingStatAdjusted = MathUtils::RangeMap(handlingStatZeroOne, 0.0f, 1.0f, Stats::MIN_HANDLING_VALUE, Stats::MAX_HANDLING_VALUE);
+    return handlingStatAdjusted;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateBrakingValue()
 {
-    return Stats::BASE_BRAKING_VALUE + (GetBrakingStat() * Stats::BRAKING_VALUE_PER_POINT);
+    float brakingStat = GetBrakingStat();
+    float brakingStatZeroOne = MathUtils::RangeMap(brakingStat, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    brakingStatZeroOne = MathUtils::SmoothStop2(brakingStatZeroOne);
+    float brakingStatAdjusted = MathUtils::RangeMap(brakingStatZeroOne, 0.0f, 1.0f, Stats::MIN_BRAKING_VALUE, Stats::MAX_BRAKING_VALUE);
+    return brakingStatAdjusted;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateDamageValue()
 {
-    return Stats::BASE_DAMAGE_VALUE + (GetDamageStat() * Stats::DAMAGE_VALUE_PER_POINT);
+    float statValue = GetDamageStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStop2(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_DAMAGE_VALUE, Stats::MAX_DAMAGE_VALUE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldDisruptionValue()
 {
-    return Stats::BASE_DISRUPTION_PERCENTAGE + (GetShieldDisruptionStat() * Stats::DISRUPTION_PERCENTAGE_PER_POINT);
+    float statValue = GetShieldDisruptionStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStop2(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_DISRUPTION_PERCENTAGE, Stats::MAX_DISRUPTION_PERCENTAGE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShotHomingValue()
 {
-    return Stats::BASE_SHOT_HOMING_VALUE + (GetShotHomingStat() * Stats::SHOT_HOMING_VALUE_PER_POINT);
+    float statValue = GetShotHomingStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStop2(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_SHOT_HOMING_VALUE, Stats::MAX_SHOT_HOMING_VALUE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateRateOfFireValue()
 {
-    return Stats::BASE_RATE_OF_FIRE + (GetRateOfFireStat() * Stats::RATE_OF_FIRE_PER_POINT);
+    float statValue = GetRateOfFireStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStop2(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_RATE_OF_FIRE, Stats::MAX_RATE_OF_FIRE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateHpValue()
 {
-    return Stats::BASE_HP_VALUE + (GetHpStat() * Stats::HP_VALUE_PER_POINT);
+    float statValue = GetHpStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStep(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_HP_VALUE, Stats::MAX_HP_VALUE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShieldCapacityValue()
 {
-    return Stats::BASE_CAPACITY_VALUE + (GetShieldCapacityStat() * Stats::CAPACITY_VALUE_PER_POINT);
+    float statValue = GetShieldCapacityStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStep(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_CAPACITY_VALUE, Stats::MAX_CAPACITY_VALUE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------
-//This metric is in shield capacity points per second.
+//This metric is in shield hitpoints per second.
 float Entity::CalculateShieldRegenValue()
 {
-    return Stats::BASE_REGEN_RATE + (GetShieldRegenStat() * Stats::REGEN_RATE_PER_POINT);
+    float statValue = GetShieldRegenStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStop2(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_REGEN_RATE, Stats::MAX_REGEN_RATE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------
 float Entity::CalculateShotDeflectionValue()
 {
-    return Stats::BASE_DEFLECTION_VALUE + (GetShotDeflectionStat() * Stats::DEFLECTION_VALUE_PER_POINT);
+    float statValue = GetShotDeflectionStat();
+    float statZeroToOne = MathUtils::RangeMap(statValue, Stats::MIN_LEVEL, Stats::MAX_LEVEL, 0.0f, 1.0f);
+    statZeroToOne = MathUtils::SmoothStop2(statZeroToOne);
+    float adjustedStat = MathUtils::RangeMap(statZeroToOne, 0.0f, 1.0f, Stats::MIN_DEFLECTION_VALUE, Stats::MAX_DEFLECTION_VALUE);
+    return adjustedStat;
 }
 
 //-----------------------------------------------------------------------------------

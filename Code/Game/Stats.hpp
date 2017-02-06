@@ -24,32 +24,35 @@ struct Stats
     float shotDeflection;
 
     //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
-    //Base Stats
-    static const float BASE_SPEED_VALUE;
-    static const float BASE_ACCELERATION_VALUE;
-    static const float BASE_HANDLING_VALUE;
-    static const float BASE_BRAKING_VALUE;
-    static const float BASE_DAMAGE_VALUE;
-    static const float BASE_DISRUPTION_PERCENTAGE;
-    static const float BASE_SHOT_HOMING_VALUE;
-    static const float BASE_RATE_OF_FIRE;
-    static const float BASE_HP_VALUE;
-    static const float BASE_CAPACITY_VALUE;
-    static const float BASE_REGEN_RATE;
-    static const float BASE_DEFLECTION_VALUE;
+    static const float MIN_LEVEL;
+    static const float MAX_LEVEL;
 
-    //Value per Pickup/Stat point
-    static const float SPEED_VALUE_PER_POINT;
-    static const float ACCELERATION_VALUE_PER_POINT;
-    static const float HANDLING_VALUE_PER_POINT;
-    static const float BRAKING_VALUE_PER_POINT;
-    static const float DAMAGE_VALUE_PER_POINT;
-    static const float DISRUPTION_PERCENTAGE_PER_POINT;
-    static const float SHOT_HOMING_VALUE_PER_POINT;
-    static const float RATE_OF_FIRE_PER_POINT;
-    static const float HP_VALUE_PER_POINT;
-    static const float CAPACITY_VALUE_PER_POINT;
-    static const float REGEN_RATE_PER_POINT;
-    static const float DEFLECTION_VALUE_PER_POINT;
+    //Minimum Stat Values
+    static const float MIN_SPEED_VALUE;
+    static const float MIN_ACCELERATION_VALUE;
+    static const float MIN_HANDLING_VALUE;
+    static const float MIN_BRAKING_VALUE;
+    static const float MIN_DAMAGE_VALUE;
+    static const float MIN_DISRUPTION_PERCENTAGE;
+    static const float MIN_SHOT_HOMING_VALUE;
+    static const float MIN_RATE_OF_FIRE;
+    static const float MIN_HP_VALUE;
+    static const float MIN_CAPACITY_VALUE;
+    static const float MIN_REGEN_RATE;
+    static const float MIN_DEFLECTION_VALUE;
+
+    //Maximum Stat Values
+    static const float MAX_SPEED_VALUE;
+    static const float MAX_ACCELERATION_VALUE;
+    static const float MAX_HANDLING_VALUE;
+    static const float MAX_BRAKING_VALUE;
+    static const float MAX_DAMAGE_VALUE;
+    static const float MAX_DISRUPTION_PERCENTAGE;
+    static const float MAX_SHOT_HOMING_VALUE;
+    static const float MAX_RATE_OF_FIRE;
+    static const float MAX_HP_VALUE;
+    static const float MAX_CAPACITY_VALUE;
+    static const float MAX_REGEN_RATE;
+    static const float MAX_DEFLECTION_VALUE;
 
 };

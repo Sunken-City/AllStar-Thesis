@@ -196,6 +196,23 @@ void PlayerShip::Update(float deltaSeconds)
         timeOfLastReset = m_age - deltaSeconds;
         m_totalDamageDone = 0.0f;
     }
+    
+    if (InputSystem::instance->WasKeyJustPressed('1'))
+    {
+        m_baseStats = Stats(1.0f);
+    }
+    else if (InputSystem::instance->WasKeyJustPressed('2'))
+    {
+        m_baseStats = Stats(6.0f);
+    }
+    else if (InputSystem::instance->WasKeyJustPressed('3'))
+    {
+        m_baseStats = Stats(26.0f);
+    }
+    else if (InputSystem::instance->WasKeyJustPressed('4'))
+    {
+        m_baseStats = Stats(36.0f);
+    }
 
     CheckToEjectEquipment(deltaSeconds);
     UpdateEquips(deltaSeconds);
@@ -213,7 +230,7 @@ void PlayerShip::Update(float deltaSeconds)
 
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
-    m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>(speed * 10.0f));
+    m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>((speed / CalculateTopSpeedValue()) * 100.0f));
     m_dpsText->m_text = Stringf("DPS: %03i", static_cast<int>(dps));
 
     if (m_activeEffect)
@@ -469,7 +486,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 
         if (powerUp->m_powerUpType == PowerUpType::HP)
         {
-            Heal(Stats::HP_VALUE_PER_POINT);
+            Heal(Stats::MIN_HP_VALUE);
         }
 
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
