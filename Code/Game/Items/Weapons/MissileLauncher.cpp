@@ -9,9 +9,11 @@
 //-----------------------------------------------------------------------------------
 MissileLauncher::MissileLauncher()
 {
-    m_statBonuses.shotHoming = 5.0f;
+    m_statBonuses.shotHoming = 6.0f;
     m_statBonuses.rateOfFire = -5.0f;
-    m_statBonuses.damage = -5.0f;
+    m_statBonuses.damage = -4.0f;
+    m_numMisslesPerShot = 2;
+    m_spreadDegrees = 45.0f;
     m_name = "Missile Launcher";
 }
 
