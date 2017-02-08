@@ -78,6 +78,7 @@ void AssemblyMode::SpawnPlayers()
         TheGame::instance->m_players.push_back(player);
         m_entities.push_back(player);
     }
+    InitializePlayerData();
 }
 
 //-----------------------------------------------------------------------------------

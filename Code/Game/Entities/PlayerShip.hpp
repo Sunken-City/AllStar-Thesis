@@ -78,10 +78,10 @@ public:
     TextRenderable2D* m_speedText = nullptr;
     TextRenderable2D* m_dpsText = nullptr;
     TextRenderable2D* m_statValues[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
-    float m_totalDamageDone = 0.0f;
     double m_activeBeginEjectMilliseconds = -10.0f;
     double m_passiveBeginEjectMilliseconds = -10.0f;
     double m_weaponBeginEjectMilliseconds = -10.0f;
     double m_chassisBeginEjectMilliseconds = -10.0f;
     double m_timeSinceFullDisplayedMilliseconds = -10.0f;
+    float m_totalDamageDone = 0.0f;
 };

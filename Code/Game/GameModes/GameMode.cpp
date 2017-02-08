@@ -25,6 +25,8 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
     m_starfield2->m_transform.SetScale(Vector2(16.0f));
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER)->m_virtualScaleMultiplier = 0.98f;
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER_SLOWER)->m_virtualScaleMultiplier = 2.0f;
+
+    InitializePlayerData();
 }
 
 //-----------------------------------------------------------------------------------
@@ -257,4 +259,52 @@ void GameMode::CleanupReadyAnim()
     }
     delete m_modeTitleRenderable;
     delete m_getReadyRenderable;
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::InitializePlayerData()
+{
+    for (PlayerShip* player : TheGame::instance->m_players)
+    {
+        m_playerStats[player] = new DefaultPlayerStats(player);
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::RecordPlayerDeath(PlayerShip* ship)
+{
+    DefaultPlayerStats* stats = m_playerStats[ship];
+    stats->m_numDeaths += 1;
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::RecordPlayerKill(PlayerShip* killer, Ship* victim)
+{
+    DefaultPlayerStats* stats = m_playerStats[killer];
+    stats->m_numKills += 1;
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::DetermineWinners()
+{
+    int maxScore = 0;
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        DefaultPlayerStats* stats = m_playerStats[ship];
+        int playerScore = stats->m_numKills - stats->m_numDeaths;
+        maxScore = playerScore > maxScore ? playerScore : maxScore;
+    }
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        DefaultPlayerStats* stats = m_playerStats[ship];
+        int playerScore = stats->m_numKills - stats->m_numDeaths;
+        if (playerScore == maxScore)
+        {
+            ship->m_sprite->m_tintColor = RGBA::GOLD;
+        }
+        else
+        {
+            ship->m_sprite->m_tintColor = RGBA::VERY_GRAY;
+        }
+    }
 }

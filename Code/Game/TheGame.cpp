@@ -483,6 +483,8 @@ void TheGame::InitializeAssemblyResultsState()
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* ship = TheGame::instance->m_players[i];
+        ship->Respawn();
+        ship->m_shieldSprite->Disable();
         ship->LockMovement();
         float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
         float yMultiplier = i >= 2 ? -1.0f : 1.0f;
@@ -499,6 +501,7 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
         ship->UnlockMovement();
         ship->m_isDead = false;
         ship->Respawn();
+        ship->m_shieldSprite->Enable();
     }
     m_currentGameMode->HideBackground();
     delete m_currentGameMode;
@@ -647,11 +650,15 @@ void TheGame::InitializeMinigameResultsState()
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* ship = TheGame::instance->m_players[i];
+        ship->Respawn();
+        ship->m_shieldSprite->Disable();
         ship->LockMovement();
         float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
         float yMultiplier = i >= 2 ? -1.0f : 1.0f;
         ship->SetPosition(Vector2(3.0f * xMultiplier, 3.0f * yMultiplier));
     }
+
+    m_currentGameMode->DetermineWinners();
 }
 
 //-----------------------------------------------------------------------------------
@@ -662,6 +669,8 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
         ship->UnlockMovement();
         ship->m_isDead = false;
         ship->Respawn();
+        ship->m_sprite->m_tintColor = RGBA::WHITE;
+        ship->m_shieldSprite->Enable();
     }
     delete m_currentGameMode;
     if (m_queuedMinigameModes.size() > 0)

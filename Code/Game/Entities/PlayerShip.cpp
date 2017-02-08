@@ -328,6 +328,8 @@ void PlayerShip::Die()
     {
         DropPowerups();
     }
+
+    GameMode::GetCurrent()->RecordPlayerDeath(this);
     m_velocity = Vector2::ZERO;
     m_sprite->Disable();
 }

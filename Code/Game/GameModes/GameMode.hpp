@@ -12,6 +12,17 @@ class WidgetBase;
 class Projectile;
 class TextRenderable2D;
 
+//-----------------------------------------------------------------------------------
+struct DefaultPlayerStats
+{
+    DefaultPlayerStats(PlayerShip* player) : m_player(player) {};
+
+    PlayerShip* m_player = nullptr;
+    int m_numKills = 0;
+    int m_numDeaths = 0;
+};
+
+//-----------------------------------------------------------------------------------
 class GameMode
 {
 public:
@@ -38,6 +49,12 @@ public:
     virtual void InitializeReadyAnim();
     virtual void UpdateReadyAnim(float deltaSeconds);
     virtual void CleanupReadyAnim();
+
+    //PLAYER DATA/////////////////////////////////////////////////////////////////////
+    virtual void InitializePlayerData();
+    virtual void RecordPlayerDeath(PlayerShip* ship);
+    virtual void RecordPlayerKill(PlayerShip* killer, Ship* victim);
+    virtual void DetermineWinners();
     
     static GameMode* GetCurrent();
     
@@ -52,6 +69,7 @@ public:
     bool m_muteMusic = true;
     bool m_isPlaying = false;
     bool m_dropItemsOnDeath = false;
+    std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;
