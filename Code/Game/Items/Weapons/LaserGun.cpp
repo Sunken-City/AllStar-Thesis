@@ -12,6 +12,8 @@ LaserGun::LaserGun()
     : Weapon()
 {
     m_name = "Laser Blaster";
+
+    m_spreadDegrees = 10.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -39,7 +41,9 @@ bool LaserGun::AttemptFire(Ship* shooter)
     {
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
-        Projectile* bullet = (Projectile*)new Laser(shooter, 0.0f, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());            
+        float halfSpreadDegrees = m_spreadDegrees / 2.0f;
+        float degreesOffset = MathUtils::GetRandom(-halfSpreadDegrees, halfSpreadDegrees);
+        Projectile* bullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
         if (shooter->IsPlayer())
         {
             bullet->m_reportDPSToPlayer = true;

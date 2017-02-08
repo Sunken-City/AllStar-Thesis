@@ -10,12 +10,14 @@
 //-----------------------------------------------------------------------------------
 MissileLauncher::MissileLauncher()
 {
+    m_name = "Missile Launcher";
+
     m_statBonuses.shotHoming = 6.0f;
     m_statBonuses.rateOfFire = -5.0f;
     m_statBonuses.damage = -4.0f;
-    m_numMisslesPerShot = 2;
-    m_spreadDegrees = 45.0f;
-    m_name = "Missile Launcher";
+
+    m_numProjectilesPerShot = 2;
+    m_spreadDegrees = 90.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -43,9 +45,11 @@ bool MissileLauncher::AttemptFire(Ship* shooter)
     {
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
-        for (unsigned int i = 0; i < m_numMisslesPerShot; i++)
+        for (unsigned int i = 0; i < m_numProjectilesPerShot; i++)
         {
-            Projectile* bullet = (Projectile*)new Missile(shooter, MathUtils::GetRandom(-m_spreadDegrees, m_spreadDegrees), shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+            float halfSpreadDegrees = m_spreadDegrees / 2.0f;
+            float degreesOffset = MathUtils::GetRandom(-halfSpreadDegrees, halfSpreadDegrees);
+            Projectile* bullet = (Projectile*)new Missile(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
             if (shooter->IsPlayer())
             {
                 bullet->m_reportDPSToPlayer = true;

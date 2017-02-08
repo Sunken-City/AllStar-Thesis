@@ -13,8 +13,4 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource();
     virtual bool AttemptFire(Ship* shooter);
-
-    //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    unsigned int m_numMisslesPerShot;
-    float m_spreadDegrees;
 };

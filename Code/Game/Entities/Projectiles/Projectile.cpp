@@ -58,14 +58,12 @@ void Projectile::ResolveCollision(Entity* otherEntity)
             PlayerShip* player = dynamic_cast<PlayerShip*>(m_owner);
             player->m_totalDamageDone += damageDealt;
         }
-        if (otherEntity->IsDead())
+        if (otherEntity->IsDead() && otherEntity->IsPlayer() && m_owner->IsPlayer())
         {
             PlayerShip* player = dynamic_cast<PlayerShip*>(m_owner);
             PlayerShip* victim = dynamic_cast<PlayerShip*>(otherEntity);
-            if (player && victim)
-            {
-                GameMode::GetCurrent()->RecordPlayerKill(player, victim);
-            }
+            ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
+            GameMode::GetCurrent()->RecordPlayerKill(player, victim);
         }
         this->m_isDead = true;
         ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, otherEntity->GetCollisionSpriteResource());
