@@ -8,6 +8,7 @@
 #include "Game/GameCommon.hpp"
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
+#include "Engine/Input/XInputController.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -142,6 +143,19 @@ void AssemblyMode::Update(float deltaSeconds)
 
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
-        SpriteGameRenderer::instance->SetCameraPosition(TheGame::instance->m_players[i]->GetPosition(), i);
+        PlayerShip* player = TheGame::instance->m_players[i];
+        Vector2 targetCameraPosition = player->GetPosition();
+        Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
+
+        float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
+        float aimingDeadzoneThresholdSquared = aimingDeadzoneThreshold * aimingDeadzoneThreshold;
+        if (playerRightStick.CalculateMagnitudeSquared() > aimingDeadzoneThresholdSquared)
+        {
+            targetCameraPosition += playerRightStick;
+        }
+
+        Vector2 currentCameraPosition = SpriteGameRenderer::instance->GetCameraPositionInWorld(i);
+        Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
+        SpriteGameRenderer::instance->SetCameraPosition(cameraPosition, i);
     }
 }

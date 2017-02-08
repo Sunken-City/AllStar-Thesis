@@ -2,7 +2,9 @@
 #include "Game/TheGame.hpp"
 #include "Game/Entities/PlayerShip.hpp"
 #include "Game/Entities/Props/Asteroid.hpp"
+#include "Game/Pilots/Pilot.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
+#include "Engine/Input/XInputController.hpp"
 
 //-----------------------------------------------------------------------------------
 BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
@@ -104,18 +106,22 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
         }
     }
 
-    int numPlayersAlive = 0;
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
-        SpriteGameRenderer::instance->SetCameraPosition(TheGame::instance->m_players[i]->GetPosition(), i);
-        if (!(TheGame::instance->m_players[i]->m_isDead))
+        PlayerShip* player = TheGame::instance->m_players[i];
+        Vector2 targetCameraPosition = player->GetPosition();
+        Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
+
+        float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
+        float aimingDeadzoneThresholdSquared = aimingDeadzoneThreshold * aimingDeadzoneThreshold;
+        if (playerRightStick.CalculateMagnitudeSquared() > aimingDeadzoneThresholdSquared)
         {
-            ++numPlayersAlive;
+            targetCameraPosition += playerRightStick;
         }
-    }
-    if (numPlayersAlive < 0)
-    {
-        StopPlaying();
+
+        Vector2 currentCameraPosition = SpriteGameRenderer::instance->GetCameraPositionInWorld(i);
+        Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
+        SpriteGameRenderer::instance->SetCameraPosition(cameraPosition, i);
     }
 }
 
