@@ -12,3 +12,15 @@ Pilot::~Pilot()
     m_inputMap.Clear();
 }
 
+//-----------------------------------------------------------------------------------
+void Pilot::LightRumble(float /*amount*/, float /*secondsDuration*/ /*= 0.25f*/)
+{
+
+}
+
+//-----------------------------------------------------------------------------------
+void Pilot::HeavyRumble(float /*amount*/, float /*secondsDuration*/ /*= 0.25f*/)
+{
+
+}
+

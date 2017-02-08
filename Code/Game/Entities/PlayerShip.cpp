@@ -305,6 +305,22 @@ void PlayerShip::ResolveCollision(Entity* otherEntity)
 }
 
 //-----------------------------------------------------------------------------------
+float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
+{
+    float ratioOfDamage = damage / CalculateHpValue();
+    float returnValue = Ship::TakeDamage(damage, disruption);
+
+    if (!HasShield())
+    {
+        ratioOfDamage *= 2.0f;
+        ratioOfDamage = Clamp(ratioOfDamage, 0.0f, 1.0f);
+    }
+    m_pilot->HeavyRumble(ratioOfDamage, 0.25f);
+
+    return returnValue;
+}
+
+//-----------------------------------------------------------------------------------
 void PlayerShip::Die()
 {
     Ship::Die();

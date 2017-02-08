@@ -23,6 +23,7 @@ public:
     void UpdateEquips(float deltaSeconds);
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity) override;
+    virtual float TakeDamage(float damage, float disruption = 1.0f) override;
     virtual void Die() override;
     void Respawn();
     inline virtual bool IsPlayer() { return true; }

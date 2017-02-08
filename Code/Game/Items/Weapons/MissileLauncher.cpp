@@ -1,5 +1,6 @@
 #include "Game/Items/Weapons/MissileLauncher.hpp"
 #include "Game/Entities/Ship.hpp"
+#include "Game/Pilots/Pilot.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
@@ -33,6 +34,8 @@ const SpriteResource* MissileLauncher::GetSpriteResource()
 bool MissileLauncher::AttemptFire(Ship* shooter)
 {
     static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
+    static float RUMBLE_PERCENTAGE = 0.1f;
+    static float SECONDS_TO_RUMBLE = 0.075f;
     bool successfullyFired = false;
     float secondsPerWeaponFire = 1.0f / shooter->CalculateRateOfFireValue();
 
@@ -48,6 +51,10 @@ bool MissileLauncher::AttemptFire(Ship* shooter)
                 bullet->m_reportDPSToPlayer = true;
             }
             currentGameMode->SpawnBullet(bullet);
+        }
+        if (shooter->m_pilot)
+        {
+            shooter->m_pilot->LightRumble(RUMBLE_PERCENTAGE, SECONDS_TO_RUMBLE);
         }
 
         shooter->m_secondsSinceLastFiredWeapon = 0.0f;

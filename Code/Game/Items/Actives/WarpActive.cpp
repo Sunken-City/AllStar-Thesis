@@ -15,7 +15,7 @@ WarpActive::WarpActive()
 {
     m_energyRestorationPerSecond = 0.05f;
     m_costToActivate = 0.25f;
-    m_name = "Teleport";
+    m_name = "Warp";
 }
 
 //-----------------------------------------------------------------------------------
