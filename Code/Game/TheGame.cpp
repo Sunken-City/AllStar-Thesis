@@ -755,27 +755,27 @@ void TheGame::RenderGameOver() const
 //-----------------------------------------------------------------------------------
 void TheGame::CheckForGamePaused()
 {
-    for (PlayerPilot* pilot : m_playerPilots)
+    for (PlayerShip* ship : m_players)
     {
-        if (pilot->m_inputMap.FindInputValue("Pause")->WasJustReleased())
+        if (!ship->m_isDead && ship->m_pilot->m_inputMap.FindInputValue("Pause")->WasJustReleased())
         {
             g_isGamePaused = !g_isGamePaused;
             if (g_isGamePaused)
             {
                 SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
                 //m_gamePausedLabel->SetVisible();
-                for (PlayerShip* ship : m_players)
+                for (PlayerShip* player : m_players)
                 {
-                    ship->ShowStatGraph();
+                    player->ShowStatGraph();
                 }
             }
             else
             {
                 SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
                 //m_gamePausedLabel->SetHidden();
-                for (PlayerShip* ship : m_players)
+                for (PlayerShip* player : m_players)
                 {
-                    ship->HideStatGraph();
+                    player->HideStatGraph();
                 }
             }
             break;
@@ -845,6 +845,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::BACK));
+        playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
     }
 }

@@ -24,8 +24,8 @@ public:
     TheGame();
     ~TheGame();
 
+    //FUNCTIONS/////////////////////////////////////////////////////////////////////
     void ClearPlayers();
-
     void Update(float deltaTime);
     void Render() const;
     void InitializeGameOverState();
@@ -66,6 +66,7 @@ private:
     void RegisterParticleEffects();
     void EnqueueMinigames();
     void InitializeSpriteLayers();
+    void CheckForGamePaused();
 
     void InitializeMainMenuState();
     void CleanupMainMenuState(unsigned int);
@@ -101,9 +102,6 @@ private:
     void InitializeMinigamePlayingState();
     void CleanupMinigamePlayingState(unsigned int);
     void UpdateMinigamePlaying(float deltaSeconds);
-
-    void CheckForGamePaused();
-
     void RenderMinigamePlaying() const;
 
     void InitializeMinigameResultsState();
