@@ -304,7 +304,7 @@ void GameMode::DetermineWinners()
         }
         else
         {
-            ship->m_sprite->m_tintColor = RGBA::VERY_GRAY;
+            ship->m_sprite->m_tintColor = RGBA::GRAY;
         }
     }
 }
