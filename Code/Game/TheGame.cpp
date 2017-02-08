@@ -443,32 +443,7 @@ void TheGame::CleanupAssemblyPlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
 {
-    for (PlayerPilot* pilot : m_playerPilots)
-    {
-        if (pilot->m_inputMap.FindInputValue("Pause")->WasJustReleased())
-        {
-            g_isGamePaused = !g_isGamePaused;
-            if (g_isGamePaused)
-            {
-                SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
-                //m_gamePausedLabel->SetVisible();
-                for (PlayerShip* ship : m_players)
-                {
-                    ship->ShowStatGraph();
-                }
-            }
-            else
-            {
-                SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
-                //m_gamePausedLabel->SetHidden();
-                for (PlayerShip* ship : m_players)
-                {
-                    ship->HideStatGraph();
-                }
-            }
-            break;
-        }
-    }
+    CheckForGamePaused();
     if (g_isGamePaused)
     {
         return;
@@ -636,6 +611,12 @@ void TheGame::CleanupMinigamePlayingState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMinigamePlaying(float deltaSeconds)
 {
+    CheckForGamePaused();
+    if (g_isGamePaused)
+    {
+        return;
+    }
+
     m_currentGameMode->Update(deltaSeconds);
     if (!m_currentGameMode->m_isPlaying || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
     {
@@ -769,6 +750,37 @@ void TheGame::RenderGameOver() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::DISEASED);
     SpriteGameRenderer::instance->Render();
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::CheckForGamePaused()
+{
+    for (PlayerPilot* pilot : m_playerPilots)
+    {
+        if (pilot->m_inputMap.FindInputValue("Pause")->WasJustReleased())
+        {
+            g_isGamePaused = !g_isGamePaused;
+            if (g_isGamePaused)
+            {
+                SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
+                //m_gamePausedLabel->SetVisible();
+                for (PlayerShip* ship : m_players)
+                {
+                    ship->ShowStatGraph();
+                }
+            }
+            else
+            {
+                SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
+                //m_gamePausedLabel->SetHidden();
+                for (PlayerShip* ship : m_players)
+                {
+                    ship->HideStatGraph();
+                }
+            }
+            break;
+        }
+    }
 }
 
 //-----------------------------------------------------------------------------------

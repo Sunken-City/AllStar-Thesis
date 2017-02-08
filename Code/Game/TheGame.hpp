@@ -101,6 +101,9 @@ private:
     void InitializeMinigamePlayingState();
     void CleanupMinigamePlayingState(unsigned int);
     void UpdateMinigamePlaying(float deltaSeconds);
+
+    void CheckForGamePaused();
+
     void RenderMinigamePlaying() const;
 
     void InitializeMinigameResultsState();
