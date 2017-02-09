@@ -66,6 +66,12 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
         PickUpItem(new WarpActive());
         PickUpItem(new CloakPassive());
     }
+
+    m_shieldDownEffect = new Material(
+        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\shieldDown.frag"),
+        RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
+        );
+    SpriteGameRenderer::instance->AddEffectToLayer(m_shieldDownEffect, TheGame::FULL_SCREEN_EFFECT_LAYER);
 }
 
 //-----------------------------------------------------------------------------------
@@ -92,6 +98,10 @@ PlayerShip::~PlayerShip()
     delete m_shieldText;
     delete m_speedText;
     delete m_dpsText;
+    delete m_shieldDownEffect->m_shaderProgram;
+    delete m_shieldDownEffect;
+
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_shieldDownEffect, TheGame::FULL_SCREEN_EFFECT_LAYER);
 
     delete m_statValuesBG;
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
@@ -308,11 +318,16 @@ void PlayerShip::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
+    bool hadShield = HasShield();
     float ratioOfDamage = damage / CalculateHpValue();
     float returnValue = Ship::TakeDamage(damage, disruption);
 
     if (!HasShield())
     {
+        if (hadShield)
+        {
+            m_shieldDownEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+        }
         ratioOfDamage *= 4.0f;
         ratioOfDamage = Clamp(ratioOfDamage, 0.0f, 1.0f);
         m_pilot->LightRumble(ratioOfDamage, 0.25f);

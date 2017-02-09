@@ -66,6 +66,7 @@ public:
     ShaderProgram* m_cooldownShader = nullptr;
     Material* m_recolorMaterial = nullptr;
     Material* m_cooldownMaterial = nullptr;
+    Material* m_shieldDownEffect = nullptr;
     Sprite* m_equipUI = nullptr;
     Sprite* m_playerData = nullptr;
     Sprite* m_currentWeaponUI = nullptr;
