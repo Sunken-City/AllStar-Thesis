@@ -263,7 +263,7 @@ void PlayerShip::UpdateEquips(float deltaSeconds)
     }
     if (m_activeEffect)
     {
-        if (m_pilot->m_inputMap.WasJustPressed("Activate"))
+        if (m_pilot->m_inputMap.WasJustPressed("Activate") && IsAlive())
         {
             NamedProperties props;
             props.Set<Ship*>("ShipPtr", (Ship*)this);

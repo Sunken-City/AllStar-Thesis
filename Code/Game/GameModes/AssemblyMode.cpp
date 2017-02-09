@@ -153,6 +153,10 @@ void AssemblyMode::Update(float deltaSeconds)
         {
             targetCameraPosition += playerRightStick;
         }
+        if (player->IsDead())
+        {
+            targetCameraPosition = player->GetPosition();
+        }
 
         Vector2 currentCameraPosition = SpriteGameRenderer::instance->GetCameraPositionInWorld(i);
         Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
