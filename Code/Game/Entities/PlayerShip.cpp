@@ -223,11 +223,12 @@ void PlayerShip::Update(float deltaSeconds)
     float newRotationDegrees = m_equipUI->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
     m_equipUI->m_transform.SetRotationDegrees(newRotationDegrees);
     m_playerData->m_transform.SetRotationDegrees(-newRotationDegrees);
+
     m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
     m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
     m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
     m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
-
+    
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
     m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>((speed / CalculateTopSpeedValue()) * 100.0f));
@@ -312,8 +313,9 @@ float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
 
     if (!HasShield())
     {
-        ratioOfDamage *= 2.0f;
+        ratioOfDamage *= 4.0f;
         ratioOfDamage = Clamp(ratioOfDamage, 0.0f, 1.0f);
+        m_pilot->LightRumble(ratioOfDamage, 0.25f);
     }
     m_pilot->HeavyRumble(ratioOfDamage, 0.25f);
 
