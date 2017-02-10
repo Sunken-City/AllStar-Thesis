@@ -170,7 +170,7 @@
     <ClCompile Include="Items\Actives\QuickshotActive.cpp" />
     <ClCompile Include="Items\Actives\TeleportActive.cpp" />
     <ClCompile Include="Items\Chassis\Chassis.cpp" />
-    <ClCompile Include="Items\Chassis\DefaultChassis.cpp" />
+    <ClCompile Include="Items\Chassis\BlackHoleChassis.cpp" />
     <ClCompile Include="Items\Chassis\SpeedChassis.cpp" />
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Passives\CloakPassive.cpp" />
@@ -213,7 +213,7 @@
     <ClInclude Include="Items\Actives\QuickshotActive.hpp" />
     <ClInclude Include="Items\Actives\TeleportActive.hpp" />
     <ClInclude Include="Items\Chassis\Chassis.hpp" />
-    <ClInclude Include="Items\Chassis\DefaultChassis.hpp" />
+    <ClInclude Include="Items\Chassis\BlackHoleChassis.hpp" />
     <ClInclude Include="Items\Chassis\SpeedChassis.hpp" />
     <ClInclude Include="Items\DropTable.hpp" />
     <ClInclude Include="Items\Item.hpp" />

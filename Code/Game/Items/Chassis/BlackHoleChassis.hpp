@@ -1,12 +1,12 @@
 #pragma once
 #include "Game/Items/Chassis/Chassis.hpp"
 
-class DefaultChassis : public Chassis
+class BlackHoleChassis : public Chassis
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    DefaultChassis();
-    virtual ~DefaultChassis();
+    BlackHoleChassis();
+    virtual ~BlackHoleChassis();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource();
