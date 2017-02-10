@@ -6,6 +6,7 @@
 #include "Game/Entities/Ship.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/TheGame.hpp"
+#include "Game/Pilots/Pilot.hpp"
 
 const double WarpActive::SECONDS_UNTIL_WARP = 0.0;
 const double WarpActive::MILISECONDS_UNTIL_WARP = SECONDS_UNTIL_WARP * 1000.0;
@@ -32,7 +33,8 @@ void WarpActive::Update(float deltaSeconds)
         if (GetCurrentTimeMilliseconds() - m_lastActivatedMiliseconds > MILISECONDS_UNTIL_WARP)
         {
             ParticleSystem::PlayOneShotParticleEffect("Warped", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &m_transportee->m_transform);
-            Vector2 jumpedPosition = m_transportee->GetPosition() + m_transportee->m_velocity * 1.0f;
+            Pilot* pilot = m_transportee->m_pilot;
+            Vector2 jumpedPosition = m_transportee->GetPosition() + pilot->m_inputMap.GetVector2("Right", "Up") * 5.0f;
             m_transportee->SetPosition(jumpedPosition);
             Deactivate(NamedProperties::NONE);
         }
