@@ -47,7 +47,14 @@ void Grunt::Update(float deltaSeconds)
     Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
     SetPosition(GetPosition() + deltaVelocity);
 
-    m_weapon->AttemptFire(this);
+    if (m_weapon)
+    {
+        m_weapon->AttemptFire(this);
+    }
+    else
+    {
+        m_defaultWeapon.AttemptFire(this);
+    }
 }
 
 //-----------------------------------------------------------------------------------

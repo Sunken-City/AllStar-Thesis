@@ -25,7 +25,7 @@ Weapon* GetRandomWeapon()
     }
     else
     {
-        return new LaserGun();
+        return new MissileLauncher();
     }
 }
 
@@ -35,7 +35,7 @@ Chassis* GetRandomChassis()
     int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
     if (randomNumber == 0)
     {
-        return new DefaultChassis();
+        return new SpeedChassis();
     }
     else
     {

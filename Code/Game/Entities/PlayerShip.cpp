@@ -53,7 +53,6 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;
     m_shieldSprite->m_tintColor = GetPlayerColor();
-    PickUpItem(new DefaultChassis());
 
     if (g_nearlyInvulnerable)
     {
@@ -367,14 +366,43 @@ void PlayerShip::Respawn()
 //-----------------------------------------------------------------------------------
 void PlayerShip::DropPowerups()
 {
-    if (!dynamic_cast<LaserGun*>(m_weapon))
+    float powerUpPercentageDropped = 0.2f;
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(4);
+    switch (randomNumber)
     {
-        EjectWeapon();
-        m_weapon = new LaserGun();
+    case 0:
+        if (m_chassis)
+        {
+            EjectChassis();
+            powerUpPercentageDropped /= 2.0f;
+        }
+        break;
+    case 1:
+        if (m_activeEffect)
+        {
+            EjectActive();
+            powerUpPercentageDropped /= 2.0f;
+        }
+        break;
+    case 2:
+        if (m_weapon)
+        {
+            EjectWeapon();
+            powerUpPercentageDropped /= 2.0f;
+        }
+        break;
+    case 3:
+        if (m_passiveEffect)
+        {
+            EjectPassive();
+            powerUpPercentageDropped /= 2.0f;
+        }
+        break;
     }
+    
 
     unsigned int numPowerups = m_powerupStatModifiers.GetTotalNumberOfDroppablePowerUps();
-    unsigned int numPowerupsToDrop = (unsigned int)(numPowerups * 0.2f);
+    unsigned int numPowerupsToDrop = (unsigned int)(numPowerups * powerUpPercentageDropped);
     unsigned int numPowerupsToSpawn = (numPowerups <= 3) ? numPowerups : numPowerupsToDrop;
 
     for (unsigned int i = 0; i < numPowerupsToSpawn; ++i)
