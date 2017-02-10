@@ -23,7 +23,6 @@ Ship::Ship(Pilot* pilot)
     SetShieldHealth(CalculateShieldCapacityValue());
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("Explosion");
     m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
-    m_weapon = new LaserGun();
     m_smokeDamage->Disable();
 }
 
@@ -78,6 +77,10 @@ void Ship::UpdateShooting()
         if (m_weapon)
         {
             m_weapon->AttemptFire(this);
+        }
+        else
+        {
+            m_defaultWeapon.AttemptFire(this);
         }
     }
 }

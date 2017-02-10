@@ -1,6 +1,7 @@
 #pragma once
 #include "Game/Entities/Entity.hpp"
 #include "Engine/Renderer/RGBA.hpp"
+#include "Game/Items/Weapons/LaserGun.hpp"
 
 class Sprite;
 class Pilot;
@@ -31,6 +32,7 @@ public:
     void FlickerShield(float deltaSeconds);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    LaserGun m_defaultWeapon;
     Pilot* m_pilot;
     ParticleSystem* m_shipTrail = nullptr;
     ParticleSystem* m_smokeDamage = nullptr;
