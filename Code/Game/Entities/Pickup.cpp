@@ -9,7 +9,7 @@
 Pickup::Pickup(Item* item, const Vector2& initialPosition)
     : Entity()
     , m_item(item)
-    , m_descriptionTextRenderable(new TextRenderable2D(item->m_name, Transform2D(Vector2(0.0f, 0.7f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
+    , m_descriptionTextRenderable(new TextRenderable2D(item->m_name, Transform2D(Vector2(0.0f, 0.9f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
     , m_equipTextRenderable(new TextRenderable2D(item->m_equipText, Transform2D(Vector2(0.0f, 0.4f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
 {
     ASSERT_OR_DIE(m_item, "Attempted to create a pickup with no item!");
@@ -32,10 +32,10 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     if (!m_item->IsPowerUp())
     {
         m_transform.AddChild(&m_descriptionTextRenderable->m_transform);
-        m_descriptionTextRenderable->m_fontSize = 0.03f;
+        m_descriptionTextRenderable->m_fontSize = 0.05f;
 
         m_transform.AddChild(&m_equipTextRenderable->m_transform);
-        m_equipTextRenderable->m_fontSize = 0.015f;
+        m_equipTextRenderable->m_fontSize = 0.03f;
     }
     else
     {

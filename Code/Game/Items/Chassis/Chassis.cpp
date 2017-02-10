@@ -5,7 +5,7 @@
 Chassis::Chassis()
     : Item(ItemType::CHASSIS)
 {
-    m_equipText = "Hold Y to Equip";
+    m_equipText = "Hold Y to Swap";
 }
 
 //-----------------------------------------------------------------------------------
