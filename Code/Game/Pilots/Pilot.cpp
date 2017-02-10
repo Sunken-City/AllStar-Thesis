@@ -13,6 +13,12 @@ Pilot::~Pilot()
 }
 
 //-----------------------------------------------------------------------------------
+void Pilot::RecoilScreenshake(float /*magnitude*/, const Vector2& /*direction*/)
+{
+
+}
+
+//-----------------------------------------------------------------------------------
 void Pilot::LightRumble(float /*amount*/, float /*secondsDuration*/ /*= 0.25f*/)
 {
 

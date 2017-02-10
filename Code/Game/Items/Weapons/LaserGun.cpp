@@ -51,6 +51,7 @@ bool LaserGun::AttemptFire(Ship* shooter)
         if (shooter->m_pilot)
         {
             shooter->m_pilot->LightRumble(RUMBLE_PERCENTAGE, SECONDS_TO_RUMBLE);
+            shooter->m_pilot->RecoilScreenshake(0.0f, -0.05f * Vector2::DegreesToDirection(-shooter->m_sprite->m_transform.GetWorldRotationDegrees(), Vector2::ZERO_DEGREES_UP));
         }
         currentGameMode->SpawnBullet(bullet);
         shooter->m_secondsSinceLastFiredWeapon = 0.0f;

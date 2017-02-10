@@ -12,6 +12,7 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds) { UNUSED(deltaSeconds); };
+    virtual void RecoilScreenshake(float magnitude, const Vector2& direction) override;
     virtual void LightRumble(float amount, float secondsDuration = 0.25f) override;
     virtual void HeavyRumble(float amount, float secondsDuration = 0.25f) override;
 

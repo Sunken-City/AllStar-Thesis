@@ -347,7 +347,7 @@ void PlayerShip::Die()
     }
 
     GameMode::GetCurrent()->RecordPlayerDeath(this);
-    SpriteGameRenderer::instance->AddScreenshakeMagnitude(0.4f, ((PlayerPilot*)m_pilot)->m_playerNumber);
+    SpriteGameRenderer::instance->AddScreenshakeMagnitude(0.4f, Vector2::ZERO, ((PlayerPilot*)m_pilot)->m_playerNumber);
     m_velocity = Vector2::ZERO;
     m_sprite->Disable();
 }
