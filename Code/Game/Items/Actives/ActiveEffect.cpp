@@ -5,7 +5,7 @@
 ActiveEffect::ActiveEffect()
     : Item(ItemType::ACTIVE)
 {
-    m_equipText = "Hold A to Equip";
+    m_equipText = "Hold A to Swap";
 }
 
 //-----------------------------------------------------------------------------------

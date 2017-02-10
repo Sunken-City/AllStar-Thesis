@@ -4,7 +4,7 @@
 PassiveEffect::PassiveEffect()
     : Item(ItemType::PASSIVE)
 {
-    m_equipText = "Hold X to Equip";
+    m_equipText = "Hold X to Swap";
 }
 
 //-----------------------------------------------------------------------------------

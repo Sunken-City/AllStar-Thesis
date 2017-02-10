@@ -9,7 +9,7 @@ TextSplash::TextSplash(const std::string& text, const Transform2D& spawnTransfor
     : m_velocity(velocity)
 {
     m_textRenderable = new TextRenderable2D(text, spawnTransform, TheGame::TEXT_PARTICLE_LAYER, true);
-    m_textRenderable->m_fontSize /= 4.0f;
+    m_textRenderable->m_fontSize /= 3.5f;
     m_textRenderable->m_transform.SetRotationDegrees(0.0f);
     m_textRenderable->m_color = color;
 }

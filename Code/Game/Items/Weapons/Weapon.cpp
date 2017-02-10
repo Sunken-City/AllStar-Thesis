@@ -4,7 +4,7 @@
 Weapon::Weapon()
     : Item(ItemType::WEAPON)
 {
-    m_equipText = "Hold B to Equip";
+    m_equipText = "Hold B to Swap";
 }
 
 //-----------------------------------------------------------------------------------
