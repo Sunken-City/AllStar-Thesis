@@ -24,7 +24,8 @@
 #include "Game/Items/Chassis/SpeedChassis.hpp"
 #include "Game/Items/Passives/CloakPassive.hpp"
 #include "Game/Items/Actives/WarpActive.hpp"
-#include "Game/Items/Chassis/DefaultChassis.hpp"
+#include "../Items/Chassis/BlackHoleChassis.hpp"
+#include "../Items/Passives/SpecialTrailPassive.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -60,10 +61,10 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        PickUpItem(new MissileLauncher());
-        PickUpItem(new SpeedChassis());
+        //PickUpItem(new MissileLauncher());
+        PickUpItem(new BlackHoleChassis());
         PickUpItem(new WarpActive());
-        PickUpItem(new CloakPassive());
+        PickUpItem(new SpecialTrailPassive());
     }
 
     m_shieldDownEffect = new Material(

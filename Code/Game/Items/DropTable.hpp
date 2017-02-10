@@ -4,7 +4,7 @@
 #include "Weapons\MissileLauncher.hpp"
 #include "Weapons\LaserGun.hpp"
 #include "Chassis\Chassis.hpp"
-#include "Chassis\DefaultChassis.hpp"
+#include "Chassis\BlackHoleChassis.hpp"
 #include "Chassis\SpeedChassis.hpp"
 #include "Actives\ActiveEffect.hpp"
 #include "Actives\TeleportActive.hpp"
@@ -39,7 +39,7 @@ Chassis* GetRandomChassis()
     }
     else
     {
-        return new SpeedChassis();
+        return new BlackHoleChassis();
     }
 }
 

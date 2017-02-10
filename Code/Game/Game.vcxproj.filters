@@ -134,9 +134,6 @@
     <ClCompile Include="Entities\TextSplash.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Items\Chassis\DefaultChassis.cpp">
-      <Filter>General\Items\Chassis</Filter>
-    </ClCompile>
     <ClCompile Include="Items\Chassis\SpeedChassis.cpp">
       <Filter>General\Items\Chassis</Filter>
     </ClCompile>
@@ -160,6 +157,9 @@
     <ClCompile Include="Items\Actives\WarpActive.cpp" />
     <ClCompile Include="Items\Actives\TeleportActive.cpp">
       <Filter>General\Items\Actives</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\Chassis\BlackHoleChassis.cpp">
+      <Filter>General\Items\Chassis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,9 +253,6 @@
     <ClInclude Include="Entities\TextSplash.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Items\Chassis\DefaultChassis.hpp">
-      <Filter>General\Items\Chassis</Filter>
-    </ClInclude>
     <ClInclude Include="Items\Chassis\SpeedChassis.hpp">
       <Filter>General\Items\Chassis</Filter>
     </ClInclude>
@@ -279,6 +276,9 @@
     <ClInclude Include="Items\Actives\WarpActive.hpp" />
     <ClInclude Include="Items\Actives\TeleportActive.hpp">
       <Filter>General\Items\Actives</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\Chassis\BlackHoleChassis.hpp">
+      <Filter>General\Items\Chassis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
