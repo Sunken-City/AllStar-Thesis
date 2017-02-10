@@ -920,6 +920,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("WarpActive", "Data\\Images\\Actives\\warpActive.png");
     ResourceDatabase::instance->RegisterSprite("TeleportActive", "Data\\Images\\Actives\\teleportActive.png");
     ResourceDatabase::instance->RegisterSprite("QuickshotActive", "Data\\Images\\Actives\\quickshotActive.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldActive", "Data\\Images\\Actives\\quickshotActive.png");
+    ResourceDatabase::instance->RegisterSprite("BoostActive", "Data\\Images\\Actives\\quickshotActive.png");
 
     //Weapon Pickups
     ResourceDatabase::instance->RegisterSprite("MissileLauncher", "Data\\Images\\Weapons\\missileLauncher.png");

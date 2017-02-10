@@ -26,6 +26,8 @@
 #include "Game/Items/Actives/WarpActive.hpp"
 #include "../Items/Chassis/BlackHoleChassis.hpp"
 #include "../Items/Passives/SpecialTrailPassive.hpp"
+#include "../Items/Actives/ShieldActive.hpp"
+#include "../Items/Actives/BoostActive.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -63,7 +65,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         //PickUpItem(new MissileLauncher());
         PickUpItem(new BlackHoleChassis());
-        PickUpItem(new WarpActive());
+        PickUpItem(new BoostActive());
         PickUpItem(new SpecialTrailPassive());
     }
 
