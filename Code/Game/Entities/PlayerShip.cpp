@@ -194,9 +194,13 @@ void PlayerShip::InitializeUI()
 void PlayerShip::Update(float deltaSeconds)
 {
     static float timeOfLastReset = 0.0f;
-    if (m_isDead && m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed())
+    if (m_isDead)
     {
-        Respawn();
+        m_shieldDownEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+        if (m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed()) 
+        {
+            Respawn();
+        }
     }
     if (!m_isDead)
     {
