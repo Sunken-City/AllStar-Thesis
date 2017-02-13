@@ -48,7 +48,7 @@ Chassis* GetRandomChassis()
 //-----------------------------------------------------------------------------------
 ActiveEffect* GetRandomActive()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(5);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(3/*5*/);
     if (randomNumber == 0)
     {
         return new TeleportActive();
@@ -59,7 +59,7 @@ ActiveEffect* GetRandomActive()
     }
     else if (randomNumber == 2)
     {
-        return new BoostActive();
+        return new QuickshotActive();
     }
     else if (randomNumber == 3)
     {
@@ -67,7 +67,7 @@ ActiveEffect* GetRandomActive()
     }
     else
     {
-        return new QuickshotActive();
+        return new BoostActive();
     }
 }
 
