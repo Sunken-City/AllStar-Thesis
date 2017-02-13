@@ -2,6 +2,7 @@
 
 uniform sampler2D gDiffuseTexture;
 uniform sampler2D gNormalTexture; //gDepthTexture
+uniform float gTime;
 uniform float gPixelationFactor;
 
 in vec2 passUV0;
@@ -12,7 +13,7 @@ out vec4 outColor;
 void main(void)
 {
   vec2 uv = passUV0 * vec2(1600, 900);
-  uv = round(uv / (gPixelationFactor * (1.0f - passUV0.y))) * (gPixelationFactor * (1.0f - passUV0.y));
+  uv = round(uv / (gPixelationFactor * (1.0f - sin(gTime + passUV0.y) / 15.0f))) * (gPixelationFactor * (1.0f - sin(gTime + passUV0.y) / 15.0f));
   uv /= vec2(1600, 900);
 
   outColor = texture(gDiffuseTexture, uv);

@@ -55,7 +55,7 @@ TheGame::TheGame()
     InitializeSpriteLayers();
 
     m_pauseFBOEffect = new Material(
-        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\pixelation.frag"),
+        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\pixelationWaves.frag"),
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
     m_pauseFBOEffect->SetFloatUniform("gPixelationFactor", 16.0f);

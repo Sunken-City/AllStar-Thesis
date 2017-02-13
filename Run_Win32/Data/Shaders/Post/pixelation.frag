@@ -2,6 +2,7 @@
 
 uniform sampler2D gDiffuseTexture;
 uniform sampler2D gNormalTexture; //gDepthTexture
+uniform float gTime;
 uniform float gPixelationFactor;
 
 in vec2 passUV0;
