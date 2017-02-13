@@ -282,7 +282,7 @@ void GameMode::RecordPlayerDeath(PlayerShip* ship)
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::RecordPlayerKill(PlayerShip* killer, Ship* victim)
+void GameMode::RecordPlayerKill(PlayerShip* killer, Ship*)
 {
     DefaultPlayerStats* stats = m_playerStats[killer];
     stats->m_numKills += 1;
