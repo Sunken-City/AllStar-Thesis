@@ -73,7 +73,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\shieldDown.frag"),
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
-    SpriteGameRenderer::instance->AddEffectToLayer(m_shieldDownEffect, TheGame::FULL_SCREEN_EFFECT_LAYER);
+    SpriteGameRenderer::instance->AddEffectToLayer(m_shieldDownEffect, TheGame::FULL_SCREEN_EFFECT_LAYER, SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber));
 }
 
 //-----------------------------------------------------------------------------------
