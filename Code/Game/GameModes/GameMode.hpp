@@ -39,6 +39,7 @@ public:
     virtual void RemoveEntitiesInCircle(const Vector2& center, float radius);
     void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
     AABB2 GetArenaBounds();
+    inline void SpawnEntityInGameWorld(Entity* entity) { m_newEntities.push_back(entity); };
     void SpawnBullet(Projectile* bullet);
     void SpawnPickup(Item* item, const Vector2& spawnPosition);
     void SetBackground(const std::string& backgroundName, const Vector2& scale);

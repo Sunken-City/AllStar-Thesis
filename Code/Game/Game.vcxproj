@@ -147,6 +147,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Encounters\Encounter.cpp" />
+    <ClCompile Include="Encounters\NebulaEncounter.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Grunt.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
@@ -192,6 +194,8 @@
     <ClCompile Include="UI\ReadyAnimationWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Encounters\Encounter.hpp" />
+    <ClInclude Include="Encounters\NebulaEncounter.hpp" />
     <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="Entities\Grunt.hpp" />
     <ClInclude Include="Entities\Pickup.hpp" />

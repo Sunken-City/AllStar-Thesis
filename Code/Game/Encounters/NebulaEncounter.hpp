@@ -1,18 +1,15 @@
 #pragma once
-#include "Game/GameCommon.hpp"
+#include "Game/Encounters/Encounter.hpp"
 
 //-----------------------------------------------------------------------------------
-class Encounter
+class NebulaEncounter : public Encounter
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    Encounter(const Vector2& center, float radius);
+    NebulaEncounter(const Vector2& center, float radius);
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Spawn() = 0;
-    virtual Vector2 GetSpawnPosition(const Vector2& relative01Position);
+    virtual void Spawn();
 
     ////MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    Vector2 m_center;
-    float m_radius;
 };

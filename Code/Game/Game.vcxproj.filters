@@ -163,6 +163,8 @@
     </ClCompile>
     <ClCompile Include="Items\Actives\BoostActive.cpp" />
     <ClCompile Include="Items\Actives\ShieldActive.cpp" />
+    <ClCompile Include="Encounters\Encounter.cpp" />
+    <ClCompile Include="Encounters\NebulaEncounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -284,6 +286,8 @@
     </ClInclude>
     <ClInclude Include="Items\Actives\BoostActive.hpp" />
     <ClInclude Include="Items\Actives\ShieldActive.hpp" />
+    <ClInclude Include="Encounters\Encounter.hpp" />
+    <ClInclude Include="Encounters\NebulaEncounter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

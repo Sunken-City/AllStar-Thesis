@@ -9,6 +9,7 @@
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Input/XInputController.hpp"
+#include "../Encounters/NebulaEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -158,7 +159,10 @@ void AssemblyMode::Update(float deltaSeconds)
 
         if (InputSystem::instance->WasKeyJustPressed('R'))
         {
-            RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), 10.0f);
+            float radius = 2.0f;
+            RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
+            NebulaEncounter nebby(player->m_transform.GetWorldPosition(), radius);
+            nebby.Spawn();
         }
 
         float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
