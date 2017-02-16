@@ -17,9 +17,9 @@ Grunt::Grunt(const Vector2& initialPosition)
     m_sprite->m_transform.SetScale(Vector2(2.0f));  
     CalculateCollisionRadius();
     SetPosition(initialPosition);
-    m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
+    m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
-    m_baseStats.rateOfFire -= 3.0f;
+    m_baseStats.rateOfFire -= 5.0f;
     m_baseStats.hp -= 2.0f;
     m_baseStats.shieldCapacity -= 2.0f; 
     SetShieldHealth(100000.0f);
