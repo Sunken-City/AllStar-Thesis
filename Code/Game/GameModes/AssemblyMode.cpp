@@ -9,7 +9,7 @@
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Input/XInputController.hpp"
-#include "../Encounters/NebulaEncounter.hpp"
+#include "../Encounters/SquadronEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -161,7 +161,7 @@ void AssemblyMode::Update(float deltaSeconds)
         {
             float radius = 2.0f;
             RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
-            NebulaEncounter nebby(player->m_transform.GetWorldPosition(), radius);
+            SquadronEncounter nebby(player->m_transform.GetWorldPosition(), radius);
             nebby.Spawn();
         }
 

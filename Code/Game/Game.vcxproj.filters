@@ -164,7 +164,7 @@
     <ClCompile Include="Items\Actives\BoostActive.cpp" />
     <ClCompile Include="Items\Actives\ShieldActive.cpp" />
     <ClCompile Include="Encounters\Encounter.cpp" />
-    <ClCompile Include="Encounters\NebulaEncounter.cpp" />
+    <ClCompile Include="Encounters\SquadronEncounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -287,7 +287,7 @@
     <ClInclude Include="Items\Actives\BoostActive.hpp" />
     <ClInclude Include="Items\Actives\ShieldActive.hpp" />
     <ClInclude Include="Encounters\Encounter.hpp" />
-    <ClInclude Include="Encounters\NebulaEncounter.hpp" />
+    <ClInclude Include="Encounters\SquadronEncounter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

@@ -10,7 +10,7 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Spawn() = 0;
-    virtual Vector2 GetSpawnPosition(const Vector2& relative01Position);
+    virtual Vector2 CalculateSpawnPosition(const Vector2& relative01Position);
 
     ////MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Vector2 m_center;
