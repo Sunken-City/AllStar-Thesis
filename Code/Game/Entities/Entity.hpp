@@ -21,6 +21,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity);
+    virtual void ApplyImpulse(const Vector2& appliedAcceleration);
     virtual float TakeDamage(float damage, float disruption = 1.0f);
     virtual void Die() { m_isDead = true; SetShieldHealth(0.0f); };
     virtual void CalculateCollisionRadius();
@@ -88,6 +89,7 @@ public:
     Entity* m_owner;
     Transform2D m_transform;
     Vector2 m_velocity;
+    Vector2 m_sumOfImpulses = Vector2::ZERO;
     std::vector<Item*> m_inventory;
     float m_currentHp;
     float m_collisionRadius;
@@ -95,6 +97,7 @@ public:
     float m_timeSinceLastHit = 0.0f;
     float m_frictionValue;
     float m_currentShieldHealth;
+    float m_mass = 1.0f;
     bool m_isDead = false;
     bool m_collidesWithBullets = true;
     bool m_noCollide = false;

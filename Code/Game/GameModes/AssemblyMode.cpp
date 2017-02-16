@@ -11,6 +11,7 @@
 #include "Engine/Input/XInputController.hpp"
 #include "../Encounters/SquadronEncounter.hpp"
 #include "../Encounters/NebulaEncounter.hpp"
+#include "../Encounters/WormholeEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -230,9 +231,9 @@ void AssemblyMode::Update(float deltaSeconds)
 
         if (InputSystem::instance->WasKeyJustPressed('R'))
         {
-            float radius = 2.0f;
+            float radius = 5.0f;
             RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
-            SquadronEncounter nebby(player->m_transform.GetWorldPosition(), radius);
+            WormholeEncounter nebby(player->m_transform.GetWorldPosition(), radius);
             nebby.Spawn();
         }
 

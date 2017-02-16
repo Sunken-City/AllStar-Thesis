@@ -150,6 +150,7 @@
     <ClCompile Include="Encounters\Encounter.cpp" />
     <ClCompile Include="Encounters\NebulaEncounter.cpp" />
     <ClCompile Include="Encounters\SquadronEncounter.cpp" />
+    <ClCompile Include="Encounters\WormholeEncounter.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Grunt.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Entities\Props\Asteroid.cpp" />
     <ClCompile Include="Entities\Props\ItemCrate.cpp" />
     <ClCompile Include="Entities\Props\Nebula.cpp" />
+    <ClCompile Include="Entities\Props\Wormhole.cpp" />
     <ClCompile Include="Entities\Ship.cpp" />
     <ClCompile Include="Entities\TextSplash.cpp" />
     <ClCompile Include="GameCommon.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="Encounters\Encounter.hpp" />
     <ClInclude Include="Encounters\NebulaEncounter.hpp" />
     <ClInclude Include="Encounters\SquadronEncounter.hpp" />
+    <ClInclude Include="Encounters\WormholeEncounter.hpp" />
     <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="Entities\Grunt.hpp" />
     <ClInclude Include="Entities\Pickup.hpp" />
@@ -209,6 +212,7 @@
     <ClInclude Include="Entities\Props\Asteroid.hpp" />
     <ClInclude Include="Entities\Props\ItemCrate.hpp" />
     <ClInclude Include="Entities\Props\Nebula.hpp" />
+    <ClInclude Include="Entities\Props\Wormhole.hpp" />
     <ClInclude Include="Entities\Ship.hpp" />
     <ClInclude Include="Entities\TextSplash.hpp" />
     <ClInclude Include="GameCommon.hpp" />

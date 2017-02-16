@@ -12,10 +12,8 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity);
     virtual inline bool IsProjectile() { return true; };
-    void ApplyImpulse(const Vector2& appliedAcceleration);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    Vector2 m_sumOfImpulses = Vector2::ZERO;
     float m_speed;
     float m_damage;
     float m_disruption;

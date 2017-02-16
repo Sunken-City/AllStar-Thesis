@@ -14,4 +14,6 @@ public:
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;
+    static const float MIN_ASTEROID_SCALE;
+    static const float MAX_ASTEROID_SCALE;
 };

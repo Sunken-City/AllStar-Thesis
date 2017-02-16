@@ -463,10 +463,7 @@ void TheGame::RenderAssemblyPlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
     SpriteGameRenderer::instance->Render();
-    if (g_isGamePaused)
-    {
-
-    }
+    RenderDebug();
 }
 
 //-----------------------------------------------------------------------------------
@@ -762,6 +759,35 @@ void TheGame::RenderGameOver() const
 }
 
 //-----------------------------------------------------------------------------------
+void TheGame::RenderDebug() const
+{
+//     Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_virtualWidth, SpriteGameRenderer::instance->m_virtualHeight, SpriteGameRenderer::instance->m_cameraPosition);
+//     {
+//         for (Entity* ent : m_currentGameMode->m_entities)
+//         {
+//             Vector2 center = ent->m_transform.GetWorldPosition();
+//             float radius = ent->m_collisionRadius;
+// 
+//             const float radiansTotal = 2.0f * 3.14159;
+//             const float radiansPerSide = radiansTotal / 20;
+// 
+//             glBegin(GL_LINE_LOOP);
+//             {
+//                 for (float radians = 0.0f; radians < radiansTotal; radians += radiansPerSide)
+//                 {
+//                     float adjustedRadians = radians;
+//                     float x = center.x + (radius * cos(adjustedRadians));
+//                     float y = center.y + (radius * sin(adjustedRadians));
+//                     glVertex2f(x, y);
+//                 }
+//             }
+//             glEnd();
+//         }
+//     }
+//     Renderer::instance->EndOrtho();
+}
+
+//-----------------------------------------------------------------------------------
 void TheGame::CheckForGamePaused()
 {
     for (PlayerShip* ship : m_players)
@@ -895,6 +921,7 @@ void TheGame::RegisterSprites()
     //Props
     ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
     ResourceDatabase::instance->RegisterSprite("Nebula", "Data\\Images\\Props\\Nebula.png");
+    ResourceDatabase::instance->RegisterSprite("Wormhole", "Data\\Images\\Props\\cheapVortex2.png");
 
     //Enemies
     ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Enemies\\grunt.png");

@@ -32,11 +32,8 @@ void Projectile::Update(float deltaSeconds)
     if (m_age < m_lifeSpan)
     {
         Vector2 position = GetPosition();
-        Vector2 accelerationDueToImpulses = m_sumOfImpulses / mass;
-        m_velocity += (accelerationDueToImpulses * deltaSeconds);
         position += m_velocity * deltaSeconds;
         SetPosition(position);
-        m_sumOfImpulses = Vector2::ZERO; //Only applied for a frame.
         
         m_sprite->m_transform.SetRotationDegrees(-m_velocity.CalculateThetaDegrees() + 90.0f);
     }
@@ -69,11 +66,3 @@ void Projectile::ResolveCollision(Entity* otherEntity)
         ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, otherEntity->GetCollisionSpriteResource());
     }
 }
-
-//-----------------------------------------------------------------------------------
-void Projectile::ApplyImpulse(const Vector2& appliedAcceleration)
-{
-    const float mass = 1.0f;
-    m_sumOfImpulses += mass * appliedAcceleration;
-}
-

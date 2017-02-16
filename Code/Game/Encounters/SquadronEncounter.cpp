@@ -14,10 +14,10 @@ void SquadronEncounter::Spawn()
     GameMode* gameMode = GameMode::GetCurrent();
 
     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, 0.0f))));
-    gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(1.0f, 1.0f))));
-    gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(1.0f, -1.0f))));
-    gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(-1.0f, 1.0f))));
-    gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(-1.0f, -1.0f))));
+//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(1.0f, 1.0f))));
+//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(1.0f, -1.0f))));
+//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(-1.0f, 1.0f))));
+//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(-1.0f, -1.0f))));
     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, 1.0f))));
     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, -1.0f))));
     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(1.0f, 0.0f))));

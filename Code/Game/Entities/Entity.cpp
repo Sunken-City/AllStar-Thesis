@@ -74,6 +74,9 @@ void Entity::Update(float deltaSeconds)
 {
     m_age += deltaSeconds;
     m_timeSinceLastHit += deltaSeconds;
+    Vector2 accelerationDueToImpulses = m_sumOfImpulses / m_mass;
+    m_velocity += (accelerationDueToImpulses * deltaSeconds);
+    m_sumOfImpulses = Vector2::ZERO; //Only applied for a frame.
 }
 
 //-----------------------------------------------------------------------------------
@@ -104,6 +107,12 @@ void Entity::ResolveCollision(Entity* otherEntity)
     Vector2 myPositionCorrection = directionFromOtherToMe * pushDistance;
     SetPosition(myPosition + myPositionCorrection);
     otherEntity->SetPosition(otherPosition - myPositionCorrection);
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::ApplyImpulse(const Vector2& appliedAcceleration)
+{
+    m_sumOfImpulses += m_mass * appliedAcceleration;
 }
 
 //-----------------------------------------------------------------------------------
@@ -147,7 +156,7 @@ float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
 void Entity::CalculateCollisionRadius()
 {
     Vector2 virtualSize = m_sprite->m_spriteResource->m_virtualSize;
-    Vector2 spriteScale = m_sprite->m_transform.GetWorldScale();;
+    Vector2 spriteScale = m_sprite->m_transform.GetWorldScale();
 
     float maxVirtualSize = Max(virtualSize.x, virtualSize.y);
     float maxSpriteScale = Max(spriteScale.x, spriteScale.y);

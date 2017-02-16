@@ -167,6 +167,8 @@
     <ClCompile Include="Encounters\SquadronEncounter.cpp" />
     <ClCompile Include="Entities\Props\Nebula.cpp" />
     <ClCompile Include="Encounters\NebulaEncounter.cpp" />
+    <ClCompile Include="Entities\Props\Wormhole.cpp" />
+    <ClCompile Include="Encounters\WormholeEncounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -292,6 +294,8 @@
     <ClInclude Include="Encounters\SquadronEncounter.hpp" />
     <ClInclude Include="Entities\Props\Nebula.hpp" />
     <ClInclude Include="Encounters\NebulaEncounter.hpp" />
+    <ClInclude Include="Entities\Props\Wormhole.hpp" />
+    <ClInclude Include="Encounters\WormholeEncounter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

@@ -112,7 +112,7 @@ private:
     void CleanupGameOverState(unsigned int);
     void UpdateGameOver(float deltaSeconds);
     void RenderGameOver() const;
-
+    void RenderDebug() const;
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     SoundID SFX_UI_ADVANCE;
