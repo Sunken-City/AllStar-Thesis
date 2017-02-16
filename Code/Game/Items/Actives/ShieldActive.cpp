@@ -57,6 +57,7 @@ void ShieldActive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void ShieldActive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_statBonuses.shotDeflection = 0.0f;
     m_isActive = false;
 }

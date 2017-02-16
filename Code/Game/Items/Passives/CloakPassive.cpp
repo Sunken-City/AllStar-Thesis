@@ -40,6 +40,7 @@ void CloakPassive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void CloakPassive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_owner->m_sprite->m_tintColor.SetAlphaFloat(1.0f);
     m_owner->m_shieldSprite->m_tintColor.SetAlphaFloat(1.0f);
     m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(1.0f);

@@ -36,6 +36,7 @@ public:
     virtual void Update(float deltaSeconds);
     virtual Vector2 GetRandomLocationInArena();
     virtual Vector2 GetRandomPlayerSpawnPoint();
+    virtual void RemoveEntitiesInCircle(const Vector2& center, float radius);
     void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
     AABB2 GetArenaBounds();
     void SpawnBullet(Projectile* bullet);

@@ -92,18 +92,20 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
         m_entities.push_back(ent);
     }
     m_newEntities.clear();
-    for (auto iter = m_entities.begin(); iter != m_entities.end(); ++iter)
+    for (auto iter = m_entities.begin(); iter != m_entities.end();)
     {
         Entity* gameObject = *iter;
         if (gameObject->m_isDead && !gameObject->IsPlayer())
         {
             delete gameObject;
             iter = m_entities.erase(iter);
+            continue;
         }
         if (iter == m_entities.end())
         {
             break;
         }
+        ++iter;
     }
 
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)

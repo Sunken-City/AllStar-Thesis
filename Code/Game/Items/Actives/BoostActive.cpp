@@ -60,6 +60,7 @@ void BoostActive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void BoostActive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_statBonuses.topSpeed = 0.0f;
     m_statBonuses.acceleration = 0.0f;
     m_statBonuses.handling = 0.0f;

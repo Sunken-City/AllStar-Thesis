@@ -11,6 +11,7 @@
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
+#include "../Entities/TextSplash.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -107,6 +108,33 @@ Vector2 GameMode::GetRandomPlayerSpawnPoint()
     else
     {
         return GetRandomLocationInArena();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::RemoveEntitiesInCircle(const Vector2& center, float radius)
+{
+    const float radiusSquared = radius * radius;
+
+    for (auto iter = m_entities.begin(); iter != m_entities.end();)
+    {
+        Entity* entity = *iter;
+        float distSquared = MathUtils::CalcDistSquaredBetweenPoints(entity->m_transform.GetWorldPosition(), center);
+        bool isInRadius = distSquared < radiusSquared;
+        //Debug distances code:
+        //TextSplash::CreateTextSplash(Stringf("%i : %s", static_cast<int>(distSquared), isInRadius ? "True" : "False"), entity->m_transform.GetWorldPosition(), Vector2::ZERO, RGBA::GBLIGHTGREEN);
+        
+        if (!entity->IsPlayer() && isInRadius)
+        {
+            delete entity;
+            iter = m_entities.erase(iter);
+            continue;
+        }
+        if (iter == m_entities.end())
+        {
+            break;
+        }
+        ++iter;
     }
 }
 

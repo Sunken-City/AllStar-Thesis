@@ -20,6 +20,7 @@ void StealthTrailPassive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void StealthTrailPassive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(1.0f);
 }
 

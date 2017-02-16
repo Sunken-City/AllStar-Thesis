@@ -48,7 +48,7 @@ bool MissileLauncher::AttemptFire(Ship* shooter)
         for (unsigned int i = 0; i < m_numProjectilesPerShot; i++)
         {
             float halfSpreadDegrees = m_spreadDegrees / 2.0f;
-            float degreesOffset = MathUtils::GetRandom(-halfSpreadDegrees, halfSpreadDegrees);
+            float degreesOffset = MathUtils::GetRandomFloat(-halfSpreadDegrees, halfSpreadDegrees);
             Projectile* bullet = (Projectile*)new Missile(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
             if (shooter->IsPlayer())
             {

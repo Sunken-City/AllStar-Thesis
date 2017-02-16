@@ -196,7 +196,7 @@ void PlayerShip::Update(float deltaSeconds)
     static float timeOfLastReset = 0.0f;
     if (m_isDead)
     {
-        m_shieldDownEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+        m_shieldDownEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
         if (m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed()) 
         {
             Respawn();
@@ -332,7 +332,7 @@ float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
     {
         if (hadShield)
         {
-            m_shieldDownEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+            m_shieldDownEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
         }
         ratioOfDamage *= 4.0f;
         ratioOfDamage = Clamp(ratioOfDamage, 0.0f, 1.0f);
@@ -563,7 +563,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
         ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, powerUp->GetSpriteResource());
 
-        float randomDegrees = MathUtils::GetRandom(-80.0f, 80.0f);
+        float randomDegrees = MathUtils::GetRandomFloat(-80.0f, 80.0f);
         Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
         TextSplash::CreateTextSplash(Stringf("%s Up", powerUp->GetPowerUpSpriteResourceName()), m_transform, velocity, RGBA::GBLIGHTGREEN);
 
@@ -621,7 +621,7 @@ bool PlayerShip::CanPickUp(Item* item)
             {
                 m_timeSinceFullDisplayedMilliseconds = currTimeMilliseconds;
 
-                float randomDegrees = MathUtils::GetRandom(-80.0f, 80.0f);
+                float randomDegrees = MathUtils::GetRandomFloat(-80.0f, 80.0f);
                 Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
                 TextSplash::CreateTextSplash("Full", m_transform, velocity, RGBA::RED);
             }

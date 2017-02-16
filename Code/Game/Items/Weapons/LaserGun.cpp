@@ -42,7 +42,7 @@ bool LaserGun::AttemptFire(Ship* shooter)
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
         float halfSpreadDegrees = m_spreadDegrees / 2.0f;
-        float degreesOffset = MathUtils::GetRandom(-halfSpreadDegrees, halfSpreadDegrees);
+        float degreesOffset = MathUtils::GetRandomFloat(-halfSpreadDegrees, halfSpreadDegrees);
         Projectile* bullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
         if (shooter->IsPlayer())
         {

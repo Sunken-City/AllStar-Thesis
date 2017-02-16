@@ -23,6 +23,7 @@ void SpecialTrailPassive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void SpecialTrailPassive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_owner->m_shipTrail->m_emitters[0]->m_spriteOverride = ResourceDatabase::instance->GetSpriteResource("BeamTrail");
 }
 

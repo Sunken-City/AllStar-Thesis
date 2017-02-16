@@ -57,6 +57,7 @@ void QuickshotActive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void QuickshotActive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_statBonuses.rateOfFire = 0.0f;
     m_isActive = false;
 }

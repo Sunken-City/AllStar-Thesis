@@ -61,6 +61,7 @@ void TeleportActive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void TeleportActive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_isActive = false;
 }
 

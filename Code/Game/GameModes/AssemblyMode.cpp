@@ -32,7 +32,7 @@ AssemblyMode::~AssemblyMode()
 void AssemblyMode::Initialize()
 {
     m_isPlaying = true;
-    SpawnGeometry();
+    GenerateLevel();
     SpawnStartingEntities();
     SpawnPlayers();
     GameMode::Initialize();
@@ -83,14 +83,22 @@ void AssemblyMode::SpawnPlayers()
 }
 
 //-----------------------------------------------------------------------------------
-void AssemblyMode::SpawnGeometry()
+void AssemblyMode::GenerateLevel()
 {
     if (!g_spawnGeometry)
     {
         return;
     }
-    //Add in some Asteroids (for color)
-    for (int i = 0; i < 20; ++i)
+    FillMapWithAsteroids();
+
+}
+
+//-----------------------------------------------------------------------------------
+void AssemblyMode::FillMapWithAsteroids()
+{
+    unsigned int numAsteroids = MathUtils::GetRandomInt(MIN_NUM_ASTEROIDS, MAX_NUM_ASTEROIDS);
+
+    for (int i = 0; i < numAsteroids; ++i)
     {
         m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
     }
@@ -127,7 +135,7 @@ void AssemblyMode::Update(float deltaSeconds)
         m_entities.push_back(ent);
     }
     m_newEntities.clear();
-    for (auto iter = m_entities.begin(); iter != m_entities.end(); ++iter)
+    for (auto iter = m_entities.begin(); iter != m_entities.end();)
     {
         Entity* gameObject = *iter;
         if (gameObject->m_isDead && !gameObject->IsPlayer())
@@ -139,6 +147,7 @@ void AssemblyMode::Update(float deltaSeconds)
         {
             break;
         }
+        ++iter;
     }
 
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
@@ -146,6 +155,11 @@ void AssemblyMode::Update(float deltaSeconds)
         PlayerShip* player = TheGame::instance->m_players[i];
         Vector2 targetCameraPosition = player->GetPosition();
         Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
+
+        if (InputSystem::instance->WasKeyJustPressed('R'))
+        {
+            RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), 10.0f);
+        }
 
         float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
         float aimingDeadzoneThresholdSquared = aimingDeadzoneThreshold * aimingDeadzoneThreshold;

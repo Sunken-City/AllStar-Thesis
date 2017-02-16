@@ -64,6 +64,7 @@ void WarpActive::Activate(NamedProperties& parameters)
 //-----------------------------------------------------------------------------------
 void WarpActive::Deactivate(NamedProperties& parameters)
 {
+    UNUSED(parameters);
     m_isActive = false;
 }
 
