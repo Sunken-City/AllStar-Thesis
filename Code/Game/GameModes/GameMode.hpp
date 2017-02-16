@@ -11,6 +11,7 @@ class Vector2;
 class WidgetBase;
 class Projectile;
 class TextRenderable2D;
+class Encounter;
 
 //-----------------------------------------------------------------------------------
 struct DefaultPlayerStats
@@ -51,13 +52,16 @@ public:
     virtual void InitializeReadyAnim();
     virtual void UpdateReadyAnim(float deltaSeconds);
     virtual void CleanupReadyAnim();
+    virtual Encounter* GetRandomMediumEncounter(const Vector2& center, float radius);
+    virtual Encounter* GetRandomLargeEncounter(const Vector2& center, float radius);
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();
     virtual void RecordPlayerDeath(PlayerShip* ship);
     virtual void RecordPlayerKill(PlayerShip* killer, Ship* victim);
     virtual void DetermineWinners();
-    
+
+    //STATIC FUNCTIONS/////////////////////////////////////////////////////////////////////
     static GameMode* GetCurrent();
     
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////

@@ -2,11 +2,11 @@
 #include "Game/Encounters/Encounter.hpp"
 
 //-----------------------------------------------------------------------------------
-class SquadronEncounter : public Encounter
+class NebulaEncounter : public Encounter
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    SquadronEncounter(const Vector2& center, float radius);
+    NebulaEncounter(const Vector2& center, float radius);
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Spawn() override;

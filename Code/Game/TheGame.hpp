@@ -46,8 +46,8 @@ public:
     static unsigned int const SHIELD_LAYER = 1050;
     static unsigned int const BULLET_LAYER_BLOOM = 1100;
     static unsigned int const BULLET_LAYER = 1200;
-    static unsigned int const TEXT_PARTICLE_LAYER = 1300;
     static unsigned int const FOREGROUND_LAYER = 2000;
+    static unsigned int const TEXT_PARTICLE_LAYER = 2300;
     static unsigned int const UI_LAYER = 3000;
     static unsigned int const TEXT_LAYER = 3500;
     static unsigned int const FULL_SCREEN_EFFECT_LAYER = 4000;

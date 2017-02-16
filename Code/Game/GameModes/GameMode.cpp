@@ -12,6 +12,8 @@
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
 #include "../Entities/TextSplash.hpp"
+#include "../Encounters/SquadronEncounter.hpp"
+#include "../Encounters/NebulaEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -338,5 +340,35 @@ void GameMode::DetermineWinners()
         {
             ship->m_sprite->m_tintColor = RGBA::GRAY;
         }
+    }
+}
+
+//-----------------------------------------------------------------------------------
+Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
+{
+    int random = MathUtils::GetRandomIntFromZeroTo(2);
+    switch (random)
+    {
+    case 0:
+        return new SquadronEncounter(center, radius);
+    case 1:
+        return new NebulaEncounter(center, radius);
+    default:
+        ERROR_AND_DIE("Random medium encounter roll out of range");
+    }
+}
+
+//-----------------------------------------------------------------------------------
+Encounter* GameMode::GetRandomLargeEncounter(const Vector2& center, float radius)
+{
+    int random = MathUtils::GetRandomIntFromZeroTo(2);
+    switch (random)
+    {
+    case 0:
+        return new SquadronEncounter(center, radius);
+    case 1:
+        return new NebulaEncounter(center, radius);
+    default:
+        ERROR_AND_DIE("Random medium encounter roll out of range");
     }
 }

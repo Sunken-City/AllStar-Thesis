@@ -87,7 +87,7 @@ bool Entity::IsCollidingWith(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Entity::ResolveCollision(Entity* otherEntity)
 {
-    if (m_isDead || otherEntity->m_isDead || otherEntity->m_noCollide || otherEntity == m_owner || otherEntity->m_owner == this || (!m_collidesWithBullets && (otherEntity->IsProjectile() || IsProjectile())))
+    if (m_isDead || otherEntity->m_isDead || m_noCollide || otherEntity->m_noCollide || otherEntity == m_owner || otherEntity->m_owner == this || (!m_collidesWithBullets && (otherEntity->IsProjectile() || IsProjectile())))
     {
         return;
     }
