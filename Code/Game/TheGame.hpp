@@ -36,6 +36,7 @@ public:
     static unsigned int const BACKGROUND_LAYER = 0;
     static unsigned int const BACKGROUND_STARS_LAYER_SLOWER = 100;
     static unsigned int const BACKGROUND_STARS_LAYER = 200;
+    static unsigned int const BACKGROUND_GEOMETRY_LAYER = 500;
     static unsigned int const BACKGROUND_PARTICLES_LAYER = 600;
     static unsigned int const BACKGROUND_PARTICLES_BLOOM_LAYER = 650;
     static unsigned int const GEOMETRY_LAYER = 700;
@@ -113,6 +114,7 @@ private:
     void UpdateGameOver(float deltaSeconds);
     void RenderGameOver() const;
     void RenderDebug() const;
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     SoundID SFX_UI_ADVANCE;

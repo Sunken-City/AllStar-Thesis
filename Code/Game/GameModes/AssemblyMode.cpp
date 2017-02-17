@@ -35,6 +35,7 @@ AssemblyMode::~AssemblyMode()
 void AssemblyMode::Initialize()
 {
     m_isPlaying = true;
+    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-WORLD_SIZE, -WORLD_SIZE), Vector2(WORLD_SIZE, WORLD_SIZE)));
     GenerateLevel();
     SpawnStartingEntities();
     SpawnPlayers();
@@ -99,35 +100,24 @@ void AssemblyMode::GenerateLevel()
 
     for (int i = 0; i < numEncounters; ++i)
     {
-        bool succeeded = false;
-        do 
+        float radius = MathUtils::GetRandomFloat(MIN_MEDIUM_RADIUS, MAX_MEDIUM_RADIUS);
+        Vector2 center = FindSpaceForEncounter(radius, encounters);
+        Encounter* newEncounter = GetRandomMediumEncounter(center, radius);
+
+        RemoveEntitiesInCircle(center, radius);
+        encounters.push_back(newEncounter);
+        newEncounter->Spawn();
+
+        if (newEncounter->NeedsLinkedEncounter())
         {
-            float radius = MathUtils::GetRandomFloat(MIN_MEDIUM_RADIUS, MAX_MEDIUM_RADIUS);
-            Vector2 center = GetRandomLocationInArena();
-            Encounter* newEncounter = GetRandomMediumEncounter(center, radius);
+            float linkedRadius = MathUtils::GetRandomFloat(MIN_MEDIUM_RADIUS, MAX_MEDIUM_RADIUS);
+            Vector2 linkedCenter = FindSpaceForEncounter(linkedRadius, encounters);
+            Encounter* linkedEncounter = newEncounter->CreateLinkedEncounter(linkedCenter, linkedRadius);
 
-            if (encounters.size() == 0)
-            {
-                succeeded = true;
-                RemoveEntitiesInCircle(center, radius);
-                encounters.push_back(newEncounter);
-                newEncounter->Spawn();
-            }
-
-            for (Encounter* encounter : encounters)
-            {
-                float combinedDistance = radius + encounter->m_radius;
-                float combinedDistanceSquared = combinedDistance * combinedDistance;
-                if (MathUtils::CalcDistSquaredBetweenPoints(encounter->m_center, center) > combinedDistanceSquared)
-                {
-                    succeeded = true;
-                    RemoveEntitiesInCircle(center, radius);
-                    encounters.push_back(newEncounter);
-                    newEncounter->Spawn();
-                    break;
-                }
-            }
-        } while (!succeeded);
+            RemoveEntitiesInCircle(linkedCenter, linkedRadius);
+            encounters.push_back(linkedEncounter);
+            linkedEncounter->Spawn();
+        }
     }
 
     for (Encounter* encounter : encounters)
@@ -144,36 +134,6 @@ void AssemblyMode::FillMapWithAsteroids()
     for (int i = 0; i < numAsteroids; ++i)
     {
         m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
-    }
-}
-
-//-----------------------------------------------------------------------------------
-Encounter* AssemblyMode::GetRandomMediumEncounter(const Vector2& center, float radius)
-{
-    int random = MathUtils::GetRandomIntFromZeroTo(2);
-    switch (random)
-    {
-    case 0:
-        return new SquadronEncounter(center, radius);
-    case 1:
-        return new NebulaEncounter(center, radius);
-    default:
-        ERROR_AND_DIE("Random medium encounter roll out of range");
-    }
-}
-
-//-----------------------------------------------------------------------------------
-Encounter* AssemblyMode::GetRandomLargeEncounter(const Vector2& center, float radius)
-{
-    int random = MathUtils::GetRandomIntFromZeroTo(2);
-    switch (random)
-    {
-    case 0:
-        return new SquadronEncounter(center, radius);
-    case 1:
-        return new NebulaEncounter(center, radius);
-    default:
-        ERROR_AND_DIE("Random medium encounter roll out of range");
     }
 }
 
@@ -233,7 +193,7 @@ void AssemblyMode::Update(float deltaSeconds)
         {
             float radius = 5.0f;
             RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
-            WormholeEncounter nebby(player->m_transform.GetWorldPosition(), radius);
+            NebulaEncounter nebby(player->m_transform.GetWorldPosition(), radius);
             nebby.Spawn();
         }
 

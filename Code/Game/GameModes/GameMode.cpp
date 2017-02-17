@@ -14,6 +14,7 @@
 #include "../Entities/TextSplash.hpp"
 #include "../Encounters/SquadronEncounter.hpp"
 #include "../Encounters/NebulaEncounter.hpp"
+#include "../Encounters/WormholeEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -94,9 +95,9 @@ void GameMode::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-Vector2 GameMode::GetRandomLocationInArena()
+Vector2 GameMode::GetRandomLocationInArena(float radius /*= 0.0f*/)
 {
-    return GetArenaBounds().GetRandomPointInside();
+    return AABB2::CreateMinkowskiBox(GetArenaBounds(), -radius).GetRandomPointInside();
 }
 
 //-----------------------------------------------------------------------------------
@@ -122,7 +123,9 @@ void GameMode::RemoveEntitiesInCircle(const Vector2& center, float radius)
     {
         Entity* entity = *iter;
         float distSquared = MathUtils::CalcDistSquaredBetweenPoints(entity->m_transform.GetWorldPosition(), center);
-        bool isInRadius = distSquared < radiusSquared;
+        float combinedRadius = entity->m_collisionRadius + radius;
+        float combinedRadiusSquared = combinedRadius * combinedRadius;
+        bool isInRadius = distSquared < combinedRadiusSquared;
         //Debug distances code:
         //TextSplash::CreateTextSplash(Stringf("%i : %s", static_cast<int>(distSquared), isInRadius ? "True" : "False"), entity->m_transform.GetWorldPosition(), Vector2::ZERO, RGBA::GBLIGHTGREEN);
         
@@ -350,7 +353,7 @@ Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radiu
     switch (random)
     {
     case 0:
-        return new SquadronEncounter(center, radius);
+        return new WormholeEncounter(center, radius);
     case 1:
         return new NebulaEncounter(center, radius);
     default:
@@ -371,4 +374,36 @@ Encounter* GameMode::GetRandomLargeEncounter(const Vector2& center, float radius
     default:
         ERROR_AND_DIE("Random medium encounter roll out of range");
     }
+}
+
+//-----------------------------------------------------------------------------------
+Vector2 GameMode::FindSpaceForEncounter(float radius, const std::vector<Encounter*>& encounters)
+{
+    Vector2 location;
+    bool foundLocation = false;
+    int iterationCount = 0;
+
+    do
+    {
+        location = GetRandomLocationInArena(radius);
+        foundLocation = true;
+
+        if (encounters.size() == 0)
+        {
+            return location;
+        }
+        for (Encounter* encounter : encounters)
+        {
+            float combinedRadius = radius + encounter->m_radius;
+            float combinedDistanceSquared = combinedRadius * combinedRadius;
+            if (MathUtils::CalcDistSquaredBetweenPoints(encounter->m_center, location) <= combinedDistanceSquared)
+            {
+                foundLocation = false;
+                break;
+            }
+        }
+
+        ASSERT_OR_DIE(++iterationCount < 1000, "Ran out of space for an encounter, is your map too small or the encounter too big?");
+    } while (!foundLocation);
+    return location;
 }

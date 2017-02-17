@@ -91,6 +91,7 @@ public:
     Vector2 m_velocity;
     Vector2 m_sumOfImpulses = Vector2::ZERO;
     std::vector<Item*> m_inventory;
+    double m_timeLastWarped = 0.0;
     float m_currentHp;
     float m_collisionRadius;
     float m_age;

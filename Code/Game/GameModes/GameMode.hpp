@@ -35,7 +35,7 @@ public:
     virtual void Initialize();
     virtual void CleanUp();
     virtual void Update(float deltaSeconds);
-    virtual Vector2 GetRandomLocationInArena();
+    virtual Vector2 GetRandomLocationInArena(float radius = 0.0f);
     virtual Vector2 GetRandomPlayerSpawnPoint();
     virtual void RemoveEntitiesInCircle(const Vector2& center, float radius);
     void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
@@ -54,6 +54,7 @@ public:
     virtual void CleanupReadyAnim();
     virtual Encounter* GetRandomMediumEncounter(const Vector2& center, float radius);
     virtual Encounter* GetRandomLargeEncounter(const Vector2& center, float radius);
+    virtual Vector2 FindSpaceForEncounter(float radius, const std::vector<Encounter*>& encounters);
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();

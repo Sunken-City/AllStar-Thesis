@@ -11,6 +11,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity) override;
+    void Teleport(Entity* otherEntity);
     static void LinkWormholes(Wormhole* wormhole1, Wormhole* wormhole2);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
@@ -19,4 +20,5 @@ public:
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;
+    static const float PERCENTAGE_RADIUS_INNER_RADIUS;
 };
