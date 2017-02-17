@@ -767,6 +767,12 @@ void TheGame::RenderDebug() const
         {
             SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), ent->m_collisionRadius, 20, 0);
         }
+
+        if (InputSystem::instance->IsKeyDown('R'))
+        {
+            float radius = 5.0f;
+            SpriteGameRenderer::instance->DrawPolygonOutline(m_players[0]->m_transform.GetWorldPosition(), radius, 20, 0);
+        }
     }
     Renderer::instance->EndOrtho();
 }
