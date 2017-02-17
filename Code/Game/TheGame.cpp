@@ -761,30 +761,14 @@ void TheGame::RenderGameOver() const
 //-----------------------------------------------------------------------------------
 void TheGame::RenderDebug() const
 {
-//     Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_virtualWidth, SpriteGameRenderer::instance->m_virtualHeight, SpriteGameRenderer::instance->m_cameraPosition);
-//     {
-//         for (Entity* ent : m_currentGameMode->m_entities)
-//         {
-//             Vector2 center = ent->m_transform.GetWorldPosition();
-//             float radius = ent->m_collisionRadius;
-// 
-//             const float radiansTotal = 2.0f * 3.14159;
-//             const float radiansPerSide = radiansTotal / 20;
-// 
-//             glBegin(GL_LINE_LOOP);
-//             {
-//                 for (float radians = 0.0f; radians < radiansTotal; radians += radiansPerSide)
-//                 {
-//                     float adjustedRadians = radians;
-//                     float x = center.x + (radius * cos(adjustedRadians));
-//                     float y = center.y + (radius * sin(adjustedRadians));
-//                     glVertex2f(x, y);
-//                 }
-//             }
-//             glEnd();
-//         }
-//     }
-//     Renderer::instance->EndOrtho();
+    Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_virtualWidth, SpriteGameRenderer::instance->m_virtualHeight, SpriteGameRenderer::instance->m_cameraPosition);
+    {
+        for (Entity* ent : m_currentGameMode->m_entities)
+        {
+            SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), ent->m_collisionRadius, 20, 0);
+        }
+    }
+    Renderer::instance->EndOrtho();
 }
 
 //-----------------------------------------------------------------------------------
