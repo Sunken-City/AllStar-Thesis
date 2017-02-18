@@ -14,6 +14,9 @@ public:
     void SpawnStartingEntities();
     void SpawnPlayers();
     void GenerateLevel();
+
+    void SpawnEncounters();
+
     void FillMapWithAsteroids();
     virtual void Update(float deltaSeconds);
 
@@ -26,8 +29,8 @@ private:
     const float MAX_MEDIUM_RADIUS = 4.0f;
     static const unsigned int MIN_NUM_ASTEROIDS = 40;
     static const unsigned int MAX_NUM_ASTEROIDS = 80;
-    static const unsigned int MIN_NUM_MEDIUM_ENCOUNTERS = 6;
-    static const unsigned int MAX_NUM_MEDIUM_ENCOUNTERS = 10;
+    static const unsigned int MIN_NUM_MEDIUM_ENCOUNTERS = 10;
+    static const unsigned int MAX_NUM_MEDIUM_ENCOUNTERS = 20;
     static const unsigned int MIN_NUM_LARGE_ENCOUNTERS = 0;
     static const unsigned int MAX_NUM_LARGE_ENCOUNTERS = 0;
 };

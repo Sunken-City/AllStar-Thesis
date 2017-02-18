@@ -94,7 +94,12 @@ void AssemblyMode::GenerateLevel()
         return;
     }
     FillMapWithAsteroids();
+    SpawnEncounters();
+}
 
+//-----------------------------------------------------------------------------------
+void AssemblyMode::SpawnEncounters()
+{
     int numEncounters = MathUtils::GetRandomInt(MIN_NUM_MEDIUM_ENCOUNTERS, MAX_NUM_MEDIUM_ENCOUNTERS);
     std::vector<Encounter*> encounters;
 
@@ -117,6 +122,7 @@ void AssemblyMode::GenerateLevel()
             RemoveEntitiesInCircle(linkedCenter, linkedRadius);
             encounters.push_back(linkedEncounter);
             linkedEncounter->Spawn();
+            ++numEncounters;
         }
     }
 

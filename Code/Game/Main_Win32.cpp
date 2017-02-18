@@ -29,7 +29,7 @@
 const int OFFSET_FROM_WINDOWS_DESKTOP = 50;
 const extern int WINDOW_PHYSICAL_WIDTH = 1600; //Gameboy: 160
 const extern int WINDOW_PHYSICAL_HEIGHT = 900; //Gameboy: 144
-const extern int IMPORT_RESOLUTION = 1080;
+const extern int IMPORT_RESOLUTION = 900;
 const extern float VIRTUAL_SIZE = 10.0f;
 const float VIEW_LEFT = 0.0;
 const float VIEW_RIGHT = static_cast<float>(WINDOW_PHYSICAL_WIDTH);

@@ -759,20 +759,20 @@ void TheGame::RenderGameOver() const
 //-----------------------------------------------------------------------------------
 void TheGame::RenderDebug() const
 {
-    Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_virtualWidth, SpriteGameRenderer::instance->m_virtualHeight, SpriteGameRenderer::instance->m_cameraPosition);
-    {
-        for (Entity* ent : m_currentGameMode->m_entities)
-        {
-            SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), ent->m_collisionRadius, 20, 0);
-        }
-
-        if (InputSystem::instance->IsKeyDown('R'))
-        {
-            float radius = 5.0f;
-            SpriteGameRenderer::instance->DrawPolygonOutline(m_players[0]->m_transform.GetWorldPosition(), radius, 20, 0);
-        }
-    }
-    Renderer::instance->EndOrtho();
+//     Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_virtualWidth, SpriteGameRenderer::instance->m_virtualHeight, SpriteGameRenderer::instance->m_cameraPosition);
+//     {
+//         for (Entity* ent : m_currentGameMode->m_entities)
+//         {
+//             SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), ent->m_collisionRadius, 20, 0);
+//         }
+// 
+//         if (InputSystem::instance->IsKeyDown('R'))
+//         {
+//             float radius = 5.0f;
+//             SpriteGameRenderer::instance->DrawPolygonOutline(m_players[0]->m_transform.GetWorldPosition(), radius, 20, 0);
+//         }
+//     }
+//     Renderer::instance->EndOrtho();
 }
 
 //-----------------------------------------------------------------------------------
