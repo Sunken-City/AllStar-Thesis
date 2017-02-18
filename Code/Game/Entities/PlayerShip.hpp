@@ -63,9 +63,9 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_powerupStatModifiers;
-    ShaderProgram* m_recolorShader = nullptr;
+    ShaderProgram* m_paletteSwapShader = nullptr;
     ShaderProgram* m_cooldownShader = nullptr;
-    Material* m_recolorMaterial = nullptr;
+    Material* m_paletteSwapMaterial = nullptr;
     Material* m_cooldownMaterial = nullptr;
     Material* m_shieldDownEffect = nullptr;
     Sprite* m_equipUI = nullptr;

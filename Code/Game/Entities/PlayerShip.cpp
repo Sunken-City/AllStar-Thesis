@@ -36,15 +36,17 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_dpsText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
-    , m_recolorShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
+    , m_paletteSwapShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
     , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
 {
     m_isDead = false;
-    m_recolorMaterial = new Material(m_recolorShader, SpriteGameRenderer::instance->m_defaultRenderState);
+    m_paletteSwapMaterial = new Material(m_paletteSwapShader, SpriteGameRenderer::instance->m_defaultRenderState);
     m_cooldownMaterial = new Material(m_cooldownShader, SpriteGameRenderer::instance->m_defaultRenderState);
     
     m_sprite = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
-    m_sprite->m_material = m_recolorMaterial;
+    m_sprite->m_material = m_paletteSwapMaterial;
+    float paletteIndex = ((float)((PlayerPilot*)m_pilot)->m_playerNumber + 1.0f) / 16.0f;
+    m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ColorPalettes")->m_texture);
     m_sprite->m_transform.SetScale(Vector2(2.0f));
@@ -112,8 +114,8 @@ PlayerShip::~PlayerShip()
         delete m_statValues[i];
     }
 
-    delete m_recolorShader;
-    delete m_recolorMaterial;
+    delete m_paletteSwapShader;
+    delete m_paletteSwapMaterial;
 
     delete m_cooldownShader;
     delete m_cooldownMaterial;
@@ -488,7 +490,7 @@ void PlayerShip::DebugUpdate(float deltaSeconds)
     if (InputSystem::instance->WasKeyJustPressed('I'))
     {
         ++paletteNumber;
-        paletteNumber = paletteNumber % 16;
+        paletteNumber = (paletteNumber + (((PlayerPilot*)m_pilot)->m_playerNumber + 1)) % 16;
         float paletteIndex = static_cast<float>(paletteNumber) / 16.0f;
         m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     }
