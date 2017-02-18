@@ -36,7 +36,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_dpsText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
-    , m_recolorShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/recolorable2D.frag"))
+    , m_recolorShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
     , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
 {
     m_isDead = false;
@@ -46,6 +46,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
     m_sprite->m_material = m_recolorMaterial;
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
+    m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ColorPalettes")->m_texture);
     m_sprite->m_transform.SetScale(Vector2(2.0f));
     m_shipTrail->m_colorOverride = GetPlayerColor();
     m_factionColor = GetPlayerColor();
@@ -258,6 +259,7 @@ void PlayerShip::Update(float deltaSeconds)
     {
         m_cooldownMaterial->SetFloatUniform("gPercentage", 1.0f);
     }
+    DebugUpdate(deltaSeconds);
 }
 
 //-----------------------------------------------------------------------------------
@@ -476,6 +478,19 @@ void PlayerShip::EjectPassive()
         m_passiveEffect->Deactivate(NamedProperties::NONE);
         TheGame::instance->m_currentGameMode->SpawnPickup(m_passiveEffect, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_passiveEffect = nullptr;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::DebugUpdate(float deltaSeconds)
+{
+    static int paletteNumber = 0;
+    if (InputSystem::instance->WasKeyJustPressed('I'))
+    {
+        ++paletteNumber;
+        paletteNumber = paletteNumber % 16;
+        float paletteIndex = static_cast<float>(paletteNumber) / 16.0f;
+        m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     }
 }
 

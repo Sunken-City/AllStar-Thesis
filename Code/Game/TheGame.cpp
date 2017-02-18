@@ -759,20 +759,23 @@ void TheGame::RenderGameOver() const
 //-----------------------------------------------------------------------------------
 void TheGame::RenderDebug() const
 {
-//     Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_virtualWidth, SpriteGameRenderer::instance->m_virtualHeight, SpriteGameRenderer::instance->m_cameraPosition);
-//     {
-//         for (Entity* ent : m_currentGameMode->m_entities)
-//         {
-//             SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), ent->m_collisionRadius, 20, 0);
-//         }
-// 
-//         if (InputSystem::instance->IsKeyDown('R'))
-//         {
-//             float radius = 5.0f;
-//             SpriteGameRenderer::instance->DrawPolygonOutline(m_players[0]->m_transform.GetWorldPosition(), radius, 20, 0);
-//         }
-//     }
-//     Renderer::instance->EndOrtho();
+    if (InputSystem::instance->IsKeyDown('B'))
+    {
+        Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_virtualWidth, SpriteGameRenderer::instance->m_virtualHeight, SpriteGameRenderer::instance->m_cameraPosition);
+        {
+            for (Entity* ent : m_currentGameMode->m_entities)
+            {
+                SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), ent->m_collisionRadius, 20, 0);
+            }
+
+            if (InputSystem::instance->IsKeyDown('R'))
+            {
+                float radius = 5.0f;
+                SpriteGameRenderer::instance->DrawPolygonOutline(m_players[0]->m_transform.GetWorldPosition(), radius, 20, 0);
+            }
+        }
+        Renderer::instance->EndOrtho();
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -918,6 +921,9 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless.png");
     ResourceDatabase::instance->RegisterSprite("Missile1", "Data\\Images\\Lasers\\basicMissile.png");
     ResourceDatabase::instance->RegisterSprite("Missile2", "Data\\Images\\Lasers\\basicMissile2.png");
+
+    //Color Palettes:
+    ResourceDatabase::instance->RegisterSprite("ColorPalettes", "Data\\Images\\Palettes\\gameboyPalettes.png");    
 
     //Chassis
     ResourceDatabase::instance->RegisterSprite("DefaultChassis", "Data\\Images\\Chassis\\defaultChassis.png");
