@@ -196,7 +196,6 @@ void PlayerShip::InitializeUI()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
-    static float timeOfLastReset = 0.0f;
     if (m_isDead)
     {
         m_shieldDownEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
@@ -210,32 +209,21 @@ void PlayerShip::Update(float deltaSeconds)
         Ship::Update(deltaSeconds);
     }
 
+    CheckToEjectEquipment(deltaSeconds);
+    UpdateEquips(deltaSeconds);
+    UpdatePlayerUI(deltaSeconds);
+    DebugUpdate(deltaSeconds);
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::UpdatePlayerUI(float deltaSeconds)
+{
+    static float timeOfLastReset = 0.0f;
     if (InputSystem::instance->WasKeyJustPressed('R'))
     {
         timeOfLastReset = m_age - deltaSeconds;
         m_totalDamageDone = 0.0f;
     }
-    
-    if (InputSystem::instance->WasKeyJustPressed('1'))
-    {
-        m_powerupStatModifiers = Stats(-5.0f);
-    }
-    else if (InputSystem::instance->WasKeyJustPressed('2'))
-    {
-        m_powerupStatModifiers = Stats(0.0f);
-    }
-    else if (InputSystem::instance->WasKeyJustPressed('3'))
-    {
-        m_powerupStatModifiers = Stats(20.0f);
-    }
-    else if (InputSystem::instance->WasKeyJustPressed('4'))
-    {
-        m_powerupStatModifiers = Stats(30.0f);
-    }
-
-    CheckToEjectEquipment(deltaSeconds);
-    UpdateEquips(deltaSeconds);
-
     float dps = (m_totalDamageDone) / (m_age - timeOfLastReset);
     float speed = m_velocity.CalculateMagnitude();
     float rotationFromSpeed = 0.075f + (0.05f * speed);
@@ -247,7 +235,7 @@ void PlayerShip::Update(float deltaSeconds)
     m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
     m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
     m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
-    
+
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
     m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>((speed / CalculateTopSpeedValue()) * 100.0f));
@@ -261,7 +249,6 @@ void PlayerShip::Update(float deltaSeconds)
     {
         m_cooldownMaterial->SetFloatUniform("gPercentage", 1.0f);
     }
-    DebugUpdate(deltaSeconds);
 }
 
 //-----------------------------------------------------------------------------------
@@ -486,6 +473,23 @@ void PlayerShip::EjectPassive()
 //-----------------------------------------------------------------------------------
 void PlayerShip::DebugUpdate(float deltaSeconds)
 {
+    if (InputSystem::instance->WasKeyJustPressed('1'))
+    {
+        m_powerupStatModifiers = Stats(-5.0f);
+    }
+    else if (InputSystem::instance->WasKeyJustPressed('2'))
+    {
+        m_powerupStatModifiers = Stats(0.0f);
+    }
+    else if (InputSystem::instance->WasKeyJustPressed('3'))
+    {
+        m_powerupStatModifiers = Stats(20.0f);
+    }
+    else if (InputSystem::instance->WasKeyJustPressed('4'))
+    {
+        m_powerupStatModifiers = Stats(30.0f);
+    }
+
     static int paletteNumber = 0;
     if (InputSystem::instance->WasKeyJustPressed('I'))
     {
