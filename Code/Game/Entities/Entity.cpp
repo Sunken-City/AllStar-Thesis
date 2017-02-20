@@ -8,6 +8,7 @@
 #include "Game/TheGame.hpp"
 #include "Game/GameCommon.hpp"
 #include <algorithm>
+#include "Engine/Renderer/Material.hpp"
 #include "TextSplash.hpp"
 
 Vector2 Entity::SHEILD_SCALE_FUDGE_VALUE = Vector2(0.25f);
@@ -499,6 +500,12 @@ void Entity::SetShieldHealth(float newShieldValue)
             m_shieldSprite->Disable();
         }
     }
+}
+
+//-----------------------------------------------------------------------------------
+void Entity::UpdateVortexShaderPosition(const Vector2& warpHolePosition)
+{
+    m_sprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(warpHolePosition, 0.0f));
 }
 
 //-----------------------------------------------------------------------------------

@@ -1,7 +1,9 @@
 #include "Game/Entities/Props/BlackHole.hpp"
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
+#include "Engine/Renderer/Material.hpp"
 #include "Engine/Time/Time.hpp"
+#include "Engine/Math/Vector3.hpp"
 
 const float BlackHole::MAX_ANGULAR_VELOCITY = 20.0f;
 const float BlackHole::PERCENTAGE_RADIUS_INNER_RADIUS = 0.1f;
@@ -42,6 +44,11 @@ void BlackHole::ResolveCollision(Entity* otherEntity)
     const float INNER_RADIUS_SQUARED = COLLISION_RADIUS_SQUARED * PERCENTAGE_RADIUS_INNER_RADIUS;
     Vector2 dispFromOtherToCenter = m_transform.GetWorldPosition() - otherEntity->m_transform.GetWorldPosition();
     Vector2 normDirectionTowardsCenter = dispFromOtherToCenter.GetNorm();
+
+    otherEntity->UpdateVortexShaderPosition(m_transform.GetWorldPosition());
+
+    otherEntity->m_sprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(m_transform.GetWorldPosition(), 0.0f));
+    otherEntity->m_shieldSprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(m_transform.GetWorldPosition(), 0.0f));
 
     if (dispFromOtherToCenter.CalculateMagnitudeSquared() < INNER_RADIUS_SQUARED)
     {

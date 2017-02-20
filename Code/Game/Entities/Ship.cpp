@@ -11,6 +11,7 @@
 #include "Game/Entities/Projectiles/Projectile.hpp"
 #include "../GameCommon.hpp"
 #include "Engine/Math/Noise.hpp"
+#include "Engine/Renderer/Material.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -245,4 +246,11 @@ Vector2 Ship::GetMuzzlePosition()
 const SpriteResource* Ship::GetCollisionSpriteResource()
 {
     return HasShield() ? m_shieldCollisionSpriteResource : m_collisionSpriteResource;
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::UpdateVortexShaderPosition(const Vector2& warpHolePosition)
+{
+    Entity::UpdateVortexShaderPosition(warpHolePosition);
+    m_shieldSprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(warpHolePosition, 0.0f));
 }
