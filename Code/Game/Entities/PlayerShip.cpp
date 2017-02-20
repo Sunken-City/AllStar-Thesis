@@ -42,7 +42,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_isDead = false;
     m_paletteSwapMaterial = new Material(m_paletteSwapShader, SpriteGameRenderer::instance->m_defaultRenderState);
     m_cooldownMaterial = new Material(m_cooldownShader, SpriteGameRenderer::instance->m_defaultRenderState);
-    
+
     m_sprite = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
     m_sprite->m_material = m_paletteSwapMaterial;
     float paletteIndex = ((float)((PlayerPilot*)m_pilot)->m_playerNumber + 1.0f) / 16.0f;
@@ -57,6 +57,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     InitializeUI();
     InitializeStatGraph();
 
+    UpdateVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;
@@ -361,6 +362,7 @@ void PlayerShip::Respawn()
     m_shipTrail->Flush();
     m_sprite->Enable();
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
+    UpdateVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
 }
 
 //-----------------------------------------------------------------------------------
