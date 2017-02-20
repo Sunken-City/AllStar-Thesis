@@ -20,5 +20,5 @@ void main()
   vec4 diffuseColor = texture(gDiffuseTexture, passUV);
   float xPalettePosition = diffuseColor.r;
   fragmentColor = passColor * texture(gEmissiveTexture, vec2(xPalettePosition, PaletteOffset));
-  fragmentColor.a = diffuseColor.a;
+  fragmentColor.a = diffuseColor.a * passColor.a;
 }

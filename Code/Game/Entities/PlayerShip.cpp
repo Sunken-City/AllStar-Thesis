@@ -66,7 +66,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        PickUpItem(new MissileLauncher());
+        //PickUpItem(new MissileLauncher());
         PickUpItem(new SpeedChassis());
         PickUpItem(new BoostActive());
         PickUpItem(new SpecialTrailPassive());
