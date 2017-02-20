@@ -90,6 +90,8 @@ private:
     void UpdateAssemblyPlaying(float deltaSeconds);
     void RenderAssemblyPlaying() const;
 
+    void RenderSplitscreenLines() const;
+
     void InitializeAssemblyResultsState();
     void CleanupAssemblyResultsState(unsigned int);
     void UpdateAssemblyResults(float deltaSeconds);

@@ -460,16 +460,34 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
 void TheGame::RenderAssemblyPlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
-    SpriteGameRenderer::instance->Render();
+    SpriteGameRenderer::instance->Render(); 
+    RenderSplitscreenLines();
+    RenderDebug();
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RenderSplitscreenLines() const
+{
+    static const float LINE_WIDTH = 5.0f;
     Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_windowVirtualWidth, SpriteGameRenderer::instance->m_windowVirtualHeight, Vector2::ZERO);
     {
         if (m_numberOfPlayers == 2)
         {
-            SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, 10);
+            SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, LINE_WIDTH);
+        }
+        else if (m_numberOfPlayers == 3)
+        {
+            float offsetUnit = SpriteGameRenderer::instance->m_windowVirtualWidth / 6.0f;
+            SpriteGameRenderer::instance->DrawLine(Vector2(-offsetUnit, 20.0f), Vector2(-offsetUnit, -20.0f), RGBA::WHITE, LINE_WIDTH);
+            SpriteGameRenderer::instance->DrawLine(Vector2(offsetUnit, 20.0f), Vector2(offsetUnit, -20.0f), RGBA::WHITE, LINE_WIDTH);
+        }
+        else if (m_numberOfPlayers == 4)
+        {
+            SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, LINE_WIDTH);
+            SpriteGameRenderer::instance->DrawLine(Vector2(20.0f, 0.0f), Vector2(-20.0f, 0.0f), RGBA::WHITE, LINE_WIDTH);
         }
     }
     Renderer::instance->EndOrtho();
-    RenderDebug();
 }
 
 //-----------------------------------------------------------------------------------
@@ -637,6 +655,8 @@ void TheGame::RenderMinigamePlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
     SpriteGameRenderer::instance->Render();
+    RenderSplitscreenLines();
+    RenderDebug();
 }
 
 //-----------------------------------------------------------------------------------
