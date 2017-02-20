@@ -20,6 +20,7 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds) override;
+    void UpdatePlayerUI(float deltaSeconds);
     void UpdateEquips(float deltaSeconds);
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity) override;

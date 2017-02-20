@@ -461,6 +461,14 @@ void TheGame::RenderAssemblyPlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
     SpriteGameRenderer::instance->Render();
+    Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_windowVirtualWidth, SpriteGameRenderer::instance->m_windowVirtualHeight, Vector2::ZERO);
+    {
+        if (m_numberOfPlayers == 2)
+        {
+            SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, 10);
+        }
+    }
+    Renderer::instance->EndOrtho();
     RenderDebug();
 }
 

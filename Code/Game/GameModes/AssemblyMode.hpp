@@ -27,10 +27,12 @@ private:
     const float WORLD_SIZE = 40.0f;
     const float MIN_MEDIUM_RADIUS = 2.0f;
     const float MAX_MEDIUM_RADIUS = 4.0f;
+    const float MIN_LARGE_RADIUS = 4.0f;
+    const float MAX_LARGE_RADIUS = 5.0f;
     static const unsigned int MIN_NUM_ASTEROIDS = 40;
     static const unsigned int MAX_NUM_ASTEROIDS = 80;
-    static const unsigned int MIN_NUM_MEDIUM_ENCOUNTERS = 10;
-    static const unsigned int MAX_NUM_MEDIUM_ENCOUNTERS = 20;
-    static const unsigned int MIN_NUM_LARGE_ENCOUNTERS = 0;
-    static const unsigned int MAX_NUM_LARGE_ENCOUNTERS = 0;
+    static const unsigned int MIN_NUM_MEDIUM_ENCOUNTERS = 7;
+    static const unsigned int MAX_NUM_MEDIUM_ENCOUNTERS = 10;
+    static const unsigned int MIN_NUM_LARGE_ENCOUNTERS = 1;
+    static const unsigned int MAX_NUM_LARGE_ENCOUNTERS = 4;
 };

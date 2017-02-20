@@ -100,10 +100,34 @@ void AssemblyMode::GenerateLevel()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::SpawnEncounters()
 {
-    int numEncounters = MathUtils::GetRandomInt(MIN_NUM_MEDIUM_ENCOUNTERS, MAX_NUM_MEDIUM_ENCOUNTERS);
+    int numMediumEncounters = MathUtils::GetRandomInt(MIN_NUM_MEDIUM_ENCOUNTERS, MAX_NUM_MEDIUM_ENCOUNTERS);
+    int numLargeEncounters = MathUtils::GetRandomInt(MIN_NUM_LARGE_ENCOUNTERS, MAX_NUM_LARGE_ENCOUNTERS);
     std::vector<Encounter*> encounters;
 
-    for (int i = 0; i < numEncounters; ++i)
+    for (int i = 0; i < numLargeEncounters; ++i)
+    {
+        float radius = MathUtils::GetRandomFloat(MIN_LARGE_RADIUS, MAX_LARGE_RADIUS);
+        Vector2 center = FindSpaceForEncounter(radius, encounters);
+        Encounter* newEncounter = GetRandomLargeEncounter(center, radius);
+
+        RemoveEntitiesInCircle(center, radius);
+        encounters.push_back(newEncounter);
+        newEncounter->Spawn();
+
+        if (newEncounter->NeedsLinkedEncounter())
+        {
+            float linkedRadius = MathUtils::GetRandomFloat(MIN_LARGE_RADIUS, MAX_LARGE_RADIUS);
+            Vector2 linkedCenter = FindSpaceForEncounter(linkedRadius, encounters);
+            Encounter* linkedEncounter = newEncounter->CreateLinkedEncounter(linkedCenter, linkedRadius);
+
+            RemoveEntitiesInCircle(linkedCenter, linkedRadius);
+            encounters.push_back(linkedEncounter);
+            linkedEncounter->Spawn();
+            ++i;
+        }
+    }
+
+    for (int i = 0; i < numMediumEncounters; ++i)
     {
         float radius = MathUtils::GetRandomFloat(MIN_MEDIUM_RADIUS, MAX_MEDIUM_RADIUS);
         Vector2 center = FindSpaceForEncounter(radius, encounters);
@@ -122,7 +146,7 @@ void AssemblyMode::SpawnEncounters()
             RemoveEntitiesInCircle(linkedCenter, linkedRadius);
             encounters.push_back(linkedEncounter);
             linkedEncounter->Spawn();
-            ++numEncounters;
+            ++i;
         }
     }
 

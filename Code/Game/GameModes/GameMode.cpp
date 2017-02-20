@@ -353,7 +353,7 @@ Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radiu
     switch (random)
     {
     case 0:
-        return new WormholeEncounter(center, radius);
+        return new SquadronEncounter(center, radius);
     case 1:
         return new NebulaEncounter(center, radius);
     default:
@@ -368,9 +368,9 @@ Encounter* GameMode::GetRandomLargeEncounter(const Vector2& center, float radius
     switch (random)
     {
     case 0:
-        return new SquadronEncounter(center, radius);
+        return new WormholeEncounter(center, radius);
     case 1:
-        return new NebulaEncounter(center, radius);
+        return new WormholeEncounter(center, radius);
     default:
         ERROR_AND_DIE("Random medium encounter roll out of range");
     }
