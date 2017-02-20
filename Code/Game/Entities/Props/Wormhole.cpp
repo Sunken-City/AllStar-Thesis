@@ -2,6 +2,7 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Time/Time.hpp"
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 const float Wormhole::MAX_ANGULAR_VELOCITY = 20.0f;
 const float Wormhole::PERCENTAGE_RADIUS_INNER_RADIUS = 0.1f;
@@ -45,21 +46,19 @@ void Wormhole::ResolveCollision(Entity* otherEntity)
 
     if ((dispFromOtherToCenter.CalculateMagnitudeSquared() < INNER_RADIUS_SQUARED) && (GetCurrentTimeSeconds() - otherEntity->m_timeLastWarped > GRACE_PERIOD_TELEPORT_SECONDS))
     {
+        const float IMPULSE_MAGNITUDE = otherEntity->IsPickup() ? 2000.0f : 100.0f;
         ASSERT_OR_DIE(m_linkedWormhole, "Wormhole wasn't linked to another!");
         otherEntity->m_transform.SetPosition(m_linkedWormhole->m_transform.GetWorldPosition() + normDirectionTowardsCenter * 1.0f);
-        otherEntity->ApplyImpulse(normDirectionTowardsCenter * 100.0f);
+        otherEntity->ApplyImpulse(normDirectionTowardsCenter * IMPULSE_MAGNITUDE);
         otherEntity->m_timeLastWarped = GetCurrentTimeSeconds();
+        otherEntity->FlushParticleTrailIfExists();
+        //ParticleSystem::PlayOneShotParticleEffect("Warped", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &otherEntity->m_transform);
     }
     else
     {
         otherEntity->ApplyImpulse(normDirectionTowardsCenter * 10.0f);
     }
 
-}
-
-//-----------------------------------------------------------------------------------
-void Wormhole::Teleport(Entity* otherEntity)
-{
 }
 
 //-----------------------------------------------------------------------------------

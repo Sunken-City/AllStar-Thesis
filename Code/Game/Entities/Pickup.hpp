@@ -15,6 +15,7 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity);
+    inline virtual bool IsPickup() { return true; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Item* m_item;

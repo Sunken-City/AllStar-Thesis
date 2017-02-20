@@ -386,7 +386,7 @@ Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radiu
     switch (random)
     {
     case 0:
-        return new SquadronEncounter(center, radius);
+        return new NebulaEncounter(center, radius);
     case 1:
         return new NebulaEncounter(center, radius);
     default:

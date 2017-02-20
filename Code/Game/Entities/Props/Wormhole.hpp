@@ -11,7 +11,6 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity) override;
-    void Teleport(Entity* otherEntity);
     static void LinkWormholes(Wormhole* wormhole1, Wormhole* wormhole2);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////

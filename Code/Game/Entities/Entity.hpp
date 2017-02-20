@@ -30,13 +30,15 @@ public:
     virtual void Heal(float healValue = 99999999.0f);
     virtual void DropInventory();
     virtual void SetShieldHealth(float newShieldValue);
+    virtual bool FlushParticleTrailIfExists() { return false; };
     void InitializeInventory(unsigned int inventorySize);
     void DeleteInventory();
 
     //QUERIES/////////////////////////////////////////////////////////////////////
     inline virtual bool IsPlayer() { return false; };
-    inline virtual bool HasShield() { return m_currentShieldHealth > 0.0f; };
     inline virtual bool IsProjectile() { return false; };
+    inline virtual bool IsPickup() { return false; };
+    inline virtual bool HasShield() { return m_currentShieldHealth > 0.0f; };
     inline virtual bool IsDead() { return m_isDead; };
     inline virtual bool IsAlive() { return !m_isDead; };
     inline virtual Vector2 GetPosition() { return m_transform.GetWorldPosition(); };

@@ -425,6 +425,13 @@ void PlayerShip::DropRandomPowerup()
 }
 
 //-----------------------------------------------------------------------------------
+bool PlayerShip::FlushParticleTrailIfExists()
+{
+    m_shipTrail->Flush();
+    return true;
+}
+
+//-----------------------------------------------------------------------------------
 void PlayerShip::EjectWeapon()
 {
     if (m_weapon)

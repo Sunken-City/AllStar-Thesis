@@ -39,3 +39,10 @@ Missile::~Missile()
 {
     delete m_missileTrail;
 }
+
+//-----------------------------------------------------------------------------------
+bool Missile::FlushParticleTrailIfExists()
+{
+    m_missileTrail->Flush();
+    return true;
+}
