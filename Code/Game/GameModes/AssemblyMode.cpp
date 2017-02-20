@@ -12,6 +12,7 @@
 #include "../Encounters/SquadronEncounter.hpp"
 #include "../Encounters/NebulaEncounter.hpp"
 #include "../Encounters/WormholeEncounter.hpp"
+#include "../Encounters/BlackHoleEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -223,7 +224,7 @@ void AssemblyMode::Update(float deltaSeconds)
         {
             float radius = 5.0f;
             RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
-            NebulaEncounter nebby(player->m_transform.GetWorldPosition(), radius);
+            BlackHoleEncounter nebby(player->m_transform.GetWorldPosition(), radius);
             nebby.Spawn();
         }
 

@@ -31,8 +31,8 @@ private:
     const float MAX_LARGE_RADIUS = 5.0f;
     static const unsigned int MIN_NUM_ASTEROIDS = 40;
     static const unsigned int MAX_NUM_ASTEROIDS = 80;
-    static const unsigned int MIN_NUM_MEDIUM_ENCOUNTERS = 7;
-    static const unsigned int MAX_NUM_MEDIUM_ENCOUNTERS = 10;
-    static const unsigned int MIN_NUM_LARGE_ENCOUNTERS = 1;
-    static const unsigned int MAX_NUM_LARGE_ENCOUNTERS = 4;
+    static const unsigned int MIN_NUM_MEDIUM_ENCOUNTERS = 8;
+    static const unsigned int MAX_NUM_MEDIUM_ENCOUNTERS = 12;
+    static const unsigned int MIN_NUM_LARGE_ENCOUNTERS = 3;
+    static const unsigned int MAX_NUM_LARGE_ENCOUNTERS = 6;
 };

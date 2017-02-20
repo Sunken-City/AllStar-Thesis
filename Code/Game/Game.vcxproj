@@ -147,6 +147,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Encounters\BlackHoleEncounter.cpp" />
     <ClCompile Include="Encounters\Encounter.cpp" />
     <ClCompile Include="Encounters\NebulaEncounter.cpp" />
     <ClCompile Include="Encounters\SquadronEncounter.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Entities\Projectiles\Missile.cpp" />
     <ClCompile Include="Entities\Projectiles\Projectile.cpp" />
     <ClCompile Include="Entities\Props\Asteroid.cpp" />
+    <ClCompile Include="Entities\Props\BlackHole.cpp" />
     <ClCompile Include="Entities\Props\ItemCrate.cpp" />
     <ClCompile Include="Entities\Props\Nebula.cpp" />
     <ClCompile Include="Entities\Props\Wormhole.cpp" />
@@ -198,6 +200,7 @@
     <ClCompile Include="UI\ReadyAnimationWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Encounters\BlackHoleEncounter.hpp" />
     <ClInclude Include="Encounters\Encounter.hpp" />
     <ClInclude Include="Encounters\NebulaEncounter.hpp" />
     <ClInclude Include="Encounters\SquadronEncounter.hpp" />
@@ -210,6 +213,7 @@
     <ClInclude Include="Entities\Projectiles\Missile.hpp" />
     <ClInclude Include="Entities\Projectiles\Projectile.hpp" />
     <ClInclude Include="Entities\Props\Asteroid.hpp" />
+    <ClInclude Include="Entities\Props\BlackHole.hpp" />
     <ClInclude Include="Entities\Props\ItemCrate.hpp" />
     <ClInclude Include="Entities\Props\Nebula.hpp" />
     <ClInclude Include="Entities\Props\Wormhole.hpp" />
