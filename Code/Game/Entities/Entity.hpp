@@ -31,7 +31,7 @@ public:
     virtual void DropInventory();
     virtual void SetShieldHealth(float newShieldValue);
     virtual bool FlushParticleTrailIfExists() { return false; };
-    virtual void UpdateVortexShaderPosition(const Vector2& warpHolePosition);
+    virtual void SetVortexShaderPosition(const Vector2& warpHolePosition);
     void InitializeInventory(unsigned int inventorySize);
     void DeleteInventory();
 

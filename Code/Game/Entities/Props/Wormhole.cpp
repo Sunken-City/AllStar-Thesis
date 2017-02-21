@@ -45,7 +45,7 @@ void Wormhole::ResolveCollision(Entity* otherEntity)
     Vector2 dispFromOtherToCenter = m_transform.GetWorldPosition() - otherEntity->m_transform.GetWorldPosition();
     Vector2 normDirectionTowardsCenter = dispFromOtherToCenter.GetNorm();
 
-    otherEntity->UpdateVortexShaderPosition(m_transform.GetWorldPosition());
+    otherEntity->SetVortexShaderPosition(m_transform.GetWorldPosition());
 
     if ((dispFromOtherToCenter.CalculateMagnitudeSquared() < INNER_RADIUS_SQUARED) && (GetCurrentTimeSeconds() - otherEntity->m_timeLastWarped > GRACE_PERIOD_TELEPORT_SECONDS))
     {

@@ -30,6 +30,8 @@
 #include "../Items/Actives/BoostActive.hpp"
 #include "../Items/Chassis/TankChassis.hpp"
 
+const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
+
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
@@ -50,7 +52,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ColorPalettes")->m_texture);
-    m_sprite->m_transform.SetScale(Vector2(2.0f));
+    m_sprite->m_transform.SetScale(DEFAULT_SCALE);
 
     m_shieldSprite->m_material = m_sprite->m_material;
     m_shipTrail->m_colorOverride = GetPlayerColor();
@@ -58,7 +60,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     InitializeUI();
     InitializeStatGraph();
 
-    UpdateVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
+    SetVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;
@@ -72,7 +74,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         //PickUpItem(new MissileLauncher());
         PickUpItem(new SpeedChassis());
-        PickUpItem(new BoostActive());
+        PickUpItem(new ShieldActive());
         PickUpItem(new SpecialTrailPassive());
     }
 
@@ -363,7 +365,7 @@ void PlayerShip::Respawn()
     m_shipTrail->Flush();
     m_sprite->Enable();
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
-    UpdateVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
+    SetVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
 }
 
 //-----------------------------------------------------------------------------------

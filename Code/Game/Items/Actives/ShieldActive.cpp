@@ -44,13 +44,14 @@ void ShieldActive::Activate(NamedProperties& parameters)
     if (CanActivate())
     {
         m_statBonuses.shotDeflection = 30.0f;
+        m_statBonuses.shieldRegen = 30.0f;
         m_isActive = true;
         m_lastActivatedMiliseconds = GetCurrentTimeMilliseconds();
         m_energy -= m_costToActivate;
 
         Ship* ship = nullptr;
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", ship) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
-        ParticleSystem::PlayOneShotParticleEffect("Buff", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
+        ParticleSystem::PlayOneShotParticleEffect("Forcefield", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
     }
 }
 

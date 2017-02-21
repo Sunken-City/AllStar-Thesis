@@ -4,6 +4,7 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/TheGame.hpp"
 #include "Game/Entities/Ship.hpp"
+#include "Game/Entities/PlayerShip.hpp"
 
 const double BoostActive::SECONDS_DURATION = 1.0f;
 const double BoostActive::MILISECONDS_DURATION = SECONDS_DURATION * 1000.0f;
@@ -27,10 +28,14 @@ void BoostActive::Update(float deltaSeconds)
 {
     if (m_isActive)
     {
-        if (GetCurrentTimeMilliseconds() - m_lastActivatedMiliseconds > MILISECONDS_DURATION)
+        float diffInTime = GetCurrentTimeMilliseconds() - m_lastActivatedMiliseconds;
+        float t = MathUtils::EaseInOut2(diffInTime / MILISECONDS_DURATION);
+        m_owner->m_sprite->m_transform.SetScale(MathUtils::Lerp(t, PlayerShip::DEFAULT_SCALE, PlayerShip::DEFAULT_SCALE * Vector2(0.75f, 1.25f)));
+
+        if (diffInTime > MILISECONDS_DURATION)
         {
             Deactivate(NamedProperties::NONE);
-        }
+        }        
     }
     else
     {
@@ -53,6 +58,7 @@ void BoostActive::Activate(NamedProperties& parameters)
         Ship* ship = nullptr;
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", ship) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
         ParticleSystem::PlayOneShotParticleEffect("Buff", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
+        m_owner = dynamic_cast<PlayerShip*>(ship);
     }
 }
 
@@ -60,6 +66,7 @@ void BoostActive::Activate(NamedProperties& parameters)
 void BoostActive::Deactivate(NamedProperties& parameters)
 {
     UNUSED(parameters);
+    m_owner->m_sprite->m_transform.SetScale(PlayerShip::DEFAULT_SCALE);
     m_statBonuses.topSpeed = 0.0f;
     m_statBonuses.acceleration = 0.0f;
     m_statBonuses.handling = 0.0f;

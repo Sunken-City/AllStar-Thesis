@@ -258,8 +258,8 @@ const SpriteResource* Ship::GetCollisionSpriteResource()
 }
 
 //-----------------------------------------------------------------------------------
-void Ship::UpdateVortexShaderPosition(const Vector2& warpHolePosition)
+void Ship::SetVortexShaderPosition(const Vector2& warpHolePosition)
 {
-    Entity::UpdateVortexShaderPosition(warpHolePosition);
+    Entity::SetVortexShaderPosition(warpHolePosition);
     m_shieldSprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(warpHolePosition, 0.0f));
 }

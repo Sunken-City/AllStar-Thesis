@@ -503,7 +503,7 @@ void Entity::SetShieldHealth(float newShieldValue)
 }
 
 //-----------------------------------------------------------------------------------
-void Entity::UpdateVortexShaderPosition(const Vector2& warpHolePosition)
+void Entity::SetVortexShaderPosition(const Vector2& warpHolePosition)
 {
     m_sprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(warpHolePosition, 0.0f));
 }

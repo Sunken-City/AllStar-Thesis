@@ -980,8 +980,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("WarpActive", "Data\\Images\\Actives\\warpActive.png");
     ResourceDatabase::instance->RegisterSprite("TeleportActive", "Data\\Images\\Actives\\teleportActive.png");
     ResourceDatabase::instance->RegisterSprite("QuickshotActive", "Data\\Images\\Actives\\quickshotActive.png");
-    ResourceDatabase::instance->RegisterSprite("ShieldActive", "Data\\Images\\Actives\\quickshotActive.png");
-    ResourceDatabase::instance->RegisterSprite("BoostActive", "Data\\Images\\Actives\\quickshotActive.png");
+    ResourceDatabase::instance->RegisterSprite("ShieldActive", "Data\\Images\\Actives\\shieldActive.png");
+    ResourceDatabase::instance->RegisterSprite("BoostActive", "Data\\Images\\Actives\\boostActive.png");
 
     //Weapon Pickups
     ResourceDatabase::instance->RegisterSprite("MissileLauncher", "Data\\Images\\Weapons\\missileLauncher.png");
@@ -1030,6 +1030,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Yellow5Star", "Data\\Images\\Particles\\particleYellow_3.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
     ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
+    ResourceDatabase::instance->RegisterSprite("BlueShieldHex", "Data\\Images\\Particles\\overshield.png");
     ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
 
 }
@@ -1110,6 +1111,18 @@ void TheGame::RegisterParticleEffects()
     yellowExplosionOrb->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, DEATH_ANIMATION_LENGTH);
     yellowExplosionOrb->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
     yellowExplosionOrb->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.3f));
+
+    ParticleEmitterDefinition* blueShieldHex = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlueShieldHex"));
+    blueShieldHex->m_properties.Set<std::string>(PROPERTY_NAME, "Blue Shield Hex");
+    blueShieldHex->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    blueShieldHex->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
+    blueShieldHex->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
+    blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.5f), Vector2(0.7f)));
+    blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    blueShieldHex->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.0f);
+    blueShieldHex->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, POWER_UP_DURATION);
+    blueShieldHex->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 4.0f);
+    blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(4.0f));
 
     ParticleEmitterDefinition* yellowBeams = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowBeam"));
     yellowBeams->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Beams");
@@ -1231,6 +1244,9 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* buffParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Buff", ONE_SHOT);
     buffParticleSystem->AddEmitter(white8Stars);
+
+    ParticleSystemDefinition* forcefieldParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Forcefield", ONE_SHOT);
+    forcefieldParticleSystem->AddEmitter(blueShieldHex);
 
     ParticleSystemDefinition* warpingParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Warping", ONE_SHOT);
     warpingParticleSystem->AddEmitter(blueStars);

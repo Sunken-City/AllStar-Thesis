@@ -2,6 +2,7 @@
 #include "Game/Items/Actives/ActiveEffect.hpp"
 
 class Ship;
+class PlayerShip;
 
 class BoostActive : public ActiveEffect
 {
@@ -19,6 +20,7 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const double SECONDS_DURATION;
     static const double MILISECONDS_DURATION;
+    PlayerShip* m_owner = nullptr;
 };
 
 

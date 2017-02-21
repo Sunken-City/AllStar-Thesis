@@ -44,7 +44,7 @@ Chassis* GetRandomChassis()
     }
     else if (randomNumber == 1)
     {
-        return new TankChassis();
+        return new BlackHoleChassis();
     }
     else if (randomNumber == 2)
     {
@@ -56,14 +56,14 @@ Chassis* GetRandomChassis()
     }
     else
     {
-        return new BlackHoleChassis();
+        return new TankChassis();
     }
 }
 
 //-----------------------------------------------------------------------------------
 ActiveEffect* GetRandomActive()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(3/*5*/);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(5);
     if (randomNumber == 0)
     {
         return new TeleportActive();
@@ -78,11 +78,11 @@ ActiveEffect* GetRandomActive()
     }
     else if (randomNumber == 3)
     {
-        return new ShieldActive();
+        return new BoostActive();
     }
     else
     {
-        return new BoostActive();
+        return new ShieldActive();
     }
 }
 

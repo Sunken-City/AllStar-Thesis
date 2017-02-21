@@ -63,6 +63,8 @@ public:
     void DebugUpdate(float deltaSeconds);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    static const Vector2 DEFAULT_SCALE;
+
     Stats m_powerupStatModifiers;
     ShaderProgram* m_paletteSwapShader = nullptr;
     ShaderProgram* m_cooldownShader = nullptr;
