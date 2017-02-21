@@ -575,6 +575,8 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     {
         return;
     }
+    float randomDegrees = MathUtils::GetRandomFloat(-80.0f, 80.0f);
+    Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
 
     if (pickedUpItem->IsPowerUp())
     {
@@ -589,8 +591,6 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
         ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, powerUp->GetSpriteResource());
 
-        float randomDegrees = MathUtils::GetRandomFloat(-80.0f, 80.0f);
-        Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
         TextSplash::CreateTextSplash(Stringf("%s Up", powerUp->GetPowerUpSpriteResourceName()), m_transform, velocity, RGBA::GBLIGHTGREEN);
 
         delete powerUp;
@@ -599,12 +599,14 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     {
         EjectWeapon();
         m_weapon = (Weapon*)pickedUpItem;
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
     }
     else if (pickedUpItem->IsChassis())
     {
         EjectChassis();
         m_chassis = (Chassis*)pickedUpItem;
         m_sprite->m_spriteResource = m_chassis->GetShipSpriteResource();
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
     }
     else if (pickedUpItem->IsPassiveEffect())
     {
@@ -613,6 +615,8 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
             EjectPassive();
         }
         m_passiveEffect = (PassiveEffect*)pickedUpItem;
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
+
         NamedProperties props;
         props.Set<Ship*>("ShipPtr", (Ship*)this);
         m_passiveEffect->Activate(props);
@@ -624,6 +628,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
             EjectActive();
         }
         m_activeEffect = (ActiveEffect*)pickedUpItem;
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
     }
 }
 

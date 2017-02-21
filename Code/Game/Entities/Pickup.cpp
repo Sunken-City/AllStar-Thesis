@@ -33,9 +33,11 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     {
         m_transform.AddChild(&m_descriptionTextRenderable->m_transform);
         m_descriptionTextRenderable->m_fontSize = 0.05f;
+        m_descriptionTextRenderable->Disable();
 
         m_transform.AddChild(&m_equipTextRenderable->m_transform);
         m_equipTextRenderable->m_fontSize = 0.03f;
+        m_equipTextRenderable->Disable();
     }
     else
     {
@@ -66,6 +68,9 @@ void Pickup::Update(float deltaSeconds)
     m_velocity *= 0.9f;
     Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);
+
+    m_descriptionTextRenderable->Disable();
+    m_equipTextRenderable->Disable();
 
     if (m_age > FLASH_AGE_SECONDS)
     {
@@ -101,6 +106,11 @@ void Pickup::ResolveCollision(Entity* otherEntity)
                 player->PickUpItem(m_item);
                 m_item = nullptr;
                 this->m_isDead = true;
+            }
+            else
+            {
+                m_descriptionTextRenderable->Enable();
+                m_equipTextRenderable->Enable();
             }
         }
     }
