@@ -685,7 +685,7 @@ bool PlayerShip::CanPickUp(Item* item)
 //-----------------------------------------------------------------------------------
 void PlayerShip::CheckToEjectEquipment(float)
 {
-    static const double EJECT_TIME_SECONDS = 1.0f;
+    static const double EJECT_TIME_SECONDS = 0.5f;
     static const double EJECT_TIME_MILLISECONDS = EJECT_TIME_SECONDS * 1000.0f;
     double currentTimeMilliseconds = GetCurrentTimeMilliseconds();
 
