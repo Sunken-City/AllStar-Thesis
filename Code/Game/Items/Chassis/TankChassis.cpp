@@ -5,11 +5,11 @@
 TankChassis::TankChassis()
 {
     m_name = "Tank Chassis";
-    m_statBonuses.topSpeed = 10.0f;
+    m_statBonuses.topSpeed = -5.0f;
     m_statBonuses.handling = -1.0f;
-    m_statBonuses.damage = -2.0f;
-    m_statBonuses.shotHoming = -3.0f;
-    m_statBonuses.rateOfFire = -1.0f;
+    m_statBonuses.acceleration = -1.0f;
+    m_statBonuses.hp = 10.0f;
+    m_statBonuses.shieldCapacity = 5.0f;
 }
 
 //-----------------------------------------------------------------------------------

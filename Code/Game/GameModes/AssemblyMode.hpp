@@ -25,7 +25,7 @@ private:
     float m_timeSinceLastSpawn = 0.0f;
     const float TIME_PER_SPAWN = 5.0f;
     const float WORLD_SIZE = 40.0f;
-    const float MIN_MEDIUM_RADIUS = 2.0f;
+    const float MIN_MEDIUM_RADIUS = 3.0f;
     const float MAX_MEDIUM_RADIUS = 4.0f;
     const float MIN_LARGE_RADIUS = 4.0f;
     const float MAX_LARGE_RADIUS = 5.0f;

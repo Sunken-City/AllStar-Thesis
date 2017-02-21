@@ -12,7 +12,7 @@ const double BoostActive::MILISECONDS_DURATION = SECONDS_DURATION * 1000.0f;
 BoostActive::BoostActive()
 {
     m_energyRestorationPerSecond = 0.05f;
-    m_costToActivate = 0.0f;
+    m_costToActivate = 0.20f;
     m_name = "Boost";
 }
 
@@ -46,7 +46,6 @@ void BoostActive::Activate(NamedProperties& parameters)
         m_statBonuses.topSpeed = 10.0f;
         m_statBonuses.acceleration = 10.0f;
         m_statBonuses.handling = -10.0f;
-        //m_statBonuses.braking = -10.0f;
         m_isActive = true;
         m_lastActivatedMiliseconds = GetCurrentTimeMilliseconds();
         m_energy -= m_costToActivate;

@@ -9,7 +9,8 @@ Nebula::Nebula(const Vector2& initialPosition)
     : Entity()
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
-    m_sprite = new Sprite("Nebula", TheGame::FOREGROUND_LAYER);
+    const char* spriteString = MathUtils::GetRandomIntFromZeroTo(2) == 0 ? "Nebula" : "Nebula2";
+    m_sprite = new Sprite(spriteString, TheGame::FOREGROUND_LAYER);
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));

@@ -28,6 +28,7 @@
 #include "../Items/Passives/SpecialTrailPassive.hpp"
 #include "../Items/Actives/ShieldActive.hpp"
 #include "../Items/Actives/BoostActive.hpp"
+#include "../Items/Chassis/TankChassis.hpp"
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
@@ -70,7 +71,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     if (g_spawnWithDebugLoadout)
     {
         //PickUpItem(new MissileLauncher());
-        PickUpItem(new SpeedChassis());
+        PickUpItem(new TankChassis());
         PickUpItem(new BoostActive());
         PickUpItem(new SpecialTrailPassive());
     }
