@@ -26,6 +26,7 @@ public:
     virtual Vector2 GetMuzzlePosition();
     virtual const SpriteResource* GetCollisionSpriteResource() override;
     virtual void UpdateVortexShaderPosition(const Vector2& warpHolePosition);
+    virtual bool FlushParticleTrailIfExists();
     void UpdateMotion(float deltaSeconds);
     void UpdateShooting();
     void RegenerateShield(float deltaSeconds);

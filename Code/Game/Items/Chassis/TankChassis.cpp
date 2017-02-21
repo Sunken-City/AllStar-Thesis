@@ -1,33 +1,32 @@
-#include "Game/Items/Chassis/SpeedChassis.hpp"
+#include "Game/Items/Chassis/TankChassis.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 
 //-----------------------------------------------------------------------------------
-SpeedChassis::SpeedChassis()
+TankChassis::TankChassis()
 {
-    m_name = "Speed Chassis";
+    m_name = "Tank Chassis";
     m_statBonuses.topSpeed = 10.0f;
     m_statBonuses.handling = -1.0f;
-    m_statBonuses.acceleration = 2.0f;
-    m_statBonuses.damage = -3.0f;
+    m_statBonuses.damage = -2.0f;
     m_statBonuses.shotHoming = -3.0f;
-    m_statBonuses.rateOfFire = 3.0f;
+    m_statBonuses.rateOfFire = -1.0f;
 }
 
 //-----------------------------------------------------------------------------------
-SpeedChassis::~SpeedChassis()
+TankChassis::~TankChassis()
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-const SpriteResource* SpeedChassis::GetSpriteResource()
+const SpriteResource* TankChassis::GetSpriteResource()
 {
-    return ResourceDatabase::instance->GetSpriteResource("SpeedChassisPickup");
+    return ResourceDatabase::instance->GetSpriteResource("TankChassisPickup");
 }
 
 //-----------------------------------------------------------------------------------
-const SpriteResource* SpeedChassis::GetShipSpriteResource()
+const SpriteResource* TankChassis::GetShipSpriteResource()
 {
-    return ResourceDatabase::instance->GetSpriteResource("SpeedChassis");
+    return ResourceDatabase::instance->GetSpriteResource("TankChassis");
 }
 

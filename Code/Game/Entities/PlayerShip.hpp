@@ -28,7 +28,6 @@ public:
     virtual void Die() override;
     void Respawn();
     inline virtual bool IsPlayer() { return true; }
-    virtual bool FlushParticleTrailIfExists();
     void DropPowerups();
     void PickUpItem(Item* pickedUpItem);
     void DropRandomPowerup();

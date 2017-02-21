@@ -16,6 +16,9 @@
 #include "Passives\SpecialTrailPassive.hpp"
 #include "Actives\BoostActive.hpp"
 #include "Actives\ShieldActive.hpp"
+#include "Chassis\TankChassis.hpp"
+#include "Chassis\GlassCannonChassis.hpp"
+#include "Chassis\PowerChassis.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon* GetRandomWeapon()
@@ -38,6 +41,18 @@ Chassis* GetRandomChassis()
     if (randomNumber == 0)
     {
         return new SpeedChassis();
+    }
+    else if (randomNumber == 1)
+    {
+        return new TankChassis();
+    }
+    else if (randomNumber == 2)
+    {
+        return new GlassCannonChassis();
+    }
+    else if (randomNumber == 3)
+    {
+        return new PowerChassis();
     }
     else
     {

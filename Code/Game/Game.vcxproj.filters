@@ -171,6 +171,9 @@
     <ClCompile Include="Encounters\WormholeEncounter.cpp" />
     <ClCompile Include="Entities\Props\BlackHole.cpp" />
     <ClCompile Include="Encounters\BlackHoleEncounter.cpp" />
+    <ClCompile Include="Items\Chassis\TankChassis.cpp" />
+    <ClCompile Include="Items\Chassis\PowerChassis.cpp" />
+    <ClCompile Include="Items\Chassis\GlassCannonChassis.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -300,6 +303,9 @@
     <ClInclude Include="Encounters\WormholeEncounter.hpp" />
     <ClInclude Include="Entities\Props\BlackHole.hpp" />
     <ClInclude Include="Encounters\BlackHoleEncounter.hpp" />
+    <ClInclude Include="Items\Chassis\TankChassis.hpp" />
+    <ClInclude Include="Items\Chassis\GlassCannonChassis.hpp" />
+    <ClInclude Include="Items\Chassis\PowerChassis.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

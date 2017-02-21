@@ -956,11 +956,17 @@ void TheGame::RegisterSprites()
     //Chassis
     ResourceDatabase::instance->RegisterSprite("DefaultChassis", "Data\\Images\\Chassis\\defaultChassis.png");
     ResourceDatabase::instance->RegisterSprite("SpeedChassis", "Data\\Images\\Chassis\\speedChassis.png");
+    ResourceDatabase::instance->RegisterSprite("PowerChassis", "Data\\Images\\Chassis\\speedChassis.png");
+    ResourceDatabase::instance->RegisterSprite("TankChassis", "Data\\Images\\Chassis\\speedChassis.png");
+    ResourceDatabase::instance->RegisterSprite("GlassCannonChassis", "Data\\Images\\Chassis\\speedChassis.png");
     ResourceDatabase::instance->RegisterSprite("BlackHoleChassis", "Data\\Images\\Chassis\\blackHoleChassis.png");
 
     //Chassis Pickups
     ResourceDatabase::instance->RegisterSprite("DefaultChassisPickup", "Data\\Images\\Chassis\\normalPickup.png");
     ResourceDatabase::instance->RegisterSprite("SpeedChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
+    ResourceDatabase::instance->RegisterSprite("PowerChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
+    ResourceDatabase::instance->RegisterSprite("TankChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
+    ResourceDatabase::instance->RegisterSprite("GlassCannonChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
     ResourceDatabase::instance->RegisterSprite("BlackHoleChassisPickup", "Data\\Images\\Chassis\\blackHolePickup.png");
 
     //Passive Pickups
