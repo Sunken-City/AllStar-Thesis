@@ -142,26 +142,26 @@ void PlayerShip::InitializeUI()
     m_playerData->m_transform.SetPosition(Vector2(0.5f, 0.5f));
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_playerData->m_transform);
 
-    m_currentWeaponUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentWeaponUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentWeaponUI->m_transform.SetScale(Vector2(0.25f));
     m_currentWeaponUI->m_transform.SetPosition(Vector2(-0.4f, 1.0f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentWeaponUI->m_transform);
 
-    m_currentActiveUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentActiveUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentActiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentActiveUI->m_transform.SetScale(Vector2(0.25f));
     m_currentActiveUI->m_transform.SetPosition(Vector2(-1.0f, 0.4f));
     m_currentActiveUI->m_material = m_cooldownMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentActiveUI->m_transform);
 
-    m_currentChassisUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentChassisUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentChassisUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentChassisUI->m_transform.SetScale(Vector2(0.25f));
     m_currentChassisUI->m_transform.SetPosition(Vector2(-1.0f, 1.6f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentChassisUI->m_transform);
 
-    m_currentPassiveUI = new Sprite("Shield", TheGame::UI_LAYER);
+    m_currentPassiveUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentPassiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentPassiveUI->m_transform.SetScale(Vector2(0.25f));
     m_currentPassiveUI->m_transform.SetPosition(Vector2(-1.6f, 1.0f));
@@ -235,10 +235,10 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     m_equipUI->m_transform.SetRotationDegrees(newRotationDegrees);
     m_playerData->m_transform.SetRotationDegrees(-newRotationDegrees);
 
-    m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
-    m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
-    m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
-    m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("Shield");
+    m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
+    m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
+    m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
+    m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
 
     m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
     m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
