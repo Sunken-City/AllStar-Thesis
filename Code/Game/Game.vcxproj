@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Encounters\BlackHoleEncounter.cpp" />
+    <ClCompile Include="Encounters\BossteroidEncounter.cpp" />
     <ClCompile Include="Encounters\Encounter.cpp" />
     <ClCompile Include="Encounters\NebulaEncounter.cpp" />
     <ClCompile Include="Encounters\CargoShipEncounter.cpp" />
@@ -205,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Encounters\BlackHoleEncounter.hpp" />
+    <ClInclude Include="Encounters\BossteroidEncounter.hpp" />
     <ClInclude Include="Encounters\CargoShipEncounter.hpp" />
     <ClInclude Include="Encounters\Encounter.hpp" />
     <ClInclude Include="Encounters\NebulaEncounter.hpp" />

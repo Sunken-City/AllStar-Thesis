@@ -17,6 +17,7 @@
 #include "../Encounters/WormholeEncounter.hpp"
 #include "../Encounters/BlackHoleEncounter.hpp"
 #include "../Encounters/CargoShipEncounter.hpp"
+#include "../Encounters/BossteroidEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -383,7 +384,7 @@ Vector2 GameMode::FindSpaceForEncounter(float radius, const std::vector<Encounte
 //-----------------------------------------------------------------------------------
 Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
 {
-    int random = MathUtils::GetRandomIntFromZeroTo(3);
+    int random = MathUtils::GetRandomIntFromZeroTo(4);
     switch (random)
     {
     case 0:
@@ -391,6 +392,8 @@ Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radiu
         return new NebulaEncounter(center, radius);
     case 2:
         return new CargoShipEncounter(center, radius);
+    case 3:
+        return new BossteroidEncounter(center, radius);
     default:
         ERROR_AND_DIE("Random medium encounter roll out of range");
     }

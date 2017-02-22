@@ -175,6 +175,7 @@
     <ClCompile Include="Items\Chassis\PowerChassis.cpp" />
     <ClCompile Include="Items\Chassis\GlassCannonChassis.cpp" />
     <ClCompile Include="Encounters\CargoShipEncounter.cpp" />
+    <ClCompile Include="Encounters\BossteroidEncounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -308,6 +309,7 @@
     <ClInclude Include="Items\Chassis\GlassCannonChassis.hpp" />
     <ClInclude Include="Items\Chassis\PowerChassis.hpp" />
     <ClInclude Include="Encounters\CargoShipEncounter.hpp" />
+    <ClInclude Include="Encounters\BossteroidEncounter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
