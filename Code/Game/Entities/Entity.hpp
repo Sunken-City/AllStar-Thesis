@@ -107,4 +107,5 @@ public:
     bool m_noCollide = false;
     bool m_isInvincible = false;
     bool m_staysWithinBounds = true;
+    bool m_isImmobile = false;
 };

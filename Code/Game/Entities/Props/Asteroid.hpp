@@ -7,6 +7,7 @@ public:
     Asteroid(const Vector2& position);
     virtual ~Asteroid();
 
+    virtual void Die() override;
     virtual void Update(float deltaSeconds);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////

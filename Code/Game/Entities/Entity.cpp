@@ -106,8 +106,14 @@ void Entity::ResolveCollision(Entity* otherEntity)
     float overlapDistance = sumOfRadii - distanceBetweenEntities;
     float pushDistance = overlapDistance * 0.5f;
     Vector2 myPositionCorrection = directionFromOtherToMe * pushDistance;
-    SetPosition(myPosition + myPositionCorrection);
-    otherEntity->SetPosition(otherPosition - myPositionCorrection);
+    if (!m_isImmobile)
+    {
+        SetPosition(myPosition + myPositionCorrection);
+    }
+    if (!otherEntity->m_isImmobile)
+    {
+        otherEntity->SetPosition(otherPosition - myPositionCorrection); 
+    }
 }
 
 //-----------------------------------------------------------------------------------
