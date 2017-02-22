@@ -51,6 +51,7 @@ TheGame::TheGame()
     RegisterSprites();
     RegisterSpriteAnimations();
     RegisterParticleEffects();
+    PreloadAudio();
     EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
     InitializeSpriteLayers();
 
@@ -260,9 +261,9 @@ void TheGame::UpdateMainMenu(float )
 void TheGame::PressStart(NamedProperties&)
 {
     SetGameState(PLAYER_JOIN);
-    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("StarWipe")->m_texture);
-    m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
-    SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
+//     m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("StarWipe")->m_texture);
+//     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+//     SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
     InitializePlayerJoinState();
 }
 
@@ -911,6 +912,25 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
     }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::PreloadAudio()
+{
+    static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
+    static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
+    static SoundID hitHullSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
+    static SoundID hitShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
+    static SoundID brokeShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
+    static SoundID warpingSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
+    static SoundID teleportingSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/swapDimensions.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/trashExplosion.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_03.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_04.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_05.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/UI/UI_Select_01.wav");
 }
 
 //-----------------------------------------------------------------------------------

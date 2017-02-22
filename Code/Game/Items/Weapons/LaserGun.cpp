@@ -31,7 +31,7 @@ const SpriteResource* LaserGun::GetSpriteResource()
 //-----------------------------------------------------------------------------------
 bool LaserGun::AttemptFire(Ship* shooter)
 {
-    static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
+    static const SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
     static float RUMBLE_PERCENTAGE = 0.1f;
     static float SECONDS_TO_RUMBLE = 0.075f;
     bool successfullyFired = false;

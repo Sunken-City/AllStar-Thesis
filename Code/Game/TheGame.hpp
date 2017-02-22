@@ -62,6 +62,7 @@ public:
 private:
     TheGame& operator= (const TheGame& other) = delete;
     void InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot);
+    void PreloadAudio();
     void RegisterSprites();
     void RegisterSpriteAnimations();
     void RegisterParticleEffects();
