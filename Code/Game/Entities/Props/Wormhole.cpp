@@ -39,6 +39,7 @@ void Wormhole::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void Wormhole::ResolveCollision(Entity* otherEntity)
 {
+    static const SoundID teleportSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/swapDimensions.wav");
     const float GRACE_PERIOD_TELEPORT_SECONDS = 0.75f;
     const float COLLISION_RADIUS_SQUARED = m_collisionRadius * m_collisionRadius;
     const float INNER_RADIUS_SQUARED = COLLISION_RADIUS_SQUARED * PERCENTAGE_RADIUS_INNER_RADIUS;
@@ -51,11 +52,13 @@ void Wormhole::ResolveCollision(Entity* otherEntity)
     {
         const float IMPULSE_MAGNITUDE = otherEntity->IsPickup() ? 2000.0f : 1000.0f;
         ASSERT_OR_DIE(m_linkedWormhole, "Wormhole wasn't linked to another!");
+        Vector2 otherWormholePosition = m_linkedWormhole->m_transform.GetWorldPosition();
 
-        otherEntity->m_transform.SetPosition(m_linkedWormhole->m_transform.GetWorldPosition() + normDirectionTowardsCenter * 1.0f);
+        otherEntity->m_transform.SetPosition(otherWormholePosition + normDirectionTowardsCenter * 1.0f);
         otherEntity->ApplyImpulse(normDirectionTowardsCenter * IMPULSE_MAGNITUDE);
         otherEntity->m_timeLastWarped = GetCurrentTimeSeconds();
         otherEntity->FlushParticleTrailIfExists();
+        GameMode::GetCurrent()->PlaySoundAt(teleportSound, otherWormholePosition);
         //ParticleSystem::PlayOneShotParticleEffect("Warped", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &otherEntity->m_transform);
     }
     else

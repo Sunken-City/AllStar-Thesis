@@ -917,13 +917,13 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
 //-----------------------------------------------------------------------------------
 void TheGame::PreloadAudio()
 {
-    static SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
-    static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
-    static SoundID hitHullSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
-    static SoundID hitShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
-    static SoundID brokeShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
-    static SoundID warpingSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
-    static SoundID teleportingSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/swapDimensions.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/swapDimensions.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/trashExplosion.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav");
