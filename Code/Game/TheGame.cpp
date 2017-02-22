@@ -54,6 +54,10 @@ TheGame::TheGame()
     EventSystem::RegisterObjectForEvent("StartGame", this, &TheGame::PressStart);
     InitializeSpriteLayers();
 
+    m_transitionFBOEffect = new Material(
+        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\transitionShader.frag"),
+        RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
+        );
     m_pauseFBOEffect = new Material(
         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\pixelationWaves.frag"),
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
@@ -75,6 +79,8 @@ TheGame::~TheGame()
     SetGameState(GameState::SHUTDOWN);
     TextSplash::Cleanup();
 
+    delete m_transitionFBOEffect->m_shaderProgram;
+    delete m_transitionFBOEffect;
     delete m_pauseFBOEffect->m_shaderProgram;
     delete m_pauseFBOEffect;
     delete m_rainbowFBOEffect->m_shaderProgram;
@@ -254,6 +260,9 @@ void TheGame::UpdateMainMenu(float )
 void TheGame::PressStart(NamedProperties&)
 {
     SetGameState(PLAYER_JOIN);
+    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("StarWipe")->m_texture);
+    m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+    SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
     InitializePlayerJoinState();
 }
 
@@ -915,6 +924,13 @@ void TheGame::RegisterSprites()
     //UI
     ResourceDatabase::instance->RegisterSprite("SpindleArm", "Data\\Images\\spindleArm.png");
     ResourceDatabase::instance->EditSpriteResource("SpindleArm")->m_pivotPoint = Vector2(0.0f, 1.0f);
+
+    //Transitions
+    ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");
+    ResourceDatabase::instance->RegisterSprite("WipeLeftAndRight", "Data\\Images\\Transitions\\wipeLeftAndRight.png");
+    ResourceDatabase::instance->RegisterSprite("AngularWipe", "Data\\Images\\Transitions\\angularWipe.png");
+    ResourceDatabase::instance->RegisterSprite("BlurAngularWipe", "Data\\Images\\Transitions\\blurWipe.png");
+    ResourceDatabase::instance->RegisterSprite("StarWipe", "Data\\Images\\Transitions\\starWipe.png");
 
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");

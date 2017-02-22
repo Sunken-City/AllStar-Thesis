@@ -129,6 +129,7 @@ public:
     GameMode* m_currentGameMode;
 
 private:
+    Material* m_transitionFBOEffect = nullptr;
     Material* m_pauseFBOEffect = nullptr;
     Material* m_rainbowFBOEffect = nullptr;
     ParticleSystem* m_titleParticles = nullptr;
