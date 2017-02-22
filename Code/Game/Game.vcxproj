@@ -150,6 +150,7 @@
     <ClCompile Include="Encounters\BlackHoleEncounter.cpp" />
     <ClCompile Include="Encounters\Encounter.cpp" />
     <ClCompile Include="Encounters\NebulaEncounter.cpp" />
+    <ClCompile Include="Encounters\CargoShipEncounter.cpp" />
     <ClCompile Include="Encounters\SquadronEncounter.cpp" />
     <ClCompile Include="Encounters\WormholeEncounter.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
@@ -204,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Encounters\BlackHoleEncounter.hpp" />
+    <ClInclude Include="Encounters\CargoShipEncounter.hpp" />
     <ClInclude Include="Encounters\Encounter.hpp" />
     <ClInclude Include="Encounters\NebulaEncounter.hpp" />
     <ClInclude Include="Encounters\SquadronEncounter.hpp" />
