@@ -11,7 +11,8 @@ out vec4 outColor;
 
 void main(void)
 {
-  float cutoff = clamp(gTime - gEffectTime, 0.0f, 1.0f);
+  //float cutoff = sin(clamp((gTime - gEffectTime) * 5.0f, 0.0f, 4.15f)) + 0.1f;
+  float cutoff = clamp((gTime - gEffectTime), 0.0f, 1.0f);
   vec4 transitionColor = texture(gNormalTexture, passUV0);
 
   if(transitionColor.r <= cutoff)

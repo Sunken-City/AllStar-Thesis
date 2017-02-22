@@ -261,7 +261,7 @@ void TheGame::UpdateMainMenu(float )
 void TheGame::PressStart(NamedProperties&)
 {
     SetGameState(PLAYER_JOIN);
-//     m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("StarWipe")->m_texture);
+//     m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("AngularWipe")->m_texture);
 //     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
 //     SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
     InitializePlayerJoinState();
