@@ -72,6 +72,8 @@ void BattleRoyaleMinigameMode::SpawnGeometry()
 void BattleRoyaleMinigameMode::Update(float deltaSeconds)
 {
     BaseMinigameMode::Update(deltaSeconds);
+    deltaSeconds = m_scaledDeltaSeconds;
+
     if (!m_isPlaying)
     {
         return;

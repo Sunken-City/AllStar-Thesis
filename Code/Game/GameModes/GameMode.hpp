@@ -67,6 +67,8 @@ public:
     
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
+    static const double AFTER_GAME_SLOWDOWN_SECONDS;
+
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
     const char* m_modeTitleText;
@@ -76,6 +78,7 @@ public:
     bool m_muteMusic = true;
     bool m_isPlaying = false;
     bool m_dropItemsOnDeath = false;
+    float m_scaledDeltaSeconds = 0.0f;
     std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
 
 private:
@@ -85,6 +88,7 @@ private:
     Sprite* m_starfield2 = nullptr;
     float m_timerSecondsElapsed = 0.0f;
     WidgetBase* m_timerWidget = nullptr;
+    WidgetBase* m_countdownWidget = nullptr;
 
     float m_rotationTime = 0.0f;
     TextRenderable2D* m_modeTitleRenderable = nullptr;

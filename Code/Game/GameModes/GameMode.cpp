@@ -19,6 +19,8 @@
 #include "../Encounters/CargoShipEncounter.hpp"
 #include "../Encounters/BossteroidEncounter.hpp"
 
+const double GameMode::AFTER_GAME_SLOWDOWN_SECONDS = 3.0f;
+
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
     : m_arenaBackground(new Sprite(arenaBackgroundImage, TheGame::BACKGROUND_LAYER))
@@ -65,6 +67,18 @@ void GameMode::Initialize()
 
     ShowBackground();
 
+    m_countdownWidget = UISystem::instance->CreateWidget("Label");
+    m_countdownWidget->SetProperty<std::string>("Name", "Countdown");
+    m_countdownWidget->SetProperty<std::string>("Text", "0");
+    m_countdownWidget->SetProperty("TextColor", RGBA::RED);
+    m_countdownWidget->SetProperty("BackgroundColor", RGBA::CLEAR);
+    m_countdownWidget->SetProperty("BorderWidth", 0.0f);
+    m_countdownWidget->SetProperty("TextSize", 4.0f);
+    m_countdownWidget->SetProperty("Offset", Vector2(800.0f, 375.0f));
+    m_countdownWidget->SetProperty<std::string>("Text", "6");
+    UISystem::instance->AddWidget(m_countdownWidget);
+    m_countdownWidget->SetHidden();
+
     m_timerWidget = UISystem::instance->CreateWidget("Label");
     m_timerWidget->SetProperty<std::string>("Name", "GameTimer");
     m_timerWidget->SetProperty<std::string>("Text", "00:00");
@@ -85,13 +99,51 @@ void GameMode::CleanUp()
 //-----------------------------------------------------------------------------------
 void GameMode::Update(float deltaSeconds)
 {
+    m_scaledDeltaSeconds = deltaSeconds;
     if (m_isPlaying)
     {
         m_timerSecondsElapsed += deltaSeconds;
         int timeRemainingSeconds = static_cast<int>(m_gameLengthSeconds - m_timerSecondsElapsed);
         m_timerWidget->SetProperty<std::string>("Text", Stringf("%02i:%02i", timeRemainingSeconds / 60, timeRemainingSeconds % 60));
     }
+
+    if ((m_timerSecondsElapsed >= (m_gameLengthSeconds - 5.0f)) && m_timerSecondsElapsed < m_gameLengthSeconds)
+    {
+        static SoundID countdownSounds[5];
+        countdownSounds[0] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_1.ogg");
+        countdownSounds[1] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_2.ogg");
+        countdownSounds[2] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_3.ogg");
+        countdownSounds[3] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_4.ogg");
+        countdownSounds[4] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_5.ogg");
+
+        m_countdownWidget->SetVisible();
+        int countdownNumber = stoi(m_countdownWidget->GetProperty<std::string>("Text"));
+        int timeRemainingSeconds = static_cast<int>(m_gameLengthSeconds - m_timerSecondsElapsed + 1) % 60;
+
+        m_countdownWidget->SetProperty<std::string>("Text", Stringf("%i", timeRemainingSeconds));
+        m_countdownWidget->SetProperty("TextSize", 4.0f + (3.0f / (float)(timeRemainingSeconds + 1)));
+        
+        if (countdownNumber != timeRemainingSeconds)
+        {
+            AudioSystem::instance->PlaySound(countdownSounds[timeRemainingSeconds - 1]);
+        }
+    }
     if (m_timerSecondsElapsed >= m_gameLengthSeconds)
+    {
+        if (m_countdownWidget->GetProperty<std::string>("Text") != "TIME!")
+        {
+            AudioSystem::instance->PlaySound(AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg"));
+        }
+        m_timerWidget->SetProperty<std::string>("Text", "00:00");
+        m_countdownWidget->SetProperty<std::string>("Text", "TIME!");
+        m_countdownWidget->SetProperty("TextSize", 4.0f);
+        m_countdownWidget->SetProperty("Offset", Vector2(675.0f, 375.0f));
+
+        double overtimeSeconds = m_timerSecondsElapsed - m_gameLengthSeconds;
+        double ratioIntoOvertime = overtimeSeconds / AFTER_GAME_SLOWDOWN_SECONDS;
+        m_scaledDeltaSeconds = deltaSeconds * MathUtils::SmoothStep(1.0f - (float)ratioIntoOvertime);
+    }
+    if (m_timerSecondsElapsed >= m_gameLengthSeconds + AFTER_GAME_SLOWDOWN_SECONDS)
     {
         StopPlaying();
     }
@@ -216,6 +268,10 @@ GameMode* GameMode::GetCurrent()
 void GameMode::StopPlaying()
 {
     m_isPlaying = false;
+    if (m_countdownWidget)
+    {
+        m_countdownWidget->SetHidden();
+    }
     if (m_timerWidget)
     {
         m_timerWidget->SetHidden();

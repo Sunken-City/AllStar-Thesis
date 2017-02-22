@@ -931,6 +931,12 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_04.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_05.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/UI/UI_Select_01.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_1.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_2.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_3.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_4.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_5.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg");
 }
 
 //-----------------------------------------------------------------------------------

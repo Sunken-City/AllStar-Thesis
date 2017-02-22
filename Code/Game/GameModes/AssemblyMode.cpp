@@ -172,6 +172,8 @@ void AssemblyMode::FillMapWithAsteroids()
 void AssemblyMode::Update(float deltaSeconds)
 {
     GameMode::Update(deltaSeconds);
+    deltaSeconds = m_scaledDeltaSeconds;
+
     if (!m_isPlaying)
     {
         return;

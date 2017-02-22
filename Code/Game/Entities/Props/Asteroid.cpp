@@ -65,7 +65,7 @@ void Asteroid::Die()
             asteroid2->m_isImmobile = false;
         }
 
-        if (MathUtils::CoinFlip())
+        if (gamemode->m_dropItemsOnDeath && MathUtils::CoinFlip())
         {
             gamemode->SpawnPickup(new PowerUp(), m_transform.GetWorldPosition());
         }
