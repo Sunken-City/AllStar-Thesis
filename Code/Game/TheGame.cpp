@@ -1083,6 +1083,7 @@ void TheGame::RegisterSpriteAnimations()
 void TheGame::RegisterParticleEffects()
 {
     const float POWER_UP_DURATION = 5.0f;
+    const float BOOST_DURATION = 1.0f;
     const float DEATH_ANIMATION_LENGTH = 1.5f;
     const float WARP_ANIMATION_LENGTH = 1.5f;
     const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.15f;
@@ -1102,6 +1103,18 @@ void TheGame::RegisterParticleEffects()
     white8Stars->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 40.0f);
     white8Stars->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
     white8Stars->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.3f));
+
+    ParticleEmitterDefinition* boostEffect = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("WhiteBeam"));
+    boostEffect->m_properties.Set<std::string>(PROPERTY_NAME, "Boost Effect");
+    boostEffect->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    boostEffect->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(10, 15));
+    boostEffect->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
+    boostEffect->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    boostEffect->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.2f);
+    boostEffect->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, BOOST_DURATION);
+    boostEffect->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 40.0f);
+    boostEffect->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
+    boostEffect->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.3f));
 
     ParticleEmitterDefinition* blueStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Blue4Star"));
     blueStars->m_properties.Set<std::string>(PROPERTY_NAME, "Blue Stars");
@@ -1280,6 +1293,9 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* buffParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Buff", ONE_SHOT);
     buffParticleSystem->AddEmitter(white8Stars);
+
+    ParticleSystemDefinition* boostParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Boost", ONE_SHOT);
+    boostParticleSystem->AddEmitter(boostEffect);
 
     ParticleSystemDefinition* forcefieldParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Forcefield", ONE_SHOT);
     forcefieldParticleSystem->AddEmitter(blueShieldHex);

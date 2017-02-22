@@ -99,9 +99,9 @@ void Pickup::ResolveCollision(Entity* otherEntity)
 
     for (PlayerShip* player : TheGame::instance->m_players)
     {
-        if ((Entity*)player == otherEntity && !player->m_isDead)
+        if ((Entity*)player == otherEntity && !player->m_isDead && m_item)
         {
-            if (m_item && player->CanPickUp(m_item))
+            if (player->CanPickUp(m_item))
             {
                 player->PickUpItem(m_item);
                 m_item = nullptr;
@@ -109,8 +109,11 @@ void Pickup::ResolveCollision(Entity* otherEntity)
             }
             else
             {
-                m_descriptionTextRenderable->Enable();
-                m_equipTextRenderable->Enable();
+                if (!m_item->IsPowerUp())
+                {
+                    m_descriptionTextRenderable->Enable();
+                    m_equipTextRenderable->Enable();
+                }
             }
         }
     }

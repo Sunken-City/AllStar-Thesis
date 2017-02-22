@@ -74,7 +74,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         //PickUpItem(new MissileLauncher());
         PickUpItem(new SpeedChassis());
-        PickUpItem(new ShieldActive());
+        PickUpItem(new BoostActive());
         PickUpItem(new SpecialTrailPassive());
     }
 

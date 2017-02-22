@@ -57,7 +57,7 @@ void BoostActive::Activate(NamedProperties& parameters)
 
         Ship* ship = nullptr;
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", ship) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
-        ParticleSystem::PlayOneShotParticleEffect("Buff", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
+        ParticleSystem::PlayOneShotParticleEffect("Boost", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
         m_owner = dynamic_cast<PlayerShip*>(ship);
     }
 }
