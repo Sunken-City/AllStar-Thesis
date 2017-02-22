@@ -21,16 +21,11 @@ Asteroid::Asteroid(const Vector2& initialPosition)
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
-    //m_baseStats.hp += 3.0f;
-    //Heal();
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleBrown");
 
-    m_isInvincible = true;
-    
-    //if (m_transform.GetWorldScale().x > MIN_ASTEROID_SCALE)
-    {
-        m_isImmobile = true;
-    }
+    m_baseStats.hp += 3.0f;
+    Heal();
+    m_isImmobile = (m_transform.GetWorldScale().x >= MIN_ASTEROID_SCALE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -47,28 +42,48 @@ void Asteroid::Die()
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), 1.0f);
     ParticleSystem::PlayOneShotParticleEffect("CrateDestroyed", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()));
 
-//     GameMode* gamemode = GameMode::GetCurrent();
-//     if (gamemode->m_isPlaying && m_transform.GetWorldScale().x > MIN_ASTEROID_SCALE / 2.0f)
-//     {
-//         Asteroid* asteroid1 = new Asteroid(m_transform.GetWorldPosition());
-//         Asteroid* asteroid2 = new Asteroid(m_transform.GetWorldPosition());
-//         asteroid1->m_transform.SetScale(m_transform.GetWorldScale() / 2.0f);
-//         asteroid2->m_transform.SetScale(m_transform.GetWorldScale() / 2.0f);
-//         asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 100.0f);
-//         asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 100.0f);
-//         if (MathUtils::CoinFlip())
-//         {
-//             gamemode->SpawnPickup(new PowerUp(), m_transform.GetWorldPosition());
-//         }
-// 
-//         gamemode->SpawnEntityInGameWorld(asteroid1);
-//         gamemode->SpawnEntityInGameWorld(asteroid2);
-//     }
+    GameMode* gamemode = GameMode::GetCurrent();
+    if (gamemode->m_isPlaying && m_transform.GetWorldScale().x >= (MIN_ASTEROID_SCALE / 2.0f))
+    {
+        Vector2 newScale = m_transform.GetWorldScale() / 2.0f;
+        Asteroid* asteroid1 = new Asteroid(m_transform.GetWorldPosition());
+        Asteroid* asteroid2 = new Asteroid(m_transform.GetWorldPosition());
+        asteroid1->m_transform.SetScale(newScale);
+        asteroid2->m_transform.SetScale(newScale);
+        asteroid1->m_sprite->m_transform.SetScale(newScale);
+        asteroid2->m_sprite->m_transform.SetScale(newScale);
+        asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1000.0f);
+        asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1000.0f);
+        asteroid1->CalculateCollisionRadius();
+        asteroid2->CalculateCollisionRadius();
+        if (asteroid1->m_transform.GetWorldScale().x >= MIN_ASTEROID_SCALE)
+        {
+            asteroid1->m_isImmobile = false;
+        }
+        if (asteroid2->m_transform.GetWorldScale().x >= MIN_ASTEROID_SCALE)
+        {
+            asteroid2->m_isImmobile = false;
+        }
+
+        if (MathUtils::CoinFlip())
+        {
+            gamemode->SpawnPickup(new PowerUp(), m_transform.GetWorldPosition());
+        }
+
+        gamemode->SpawnEntityInGameWorld(asteroid1);
+        gamemode->SpawnEntityInGameWorld(asteroid2);
+    }
 }
 
 //-----------------------------------------------------------------------------------
 void Asteroid::Update(float deltaSeconds)
 {
+    Entity::Update(deltaSeconds);
+    Vector2 pos = m_transform.GetWorldPosition();
+    pos += m_velocity * deltaSeconds;
+    m_velocity *= 0.9f;
+    SetPosition(pos);
+
     float newRotationDegrees = m_sprite->m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
     m_sprite->m_transform.SetRotationDegrees(newRotationDegrees);
     Vector2 direction = Vector2::DegreesToDirection(-newRotationDegrees, Vector2::ZERO_DEGREES_UP);

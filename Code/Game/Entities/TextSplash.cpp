@@ -34,7 +34,9 @@ void TextSplash::Cleanup()
 //-----------------------------------------------------------------------------------
 void TextSplash::CreateTextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color)
 {
-    m_textSplashes.push_back(new TextSplash(text, spawnTransform, velocity, color));
+    TextSplash* textSplash = new TextSplash(text, spawnTransform, velocity, color);
+    textSplash->m_textRenderable->m_transform.SetScale(Vector2(1.0f));
+    m_textSplashes.push_back(textSplash);
 }
 
 //-----------------------------------------------------------------------------------
