@@ -45,7 +45,7 @@ void Grunt::Update(float deltaSeconds)
 
     Vector2 direction = Vector2::DegreesToDirection(-m_sprite->m_transform.GetWorldRotationDegrees(), Vector2::ZERO_DEGREES_UP);
     Vector2 deltaVelocity = direction * m_baseStats.topSpeed * deltaSeconds;
-    SetPosition(GetPosition() + deltaVelocity);
+    SetPosition(m_transform.GetWorldPosition() + deltaVelocity);
 
     if (m_weapon)
     {

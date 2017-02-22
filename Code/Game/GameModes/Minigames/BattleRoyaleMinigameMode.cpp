@@ -5,6 +5,9 @@
 #include "Game/Pilots/Pilot.hpp"
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Input/XInputController.hpp"
+#include "Game/Encounters/Encounter.hpp"
+#include "Game/Encounters/NebulaEncounter.hpp"
+#include "Game/Encounters/BossteroidEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
@@ -126,6 +129,23 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
         Vector2 currentCameraPosition = SpriteGameRenderer::instance->GetCameraPositionInWorld(i);
         Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
         SpriteGameRenderer::instance->SetCameraPosition(cameraPosition, i);
+    }
+}
+
+//-----------------------------------------------------------------------------------
+Encounter* BattleRoyaleMinigameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
+{
+    int random = MathUtils::GetRandomIntFromZeroTo(4);
+    switch (random)
+    {
+    case 0:
+    case 1:
+        return new NebulaEncounter(center, radius);
+    case 2:
+    case 3:
+        return new BossteroidEncounter(center, radius);
+    default:
+        ERROR_AND_DIE("Random medium encounter roll out of range");
     }
 }
 

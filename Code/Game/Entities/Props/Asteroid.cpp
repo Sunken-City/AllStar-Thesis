@@ -56,11 +56,11 @@ void Asteroid::Die()
         asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1000.0f);
         asteroid1->CalculateCollisionRadius();
         asteroid2->CalculateCollisionRadius();
-        if (asteroid1->m_transform.GetWorldScale().x >= MIN_ASTEROID_SCALE)
+        if (asteroid1->m_transform.GetWorldScale().x <= MIN_ASTEROID_SCALE)
         {
             asteroid1->m_isImmobile = false;
-        }
-        if (asteroid2->m_transform.GetWorldScale().x >= MIN_ASTEROID_SCALE)
+        }   
+        if (asteroid2->m_transform.GetWorldScale().x <= MIN_ASTEROID_SCALE)
         {
             asteroid2->m_isImmobile = false;
         }
