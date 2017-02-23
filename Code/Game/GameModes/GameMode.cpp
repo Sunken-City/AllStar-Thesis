@@ -141,7 +141,7 @@ void GameMode::Update(float deltaSeconds)
 
         double overtimeSeconds = m_timerSecondsElapsed - m_gameLengthSeconds;
         double ratioIntoOvertime = overtimeSeconds / AFTER_GAME_SLOWDOWN_SECONDS;
-        m_scaledDeltaSeconds = deltaSeconds * MathUtils::SmoothStep(1.0f - (float)ratioIntoOvertime);
+        m_scaledDeltaSeconds = deltaSeconds * MathUtils::Clamp(MathUtils::SmoothStart2(1.0f - (float)ratioIntoOvertime), 0.2f, 1.0f);
     }
     if (m_timerSecondsElapsed >= m_gameLengthSeconds + AFTER_GAME_SLOWDOWN_SECONDS)
     {
