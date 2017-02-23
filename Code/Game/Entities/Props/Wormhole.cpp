@@ -14,10 +14,15 @@ Wormhole::Wormhole(const Vector2& initialPosition)
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("Wormhole", TheGame::BACKGROUND_GEOMETRY_LAYER);
+    m_overlaySprite = new Sprite("Wormhole", TheGame::FOREGROUND_LAYER);
     m_sprite->m_transform.SetParent(&m_transform);
+    m_overlaySprite->m_transform.SetParent(&m_transform);
+    m_overlaySprite->m_tintColor.SetAlphaFloat(0.5f);
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
+    m_overlaySprite->m_transform.SetRotationDegrees(180.0f);
+    m_overlaySprite->m_transform.SetScale(Vector2(1.1f, 1.1f));
     m_isInvincible = true;
     m_noCollide = true;
     m_collidesWithBullets = false;
@@ -26,7 +31,7 @@ Wormhole::Wormhole(const Vector2& initialPosition)
 //-----------------------------------------------------------------------------------
 Wormhole::~Wormhole()
 {
-
+    delete m_overlaySprite;
 }
 
 //-----------------------------------------------------------------------------------
@@ -35,6 +40,7 @@ void Wormhole::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
     m_transform.SetRotationDegrees(newRotationDegrees);
+    m_overlaySprite->m_transform.SetRotationDegrees(-4.5313f * newRotationDegrees);
 }
 
 //-----------------------------------------------------------------------------------

@@ -195,6 +195,7 @@
     <ClCompile Include="Items\PowerUp.cpp" />
     <ClCompile Include="Items\Weapons\LaserGun.cpp" />
     <ClCompile Include="Items\Weapons\MissileLauncher.cpp" />
+    <ClCompile Include="Items\Weapons\SpreadShot.cpp" />
     <ClCompile Include="Items\Weapons\Weapon.cpp" />
     <ClCompile Include="Main_Win32.cpp" />
     <ClCompile Include="Pilots\Pilot.cpp" />
@@ -254,6 +255,7 @@
     <ClInclude Include="Items\PowerUp.hpp" />
     <ClInclude Include="Items\Weapons\LaserGun.hpp" />
     <ClInclude Include="Items\Weapons\MissileLauncher.hpp" />
+    <ClInclude Include="Items\Weapons\SpreadShot.hpp" />
     <ClInclude Include="Items\Weapons\Weapon.hpp" />
     <ClInclude Include="Pilots\Pilot.hpp" />
     <ClInclude Include="Pilots\PlayerPilot.hpp" />
