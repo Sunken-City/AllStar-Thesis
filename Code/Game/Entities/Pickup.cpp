@@ -33,11 +33,13 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     if (!m_item->IsPowerUp())
     {
         m_transform.AddChild(&m_descriptionTextRenderable->m_transform);
-        m_descriptionTextRenderable->m_fontSize = 0.05f;
+        m_descriptionTextRenderable->m_fontSize = 0.4f;
+        m_descriptionTextRenderable->m_transform.SetRotationDegrees(-m_transform.GetWorldRotationDegrees());
         m_descriptionTextRenderable->Disable();
 
         m_transform.AddChild(&m_equipTextRenderable->m_transform);
-        m_equipTextRenderable->m_fontSize = 0.03f;
+        m_equipTextRenderable->m_fontSize = 0.3f;
+        m_equipTextRenderable->m_transform.SetRotationDegrees(-m_transform.GetWorldRotationDegrees());
         m_equipTextRenderable->Disable();
     }
     else
