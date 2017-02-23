@@ -1015,7 +1015,8 @@ void TheGame::RegisterSprites()
 
     //Passive Pickups
     ResourceDatabase::instance->RegisterSprite("CloakPassive", "Data\\Images\\Passives\\cloakPassive.png");
-    ResourceDatabase::instance->RegisterSprite("StealthTrailPassive", "Data\\Images\\Passives\\stealthTrailPassive.png"); 
+    ResourceDatabase::instance->RegisterSprite("StealthTrailPassive", "Data\\Images\\Passives\\stealthTrailPassive.png");
+    ResourceDatabase::instance->RegisterSprite("SprayAndPrayPassive", "Data\\Images\\Passives\\sprayAndPrayPassive.png");
     ResourceDatabase::instance->RegisterSprite("SpecialTrailPassiveLol", "Data\\Images\\Passives\\specialTrailPassiveLol.png"); 
 
     //Active Pickups
@@ -1028,6 +1029,7 @@ void TheGame::RegisterSprites()
     //Weapon Pickups
     ResourceDatabase::instance->RegisterSprite("MissileLauncher", "Data\\Images\\Weapons\\missileLauncher.png");
     ResourceDatabase::instance->RegisterSprite("DefaultWeapon", "Data\\Images\\Weapons\\defaultWeapon.png");
+    ResourceDatabase::instance->RegisterSprite("SpreadShot", "Data\\Images\\Weapons\\spreadShot.png");
 
     //Pickups
     ResourceDatabase::instance->RegisterSprite("Top Speed", "Data\\Images\\Pickups\\speed.png");

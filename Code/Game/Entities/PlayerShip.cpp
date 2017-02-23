@@ -29,6 +29,8 @@
 #include "../Items/Actives/ShieldActive.hpp"
 #include "../Items/Actives/BoostActive.hpp"
 #include "../Items/Chassis/TankChassis.hpp"
+#include "../Items/Weapons/SpreadShot.hpp"
+#include "../Items/Passives/SprayAndPrayPassive.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 
@@ -73,10 +75,10 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        //PickUpItem(new MissileLauncher());
+        PickUpItem(new SpreadShot());
         PickUpItem(new SpeedChassis());
         PickUpItem(new BoostActive());
-        PickUpItem(new SpecialTrailPassive());
+        PickUpItem(new SprayAndPrayPassive());
     }
 
     m_shieldDownEffect = new Material(

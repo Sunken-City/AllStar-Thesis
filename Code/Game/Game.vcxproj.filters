@@ -177,6 +177,7 @@
     <ClCompile Include="Encounters\CargoShipEncounter.cpp" />
     <ClCompile Include="Encounters\BossteroidEncounter.cpp" />
     <ClCompile Include="Items\Weapons\SpreadShot.cpp" />
+    <ClCompile Include="Items\Passives\SprayAndPrayPassive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -312,6 +313,7 @@
     <ClInclude Include="Encounters\CargoShipEncounter.hpp" />
     <ClInclude Include="Encounters\BossteroidEncounter.hpp" />
     <ClInclude Include="Items\Weapons\SpreadShot.hpp" />
+    <ClInclude Include="Items\Passives\SprayAndPrayPassive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

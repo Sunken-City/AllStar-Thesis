@@ -19,6 +19,8 @@
 #include "Chassis\TankChassis.hpp"
 #include "Chassis\GlassCannonChassis.hpp"
 #include "Chassis\PowerChassis.hpp"
+#include "Weapons\SpreadShot.hpp"
+#include "Passives\SprayAndPrayPassive.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon* GetRandomWeapon()
@@ -30,7 +32,7 @@ Weapon* GetRandomWeapon()
     }
     else
     {
-        return new MissileLauncher();
+        return new SpreadShot();
     }
 }
 
@@ -89,7 +91,7 @@ ActiveEffect* GetRandomActive()
 //-----------------------------------------------------------------------------------
 PassiveEffect* GetRandomPassive()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(3);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(4);
     if (randomNumber == 0)
     {
         return new CloakPassive();
@@ -97,6 +99,10 @@ PassiveEffect* GetRandomPassive()
     else if (randomNumber == 1)
     {
         return new SpecialTrailPassive();
+    }
+    else if (randomNumber == 2)
+    {
+        return new SprayAndPrayPassive();
     }
     else
     {

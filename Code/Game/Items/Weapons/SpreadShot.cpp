@@ -15,7 +15,8 @@ SpreadShot::SpreadShot()
 
     m_numProjectilesPerShot = 3;
     m_spreadDegrees = 40.0f;
-    m_statBonuses.damage = -1.0f;
+    m_statBonuses.damage = -2.0f;
+    m_statBonuses.rateOfFire = -2.0f;
 }
 
 //-----------------------------------------------------------------------------------
