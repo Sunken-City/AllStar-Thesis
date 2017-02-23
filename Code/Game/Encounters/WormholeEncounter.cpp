@@ -17,7 +17,7 @@ void WormholeEncounter::Spawn()
 
     AABB2 bounds = m_spawnedWormhole->m_sprite->m_spriteResource->GetDefaultBounds();
     Vector2 normalizingScale = Vector2(2.0f / bounds.GetWidth(), 2.0f / bounds.GetHeight()); //Makes our scale for the object 1:1 so we can multiply by the radius
-    m_spawnedWormhole->m_sprite->m_transform.SetScale(normalizingScale * Vector2(m_radius));
+    m_spawnedWormhole->m_transform.SetScale(normalizingScale * Vector2(m_radius));
     m_spawnedWormhole->CalculateCollisionRadius();
 
     gameMode->SpawnEntityInGameWorld(m_spawnedWormhole);

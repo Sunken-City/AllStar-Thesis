@@ -37,6 +37,7 @@ public:
     static unsigned int const BACKGROUND_STARS_LAYER_SLOWER = 100;
     static unsigned int const BACKGROUND_STARS_LAYER = 200;
     static unsigned int const BACKGROUND_GEOMETRY_LAYER = 500;
+    static unsigned int const BACKGROUND_GEOMETRY_LAYER_ABOVE = 501;
     static unsigned int const BACKGROUND_PARTICLES_LAYER = 600;
     static unsigned int const BACKGROUND_PARTICLES_BLOOM_LAYER = 650;
     static unsigned int const GEOMETRY_LAYER = 700;

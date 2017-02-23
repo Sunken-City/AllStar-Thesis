@@ -16,8 +16,8 @@ Asteroid::Asteroid(const Vector2& initialPosition)
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("Asteroid", TheGame::GEOMETRY_LAYER);
+    m_sprite->m_transform.SetParent(&m_transform);
     m_transform.SetScale(Vector2(MathUtils::GetRandomFloat(MIN_ASTEROID_SCALE, MAX_ASTEROID_SCALE)));
-    m_sprite->m_transform.SetScale(m_transform.GetWorldScale());
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
@@ -50,8 +50,6 @@ void Asteroid::Die()
         Asteroid* asteroid2 = new Asteroid(m_transform.GetWorldPosition());
         asteroid1->m_transform.SetScale(newScale);
         asteroid2->m_transform.SetScale(newScale);
-        asteroid1->m_sprite->m_transform.SetScale(newScale);
-        asteroid2->m_sprite->m_transform.SetScale(newScale);
         asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1000.0f);
         asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1000.0f);
         asteroid1->CalculateCollisionRadius();
@@ -84,7 +82,7 @@ void Asteroid::Update(float deltaSeconds)
     m_velocity *= 0.9f;
     SetPosition(pos);
 
-    float newRotationDegrees = m_sprite->m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
-    m_sprite->m_transform.SetRotationDegrees(newRotationDegrees);
+    float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
+    m_transform.SetRotationDegrees(newRotationDegrees);
     Vector2 direction = Vector2::DegreesToDirection(-newRotationDegrees, Vector2::ZERO_DEGREES_UP);
 }

@@ -35,7 +35,7 @@ void Projectile::Update(float deltaSeconds)
         position += m_velocity * deltaSeconds;
         SetPosition(position);
         
-        m_sprite->m_transform.SetRotationDegrees(-m_velocity.CalculateThetaDegrees() + 90.0f);
+        m_transform.SetRotationDegrees(-m_velocity.CalculateThetaDegrees() + 90.0f);
     }
     else
     {

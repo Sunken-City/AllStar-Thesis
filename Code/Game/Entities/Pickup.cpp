@@ -16,13 +16,14 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     m_collidesWithBullets = false;
     m_noCollide = true;
     m_sprite = new Sprite("Invalid", TheGame::ITEM_LAYER);
+    m_sprite->m_transform.SetParent(&m_transform);
     m_sprite->m_spriteResource = m_item->GetSpriteResource();
     CalculateCollisionRadius();
 
     float x = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
     float y = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
     SetPosition(initialPosition + Vector2(x, y));
-    m_sprite->m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(15.0f));
+    m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(15.0f));
     m_baseStats.hp = 10.0f;
     m_currentHp = m_baseStats.hp;
 
@@ -64,7 +65,7 @@ void Pickup::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
 
     Vector2 newScale = Vector2(1.0f) + Vector2(sin(m_age * 2.0f) / 4.0f);
-    m_sprite->m_transform.SetScale(newScale);
+    m_transform.SetScale(newScale);
     m_velocity *= 0.9f;
     Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);

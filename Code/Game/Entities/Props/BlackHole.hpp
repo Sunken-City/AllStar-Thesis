@@ -18,5 +18,6 @@ public:
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;
     static const float PERCENTAGE_RADIUS_INNER_RADIUS;
+    Sprite* m_overlaySprite;
 };
 

@@ -47,12 +47,13 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_cooldownMaterial = new Material(m_cooldownShader, SpriteGameRenderer::instance->m_defaultRenderState);
 
     m_sprite = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
+    m_sprite->m_transform.SetParent(&m_transform);
     m_sprite->m_material = m_paletteSwapMaterial;
     float paletteIndex = ((float)((PlayerPilot*)m_pilot)->m_playerNumber + 1.0f) / 16.0f;
     m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ColorPalettes")->m_texture);
-    m_sprite->m_transform.SetScale(DEFAULT_SCALE);
+    m_transform.SetScale(DEFAULT_SCALE);
 
     m_shieldSprite->m_material = m_sprite->m_material;
     m_shipTrail->m_colorOverride = GetPlayerColor();
