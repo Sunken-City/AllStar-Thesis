@@ -74,20 +74,25 @@ void PowerUp::SetStatChangeFromType(PowerUpType type)
 //-----------------------------------------------------------------------------------
 SoundID PowerUp::GetPickupSFXID()
 {
-    static SoundID pickupSounds[12];
-    pickupSounds[0] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav");
-    pickupSounds[1] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav");
-    pickupSounds[2] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_03.wav");
-    pickupSounds[3] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_04.wav");
-    pickupSounds[4] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_05.wav");
-    pickupSounds[5] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav");
-    pickupSounds[6] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav");
-    pickupSounds[7] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_03.wav");
-    pickupSounds[8] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_04.wav");
-    pickupSounds[9] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_05.wav");
-    pickupSounds[10] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav");
-    pickupSounds[11] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav");
-    pickupSounds[12] = AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_03.wav");
+//     int numbers[] = { 3, 4, 5, 6, 67 };
+//     const int numInts = sizeof(numbers) / sizeof(numbers[0]);
+
+    static SoundID pickupSounds[] =
+    {
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_03.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_04.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_05.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_03.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_04.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_05.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_02.wav"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_03.wav")
+    };
     
     return pickupSounds[static_cast<int>(m_powerUpType)];
 }

@@ -37,11 +37,9 @@ Ship::~Ship()
 //-----------------------------------------------------------------------------------
 void Ship::Update(float deltaSeconds)
 {
-    const float ANGULAR_VELOCITY = 180.0f;
     Entity::Update(deltaSeconds);
     m_secondsSinceLastFiredWeapon += deltaSeconds;
     RegenerateShield(deltaSeconds);
-    m_shieldSprite->m_transform.SetRotationDegrees(m_shieldSprite->m_transform.GetLocalRotationDegrees() + ANGULAR_VELOCITY * deltaSeconds);
     FlickerShield(deltaSeconds);
     ApplyShotDeflection();
 
@@ -144,6 +142,9 @@ void Ship::FlickerShield(float deltaSeconds)
     float mappedNoiseValue = MathUtils::RangeMap(noiseValue, -1.0f, 1.0f, 0.0f, 1.0f);
     float alphaValue = Max<float>(ratio, noiseValue);
     m_shieldSprite->m_tintColor.SetAlphaFloat(alphaValue);
+
+    float rotationThisFrame = (ANGULAR_VELOCITY * deltaSeconds) * ratio;
+    m_shieldSprite->m_transform.SetRotationDegrees(m_shieldSprite->m_transform.GetLocalRotationDegrees() + rotationThisFrame);
 }
 
 //-----------------------------------------------------------------------------------

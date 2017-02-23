@@ -34,6 +34,8 @@ public:
     void FlickerShield(float deltaSeconds);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    static constexpr float ANGULAR_VELOCITY = 300.0f;
+
     LaserGun m_defaultWeapon;
     Pilot* m_pilot;
     ParticleSystem* m_shipTrail = nullptr;
