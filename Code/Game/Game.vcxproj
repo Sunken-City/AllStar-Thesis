@@ -165,6 +165,7 @@
     <ClCompile Include="Entities\Props\BlackHole.cpp" />
     <ClCompile Include="Entities\Props\ItemCrate.cpp" />
     <ClCompile Include="Entities\Props\Nebula.cpp" />
+    <ClCompile Include="Entities\Props\ShipDebris.cpp" />
     <ClCompile Include="Entities\Props\Wormhole.cpp" />
     <ClCompile Include="Entities\Ship.cpp" />
     <ClCompile Include="Entities\TextSplash.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="Entities\Props\BlackHole.hpp" />
     <ClInclude Include="Entities\Props\ItemCrate.hpp" />
     <ClInclude Include="Entities\Props\Nebula.hpp" />
+    <ClInclude Include="Entities\Props\ShipDebris.hpp" />
     <ClInclude Include="Entities\Props\Wormhole.hpp" />
     <ClInclude Include="Entities\Ship.hpp" />
     <ClInclude Include="Entities\TextSplash.hpp" />

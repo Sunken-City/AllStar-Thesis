@@ -11,6 +11,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity) override;
+    inline virtual bool IsProp() override { return true; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     float m_angularVelocity;

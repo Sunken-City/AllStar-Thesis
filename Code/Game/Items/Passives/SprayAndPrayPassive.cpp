@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------------------
 SprayAndPrayPassive::SprayAndPrayPassive()
 {
-    m_name = "Stealth Trail";
+    m_name = "Spray & Pray";
     m_statBonuses.damage = -5.0f;
     m_statBonuses.rateOfFire = 10.0f;
 }

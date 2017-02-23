@@ -1160,6 +1160,7 @@ void TheGame::RegisterParticleEffects()
     yellowStars->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.3f));
 
     ParticleEmitterDefinition* yellowExplosionOrb = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowCircle"));
+    yellowExplosionOrb->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
     yellowExplosionOrb->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Explosion Orb");
     yellowExplosionOrb->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     yellowExplosionOrb->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
@@ -1182,6 +1183,7 @@ void TheGame::RegisterParticleEffects()
     blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(4.0f));
 
     ParticleEmitterDefinition* yellowBeams = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowBeam"));
+    yellowBeams->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
     yellowBeams->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Beams");
     yellowBeams->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     yellowBeams->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(5, 10));
@@ -1291,13 +1293,31 @@ void TheGame::RegisterParticleEffects()
     smokeTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
     smokeTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.5f));
     smokeTrail->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
-    titleScreenParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-90.0f, 90.0f));
+    smokeTrail->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-90.0f, 90.0f));
+
+    ParticleEmitterDefinition* smoking = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlackSmoke"));
+    smoking->m_properties.Set<std::string>(PROPERTY_NAME, "Crate Destroyed");
+    smoking->m_properties.Set<float>("Gravity Scale", -0.1f);
+    smoking->m_properties.Set<RGBA>(PROPERTY_INITIAL_COLOR, RGBA(0xFFFFFF44));
+    smoking->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    smoking->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(2, 3));
+    smoking->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
+    smoking->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.25f));
+    smoking->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 2.0f);
+    smoking->m_properties.Set<Range<float>>(PROPERTY_EXPLOSIVE_VELOCITY_MAGNITUDE, 0.25f);
+    smoking->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 3.0f);
+    smoking->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
+    smoking->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-90.0f, 90.0f));
+    smoking->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
     deathParticleSystem->AddEmitter(yellowExplosionOrb);
     deathParticleSystem->AddEmitter(yellowBeams);
+
+    ParticleSystemDefinition* smokingParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Smoking", ONE_SHOT);
+    smokingParticleSystem->AddEmitter(smoking);
 
     ParticleSystemDefinition* buffParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Buff", ONE_SHOT);
     buffParticleSystem->AddEmitter(white8Stars);

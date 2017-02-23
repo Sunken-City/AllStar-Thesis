@@ -37,6 +37,7 @@ public:
 
     //QUERIES/////////////////////////////////////////////////////////////////////
     inline virtual bool IsPlayer() { return false; };
+    inline virtual bool IsProp() { return false; };
     inline virtual bool IsProjectile() { return false; };
     inline virtual bool IsPickup() { return false; };
     inline virtual bool HasShield() { return m_currentShieldHealth > 0.0f; };

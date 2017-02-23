@@ -9,6 +9,7 @@ public:
 
     virtual void Update(float deltaSeconds) override;
     virtual void Die() override;
+    //inline virtual bool IsProp() override { return true; };
     void GenerateItems();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////

@@ -12,6 +12,7 @@
 #include "../GameCommon.hpp"
 #include "Engine/Math/Noise.hpp"
 #include "Engine/Renderer/Material.hpp"
+#include "Props/ShipDebris.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -236,7 +237,9 @@ void Ship::Die()
     Entity::Die();
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), m_hitSoundMaxVolume);
     m_smokeDamage->Disable();
-    ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(GetPosition()));
+    ShipDebris* debris = new ShipDebris(m_transform, m_sprite->m_spriteResource, m_velocity);
+    ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &debris->m_transform);
+    GameMode::GetCurrent()->SpawnEntityInGameWorld(debris);
 }
 
 //-----------------------------------------------------------------------------------
