@@ -23,6 +23,11 @@ Asteroid::Asteroid(const Vector2& initialPosition)
     m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleBrown");
 
+    float redOffset = MathUtils::GetRandomFloat(0.9f, 1.0f);
+    float greenOffset = MathUtils::GetRandomFloat(0.9f, 1.0f);
+    float blueOffset = MathUtils::GetRandomFloat(0.9f, 1.0f);
+    m_sprite->m_tintColor = RGBA(redOffset, greenOffset, blueOffset, 1.0f);
+
     m_baseStats.hp += 3.0f;
     Heal();
     m_isImmobile = (m_transform.GetWorldScale().x >= MIN_ASTEROID_SCALE);
@@ -46,14 +51,18 @@ void Asteroid::Die()
     if (gamemode->m_isPlaying && m_transform.GetWorldScale().x >= (MIN_ASTEROID_SCALE / 2.0f))
     {
         Vector2 newScale = m_transform.GetWorldScale() / 2.0f;
+        float randomScaleOffset1 = MathUtils::GetRandomFloat(-0.1f, 0.1f);
+        float randomScaleOffset2 = MathUtils::GetRandomFloat(-0.1f, 0.1f);
+
         Asteroid* asteroid1 = new Asteroid(m_transform.GetWorldPosition());
         Asteroid* asteroid2 = new Asteroid(m_transform.GetWorldPosition());
-        asteroid1->m_transform.SetScale(newScale);
-        asteroid2->m_transform.SetScale(newScale);
+        asteroid1->m_transform.SetScale(newScale + Vector2(randomScaleOffset1));
+        asteroid2->m_transform.SetScale(newScale + Vector2(randomScaleOffset2));
         asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1250.0f);
         asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1250.0f);
         asteroid1->CalculateCollisionRadius();
         asteroid2->CalculateCollisionRadius();
+
         if (asteroid1->m_transform.GetWorldScale().x <= MIN_ASTEROID_SCALE)
         {
             asteroid1->m_isImmobile = false;
