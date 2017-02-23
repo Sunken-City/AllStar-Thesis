@@ -50,8 +50,8 @@ void Asteroid::Die()
         Asteroid* asteroid2 = new Asteroid(m_transform.GetWorldPosition());
         asteroid1->m_transform.SetScale(newScale);
         asteroid2->m_transform.SetScale(newScale);
-        asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1000.0f);
-        asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1000.0f);
+        asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1250.0f);
+        asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1250.0f);
         asteroid1->CalculateCollisionRadius();
         asteroid2->CalculateCollisionRadius();
         if (asteroid1->m_transform.GetWorldScale().x <= MIN_ASTEROID_SCALE)

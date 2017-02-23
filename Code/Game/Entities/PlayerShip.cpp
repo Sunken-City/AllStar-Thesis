@@ -147,26 +147,26 @@ void PlayerShip::InitializeUI()
 
     m_currentWeaponUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
-    m_currentWeaponUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentWeaponUI->m_transform.SetScale(Vector2(1.0f));
     m_currentWeaponUI->m_transform.SetPosition(Vector2(-0.4f, 1.0f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentWeaponUI->m_transform);
 
     m_currentActiveUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentActiveUI->m_tintColor.SetAlphaFloat(0.75f);
-    m_currentActiveUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentActiveUI->m_transform.SetScale(Vector2(1.0f));
     m_currentActiveUI->m_transform.SetPosition(Vector2(-1.0f, 0.4f));
     m_currentActiveUI->m_material = m_cooldownMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentActiveUI->m_transform);
 
     m_currentChassisUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentChassisUI->m_tintColor.SetAlphaFloat(0.75f);
-    m_currentChassisUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentChassisUI->m_transform.SetScale(Vector2(1.0f));
     m_currentChassisUI->m_transform.SetPosition(Vector2(-1.0f, 1.6f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentChassisUI->m_transform);
 
     m_currentPassiveUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentPassiveUI->m_tintColor.SetAlphaFloat(0.75f);
-    m_currentPassiveUI->m_transform.SetScale(Vector2(0.25f));
+    m_currentPassiveUI->m_transform.SetScale(Vector2(1.0f));
     m_currentPassiveUI->m_transform.SetPosition(Vector2(-1.6f, 1.0f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentPassiveUI->m_transform);
           
@@ -178,6 +178,10 @@ void PlayerShip::InitializeUI()
     m_shieldText->m_transform.SetPosition(Vector2(1.0f, 1.3f));
     m_speedText->m_transform.SetPosition(Vector2(1.1f, 0.8f));
     m_dpsText->m_transform.SetPosition(Vector2(1.1f, 0.3f));
+    m_healthText->m_transform.SetScale(Vector2(2.0f));
+    m_shieldText->m_transform.SetScale(Vector2(2.0f));
+    m_speedText->m_transform.SetScale(Vector2(2.0f));
+    m_dpsText->m_transform.SetScale(Vector2(2.0f));
     m_healthText->m_fontSize = 0.1f;
     m_shieldText->m_fontSize = 0.1f;
     m_speedText->m_fontSize = 0.1f;
