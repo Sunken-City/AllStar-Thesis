@@ -30,7 +30,7 @@ void BoostActive::Update(float deltaSeconds)
     {
         float diffInTime = GetCurrentTimeMilliseconds() - m_lastActivatedMiliseconds;
         float t = MathUtils::EaseInOut2(diffInTime / MILISECONDS_DURATION);
-        m_owner->m_sprite->m_transform.SetScale(MathUtils::Lerp(t, PlayerShip::DEFAULT_SCALE, PlayerShip::DEFAULT_SCALE * Vector2(0.75f, 1.25f)));
+        m_owner->m_transform.SetScale(MathUtils::Lerp(t, PlayerShip::DEFAULT_SCALE, PlayerShip::DEFAULT_SCALE * Vector2(0.75f, 1.25f)));
 
         if (diffInTime > MILISECONDS_DURATION)
         {
@@ -66,7 +66,7 @@ void BoostActive::Activate(NamedProperties& parameters)
 void BoostActive::Deactivate(NamedProperties& parameters)
 {
     UNUSED(parameters);
-    m_owner->m_sprite->m_transform.SetScale(PlayerShip::DEFAULT_SCALE);
+    m_owner->m_transform.SetScale(PlayerShip::DEFAULT_SCALE);
     m_statBonuses.topSpeed = 0.0f;
     m_statBonuses.acceleration = 0.0f;
     m_statBonuses.handling = 0.0f;

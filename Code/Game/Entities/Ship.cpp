@@ -249,7 +249,7 @@ bool Ship::FlushParticleTrailIfExists()
 //-----------------------------------------------------------------------------------
 Vector2 Ship::GetMuzzlePosition()
 {
-    return GetPosition() + Vector2::CreateFromPolar(m_muzzleOffsetMagnitude, -m_sprite->m_transform.GetWorldRotationDegrees() + 90.0f);
+    return GetPosition() + Vector2::CreateFromPolar(m_muzzleOffsetMagnitude, -m_transform.GetWorldRotationDegrees() + 90.0f);
 }
 
 //-----------------------------------------------------------------------------------

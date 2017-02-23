@@ -20,7 +20,7 @@ void NebulaEncounter::Spawn()
 
     AABB2 bounds = nebby->m_sprite->m_spriteResource->GetDefaultBounds();
     Vector2 normalizingScale = Vector2(2.0f / bounds.GetWidth(), 2.0f / bounds.GetHeight()); //Makes our scale for the object 1:1 so we can multiply by the radius
-    nebby->m_sprite->m_transform.SetScale(normalizingScale * Vector2(m_radius));
+    nebby->m_transform.SetScale(normalizingScale * Vector2(m_radius));
     nebby->CalculateCollisionRadius();
 
     Dice nebulaItemDie(1, 4);

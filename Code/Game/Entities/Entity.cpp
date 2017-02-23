@@ -193,14 +193,12 @@ void Entity::SetPosition(const Vector2& newPosition)
     }
 
     m_transform.SetPosition(adjustedPosition);
-    m_sprite->m_transform.SetPosition(adjustedPosition);
     m_shieldSprite->m_transform.SetPosition(adjustedPosition);
 }
 
 //-----------------------------------------------------------------------------------
 void Entity::SetRotation(const float newDegreesRotation)
 {
-    m_sprite->m_transform.SetRotationDegrees(newDegreesRotation);
     m_transform.SetRotationDegrees(newDegreesRotation);
 }
 
