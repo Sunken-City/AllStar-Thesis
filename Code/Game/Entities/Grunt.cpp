@@ -15,7 +15,7 @@ Grunt::Grunt(const Vector2& initialPosition)
 {
     m_sprite = new Sprite("Grunt", TheGame::ENEMY_LAYER);
     m_sprite->m_transform.SetParent(&m_transform);
-    m_transform.SetScale(Vector2(2.0f));  
+    m_transform.SetScale(Vector2(4.0f));  
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
