@@ -276,11 +276,11 @@ void TheGame::PressStart(NamedProperties&)
     { 
         SetGameState(PLAYER_JOIN); 
         TheGame::instance->InitializePlayerJoinState(); 
-        TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+        //TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
     }, TRANSITION_TIME_SECONDS);
 
     BeginTransitioning();
-    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("ReadyScreen")->m_texture);
     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
     m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
@@ -1123,6 +1123,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("SpiralWipe", "Data\\Images\\Transitions\\spiralWipe.png");
     ResourceDatabase::instance->RegisterSprite("SlashWipe", "Data\\Images\\Transitions\\slashWipe.png");
     ResourceDatabase::instance->RegisterSprite("PixelSlashWipe", "Data\\Images\\Transitions\\pixelSlashWipe.png");
+    ResourceDatabase::instance->RegisterSprite("ReadyScreen", "Data\\Images\\Transitions\\readyScreen.png");
 
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");
