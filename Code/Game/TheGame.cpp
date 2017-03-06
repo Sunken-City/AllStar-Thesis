@@ -357,7 +357,7 @@ void TheGame::UpdatePlayerJoin(float)
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelStarWipe")->m_texture);
             m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
-            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }        
