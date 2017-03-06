@@ -267,6 +267,11 @@ void TheGame::UpdateMainMenu(float)
 //-----------------------------------------------------------------------------------
 void TheGame::PressStart(NamedProperties&)
 {
+    if (IsTransitioningStates())
+    {
+        return;
+    }
+
     RunAfterSeconds([]() 
     { 
         SetGameState(PLAYER_JOIN); 
@@ -274,8 +279,10 @@ void TheGame::PressStart(NamedProperties&)
         TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
     }, TRANSITION_TIME_SECONDS);
 
+    BeginTransitioning();
     m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+    m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
@@ -325,19 +332,33 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
     m_readyText[1] = nullptr;
     m_readyText[2] = nullptr;
     m_readyText[3] = nullptr;
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::UpdatePlayerJoin(float)
 {
+    if (IsTransitioningStates())
+    {
+        return;
+    }
+
     //If someone presses their button a second time, we know all players are in and we're ready to start.
     for (PlayerPilot* pilot : m_playerPilots)
     {
         if (pilot->m_inputMap.WasJustPressed("Accept") || (m_numberOfPlayers == 4 && InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
         {
-            SetGameState(ASSEMBLY_GET_READY);
-            InitializeAssemblyGetReadyState();
+
+            RunAfterSeconds([]()
+            {
+                SetGameState(ASSEMBLY_GET_READY);
+                TheGame::instance->InitializeAssemblyGetReadyState();
+            }, TRANSITION_TIME_SECONDS);
+
+            BeginTransitioning();
+            m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelStarWipe")->m_texture);
+            m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }        
     }
@@ -388,12 +409,15 @@ void TheGame::InitializeAssemblyGetReadyState()
 void TheGame::CleanupAssemblyGetReadyState(unsigned int)
 {
     m_currentGameMode->CleanupReadyAnim();
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
 {
+    if (IsTransitioningStates())
+    {
+        return;
+    }
     m_currentGameMode->UpdateReadyAnim(deltaSeconds);
 
     if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
@@ -404,8 +428,18 @@ void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
     {
         if (pilot->m_inputMap.WasJustPressed("Accept") || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
         {
-            SetGameState(ASSEMBLY_PLAYING);
-            InitializeAssemblyPlayingState();
+            RunAfterSeconds([]()
+            {
+                SetGameState(ASSEMBLY_PLAYING);
+                TheGame::instance->InitializeAssemblyPlayingState();
+                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
+            }, TRANSITION_TIME_SECONDS);
+
+            BeginTransitioning();
+            m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+            m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+            AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }
 
@@ -457,7 +491,6 @@ void TheGame::CleanupAssemblyPlayingState(unsigned int)
     //UISystem::instance->DeleteWidget(m_gamePausedLabel);
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -472,9 +505,24 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
     m_currentGameMode->Update(deltaSeconds);
     if (!m_currentGameMode->m_isPlaying || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
     {
-        SetGameState(ASSEMBLY_RESULTS);
-        TheGame::instance->InitializeAssemblyResultsState();
-        m_currentGameMode->CleanUp();
+        if (IsTransitioningStates())
+        {
+            return;
+        }
+
+        RunAfterSeconds([]() 
+        {
+            SetGameState(ASSEMBLY_RESULTS);
+            TheGame::instance->InitializeAssemblyResultsState();
+            GameMode::GetCurrent()->CleanUp();
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+        }, TRANSITION_TIME_SECONDS);
+
+        BeginTransitioning();
+        m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+        m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+        AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
     }
 }
 
@@ -552,7 +600,6 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
     m_queuedMinigameModes.pop();
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -567,8 +614,23 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
     {
-        SetGameState(MINIGAME_GET_READY);
-        InitializeMinigameGetReadyState();
+        if (IsTransitioningStates())
+        {
+            return;
+        }
+
+        RunAfterSeconds([]() 
+        {
+            SetGameState(MINIGAME_GET_READY);
+            TheGame::instance->InitializeMinigameGetReadyState();
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+        }, TRANSITION_TIME_SECONDS);
+        
+        BeginTransitioning();
+        m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+        m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+        AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
     }
 }
 
@@ -587,7 +649,6 @@ void TheGame::RenderAssemblyResults() const
 void TheGame::InitializeMinigameGetReadyState()
 {
     m_currentGameMode->InitializeReadyAnim();
-    m_currentGameMode->SetBackground("Twah", Vector2::ONE);
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameGetReadyState);
 }
 
@@ -595,7 +656,6 @@ void TheGame::InitializeMinigameGetReadyState()
 void TheGame::CleanupMinigameGetReadyState(unsigned int)
 {
     m_currentGameMode->CleanupReadyAnim();
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -603,7 +663,7 @@ void TheGame::UpdateMinigameGetReady(float deltaSeconds)
 {
     m_currentGameMode->HideBackground();
     m_currentGameMode->UpdateReadyAnim(deltaSeconds);
-    if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
+    if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI || IsTransitioningStates())
     {
         return;
     }
@@ -611,8 +671,18 @@ void TheGame::UpdateMinigameGetReady(float deltaSeconds)
     {
         if (pilot->m_inputMap.WasJustPressed("Accept") || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
         {
-            SetGameState(MINIGAME_PLAYING);
-            InitializeMinigamePlayingState();
+            RunAfterSeconds([]() 
+            {
+                SetGameState(MINIGAME_PLAYING);
+                TheGame::instance->InitializeMinigamePlayingState();
+                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+            }, TRANSITION_TIME_SECONDS);
+        
+            BeginTransitioning();
+            m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+            m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+            AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }
     }
@@ -651,7 +721,6 @@ void TheGame::CleanupMinigamePlayingState(unsigned int)
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -664,11 +733,26 @@ void TheGame::UpdateMinigamePlaying(float deltaSeconds)
     }
 
     m_currentGameMode->Update(deltaSeconds);
+
+    if (IsTransitioningStates())
+    {
+        return;
+    }
     if (!m_currentGameMode->m_isPlaying || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
     {
-        SetGameState(MINIGAME_RESULTS);
-        TheGame::instance->InitializeMinigameResultsState();
-        m_currentGameMode->CleanUp();
+        RunAfterSeconds([]() 
+        {
+            SetGameState(MINIGAME_RESULTS);
+            TheGame::instance->InitializeMinigameResultsState();
+            GameMode::GetCurrent()->CleanUp();
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+        }, TRANSITION_TIME_SECONDS);
+    
+        BeginTransitioning();
+        m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+        m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+        AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
     }
 }
 
@@ -727,7 +811,6 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
     {
         m_currentGameMode = nullptr;
     }
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -742,15 +825,39 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
     {
+        if (IsTransitioningStates())
+        {
+            return;
+        }
         if (m_queuedMinigameModes.size() > 0)
         {
-            SetGameState(MINIGAME_GET_READY);
-            TheGame::instance->InitializeMinigameGetReadyState();
+            RunAfterSeconds([]() 
+            {
+                SetGameState(MINIGAME_GET_READY);
+                TheGame::instance->InitializeMinigameGetReadyState();
+                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+            }, TRANSITION_TIME_SECONDS);
+        
+            BeginTransitioning();
+            m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+            m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+            AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
         }
         else
         {
-            SetGameState(GAME_RESULTS_SCREEN);
-            TheGame::instance->InitializeGameOverState();
+            RunAfterSeconds([]()
+            {
+                SetGameState(GAME_RESULTS_SCREEN);
+                TheGame::instance->InitializeGameOverState();
+                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
+            }, TRANSITION_TIME_SECONDS);
+
+            BeginTransitioning();
+            m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+            m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+            AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
         }
     }
 }
@@ -784,7 +891,6 @@ void TheGame::CleanupGameOverState(unsigned int)
         delete ship;
     }
     m_players.clear();
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -794,8 +900,22 @@ void TheGame::UpdateGameOver(float )
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
     {
-        SetGameState(MAIN_MENU);
-        TheGame::instance->InitializeMainMenuState();
+        if (IsTransitioningStates())
+        {
+            return;
+        }
+        RunAfterSeconds([]() 
+        {
+            SetGameState(MAIN_MENU);
+            TheGame::instance->InitializeMainMenuState();
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+        }, TRANSITION_TIME_SECONDS);
+        
+        BeginTransitioning();
+        m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+        m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
+        AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
     }
 }
 
