@@ -15,7 +15,6 @@ void main(void)
 {
   float durationMultiplier = 1.0f / gEffectDurationSeconds;
   float cutoff = sin(clamp((gTime - gEffectTime) * durationMultiplier, 0.0f, 4.15f)) + 0.1f;
-  //float cutoff = clamp((gTime - gEffectTime) / 4.0f, 0.0f, 1.0f);
   vec4 transitionColor = texture(gNormalTexture, passUV0);
   vec4 diffuseColor = texture(gDiffuseTexture, passUV0);
   vec4 wipeColor = gWipeColor;
