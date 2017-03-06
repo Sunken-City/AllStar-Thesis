@@ -80,6 +80,7 @@ public:
     static unsigned int const FULL_SCREEN_EFFECT_OVERLAY_LAYER = 5000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
+    static const float TOTAL_TRANSITION_TIME_SECONDS;
     static const float TRANSITION_TIME_SECONDS;
     
 private:
