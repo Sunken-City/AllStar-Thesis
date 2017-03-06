@@ -40,7 +40,8 @@
 TheGame* TheGame::instance = nullptr;
 
 const float TheGame::TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI = 0.5f;
-const float TheGame::TRANSITION_TIME_SECONDS = 0.5f;
+const float TheGame::TOTAL_TRANSITION_TIME_SECONDS = 0.5f;
+const float TheGame::TRANSITION_TIME_SECONDS = TOTAL_TRANSITION_TIME_SECONDS * 0.5f;
 
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
@@ -72,7 +73,7 @@ TheGame::TheGame()
 
     m_transitionFBOEffect->SetFloatUniform("gEffectTime", -10.0f);
     m_transitionFBOEffect->SetFloatUniform("gEffectDurationSeconds", TRANSITION_TIME_SECONDS);
-    m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+    m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
     SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
@@ -266,10 +267,14 @@ void TheGame::UpdateMainMenu(float)
 //-----------------------------------------------------------------------------------
 void TheGame::PressStart(NamedProperties&)
 {
-    RunAfterSeconds([]() { SetGameState(PLAYER_JOIN); TheGame::instance->InitializePlayerJoinState(); }, TRANSITION_TIME_SECONDS);
+    RunAfterSeconds([]() 
+    { 
+        SetGameState(PLAYER_JOIN); 
+        TheGame::instance->InitializePlayerJoinState(); 
+        TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+    }, TRANSITION_TIME_SECONDS);
 
-    //WipeUpAndDown WipeLeftAndRight AngularWipe StarWipe BlurAngularWipe WipeRight WipeLeft SpiralWipe SlashWipe
-    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelStarWipe")->m_texture);
+    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
@@ -987,8 +992,11 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");
     ResourceDatabase::instance->RegisterSprite("WipeLeftAndRight", "Data\\Images\\Transitions\\wipeLeftAndRight.png");
     ResourceDatabase::instance->RegisterSprite("WipeLeft", "Data\\Images\\Transitions\\wipeLeft.png");
+    ResourceDatabase::instance->RegisterSprite("PixelWipeLeft", "Data\\Images\\Transitions\\pixelWipeLeft.png");
     ResourceDatabase::instance->RegisterSprite("WipeRight", "Data\\Images\\Transitions\\wipeRight.png");
+    ResourceDatabase::instance->RegisterSprite("PixelWipeRight", "Data\\Images\\Transitions\\pixelWipeRight.png");
     ResourceDatabase::instance->RegisterSprite("AngularWipe", "Data\\Images\\Transitions\\angularWipe.png");
+    ResourceDatabase::instance->RegisterSprite("PixelAngularWipe", "Data\\Images\\Transitions\\pixelAngularWipe.png");
     ResourceDatabase::instance->RegisterSprite("BlurAngularWipe", "Data\\Images\\Transitions\\blurWipe.png");
     ResourceDatabase::instance->RegisterSprite("StarWipe", "Data\\Images\\Transitions\\starWipe.png");
     ResourceDatabase::instance->RegisterSprite("PixelStarWipe", "Data\\Images\\Transitions\\pixelStarWipe.png");
