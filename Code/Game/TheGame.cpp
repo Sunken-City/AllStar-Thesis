@@ -246,7 +246,6 @@ void TheGame::CleanupMainMenuState(unsigned int)
     delete m_titleText;
     ParticleSystem::DestroyImmediately(m_titleParticles);
     SpriteGameRenderer::instance->RemoveEffectFromLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
-    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
@@ -269,15 +268,16 @@ void TheGame::PressStart(NamedProperties&)
 {
     RunAfterSeconds([]() { SetGameState(PLAYER_JOIN); TheGame::instance->InitializePlayerJoinState(); }, TRANSITION_TIME_SECONDS);
 
-    //WipeUpAndDown WipeLeftAndRight AngularWipe StarWipe BlurAngularWipe
-    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("WipeUpAndDown")->m_texture);
+    //WipeUpAndDown WipeLeftAndRight AngularWipe StarWipe BlurAngularWipe WipeRight WipeLeft SpiralWipe SlashWipe
+    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelStarWipe")->m_texture);
     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+    AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMainMenu() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::BLACK);
+    SpriteGameRenderer::instance->SetClearColor(RGBA::VERY_GRAY);
     SpriteGameRenderer::instance->Render();
 }
 
@@ -986,9 +986,15 @@ void TheGame::RegisterSprites()
     //Transitions
     ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");
     ResourceDatabase::instance->RegisterSprite("WipeLeftAndRight", "Data\\Images\\Transitions\\wipeLeftAndRight.png");
+    ResourceDatabase::instance->RegisterSprite("WipeLeft", "Data\\Images\\Transitions\\wipeLeft.png");
+    ResourceDatabase::instance->RegisterSprite("WipeRight", "Data\\Images\\Transitions\\wipeRight.png");
     ResourceDatabase::instance->RegisterSprite("AngularWipe", "Data\\Images\\Transitions\\angularWipe.png");
     ResourceDatabase::instance->RegisterSprite("BlurAngularWipe", "Data\\Images\\Transitions\\blurWipe.png");
     ResourceDatabase::instance->RegisterSprite("StarWipe", "Data\\Images\\Transitions\\starWipe.png");
+    ResourceDatabase::instance->RegisterSprite("PixelStarWipe", "Data\\Images\\Transitions\\pixelStarWipe.png");
+    ResourceDatabase::instance->RegisterSprite("SpiralWipe", "Data\\Images\\Transitions\\spiralWipe.png");
+    ResourceDatabase::instance->RegisterSprite("SlashWipe", "Data\\Images\\Transitions\\slashWipe.png");
+    ResourceDatabase::instance->RegisterSprite("PixelSlashWipe", "Data\\Images\\Transitions\\pixelSlashWipe.png");
 
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");
