@@ -3,13 +3,16 @@
 
 static GameState g_state = STARTUP;
 float g_secondsInState = 0.0f;
+bool g_isTransitioningStates = false;
 Event<unsigned int> OnStateSwitch;
 
+//-----------------------------------------------------------------------------------
 bool SetGameState(GameState newState)
 {
     if (g_state != newState)
     {
         DebuggerPrintf("Changed State from %s to %s\n", GetStateString(g_state), GetStateString(newState));
+        EndTransitioning();
         g_state = newState;
         g_secondsInState = 0;
         OnStateSwitch.Trigger((unsigned int)newState);
@@ -23,11 +26,13 @@ bool SetGameState(GameState newState)
     }
 }
 
+//-----------------------------------------------------------------------------------
 GameState GetGameState()
 {
     return g_state;
 }
 
+//-----------------------------------------------------------------------------------
 const char* GetStateString(GameState state)
 {
     switch (state)
@@ -61,3 +66,22 @@ const char* GetStateString(GameState state)
         return "";
     }
 }
+
+//-----------------------------------------------------------------------------------
+bool IsTransitioningStates()
+{
+    return g_isTransitioningStates;
+}
+
+//-----------------------------------------------------------------------------------
+void BeginTransitioning()
+{
+    g_isTransitioningStates = true;
+}
+
+//-----------------------------------------------------------------------------------
+void EndTransitioning()
+{
+    g_isTransitioningStates = false;
+}
+
