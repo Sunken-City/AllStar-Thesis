@@ -5,6 +5,8 @@
 #include "Engine/Input/InputMap.hpp"
 #include "GameModes/GameMode.hpp"
 #include <queue>
+#include <set>
+#include "Engine/Time/Time.hpp"
 
 class Entity;
 class PlayerShip;
@@ -16,6 +18,25 @@ class NamedProperties;
 class TextRenderable2D;
 class WidgetBase;
 class ParticleSystem;
+
+typedef void(RunAfterSecondsFunction)();
+
+//-----------------------------------------------------------------------------------
+struct RunAfterSecondsCallback
+{
+    RunAfterSecondsCallback(RunAfterSecondsFunction* functionPointer, float secondsToWait)
+        : m_functionPointer(functionPointer)
+        , m_secondsToWait(secondsToWait)
+    {
+        m_dispatchedTimestampSeconds = GetCurrentTimeSeconds();
+    }
+
+    RunAfterSecondsFunction* m_functionPointer;
+    double m_dispatchedTimestampSeconds;
+    float m_secondsToWait;
+
+    bool operator< (const RunAfterSecondsCallback& other) { return this->m_secondsToWait < other.m_secondsToWait; };
+};
 
 //-----------------------------------------------------------------------------------
 class TheGame
@@ -59,6 +80,7 @@ public:
     static unsigned int const FULL_SCREEN_EFFECT_OVERLAY_LAYER = 5000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
+    static const float TRANSITION_TIME_SECONDS;
     
 private:
     TheGame& operator= (const TheGame& other) = delete;
@@ -70,6 +92,8 @@ private:
     void EnqueueMinigames();
     void InitializeSpriteLayers();
     void CheckForGamePaused();
+    void RunAfterSeconds(RunAfterSecondsFunction* functionPointer, float secondsToWait);
+    void DispatchRunAfterSeconds();
 
     void InitializeMainMenuState();
     void CleanupMainMenuState(unsigned int);
@@ -128,6 +152,7 @@ public:
     std::vector<PlayerPilot*> m_playerPilots;
     std::vector<PlayerShip*> m_players;
     std::queue<GameMode*> m_queuedMinigameModes;
+    std::vector<RunAfterSecondsCallback> m_runAfterSecondsCallbackFunctions;
     GameMode* m_currentGameMode;
 
 private:

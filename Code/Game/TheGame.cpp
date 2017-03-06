@@ -40,6 +40,7 @@
 TheGame* TheGame::instance = nullptr;
 
 const float TheGame::TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI = 0.5f;
+const float TheGame::TRANSITION_TIME_SECONDS = 0.5f;
 
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
@@ -69,6 +70,10 @@ TheGame::TheGame()
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
 
+    m_transitionFBOEffect->SetFloatUniform("gEffectTime", -10.0f);
+    m_transitionFBOEffect->SetFloatUniform("gEffectDurationSeconds", TRANSITION_TIME_SECONDS);
+    m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+    SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
 }
@@ -80,6 +85,7 @@ TheGame::~TheGame()
     SetGameState(GameState::SHUTDOWN);
     TextSplash::Cleanup();
 
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
     delete m_transitionFBOEffect->m_shaderProgram;
     delete m_transitionFBOEffect;
     delete m_pauseFBOEffect->m_shaderProgram;
@@ -138,6 +144,7 @@ void TheGame::Update(float deltaSeconds)
     {
         return;
     }
+    DispatchRunAfterSeconds();
    
     switch (GetGameState())
     {
@@ -243,7 +250,7 @@ void TheGame::CleanupMainMenuState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateMainMenu(float )
+void TheGame::UpdateMainMenu(float)
 {
     m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetWorldRotationDegrees() + 2.0f);
     m_titleText->m_transform.SetScale(Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f));
@@ -260,12 +267,11 @@ void TheGame::UpdateMainMenu(float )
 //-----------------------------------------------------------------------------------
 void TheGame::PressStart(NamedProperties&)
 {
-    SetGameState(PLAYER_JOIN);
+    RunAfterSeconds([]() { SetGameState(PLAYER_JOIN); TheGame::instance->InitializePlayerJoinState(); }, TRANSITION_TIME_SECONDS);
+
     //WipeUpAndDown WipeLeftAndRight AngularWipe StarWipe BlurAngularWipe
-//     m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("StarWipe")->m_texture);
-//     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
-//     SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
-    InitializePlayerJoinState();
+    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("WipeUpAndDown")->m_texture);
+    m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
 }
 
 //-----------------------------------------------------------------------------------
@@ -845,6 +851,31 @@ void TheGame::CheckForGamePaused()
             }
             break;
         }
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::RunAfterSeconds(RunAfterSecondsFunction* functionPointer, float secondsToWait)
+{
+    m_runAfterSecondsCallbackFunctions.emplace_back(functionPointer, secondsToWait);
+}
+
+//-----------------------------------------------------------------------------------
+void TheGame::DispatchRunAfterSeconds()
+{
+    for (auto iter = m_runAfterSecondsCallbackFunctions.begin(); iter != m_runAfterSecondsCallbackFunctions.end();)
+    {
+        RunAfterSecondsCallback& callbackData = *iter;
+        if (GetCurrentTimeSeconds() - callbackData.m_dispatchedTimestampSeconds > callbackData.m_secondsToWait)
+        {
+            callbackData.m_functionPointer();
+            iter = m_runAfterSecondsCallbackFunctions.erase(iter);
+        }
+        if (iter == m_runAfterSecondsCallbackFunctions.end())
+        {
+            break;
+        }
+        ++iter;
     }
 }
 
