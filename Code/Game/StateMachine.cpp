@@ -36,6 +36,8 @@ const char* GetStateString(GameState state)
         return "Startup";
     case MAIN_MENU:
         return  "Main Menu";
+    case MAIN_MENU_TRANSITION:
+        return  "Main Menu Transition";
     case PLAYER_JOIN:
         return "Player Join";
     case ASSEMBLY_GET_READY:
