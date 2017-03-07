@@ -280,7 +280,7 @@ void TheGame::PressStart(NamedProperties&)
     }, TRANSITION_TIME_SECONDS);
 
     BeginTransitioning();
-    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("ReadyScreen")->m_texture);
+    m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelStarWipe")->m_texture);
     m_transitionFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
     m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
@@ -1197,6 +1197,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("MissileLauncher", "Data\\Images\\Weapons\\missileLauncher.png");
     ResourceDatabase::instance->RegisterSprite("DefaultWeapon", "Data\\Images\\Weapons\\defaultWeapon.png");
     ResourceDatabase::instance->RegisterSprite("SpreadShot", "Data\\Images\\Weapons\\spreadShot.png");
+    ResourceDatabase::instance->RegisterSprite("WaveGun", "Data\\Images\\Weapons\\waveGun.png");
 
     //Pickups
     ResourceDatabase::instance->RegisterSprite("Top Speed", "Data\\Images\\Pickups\\speed.png");

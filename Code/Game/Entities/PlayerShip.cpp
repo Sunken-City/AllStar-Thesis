@@ -31,6 +31,7 @@
 #include "../Items/Chassis/TankChassis.hpp"
 #include "../Items/Weapons/SpreadShot.hpp"
 #include "../Items/Passives/SprayAndPrayPassive.hpp"
+#include "../Items/Weapons/WaveGun.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 
@@ -75,10 +76,10 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        PickUpItem(new SpreadShot());
-        PickUpItem(new SpeedChassis());
-        PickUpItem(new BoostActive());
-        PickUpItem(new SprayAndPrayPassive());
+        PickUpItem(new WaveGun());
+        //PickUpItem(new SpeedChassis());
+        //PickUpItem(new BoostActive());
+        //PickUpItem(new SprayAndPrayPassive());
     }
 
     m_shieldDownEffect = new Material(

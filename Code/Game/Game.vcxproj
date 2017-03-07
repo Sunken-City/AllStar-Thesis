@@ -196,6 +196,7 @@
     <ClCompile Include="Items\Passives\PassiveEffect.cpp" />
     <ClCompile Include="Items\PowerUp.cpp" />
     <ClCompile Include="Items\Weapons\LaserGun.cpp" />
+    <ClCompile Include="Items\Weapons\WaveGun.cpp" />
     <ClCompile Include="Items\Weapons\MissileLauncher.cpp" />
     <ClCompile Include="Items\Weapons\SpreadShot.cpp" />
     <ClCompile Include="Items\Weapons\Weapon.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="Items\Passives\PassiveEffect.hpp" />
     <ClInclude Include="Items\PowerUp.hpp" />
     <ClInclude Include="Items\Weapons\LaserGun.hpp" />
+    <ClInclude Include="Items\Weapons\WaveGun.hpp" />
     <ClInclude Include="Items\Weapons\MissileLauncher.hpp" />
     <ClInclude Include="Items\Weapons\SpreadShot.hpp" />
     <ClInclude Include="Items\Weapons\Weapon.hpp" />
