@@ -50,3 +50,8 @@ bool Missile::FlushParticleTrailIfExists()
     return true;
 }
 
+//-----------------------------------------------------------------------------------
+float Missile::GetKnockbackMagnitude()
+{
+    return KNOCKBACK_MAGNITUDE;
+}

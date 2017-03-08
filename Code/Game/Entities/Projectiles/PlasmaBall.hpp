@@ -20,6 +20,7 @@ public:
     virtual ~PlasmaBall();
     virtual void Update(float deltaSeconds) override;
     virtual bool FlushParticleTrailIfExists() override;
+    virtual float GetKnockbackMagnitude() override;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const float KNOCKBACK_MAGNITUDE;

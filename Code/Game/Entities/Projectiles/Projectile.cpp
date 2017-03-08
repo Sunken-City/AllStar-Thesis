@@ -51,6 +51,9 @@ void Projectile::ResolveCollision(Entity* otherEntity)
     Entity::ResolveCollision(otherEntity);
     if (otherEntity != m_owner && otherEntity->m_collidesWithBullets && !otherEntity->m_isDead)
     {
+        Vector2 dispFromThisToOther = otherEntity->m_transform.GetWorldPosition() - m_transform.GetWorldPosition();
+        otherEntity->ApplyImpulse(dispFromThisToOther.GetNorm() * GetKnockbackMagnitude());
+
         float damageDealt = otherEntity->TakeDamage(m_damage, m_disruption);
         if (m_reportDPSToPlayer)
         {
@@ -68,3 +71,10 @@ void Projectile::ResolveCollision(Entity* otherEntity)
         ParticleSystem::PlayOneShotParticleEffect("Collision", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, otherEntity->GetCollisionSpriteResource());
     }
 }
+
+//-----------------------------------------------------------------------------------
+float Projectile::GetKnockbackMagnitude()
+{
+    return KNOCKBACK_MAGNITUDE;
+}
+

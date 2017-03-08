@@ -12,6 +12,7 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity);
     virtual inline bool IsProjectile() { return true; };
+    virtual float GetKnockbackMagnitude();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const float KNOCKBACK_MAGNITUDE;

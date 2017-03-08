@@ -95,11 +95,18 @@ void PlasmaBall::Update(float deltaSeconds)
         Vector2 newPosition = m_centralPosition + waveMotionDisplacement; //Calculate our actual position, with the new wavy offset
         m_velocity = (newPosition - GetPosition()) / deltaSeconds;
         SetPosition(newPosition);
-
+        float kb = GetKnockbackMagnitude();
+        kb += 1;
         //m_transform.SetRotationDegrees(-m_centralVelocity.CalculateThetaDegrees() + 90.0f);
     }
     else
     {
         m_isDead = true;
     }
+}
+
+//-----------------------------------------------------------------------------------
+float PlasmaBall::GetKnockbackMagnitude()
+{
+    return KNOCKBACK_MAGNITUDE;
 }

@@ -36,3 +36,9 @@ Laser::~Laser()
 {
 
 }
+
+//-----------------------------------------------------------------------------------
+float Laser::GetKnockbackMagnitude()
+{
+    return KNOCKBACK_MAGNITUDE;
+}
