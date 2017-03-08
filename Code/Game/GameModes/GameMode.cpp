@@ -19,7 +19,8 @@
 #include "../Encounters/CargoShipEncounter.hpp"
 #include "../Encounters/BossteroidEncounter.hpp"
 
-const double GameMode::AFTER_GAME_SLOWDOWN_SECONDS = 3.0f;
+const double GameMode::AFTER_GAME_SLOWDOWN_SECONDS = 3.0;
+const double GameMode::ANIMATION_LENGTH_SECONDS = 1.0;
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -299,28 +300,19 @@ void GameMode::ShowBackground()
 //-----------------------------------------------------------------------------------
 void GameMode::InitializeReadyAnim()
 {
-    m_rotationTime = 0.0f;
-    m_leftSpindleCenter.SetPosition(Vector2(-16.0f, 5.5f));
-    m_rightSpindleCenter.SetPosition(Vector2(12.0f, -3.0f));
-    for (int i = 0; i < 3; ++i)
-    {
-        Sprite* leftSpindle = new Sprite("SpindleArm", TheGame::UI_LAYER);
-        m_leftSpindleCenter.AddChild(&leftSpindle->m_transform);
-        leftSpindle->m_transform.SetScale(Vector2(7.0f));
-        leftSpindle->m_transform.SetRotationDegrees((i + 1) * 90.0f);
-        leftSpindle->m_tintColor = RGBA::BLACK;
-        m_leftSpindles[i] = leftSpindle;
+    m_readyAnimFBOEffect = new Material(
+        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\readyAnimation.frag"),
+        RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
+        );
 
-        Sprite* rightSpindle = new Sprite("SpindleArm", TheGame::UI_LAYER);
-        m_rightSpindleCenter.AddChild(&rightSpindle->m_transform);
-        rightSpindle->m_transform.SetScale(Vector2(5.1f));
-        rightSpindle->m_transform.SetRotationDegrees((i)* 90.0f);
-        rightSpindle->m_tintColor = RGBA::BLACK;
-        m_rightSpindles[i] = rightSpindle;
-    }
+    m_readyAnimFBOEffect->SetFloatUniform("gEffectDurationSeconds", ANIMATION_LENGTH_SECONDS);
+    m_readyAnimFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+    m_readyAnimFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("ReadyScreen")->m_texture);
+    m_readyAnimFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+    SpriteGameRenderer::instance->AddEffectToLayer(m_readyAnimFBOEffect, TheGame::UI_LAYER);
 
-    m_modeTitleRenderable = new TextRenderable2D(m_modeTitleText, Transform2D(Vector2(0.0f, 1.0f)), TheGame::TEXT_LAYER, true);
-    m_getReadyRenderable = new TextRenderable2D("Get Ready!", Transform2D(Vector2(0.0f, -3.0f)), TheGame::TEXT_LAYER, true);
+    m_modeTitleRenderable = new TextRenderable2D(m_modeTitleText, Transform2D(Vector2(0.0f, 0.9f)), TheGame::TEXT_LAYER, true);
+    m_getReadyRenderable = new TextRenderable2D("Get Ready!", Transform2D(Vector2(0.0f, -3.3f)), TheGame::TEXT_LAYER, true);
     m_modeTitleRenderable->m_color = RGBA::RED;
     m_getReadyRenderable->m_color = RGBA::RED;
     m_modeTitleRenderable->m_fontSize = 1.2f;
@@ -332,16 +324,11 @@ void GameMode::InitializeReadyAnim()
 //-----------------------------------------------------------------------------------
 void GameMode::UpdateReadyAnim(float deltaSeconds)
 {
-    m_rotationTime = Lerp<float>(0.0f, 1.0f, Clamp<float>(g_secondsInState * 2.0f, 0.0f, 1.0f));
-    float rotationTime2 = Lerp<float>(0.0f, 1.0f, Clamp<float>((g_secondsInState * 2.0f) - 0.5f, 0.0f, 1.0f));
-    m_leftSpindleCenter.SetRotationDegrees(45.0f + (45.0f * m_rotationTime));
-    m_rightSpindleCenter.SetRotationDegrees(-90.0f + (75.0f * rotationTime2));
-
-    if (m_rotationTime == 1.0f)
+    if (g_secondsInState >= 0.5f)
     {
         m_modeTitleRenderable->Enable();
     }
-    if (rotationTime2 == 1.0f)
+    if (g_secondsInState >= 1.0f)
     {
         m_getReadyRenderable->Enable();
     }
@@ -350,13 +337,14 @@ void GameMode::UpdateReadyAnim(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void GameMode::CleanupReadyAnim()
 {
-    for (int i = 0; i < 3; ++i)
-    {
-        delete m_leftSpindles[i];
-        delete m_rightSpindles[i];
-    }
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_readyAnimFBOEffect, TheGame::UI_LAYER);
+    delete m_readyAnimFBOEffect->m_shaderProgram;
+    delete m_readyAnimFBOEffect;
+    m_readyAnimFBOEffect = nullptr;
     delete m_modeTitleRenderable;
+    m_modeTitleRenderable = nullptr;
     delete m_getReadyRenderable;
+    m_getReadyRenderable = nullptr;
 }
 
 //-----------------------------------------------------------------------------------

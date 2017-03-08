@@ -68,6 +68,7 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     static const double AFTER_GAME_SLOWDOWN_SECONDS;
+    static const double ANIMATION_LENGTH_SECONDS;
 
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
@@ -90,11 +91,7 @@ private:
     WidgetBase* m_timerWidget = nullptr;
     WidgetBase* m_countdownWidget = nullptr;
 
-    float m_rotationTime = 0.0f;
+    Material* m_readyAnimFBOEffect = nullptr;
     TextRenderable2D* m_modeTitleRenderable = nullptr;
     TextRenderable2D* m_getReadyRenderable = nullptr;
-    Transform2D m_leftSpindleCenter;
-    Transform2D m_rightSpindleCenter;
-    Sprite* m_leftSpindles[3];
-    Sprite* m_rightSpindles[3];
 };
