@@ -1433,8 +1433,8 @@ void TheGame::RegisterParticleEffects()
     beamTrail->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
     beamTrail->m_properties.Set<float>(PROPERTY_WIDTH, 0.125f);
     beamTrail->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
-    beamTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.5f);
-    beamTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 20.0f);
+    beamTrail->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.1f);
+    beamTrail->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 40.0f);
     beamTrail->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
     beamTrail->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
 
