@@ -18,6 +18,7 @@ MissileLauncher::MissileLauncher()
 
     m_numProjectilesPerShot = 2;
     m_spreadDegrees = 90.0f;
+    m_knockbackPerBullet = Missile::KNOCKBACK_MAGNITUDE;
 }
 
 //-----------------------------------------------------------------------------------

@@ -6,6 +6,8 @@
 #include "Engine/Core/StringUtils.hpp"
 #include "../TextSplash.hpp"
 
+const float PlasmaBall::KNOCKBACK_MAGNITUDE = 8.0f;
+
 //-----------------------------------------------------------------------------------
 PlasmaBall::PlasmaBall(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/, MovementBehavior behavior /*= STRAIGHT*/)
     : Projectile(owner, degreesOffset, damage, disruption, homing)

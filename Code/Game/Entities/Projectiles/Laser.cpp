@@ -3,6 +3,8 @@
 #include "Game/TheGame.hpp"
 #include "Game/Entities/Ship.hpp"
 
+const float Laser::KNOCKBACK_MAGNITUDE = 10.0f;
+
 //-----------------------------------------------------------------------------------
 Laser::Laser(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) 
     : Projectile(owner, degreesOffset, damage, disruption, homing)

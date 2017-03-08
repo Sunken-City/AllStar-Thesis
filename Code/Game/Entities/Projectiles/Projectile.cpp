@@ -6,6 +6,8 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "../PlayerShip.hpp"
 
+const float Projectile::KNOCKBACK_MAGNITUDE = 10.0f;
+
 //-----------------------------------------------------------------------------------
 Projectile::Projectile(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) : Entity()
     , m_speed(10.0f)

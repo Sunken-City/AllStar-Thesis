@@ -17,6 +17,7 @@ WaveGun::WaveGun()
     m_numProjectilesPerShot = 1;
     m_spreadDegrees = 0.0f;
     m_statBonuses.rateOfFire = 1.0f;
+    m_knockbackPerBullet = PlasmaBall::KNOCKBACK_MAGNITUDE;
 }
 
 //-----------------------------------------------------------------------------------

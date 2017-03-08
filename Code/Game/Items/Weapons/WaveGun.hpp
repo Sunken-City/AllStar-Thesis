@@ -13,6 +13,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource();
     virtual bool AttemptFire(Ship* shooter);
+    virtual inline float GetKnockbackMagnitude() override { return Weapon::GetKnockbackMagnitude() * 3.0f; };
 };
 
 

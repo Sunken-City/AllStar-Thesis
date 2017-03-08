@@ -9,5 +9,7 @@ public:
     virtual ~Laser();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    static const float KNOCKBACK_MAGNITUDE;
+
     Vector2 m_muzzleDirection = Vector2::ZERO;
 };

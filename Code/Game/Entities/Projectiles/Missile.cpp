@@ -4,6 +4,8 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/Entities/Ship.hpp"
 
+const float Missile::KNOCKBACK_MAGNITUDE = 10.0f;
+
 //-----------------------------------------------------------------------------------
 Missile::Missile(Entity* owner, float degreesOffset, float damage, float disruption, float homing)
     : Projectile(owner, degreesOffset, damage, disruption, homing)
@@ -47,3 +49,4 @@ bool Missile::FlushParticleTrailIfExists()
     m_missileTrail->Flush();
     return true;
 }
+

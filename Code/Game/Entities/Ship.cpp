@@ -63,13 +63,13 @@ void Ship::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void Ship::UpdateShooting()
 {
-    static const float deadzoneBeforeRotation = 0.3f;
-    static const float deadzoneBeforeRotationSquared = deadzoneBeforeRotation * deadzoneBeforeRotation;
+    static const float DEADZONE_BEFORE_ROTATION = 0.3f;
+    static const float DEADZONE_BEFORE_ROTATION_SQUARED = DEADZONE_BEFORE_ROTATION * DEADZONE_BEFORE_ROTATION;
     InputMap& input = m_pilot->m_inputMap;
     Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
 
-    if (shootDirection.CalculateMagnitudeSquared() > deadzoneBeforeRotationSquared)
+    if (shootDirection.CalculateMagnitudeSquared() > DEADZONE_BEFORE_ROTATION_SQUARED)
     {
         SetRotation(shootDirection.GetDirectionDegreesFromNormalizedVector());
     }
@@ -78,11 +78,17 @@ void Ship::UpdateShooting()
     {
         if (m_weapon)
         {
-            m_weapon->AttemptFire(this);
+            if (m_weapon->AttemptFire(this))
+            {
+                ApplyImpulse(-shootDirection * m_weapon->GetKnockbackMagnitude());
+            }
         }
         else
         {
-            m_defaultWeapon.AttemptFire(this);
+            if (m_defaultWeapon.AttemptFire(this))
+            {
+                ApplyImpulse(-shootDirection * m_defaultWeapon.GetKnockbackMagnitude());
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ public:
     virtual inline bool IsProjectile() { return true; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    static const float KNOCKBACK_MAGNITUDE;
     float m_speed;
     float m_damage;
     float m_disruption;

@@ -13,8 +13,10 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() = 0;
     virtual bool AttemptFire(Ship* shooter) = 0;
+    virtual inline float GetKnockbackMagnitude() { return m_knockbackPerBullet * m_numProjectilesPerShot; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     unsigned int m_numProjectilesPerShot = 1;
     float m_spreadDegrees = 0.0f;
+    float m_knockbackPerBullet = 10.0f;
 };

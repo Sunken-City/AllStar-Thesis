@@ -14,6 +14,7 @@ LaserGun::LaserGun()
     m_name = "Laser Blaster";
 
     m_spreadDegrees = 10.0f;
+    m_knockbackPerBullet = Laser::KNOCKBACK_MAGNITUDE;
 }
 
 //-----------------------------------------------------------------------------------

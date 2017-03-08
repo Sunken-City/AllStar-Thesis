@@ -22,10 +22,12 @@ public:
     virtual bool FlushParticleTrailIfExists() override;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    static const float KNOCKBACK_MAGNITUDE;
+
     MovementBehavior m_behavior = STRAIGHT;
     Vector2 m_muzzleDirection = Vector2::ZERO;
-    float m_wavePhase = 0.0f;
     Vector2 m_centralPosition = Vector2::ZERO;
     Vector2 m_centralVelocity = Vector2::ZERO;
     RibbonParticleSystem* m_trail = nullptr;
+    float m_wavePhase = 0.0f;
 };

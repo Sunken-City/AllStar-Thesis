@@ -12,5 +12,6 @@ public:
     virtual bool FlushParticleTrailIfExists();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    static const float KNOCKBACK_MAGNITUDE;
     RibbonParticleSystem* m_missileTrail;
 };
