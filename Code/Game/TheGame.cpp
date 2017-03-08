@@ -1126,9 +1126,9 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ReadyScreen", "Data\\Images\\Transitions\\readyScreen.png");
 
     //Backgrounds
-    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Nebula.jpg");
-    ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\Assembly.png");
-    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\Orange-space.jpg");
+    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Assembly.jpg");
+    ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\Assembly.jpg");
+    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\Assembly.jpg");
     ResourceDatabase::instance->RegisterSprite("AssemblyResults", "Data\\Images\\assemblyResultsMockup.png");
     ResourceDatabase::instance->RegisterSprite("MinigameResults", "Data\\Images\\minigameResultsMockup.png");
     ResourceDatabase::instance->RegisterSprite("AssemblyGetReady", "Data\\Images\\assemblyGetReadyMockup.png");
