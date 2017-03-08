@@ -160,6 +160,7 @@
     <ClCompile Include="Entities\PlayerShip.cpp" />
     <ClCompile Include="Entities\Projectiles\Laser.cpp" />
     <ClCompile Include="Entities\Projectiles\Missile.cpp" />
+    <ClCompile Include="Entities\Projectiles\PlasmaBall.cpp" />
     <ClCompile Include="Entities\Projectiles\Projectile.cpp" />
     <ClCompile Include="Entities\Props\Asteroid.cpp" />
     <ClCompile Include="Entities\Props\BlackHole.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Entities\PlayerShip.hpp" />
     <ClInclude Include="Entities\Projectiles\Laser.hpp" />
     <ClInclude Include="Entities\Projectiles\Missile.hpp" />
+    <ClInclude Include="Entities\Projectiles\PlasmaBall.hpp" />
     <ClInclude Include="Entities\Projectiles\Projectile.hpp" />
     <ClInclude Include="Entities\Props\Asteroid.hpp" />
     <ClInclude Include="Entities\Props\BlackHole.hpp" />

@@ -93,5 +93,4 @@ void Asteroid::Update(float deltaSeconds)
 
     float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
     m_transform.SetRotationDegrees(newRotationDegrees);
-    Vector2 direction = Vector2::DegreesToDirection(-newRotationDegrees, Vector2::ZERO_DEGREES_UP);
 }

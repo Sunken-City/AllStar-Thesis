@@ -4,9 +4,8 @@
 #include "Game/Entities/Ship.hpp"
 
 //-----------------------------------------------------------------------------------
-Laser::Laser(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/, MovementBehavior behavior /*= STRAIGHT*/) 
+Laser::Laser(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) 
     : Projectile(owner, degreesOffset, damage, disruption, homing)
-    , m_behavior(behavior)
 {
     m_sprite = new Sprite("Laser", TheGame::BULLET_LAYER_BLOOM);
     m_sprite->m_transform.SetParent(&m_transform);
@@ -34,25 +33,4 @@ Laser::Laser(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0
 Laser::~Laser()
 {
 
-}
-
-//-----------------------------------------------------------------------------------
-void Laser::Update(float deltaSeconds)
-{
-    const Vector2 muzzlePerpendicular = Vector2(m_muzzleDirection.y, m_muzzleDirection.x);
-    switch (m_behavior)
-    {
-    case Laser::LEFT_WAVE:
-        m_velocity += muzzlePerpendicular * MathUtils::CosDegrees(m_age * 1080.0f);
-        break;
-    case Laser::RIGHT_WAVE:
-        m_velocity += muzzlePerpendicular * -MathUtils::CosDegrees(m_age * 1080.0f);
-        break;
-    case Laser::STRAIGHT:
-    case Laser::NUM_BEHAVIORS:
-    default:
-        break;
-    }
-
-    Projectile::Update(deltaSeconds);
 }

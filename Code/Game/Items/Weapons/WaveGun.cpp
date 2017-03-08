@@ -6,6 +6,7 @@
 #include "Game/Entities/Projectiles/Projectile.hpp"
 #include "Game/Entities/Projectiles/Laser.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
+#include "Game/Entities/Projectiles/PlasmaBall.hpp"
 
 //-----------------------------------------------------------------------------------
 WaveGun::WaveGun()
@@ -15,8 +16,7 @@ WaveGun::WaveGun()
 
     m_numProjectilesPerShot = 1;
     m_spreadDegrees = 0.0f;
-    m_statBonuses.damage = 1.0f;
-    m_statBonuses.rateOfFire = 2.0f;
+    m_statBonuses.rateOfFire = 1.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -45,12 +45,12 @@ bool WaveGun::AttemptFire(Ship* shooter)
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
         float halfSpreadDegrees = m_spreadDegrees / 2.0f;
-        for (int i = 0; i < m_numProjectilesPerShot; ++i)
+        for (unsigned int i = 0; i < m_numProjectilesPerShot; ++i)
         {
             float degreesOffset = MathUtils::GetRandomFloat(-halfSpreadDegrees, halfSpreadDegrees);
-            Projectile* bullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
-            Projectile* leftBullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue(), Laser::LEFT_WAVE);
-            Projectile* rightBullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue(), Laser::RIGHT_WAVE);
+            Projectile* bullet = (Projectile*)new PlasmaBall(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+            Projectile* leftBullet = (Projectile*)new PlasmaBall(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue(), PlasmaBall::LEFT_WAVE);
+            Projectile* rightBullet = (Projectile*)new PlasmaBall(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue(), PlasmaBall::RIGHT_WAVE);
             currentGameMode->SpawnBullet(bullet);
             currentGameMode->SpawnBullet(leftBullet);
             currentGameMode->SpawnBullet(rightBullet);
