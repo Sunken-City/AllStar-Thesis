@@ -567,7 +567,6 @@ void TheGame::RenderSplitscreenLines() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyResultsState()
 {
-    m_currentGameMode->SetBackground("AssemblyResults", Vector2(1.75f));
     m_currentGameMode->HideBackground();
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
@@ -774,7 +773,7 @@ void TheGame::InitializeMinigameResultsState()
 {
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
-    m_currentGameMode->SetBackground("MinigameResults", Vector2(1.75f));
+    m_currentGameMode->HideBackground();
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameResultsState);
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
@@ -1103,6 +1102,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Twah", "Data\\Images\\Twah.png");
     ResourceDatabase::instance->RegisterSprite("Quad", "Data\\Images\\whitePixel.png");
     ResourceDatabase::instance->RegisterSprite("Cloudy", "Data\\Images\\Particles\\Cloudy_Thicc.png");
+    ResourceDatabase::instance->RegisterSprite("ReadyText", "Data\\Images\\ready.png");
 
     //UI
     ResourceDatabase::instance->RegisterSprite("SpindleArm", "Data\\Images\\spindleArm.png");
@@ -1126,14 +1126,9 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ReadyScreen", "Data\\Images\\Transitions\\readyScreen.png");
 
     //Backgrounds
-    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\Assembly.jpg");
-    ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\Assembly.jpg");
-    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\Assembly.jpg");
-    ResourceDatabase::instance->RegisterSprite("AssemblyResults", "Data\\Images\\assemblyResultsMockup.png");
-    ResourceDatabase::instance->RegisterSprite("MinigameResults", "Data\\Images\\minigameResultsMockup.png");
-    ResourceDatabase::instance->RegisterSprite("AssemblyGetReady", "Data\\Images\\assemblyGetReadyMockup.png");
-    ResourceDatabase::instance->RegisterSprite("BattleRoyaleGetReady", "Data\\Images\\battleRoyaleGetReadyMockup.png");
-    ResourceDatabase::instance->RegisterSprite("ReadyText", "Data\\Images\\ready.png");
+    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\bg1.jpg");
+    ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\bg1.jpg");
+    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\bg2.jpg");
     ResourceDatabase::instance->RegisterSprite("Starfield", "Data\\Images\\Starfield_Foreground.png");
     ResourceDatabase::instance->EditSpriteResource("Starfield")->m_uvBounds = AABB2(Vector2(-15.0f), Vector2(15.0f));
 
