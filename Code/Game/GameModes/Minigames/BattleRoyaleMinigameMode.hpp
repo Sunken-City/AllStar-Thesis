@@ -16,6 +16,7 @@ public:
     void SetUpPlayerSpawnPoints();
     void SpawnPlayers();
     void SpawnGeometry();
+    void UpdatePlayerScoreDisplay(PlayerShip* player);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 };

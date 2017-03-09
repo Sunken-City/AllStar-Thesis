@@ -81,7 +81,7 @@ public:
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;
     TextRenderable2D* m_speedText = nullptr;
-    TextRenderable2D* m_dpsText = nullptr;
+    TextRenderable2D* m_scoreText = nullptr;
     TextRenderable2D* m_statValues[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     double m_activeBeginEjectMilliseconds = -10.0f;
     double m_passiveBeginEjectMilliseconds = -10.0f;

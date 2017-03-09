@@ -8,6 +8,7 @@
 #include "Game/Encounters/Encounter.hpp"
 #include "Game/Encounters/NebulaEncounter.hpp"
 #include "Game/Encounters/BossteroidEncounter.hpp"
+#include "Engine/Renderer/2D/TextRenderable2D.hpp"
 
 //-----------------------------------------------------------------------------------
 BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
@@ -58,6 +59,7 @@ void BattleRoyaleMinigameMode::SpawnPlayers()
     {
         m_entities.push_back(player);
         player->Respawn();
+        player->m_scoreText->Enable();
     }
 }
 
@@ -69,6 +71,13 @@ void BattleRoyaleMinigameMode::SpawnGeometry()
     {
         m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
     }
+}
+
+//-----------------------------------------------------------------------------------
+void BattleRoyaleMinigameMode::UpdatePlayerScoreDisplay(PlayerShip* player)
+{
+    int numKills = m_playerStats[player]->m_numKills;
+    player->m_scoreText->m_text = Stringf("Kills: %03i", numKills);
 }
 
 //-----------------------------------------------------------------------------------
@@ -116,6 +125,7 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* player = TheGame::instance->m_players[i];
+        UpdatePlayerScoreDisplay(player);
         Vector2 targetCameraPosition = player->GetPosition();
         Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
 

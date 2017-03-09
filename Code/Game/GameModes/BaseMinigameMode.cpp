@@ -4,7 +4,7 @@
 BaseMinigameMode::BaseMinigameMode()
     : GameMode()
 {
-    m_gameLengthSeconds = 60.0f;
+    m_gameLengthSeconds = 121.0f;
 
 }
 
