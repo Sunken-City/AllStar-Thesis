@@ -24,6 +24,7 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const float KNOCKBACK_MAGNITUDE;
+    static const Vector2 DEFAULT_SCALE;
 
     MovementBehavior m_behavior = STRAIGHT;
     Vector2 m_muzzleDirection = Vector2::ZERO;

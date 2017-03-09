@@ -384,21 +384,29 @@ void PlayerShip::Respawn()
 //-----------------------------------------------------------------------------------
 void PlayerShip::DropPowerups()
 {
+    //No matter what, the chassis gets destroyed. Bye bye! ;D
+    if (m_chassis)
+    {
+        delete m_chassis;
+        m_chassis = nullptr;
+        m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("DefaultChassis");
+    }
+
     float powerUpPercentageDropped = 0.2f;
     int randomNumber = MathUtils::GetRandomIntFromZeroTo(4);
     switch (randomNumber)
     {
     case 0:
-        if (m_chassis)
+        if (m_activeEffect)
         {
-            EjectChassis();
+            EjectActive();
             powerUpPercentageDropped /= 2.0f;
         }
         break;
     case 1:
-        if (m_activeEffect)
+        if (m_passiveEffect)
         {
-            EjectActive();
+            EjectPassive();
             powerUpPercentageDropped /= 2.0f;
         }
         break;
@@ -410,11 +418,7 @@ void PlayerShip::DropPowerups()
         }
         break;
     case 3:
-        if (m_passiveEffect)
-        {
-            EjectPassive();
-            powerUpPercentageDropped /= 2.0f;
-        }
+        //Lose extra power ups this time.
         break;
     }
     

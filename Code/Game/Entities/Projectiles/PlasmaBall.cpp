@@ -7,7 +7,7 @@
 #include "../TextSplash.hpp"
 
 const float PlasmaBall::KNOCKBACK_MAGNITUDE = 8.0f;
-
+const Vector2 PlasmaBall::DEFAULT_SCALE = Vector2(1.5f);
 //-----------------------------------------------------------------------------------
 PlasmaBall::PlasmaBall(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/, MovementBehavior behavior /*= STRAIGHT*/)
     : Projectile(owner, degreesOffset, damage, disruption, homing)
@@ -15,22 +15,22 @@ PlasmaBall::PlasmaBall(Entity* owner, float degreesOffset /*= 0.0f*/, float dama
 {
     m_sprite = new Sprite("PlasmaBall", TheGame::BULLET_LAYER_BLOOM);
     m_sprite->m_transform.SetParent(&m_transform);
-    m_transform.SetScale(Vector2(1.5f));
+    m_transform.SetScale(DEFAULT_SCALE);
 
     switch (m_behavior)
     {
     case PlasmaBall::LEFT_WAVE:
         m_wavePhase = 0.0f;
-        m_sprite->m_tintColor = RGBA::CYAN;
+        m_sprite->m_tintColor = RGBA(1.0f, 0.5f, 0.0f);
         break;
     case PlasmaBall::RIGHT_WAVE:
         m_wavePhase = 180.0f;
-        m_sprite->m_tintColor = RGBA::MAGENTA;
+        m_sprite->m_tintColor = RGBA(0.5f, 1.0f, 0.0f);
         break;
     case PlasmaBall::STRAIGHT:
     case PlasmaBall::NUM_BEHAVIORS:
     default:
-        m_sprite->m_tintColor = RGBA::YELLOW;
+        m_sprite->m_tintColor = RGBA(0.5f, 0.5f, 1.0f);
         break;
     }
     //m_sprite->m_tintColor = ((Ship*)owner)->m_factionColor;
@@ -95,8 +95,13 @@ void PlasmaBall::Update(float deltaSeconds)
         Vector2 newPosition = m_centralPosition + waveMotionDisplacement; //Calculate our actual position, with the new wavy offset
         m_velocity = (newPosition - GetPosition()) / deltaSeconds;
         SetPosition(newPosition);
-        float kb = GetKnockbackMagnitude();
-        kb += 1;
+
+        const float maxScaleUp = 0.5f;
+        float convergence = 1.0f - fabs(MathUtils::SinDegrees(m_wavePhase));
+        float scaleUp = convergence * maxScaleUp;
+        float scale = 1.0f + scaleUp;
+        m_transform.SetScale(DEFAULT_SCALE * scale);
+
         //m_transform.SetRotationDegrees(-m_centralVelocity.CalculateThetaDegrees() + 90.0f);
     }
     else
