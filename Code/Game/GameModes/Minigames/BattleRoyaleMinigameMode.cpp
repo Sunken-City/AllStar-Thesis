@@ -15,7 +15,7 @@ BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
     : BaseMinigameMode()
 {
     m_gameLengthSeconds = 121.0f;
-    m_enablesRespawn = false;
+    m_respawnAllowed = false;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Persona 4 Golden - Time To Make History.mp3");
     m_modeTitleText = "BATTLE ROYALE";
     HideBackground();
@@ -30,7 +30,7 @@ BattleRoyaleMinigameMode::~BattleRoyaleMinigameMode()
 //-----------------------------------------------------------------------------------
 void BattleRoyaleMinigameMode::Initialize()
 {
-    SetBackground("BattleBackground", Vector2(50.0f));
+    SetBackground("BattleBackground", Vector2(25.0f));
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f), Vector2(20.0f)));
     SpawnGeometry();
@@ -123,24 +123,7 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
         ++iter;
     }
 
-    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
-    {
-        PlayerShip* player = TheGame::instance->m_players[i];
-        UpdatePlayerScoreDisplay(player);
-        Vector2 targetCameraPosition = player->GetPosition();
-        Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
-
-        float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
-        float aimingDeadzoneThresholdSquared = aimingDeadzoneThreshold * aimingDeadzoneThreshold;
-        if (playerRightStick.CalculateMagnitudeSquared() > aimingDeadzoneThresholdSquared)
-        {
-            targetCameraPosition += playerRightStick;
-        }
-
-        Vector2 currentCameraPosition = SpriteGameRenderer::instance->GetCameraPositionInWorld(i);
-        Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
-        SpriteGameRenderer::instance->SetCameraPosition(cameraPosition, i);
-    }
+    UpdatePlayerCameras();
 }
 
 //-----------------------------------------------------------------------------------

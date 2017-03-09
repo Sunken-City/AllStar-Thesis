@@ -34,11 +34,13 @@
 #include "../Items/Weapons/WaveGun.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
+const char* PlayerShip::RESPAWN_TEXT = "Press Back to Respawn";
+const char* PlayerShip::DEAD_TEXT = "You have Died";
 
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
-    , m_respawnText(new TextRenderable2D("Press Back to Respawn", Transform2D(Vector2(0.0f, 0.0f)), TheGame::FBO_FREE_TEXT_LAYER, false))
+    , m_respawnText(new TextRenderable2D(RESPAWN_TEXT, Transform2D(Vector2(0.0f, 0.0f)), TheGame::FBO_FREE_TEXT_LAYER, false))
     , m_healthText(new TextRenderable2D("HP:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
@@ -219,7 +221,7 @@ void PlayerShip::Update(float deltaSeconds)
     if (m_isDead)
     {
         m_shieldDownEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
-        if (m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed()) 
+        if (m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed() && (GameMode::GetCurrent()->m_respawnAllowed))
         {
             Respawn();
         }
@@ -361,6 +363,7 @@ void PlayerShip::Die()
     SpriteGameRenderer::instance->AddScreenshakeMagnitude(0.4f, Vector2::ZERO, ((PlayerPilot*)m_pilot)->m_playerNumber);
     m_velocity = Vector2::ZERO;
     m_sprite->Disable();
+    m_respawnText->m_text = (GameMode::GetCurrent()->m_respawnAllowed) ? RESPAWN_TEXT : DEAD_TEXT;
     m_respawnText->Enable();
 }
 

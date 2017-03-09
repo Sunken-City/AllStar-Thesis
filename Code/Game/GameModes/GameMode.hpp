@@ -35,6 +35,7 @@ public:
     virtual void Initialize();
     virtual void CleanUp();
     virtual void Update(float deltaSeconds);
+    virtual void UpdatePlayerCameras();
     virtual Vector2 GetRandomLocationInArena(float radius = 0.0f);
     virtual Vector2 GetRandomPlayerSpawnPoint();
     virtual void RemoveEntitiesInCircle(const Vector2& center, float radius);
@@ -74,7 +75,7 @@ public:
     std::vector<Entity*> m_newEntities;
     const char* m_modeTitleText;
     float m_gameLengthSeconds = 2000.0f;
-    bool m_enablesRespawn = true;
+    bool m_respawnAllowed = true;
     SoundID m_backgroundMusic = 0;
     bool m_muteMusic = true;
     bool m_isPlaying = false;

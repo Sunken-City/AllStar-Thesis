@@ -11,13 +11,15 @@
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
-#include "../Entities/TextSplash.hpp"
-#include "../Encounters/SquadronEncounter.hpp"
-#include "../Encounters/NebulaEncounter.hpp"
-#include "../Encounters/WormholeEncounter.hpp"
-#include "../Encounters/BlackHoleEncounter.hpp"
-#include "../Encounters/CargoShipEncounter.hpp"
-#include "../Encounters/BossteroidEncounter.hpp"
+#include "Game/Pilots/PlayerPilot.hpp"
+#include "Game/Entities/TextSplash.hpp"
+#include "Game/Encounters/SquadronEncounter.hpp"
+#include "Game/Encounters/NebulaEncounter.hpp"
+#include "Game/Encounters/WormholeEncounter.hpp"
+#include "Game/Encounters/BlackHoleEncounter.hpp"
+#include "Game/Encounters/CargoShipEncounter.hpp"
+#include "Game/Encounters/BossteroidEncounter.hpp"
+#include "Engine/Input/XInputController.hpp"
 
 const double GameMode::AFTER_GAME_SLOWDOWN_SECONDS = 3.0;
 const double GameMode::ANIMATION_LENGTH_SECONDS = 1.0;
@@ -149,6 +151,40 @@ void GameMode::Update(float deltaSeconds)
     if (m_timerSecondsElapsed >= m_gameLengthSeconds + AFTER_GAME_SLOWDOWN_SECONDS)
     {
         StopPlaying();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::UpdatePlayerCameras()
+{
+    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
+    {
+        PlayerShip* player = TheGame::instance->m_players[i];
+        Vector2 targetCameraPosition = player->GetPosition();
+        Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
+
+        if (InputSystem::instance->WasKeyJustPressed('R'))
+        {
+            float radius = 5.0f;
+            RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
+            BlackHoleEncounter nebby(player->m_transform.GetWorldPosition(), radius);
+            nebby.Spawn();
+        }
+
+        float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
+        float aimingDeadzoneThresholdSquared = aimingDeadzoneThreshold * aimingDeadzoneThreshold;
+        if (playerRightStick.CalculateMagnitudeSquared() > aimingDeadzoneThresholdSquared)
+        {
+            targetCameraPosition += playerRightStick;
+        }
+        if (player->IsDead())
+        {
+            targetCameraPosition = player->GetPosition();
+        }
+
+        Vector2 currentCameraPosition = SpriteGameRenderer::instance->GetCameraPositionInWorld(i);
+        Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
+        SpriteGameRenderer::instance->SetCameraPosition(cameraPosition, i);
     }
 }
 

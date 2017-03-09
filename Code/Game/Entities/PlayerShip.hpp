@@ -64,6 +64,8 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const Vector2 DEFAULT_SCALE;
+    static const char* RESPAWN_TEXT;
+    static const char* DEAD_TEXT;
 
     Stats m_powerupStatModifiers;
     ShaderProgram* m_paletteSwapShader = nullptr;

@@ -18,7 +18,7 @@
 AssemblyMode::AssemblyMode()
     : GameMode()
 {
-    SetBackground("Assembly", Vector2(15.0f));
+    SetBackground("Assembly", Vector2(25.0f));
     m_modeTitleText = "ASSEMBLY MODE";
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
     m_gameLengthSeconds = 301.0f;
@@ -216,33 +216,5 @@ void AssemblyMode::Update(float deltaSeconds)
         ++iter;
     }
 
-    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
-    {
-        PlayerShip* player = TheGame::instance->m_players[i];
-        Vector2 targetCameraPosition = player->GetPosition();
-        Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
-
-        if (InputSystem::instance->WasKeyJustPressed('R'))
-        {
-            float radius = 5.0f;
-            RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
-            BlackHoleEncounter nebby(player->m_transform.GetWorldPosition(), radius);
-            nebby.Spawn();
-        }
-
-        float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
-        float aimingDeadzoneThresholdSquared = aimingDeadzoneThreshold * aimingDeadzoneThreshold;
-        if (playerRightStick.CalculateMagnitudeSquared() > aimingDeadzoneThresholdSquared)
-        {
-            targetCameraPosition += playerRightStick;
-        }
-        if (player->IsDead())
-        {
-            targetCameraPosition = player->GetPosition();
-        }
-
-        Vector2 currentCameraPosition = SpriteGameRenderer::instance->GetCameraPositionInWorld(i);
-        Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
-        SpriteGameRenderer::instance->SetCameraPosition(cameraPosition, i);
-    }
+    UpdatePlayerCameras();
 }

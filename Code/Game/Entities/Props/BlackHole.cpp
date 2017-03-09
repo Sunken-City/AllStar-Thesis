@@ -64,7 +64,7 @@ void BlackHole::ResolveCollision(Entity* otherEntity)
         {
             otherEntity->Die();
         }
-        else
+        else if (otherEntity->IsAlive())
         {
             otherEntity->TakeDamage(5.0f);
         }
