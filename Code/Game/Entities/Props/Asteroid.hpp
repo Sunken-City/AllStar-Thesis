@@ -10,6 +10,7 @@ public:
     virtual void Die() override;
     inline virtual bool IsProp() override { return true; };
     virtual void Update(float deltaSeconds);
+    void RecalculateHP();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     float m_angularVelocity;

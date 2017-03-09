@@ -19,6 +19,7 @@ void BossteroidEncounter::Spawn()
     Vector2 normalizingScale = Vector2(2.0f / bounds.GetWidth(), 2.0f / bounds.GetHeight()); //Makes our scale for the object 1:1 so we can multiply by the radius
     asteroid->m_transform.SetScale(normalizingScale * Vector2(m_radius));
     asteroid->CalculateCollisionRadius();
+    asteroid->RecalculateHP();
 
     gameMode->SpawnEntityInGameWorld(asteroid);
 }

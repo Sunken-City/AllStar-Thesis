@@ -28,7 +28,7 @@ Asteroid::Asteroid(const Vector2& initialPosition)
     float blueOffset = MathUtils::GetRandomFloat(0.9f, 1.0f);
     m_sprite->m_tintColor = RGBA(redOffset, greenOffset, blueOffset, 1.0f);
 
-    m_baseStats.hp += 3.0f;
+    m_baseStats.hp = 3.0f * m_transform.GetWorldScale().x;
     Heal();
     m_isImmobile = (m_transform.GetWorldScale().x >= MIN_ASTEROID_SCALE);
 }
@@ -93,4 +93,11 @@ void Asteroid::Update(float deltaSeconds)
 
     float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
     m_transform.SetRotationDegrees(newRotationDegrees);
+}
+
+//-----------------------------------------------------------------------------------
+void Asteroid::RecalculateHP()
+{
+    m_baseStats.hp = 3.0f * m_transform.GetWorldScale().x;
+    Heal();
 }
