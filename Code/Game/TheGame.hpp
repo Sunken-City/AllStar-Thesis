@@ -78,6 +78,7 @@ public:
     static unsigned int const STAT_GRAPH_LAYER = 4500;
     static unsigned int const STAT_GRAPH_LAYER_TEXT = 4600;
     static unsigned int const FULL_SCREEN_EFFECT_OVERLAY_LAYER = 5000;
+    static unsigned int const FBO_FREE_TEXT_LAYER = 6000;
 
     static const float TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI;
     static const float TOTAL_TRANSITION_TIME_SECONDS;

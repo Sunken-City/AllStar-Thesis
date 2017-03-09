@@ -1008,6 +1008,8 @@ void TheGame::InitializeSpriteLayers()
 {
     SpriteGameRenderer::instance->CreateOrGetLayer(TEXT_LAYER)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(TEXT_LAYER)->m_isCullingEnabled = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(FBO_FREE_TEXT_LAYER)->m_isWorldSpaceLayer = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(FBO_FREE_TEXT_LAYER)->m_isCullingEnabled = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isCullingEnabled = false;
 

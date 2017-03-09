@@ -38,6 +38,7 @@ const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 //-----------------------------------------------------------------------------------
 PlayerShip::PlayerShip(PlayerPilot* pilot)
     : Ship((Pilot*)pilot)
+    , m_respawnText(new TextRenderable2D("Press Back to Respawn", Transform2D(Vector2(0.0f, 0.0f)), TheGame::FBO_FREE_TEXT_LAYER, false))
     , m_healthText(new TextRenderable2D("HP:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
@@ -109,6 +110,7 @@ PlayerShip::~PlayerShip()
     delete m_currentActiveUI;
     delete m_currentChassisUI;
     delete m_currentPassiveUI;
+    delete m_respawnText;
     delete m_healthText;
     delete m_shieldText;
     delete m_speedText;
@@ -173,6 +175,7 @@ void PlayerShip::InitializeUI()
     m_currentPassiveUI->m_transform.SetPosition(Vector2(-1.6f, 1.0f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentPassiveUI->m_transform);
           
+    m_respawnText->m_color = RGBA::WHITE;
     m_healthText->m_color = RGBA::RED;
     m_shieldText->m_color = RGBA::CERULEAN;
     m_speedText->m_color = RGBA::GBDARKGREEN;
@@ -181,10 +184,12 @@ void PlayerShip::InitializeUI()
     m_shieldText->m_transform.SetPosition(Vector2(1.0f, 1.3f));
     m_speedText->m_transform.SetPosition(Vector2(1.1f, 0.8f));
     m_scoreText->m_transform.SetPosition(Vector2(1.1f, 0.3f));
+    m_respawnText->m_transform.SetScale(Vector2(2.0f));
     m_healthText->m_transform.SetScale(Vector2(2.0f));
     m_shieldText->m_transform.SetScale(Vector2(2.0f));
     m_speedText->m_transform.SetScale(Vector2(2.0f));
     m_scoreText->m_transform.SetScale(Vector2(2.0f));
+    m_respawnText->m_fontSize = 0.1f;
     m_healthText->m_fontSize = 0.1f;
     m_shieldText->m_fontSize = 0.1f;
     m_speedText->m_fontSize = 0.1f;
@@ -201,6 +206,7 @@ void PlayerShip::InitializeUI()
     m_currentChassisUI->m_viewableBy = visibilityFilter;
     m_currentActiveUI->m_viewableBy = visibilityFilter;
     m_currentPassiveUI->m_viewableBy = visibilityFilter;
+    m_respawnText->m_viewableBy = visibilityFilter;
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
     m_speedText->m_viewableBy = visibilityFilter;
@@ -292,6 +298,7 @@ void PlayerShip::HideUI()
     m_currentChassisUI->Disable();
     m_currentActiveUI->Disable();
     m_currentPassiveUI->Disable();
+    m_respawnText->Disable();
     m_healthText->Disable();
     m_shieldText->Disable();
     m_speedText->Disable();
@@ -354,6 +361,7 @@ void PlayerShip::Die()
     SpriteGameRenderer::instance->AddScreenshakeMagnitude(0.4f, Vector2::ZERO, ((PlayerPilot*)m_pilot)->m_playerNumber);
     m_velocity = Vector2::ZERO;
     m_sprite->Disable();
+    m_respawnText->Enable();
 }
 
 //-----------------------------------------------------------------------------------
@@ -367,6 +375,7 @@ void PlayerShip::Respawn()
     m_sprite->Enable();
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
     SetVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
+    m_respawnText->Disable();
 }
 
 //-----------------------------------------------------------------------------------
