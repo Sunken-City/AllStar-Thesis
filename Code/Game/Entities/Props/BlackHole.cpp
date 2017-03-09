@@ -7,6 +7,8 @@
 
 const float BlackHole::MAX_ANGULAR_VELOCITY = 20.0f;
 const float BlackHole::PERCENTAGE_RADIUS_INNER_RADIUS = 0.1f;
+const float BlackHole::SCALE_GROWTH_RATE = 0.1f;
+
 
 //-----------------------------------------------------------------------------------
 BlackHole::BlackHole(const Vector2& initialPosition)
@@ -39,6 +41,12 @@ BlackHole::~BlackHole()
 //-----------------------------------------------------------------------------------
 void BlackHole::Update(float deltaSeconds)
 {
+    if (m_growsOverTime)
+    {
+        m_transform.SetScale(m_transform.GetWorldScale() + Vector2(SCALE_GROWTH_RATE * deltaSeconds));
+        CalculateCollisionRadius();
+    }
+
     Entity::Update(deltaSeconds);
     float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
     m_transform.SetRotationDegrees(newRotationDegrees);

@@ -36,6 +36,7 @@
 #include "GameCommon.hpp"
 #include "Engine/UI/UISystem.hpp"
 #include "Game/Entities/TextSplash.hpp"
+#include "GameModes/Minigames/DeathBattleMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -298,7 +299,7 @@ void TheGame::EnqueueMinigames()
 {
     for (int i = 0; i < m_numberOfMinigames; ++i)
     {
-        m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
+        m_queuedMinigameModes.push(new DeathBattleMinigameMode());
     }
 }
 

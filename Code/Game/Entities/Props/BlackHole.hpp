@@ -14,11 +14,13 @@ public:
     inline virtual bool IsProp() override { return true; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    Sprite* m_overlaySprite = nullptr;
     float m_angularVelocity;
-    Sprite* m_overlaySprite;
+    bool m_growsOverTime = false;
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;
     static const float PERCENTAGE_RADIUS_INNER_RADIUS;
+    static const float SCALE_GROWTH_RATE;
 };
 

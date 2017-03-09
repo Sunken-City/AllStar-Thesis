@@ -16,6 +16,7 @@
 #include "Game/Encounters/SquadronEncounter.hpp"
 #include "Game/Encounters/NebulaEncounter.hpp"
 #include "Game/Encounters/WormholeEncounter.hpp"
+#include "Game/Entities/Props/BlackHole.hpp"
 #include "Game/Encounters/BlackHoleEncounter.hpp"
 #include "Game/Encounters/CargoShipEncounter.hpp"
 #include "Game/Encounters/BossteroidEncounter.hpp"
@@ -166,10 +167,11 @@ void GameMode::UpdatePlayerCameras()
 
         if (InputSystem::instance->WasKeyJustPressed('R'))
         {
-            float radius = 5.0f;
+            float radius = 1.0f;
             RemoveEntitiesInCircle(player->m_transform.GetWorldPosition(), radius);
             BlackHoleEncounter nebby(player->m_transform.GetWorldPosition(), radius);
             nebby.Spawn();
+            nebby.m_spawnedBlackHole->m_growsOverTime = true;
         }
 
         float aimingDeadzoneThreshold = XInputController::INNER_DEADZONE;
@@ -187,6 +189,12 @@ void GameMode::UpdatePlayerCameras()
         Vector2 cameraPosition = MathUtils::Lerp(0.1f, currentCameraPosition, targetCameraPosition);
         SpriteGameRenderer::instance->SetCameraPosition(cameraPosition, i);
     }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::SetTimeRemaining(float timeRemainingSeconds)
+{
+    m_timerSecondsElapsed = m_gameLengthSeconds - timeRemainingSeconds;
 }
 
 //-----------------------------------------------------------------------------------

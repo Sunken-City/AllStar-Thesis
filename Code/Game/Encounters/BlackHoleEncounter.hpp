@@ -1,6 +1,8 @@
 #pragma once
 #include "Game/Encounters/Encounter.hpp"
 
+class BlackHole;
+
 //-----------------------------------------------------------------------------------
 class BlackHoleEncounter : public Encounter
 {
@@ -11,6 +13,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Spawn() override;
 
-    ////MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    BlackHole* m_spawnedBlackHole = nullptr;
 };
 

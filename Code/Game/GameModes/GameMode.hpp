@@ -56,6 +56,8 @@ public:
     virtual Encounter* GetRandomMediumEncounter(const Vector2& center, float radius);
     virtual Encounter* GetRandomLargeEncounter(const Vector2& center, float radius);
     virtual Vector2 FindSpaceForEncounter(float radius, const std::vector<Encounter*>& encounters);
+    virtual void SetTimeRemaining(float timeRemainingSeconds);
+    virtual inline float GetTimerSecondsElapsed() { return m_timerSecondsElapsed; };
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();

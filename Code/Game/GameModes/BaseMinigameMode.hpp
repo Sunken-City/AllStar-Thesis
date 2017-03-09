@@ -9,4 +9,5 @@ public:
 
     virtual void Initialize() = 0;
     virtual void Update(float deltaSeconds) { GameMode::Update(deltaSeconds); };
+    virtual void EndGameIfTooFewPlayers();
 };
