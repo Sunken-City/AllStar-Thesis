@@ -953,7 +953,7 @@ void TheGame::CheckForGamePaused()
 {
     for (PlayerShip* ship : m_players)
     {
-        if (!ship->m_isDead && ship->m_pilot->m_inputMap.FindInputValue("Pause")->WasJustReleased())
+        if (!ship->m_isDead && ship->m_pilot->m_inputMap.FindInputValue("Pause")->WasJustPressed())
         {
             g_isGamePaused = !g_isGamePaused;
             if (g_isGamePaused)
@@ -1041,6 +1041,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue('R'));
+        playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue('P'));
         playerPilot->m_inputMap.MapInputValue("EjectActive", keyboard->FindValue('Z'));
         playerPilot->m_inputMap.MapInputValue("EjectWeapon", keyboard->FindValue('X'));
         playerPilot->m_inputMap.MapInputValue("EjectPassive", keyboard->FindValue('C'));

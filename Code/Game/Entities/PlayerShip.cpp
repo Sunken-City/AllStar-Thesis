@@ -34,7 +34,7 @@
 #include "../Items/Weapons/WaveGun.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
-const char* PlayerShip::RESPAWN_TEXT = "Press Back to Respawn";
+const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
 const char* PlayerShip::DEAD_TEXT = "You have Died";
 
 //-----------------------------------------------------------------------------------
