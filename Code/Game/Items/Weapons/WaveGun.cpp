@@ -12,7 +12,7 @@
 WaveGun::WaveGun()
     : Weapon()
 {
-    m_name = "Spread Shot";
+    m_name = "Wave Gun";
 
     m_numProjectilesPerShot = 1;
     m_spreadDegrees = 0.0f;

@@ -73,7 +73,7 @@ bool PlasmaBall::FlushParticleTrailIfExists()
 //-----------------------------------------------------------------------------------
 void PlasmaBall::Update(float deltaSeconds)
 {
-    static const float SPRITE_ANGULAR_VELOCITY = 360.0f;
+    static const float SPRITE_ANGULAR_VELOCITY = 1080.0f;
     static const float AMPLITUDE = 2.0f;
     static const float AGE_OFFSET = 1.0f;
     const float WAVE_DEGREES_PER_SECOND = (m_behavior == PlasmaBall::STRAIGHT) ? 0.0f : 540.0f;
