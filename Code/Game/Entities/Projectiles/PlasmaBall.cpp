@@ -21,16 +21,16 @@ PlasmaBall::PlasmaBall(Entity* owner, float degreesOffset /*= 0.0f*/, float dama
     {
     case PlasmaBall::LEFT_WAVE:
         m_wavePhase = 0.0f;
-        m_sprite->m_tintColor = RGBA::BLUE;
+        m_sprite->m_tintColor = RGBA::CYAN;
         break;
     case PlasmaBall::RIGHT_WAVE:
         m_wavePhase = 180.0f;
-        m_sprite->m_tintColor = RGBA::RED;
+        m_sprite->m_tintColor = RGBA::MAGENTA;
         break;
     case PlasmaBall::STRAIGHT:
     case PlasmaBall::NUM_BEHAVIORS:
     default:
-        m_sprite->m_tintColor = RGBA::GREEN;
+        m_sprite->m_tintColor = RGBA::YELLOW;
         break;
     }
     //m_sprite->m_tintColor = ((Ship*)owner)->m_factionColor;

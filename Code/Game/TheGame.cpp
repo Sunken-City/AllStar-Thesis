@@ -648,6 +648,7 @@ void TheGame::RenderAssemblyResults() const
 void TheGame::InitializeMinigameGetReadyState()
 {
     m_currentGameMode->InitializeReadyAnim();
+    m_currentGameMode->HideBackground();
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameGetReadyState);
 }
 
@@ -660,7 +661,6 @@ void TheGame::CleanupMinigameGetReadyState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMinigameGetReady(float deltaSeconds)
 {
-    m_currentGameMode->HideBackground();
     m_currentGameMode->UpdateReadyAnim(deltaSeconds);
     if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI || IsTransitioningStates())
     {

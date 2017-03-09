@@ -21,14 +21,19 @@
 #include "Chassis\PowerChassis.hpp"
 #include "Weapons\SpreadShot.hpp"
 #include "Passives\SprayAndPrayPassive.hpp"
+#include "Weapons\WaveGun.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon* GetRandomWeapon()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(3);
     if (randomNumber == 0)
     {
         return new MissileLauncher();
+    }
+    else if (randomNumber == 1)
+    {
+        return new WaveGun();
     }
     else
     {
