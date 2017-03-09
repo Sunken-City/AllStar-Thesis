@@ -71,17 +71,20 @@ public:
     static const double AFTER_GAME_SLOWDOWN_SECONDS;
     static const double ANIMATION_LENGTH_SECONDS;
 
+    std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
     const char* m_modeTitleText;
+    const char* m_modeDescriptionText;
     float m_gameLengthSeconds = 2000.0f;
-    bool m_respawnAllowed = true;
+    float m_scaledDeltaSeconds = 0.0f;
     SoundID m_backgroundMusic = 0;
+    bool m_respawnAllowed = true;
     bool m_muteMusic = true;
     bool m_isPlaying = false;
     bool m_dropItemsOnDeath = false;
-    float m_scaledDeltaSeconds = 0.0f;
-    std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
+    RGBA m_readyBGColor = RGBA::FOREST_GREEN;
+    RGBA m_readyTextColor = RGBA::RED;
 
 private:
     std::vector<Vector2> m_playerSpawnPoints;

@@ -15,9 +15,13 @@ BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
     : BaseMinigameMode()
 {
     m_gameLengthSeconds = 121.0f;
-    m_respawnAllowed = false;
+    m_respawnAllowed = true;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Persona 4 Golden - Time To Make History.mp3");
     m_modeTitleText = "BATTLE ROYALE";
+    m_modeDescriptionText = "Get as many kills as you can!";
+    m_readyBGColor = RGBA::MUDKIP_BLUE;
+    m_readyTextColor = RGBA::MUDKIP_ORANGE;
+
     HideBackground();
 }
 

@@ -30,6 +30,7 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
     , m_starfield(new Sprite("Starfield", TheGame::BACKGROUND_STARS_LAYER))
     , m_starfield2(new Sprite("Starfield", TheGame::BACKGROUND_STARS_LAYER_SLOWER))
     , m_modeTitleText("MODE NAME")
+    , m_modeDescriptionText("MODE DESCRIPTION")
 {
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
     
@@ -348,10 +349,11 @@ void GameMode::InitializeReadyAnim()
     SpriteGameRenderer::instance->AddEffectToLayer(m_readyAnimFBOEffect, TheGame::UI_LAYER);
 
     m_modeTitleRenderable = new TextRenderable2D(m_modeTitleText, Transform2D(Vector2(0.0f, 0.9f)), TheGame::TEXT_LAYER, true);
-    m_getReadyRenderable = new TextRenderable2D("Get Ready!", Transform2D(Vector2(0.0f, -3.3f)), TheGame::TEXT_LAYER, true);
-    m_modeTitleRenderable->m_color = RGBA::RED;
-    m_getReadyRenderable->m_color = RGBA::RED;
+    m_getReadyRenderable = new TextRenderable2D(m_modeDescriptionText, Transform2D(Vector2(0.0f, -3.3f)), TheGame::TEXT_LAYER, true);
+    m_modeTitleRenderable->m_color = m_readyTextColor;
+    m_getReadyRenderable->m_color = m_readyTextColor;
     m_modeTitleRenderable->m_fontSize = 1.2f;
+    m_getReadyRenderable->m_fontSize = 0.5f;
     m_modeTitleRenderable->Disable();
     m_getReadyRenderable->Disable();
     HideBackground();

@@ -449,7 +449,7 @@ void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderAssemblyGetReady() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::FOREST_GREEN);
+    SpriteGameRenderer::instance->SetClearColor(m_currentGameMode->m_readyBGColor);
     SpriteGameRenderer::instance->Render();
 }
 
@@ -690,7 +690,7 @@ void TheGame::UpdateMinigameGetReady(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMinigameGetReady() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::CORNFLOWER_BLUE);
+    SpriteGameRenderer::instance->SetClearColor(m_currentGameMode->m_readyBGColor);
     SpriteGameRenderer::instance->Render();
 }
 

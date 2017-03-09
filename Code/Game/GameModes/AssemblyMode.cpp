@@ -20,6 +20,7 @@ AssemblyMode::AssemblyMode()
 {
     SetBackground("Assembly", Vector2(25.0f));
     m_modeTitleText = "ASSEMBLY MODE";
+    m_modeDescriptionText = "Collect Power Ups and Prepare for Challenges!";
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
     m_gameLengthSeconds = 301.0f;
     m_dropItemsOnDeath = true;
