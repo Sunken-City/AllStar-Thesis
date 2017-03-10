@@ -337,6 +337,7 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
     for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
     {
         PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
+        player->HideUI();
         TheGame::instance->m_players.push_back(player);
     }
 }

@@ -81,6 +81,7 @@ void AssemblyMode::SpawnPlayers()
     for (PlayerShip* player : m_players)
     {
         player->SetPosition(GetRandomPlayerSpawnPoint());
+        player->FlushParticleTrailIfExists();
         m_entities.push_back(player);
     }
     InitializePlayerData();
