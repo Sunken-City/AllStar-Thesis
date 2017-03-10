@@ -333,6 +333,12 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
     m_readyText[1] = nullptr;
     m_readyText[2] = nullptr;
     m_readyText[3] = nullptr;
+
+    for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
+    {
+        PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
+        TheGame::instance->m_players.push_back(player);
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -476,7 +482,7 @@ void TheGame::InitializeAssemblyPlayingState()
 //     UISystem::instance->AddWidget(m_gamePausedLabel);
 //     m_gamePausedLabel->SetHidden();
 
-    m_currentGameMode->Initialize();
+    m_currentGameMode->Initialize(m_players);
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
 
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyPlayingState);
@@ -706,7 +712,7 @@ void TheGame::InitializeMinigamePlayingState()
     {
         ship->ShowUI();
     }
-    m_currentGameMode->Initialize();
+    m_currentGameMode->Initialize(m_players);
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigamePlayingState);
 }

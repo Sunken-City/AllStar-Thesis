@@ -9,7 +9,7 @@ public:
     virtual ~BattleRoyaleMinigameMode();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Initialize();
+    virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
     virtual void Update(float deltaSeconds);
     virtual Encounter* GetRandomMediumEncounter(const Vector2& center, float radius) override;

@@ -174,6 +174,7 @@
     <ClCompile Include="GameModes\AssemblyMode.cpp" />
     <ClCompile Include="GameModes\BaseMinigameMode.cpp" />
     <ClCompile Include="GameModes\GameMode.cpp" />
+    <ClCompile Include="GameModes\InstancedGameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\BattleRoyaleMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\DeathBattleMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\RaceMinigameMode.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="GameModes\AssemblyMode.hpp" />
     <ClInclude Include="GameModes\BaseMinigameMode.hpp" />
     <ClInclude Include="GameModes\GameMode.hpp" />
+    <ClInclude Include="GameModes\InstancedGameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\BattleRoyaleMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\DeathBattleMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\RaceMinigameMode.hpp" />

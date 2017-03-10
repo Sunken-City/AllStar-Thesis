@@ -32,7 +32,7 @@ public:
     virtual ~GameMode();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Initialize();
+    virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
     virtual void Update(float deltaSeconds);
     virtual void UpdatePlayerCameras();
@@ -74,6 +74,7 @@ public:
     static const double ANIMATION_LENGTH_SECONDS;
 
     std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
+    std::vector<PlayerShip*> m_players;
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
     const char* m_modeTitleText;

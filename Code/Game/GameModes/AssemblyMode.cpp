@@ -34,14 +34,14 @@ AssemblyMode::~AssemblyMode()
 }
 
 //-----------------------------------------------------------------------------------
-void AssemblyMode::Initialize()
+void AssemblyMode::Initialize(const std::vector<PlayerShip*>& players)
 {
     m_isPlaying = true;
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-WORLD_SIZE, -WORLD_SIZE), Vector2(WORLD_SIZE, WORLD_SIZE)));
+    GameMode::Initialize(players);
     GenerateLevel();
     SpawnStartingEntities();
     SpawnPlayers();
-    GameMode::Initialize();
 }
 
 //-----------------------------------------------------------------------------------
@@ -78,11 +78,9 @@ void AssemblyMode::SpawnStartingEntities()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::SpawnPlayers()
 {
-    for (unsigned int i = 0; i < TheGame::instance->m_playerPilots.size(); ++i)
+    for (PlayerShip* player : m_players)
     {
-        PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
         player->SetPosition(GetRandomPlayerSpawnPoint());
-        TheGame::instance->m_players.push_back(player);
         m_entities.push_back(player);
     }
     InitializePlayerData();

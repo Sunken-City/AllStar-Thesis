@@ -182,6 +182,7 @@
     <ClCompile Include="Items\Weapons\WaveGun.cpp" />
     <ClCompile Include="Entities\Projectiles\PlasmaBall.cpp" />
     <ClCompile Include="GameModes\Minigames\DeathBattleMinigameMode.cpp" />
+    <ClCompile Include="GameModes\InstancedGameMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -322,6 +323,7 @@
     <ClInclude Include="Items\Weapons\WaveGun.hpp" />
     <ClInclude Include="Entities\Projectiles\PlasmaBall.hpp" />
     <ClInclude Include="GameModes\Minigames\DeathBattleMinigameMode.hpp" />
+    <ClInclude Include="GameModes\InstancedGameMode.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
