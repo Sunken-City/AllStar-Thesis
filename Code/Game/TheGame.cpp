@@ -1047,6 +1047,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("EjectPassive", keyboard->FindValue('C'));
         playerPilot->m_inputMap.MapInputValue("EjectChassis", keyboard->FindValue('V'));
         playerPilot->m_inputMap.MapInputValue("Pause", keyboard->FindValue('P'));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", keyboard->FindValue('A'));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", keyboard->FindValue('D'));
     }
     else
     {
@@ -1071,6 +1073,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::BACK));
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->FindButton(XboxButton::X));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->FindButton(XboxButton::Y));
     }
 }
 
