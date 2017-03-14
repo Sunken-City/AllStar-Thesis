@@ -28,7 +28,7 @@ public:
     virtual void Die() override;
     void Respawn();
     inline virtual bool IsPlayer() { return true; }
-    void DropPowerups();
+    void DropPowerupsAndEquipment();
     void PickUpItem(Item* pickedUpItem);
     void DropRandomPowerup();
     RGBA GetPlayerColor();

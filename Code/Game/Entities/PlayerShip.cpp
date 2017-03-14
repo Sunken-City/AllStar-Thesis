@@ -356,7 +356,7 @@ void PlayerShip::Die()
     Ship::Die();
     if (GameMode::GetCurrent()->m_dropItemsOnDeath)
     {
-        DropPowerups();
+        DropPowerupsAndEquipment();
     }
 
     GameMode::GetCurrent()->RecordPlayerDeath(this);
@@ -382,7 +382,7 @@ void PlayerShip::Respawn()
 }
 
 //-----------------------------------------------------------------------------------
-void PlayerShip::DropPowerups()
+void PlayerShip::DropPowerupsAndEquipment()
 {
     //No matter what, the chassis gets destroyed. Bye bye! ;D
     if (m_chassis)
