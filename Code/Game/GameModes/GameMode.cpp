@@ -41,8 +41,6 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
     m_starfield2->m_tintColor = RGBA::KINDA_GRAY;
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER)->m_virtualScaleMultiplier = 0.98f;
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER_SLOWER)->m_virtualScaleMultiplier = 2.0f;
-
-    InitializePlayerData();
 }
 
 //-----------------------------------------------------------------------------------
@@ -74,8 +72,11 @@ void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 
     for (PlayerShip* player : players)
     {
+        player->m_currentGameMode = this;
         m_players.push_back(player);
     }
+
+    InitializePlayerData();
 
     ShowBackground();
 
@@ -264,8 +265,16 @@ AABB2 GameMode::GetArenaBounds()
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::SpawnBullet(Projectile*bullet)
+void GameMode::SpawnEntityInGameWorld(Entity* entity)
 {
+    entity->m_currentGameMode = this; 
+    m_newEntities.push_back(entity);
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::SpawnBullet(Projectile* bullet)
+{
+    bullet->m_currentGameMode = this;
     m_newEntities.push_back(bullet);
 }
 
@@ -273,7 +282,9 @@ void GameMode::SpawnBullet(Projectile*bullet)
 void GameMode::SpawnPickup(Item* item, const Vector2& spawnPosition)
 {
     ASSERT_OR_DIE(item, "Item was null when attempting to spawn pickup");
-    m_newEntities.push_back(new Pickup(item, spawnPosition));
+    Pickup* pickup = new Pickup(item, spawnPosition);
+    pickup->m_currentGameMode = this;
+    m_newEntities.push_back(pickup);
 }
 
 //-----------------------------------------------------------------------------------

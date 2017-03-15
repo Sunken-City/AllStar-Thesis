@@ -11,6 +11,7 @@ class ActiveEffect;
 class PassiveEffect;
 class Chassis;
 class Item;
+class GameMode;
 
 class Entity
 {
@@ -81,11 +82,12 @@ public:
     static Vector2 SHEILD_SCALE_FUDGE_VALUE;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    Stats m_baseStats;
     Weapon* m_weapon;
     ActiveEffect* m_activeEffect;
     PassiveEffect* m_passiveEffect;
     Chassis* m_chassis;
-    Stats m_baseStats;
+    GameMode* m_currentGameMode = nullptr;
 
     const SpriteResource* m_collisionSpriteResource = nullptr;
     Sprite* m_sprite;

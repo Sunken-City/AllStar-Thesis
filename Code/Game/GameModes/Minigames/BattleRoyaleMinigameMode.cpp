@@ -75,7 +75,9 @@ void BattleRoyaleMinigameMode::SpawnGeometry()
     //Add in some Asteroids (for color)
     for (int i = 0; i < 20; ++i)
     {
-        m_entities.push_back(new Asteroid(GetRandomLocationInArena()));
+        Asteroid* newAsteroid = new Asteroid(GetRandomLocationInArena());
+        newAsteroid->m_currentGameMode = this;
+        m_entities.push_back(newAsteroid);
     }
 }
 

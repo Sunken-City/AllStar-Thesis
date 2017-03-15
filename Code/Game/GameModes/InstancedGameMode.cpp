@@ -1,6 +1,7 @@
 #include "Game/GameModes/InstancedGameMode.hpp"
 #include "../TheGame.hpp"
 #include "../Entities/PlayerShip.hpp"
+#include "../Entities/Projectiles/Projectile.hpp"
 
 //-----------------------------------------------------------------------------------
 InstancedGameMode::InstancedGameMode()
@@ -12,7 +13,11 @@ InstancedGameMode::InstancedGameMode()
 //-----------------------------------------------------------------------------------
 InstancedGameMode::~InstancedGameMode()
 {
-
+    for (GameMode* mode : m_gameModeInstances)
+    {
+        delete mode;
+    }
+    m_gameModeInstances.clear();
 }
 
 //-----------------------------------------------------------------------------------
@@ -25,6 +30,7 @@ void InstancedGameMode::Initialize(const std::vector<PlayerShip*>& players)
         playerSubset.push_back(m_playerGamemodeMap[mode]);
         mode->Initialize(playerSubset);
     }
+    m_isPlaying = true;
 }
 
 //-----------------------------------------------------------------------------------
@@ -42,6 +48,37 @@ void InstancedGameMode::Update(float deltaSeconds)
     for (GameMode* instance : m_gameModeInstances)
     {
         instance->Update(deltaSeconds);
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void InstancedGameMode::ShowBackground()
+{
+    for (GameMode* instance : m_gameModeInstances)
+    {
+        instance->ShowBackground();
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void InstancedGameMode::SpawnBullet(Projectile* bullet)
+{
+    bullet->m_currentGameMode = bullet->m_owner->m_currentGameMode;
+    for (GameMode* instance : m_gameModeInstances)
+    {
+        if (instance == bullet->m_owner->m_currentGameMode)
+        {
+            instance->m_newEntities.push_back(bullet);
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void InstancedGameMode::HideBackground()
+{
+    for (GameMode* instance : m_gameModeInstances)
+    {
+        instance->HideBackground();
     }
 }
 
