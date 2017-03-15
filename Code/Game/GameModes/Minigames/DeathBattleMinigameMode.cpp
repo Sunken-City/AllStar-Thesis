@@ -34,15 +34,16 @@ DeathBattleMinigameMode::~DeathBattleMinigameMode()
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::Initialize()
+void DeathBattleMinigameMode::Initialize(const std::vector<PlayerShip*>& players)
 {
     SetBackground("BattleBackground", Vector2(25.0f));
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f), Vector2(20.0f)));
+    GameMode::Initialize(players);
+
     SpawnGeometry();
     SpawnPlayers();
     m_isPlaying = true;
-    GameMode::Initialize();
 }
 
 //-----------------------------------------------------------------------------------
@@ -62,7 +63,7 @@ void DeathBattleMinigameMode::CleanUp()
 //-----------------------------------------------------------------------------------
 void DeathBattleMinigameMode::SpawnPlayers()
 {
-    for (PlayerShip* player : TheGame::instance->m_players)
+    for (PlayerShip* player : m_players)
     {
         m_entities.push_back(player);
         player->Respawn();

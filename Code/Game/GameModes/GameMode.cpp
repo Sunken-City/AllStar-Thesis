@@ -41,8 +41,6 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
     m_starfield2->m_tintColor = RGBA::KINDA_GRAY;
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER)->m_virtualScaleMultiplier = 0.98f;
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER_SLOWER)->m_virtualScaleMultiplier = 2.0f;
-
-    InitializePlayerData();
 }
 
 //-----------------------------------------------------------------------------------
@@ -65,12 +63,20 @@ GameMode::~GameMode()
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::Initialize()
+void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 {
     if (!m_muteMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
     }
+
+    for (PlayerShip* player : players)
+    {
+        player->m_currentGameMode = this;
+        m_players.push_back(player);
+    }
+
+    InitializePlayerData();
 
     ShowBackground();
 
@@ -159,9 +165,9 @@ void GameMode::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void GameMode::UpdatePlayerCameras()
 {
-    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
+    for (unsigned int i = 0; i < m_players.size(); ++i)
     {
-        PlayerShip* player = TheGame::instance->m_players[i];
+        PlayerShip* player = m_players[i];
         Vector2 targetCameraPosition = player->GetPosition();
         Vector2 playerRightStick = player->m_pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
 
@@ -259,8 +265,16 @@ AABB2 GameMode::GetArenaBounds()
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::SpawnBullet(Projectile*bullet)
+void GameMode::SpawnEntityInGameWorld(Entity* entity)
 {
+    entity->m_currentGameMode = this; 
+    m_newEntities.push_back(entity);
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::SpawnBullet(Projectile* bullet)
+{
+    bullet->m_currentGameMode = this;
     m_newEntities.push_back(bullet);
 }
 
@@ -268,7 +282,9 @@ void GameMode::SpawnBullet(Projectile*bullet)
 void GameMode::SpawnPickup(Item* item, const Vector2& spawnPosition)
 {
     ASSERT_OR_DIE(item, "Item was null when attempting to spawn pickup");
-    m_newEntities.push_back(new Pickup(item, spawnPosition));
+    Pickup* pickup = new Pickup(item, spawnPosition);
+    pickup->m_currentGameMode = this;
+    m_newEntities.push_back(pickup);
 }
 
 //-----------------------------------------------------------------------------------
@@ -289,7 +305,7 @@ void GameMode::SetBackground(const std::string& backgroundName, const Vector2& s
 float GameMode::CalculateAttenuation(const Vector2& soundPosition)
 {
     float attenuationVolume = 0.0f;
-    for (PlayerShip* player : TheGame::instance->m_players)
+    for (PlayerShip* player : m_players)
     {
         float distance = MathUtils::CalcDistSquaredBetweenPoints(player->GetPosition(), soundPosition);
         float currentAttenuationVolume = 1.0f - (distance / 100.0f);
@@ -396,7 +412,7 @@ void GameMode::CleanupReadyAnim()
 //-----------------------------------------------------------------------------------
 void GameMode::InitializePlayerData()
 {
-    for (PlayerShip* player : TheGame::instance->m_players)
+    for (PlayerShip* player : m_players)
     {
         m_playerStats[player] = new DefaultPlayerStats(player);
     }
@@ -420,13 +436,13 @@ void GameMode::RecordPlayerKill(PlayerShip* killer, Ship*)
 void GameMode::DetermineWinners()
 {
     int maxScore = 0;
-    for (PlayerShip* ship : TheGame::instance->m_players)
+    for (PlayerShip* ship : m_players)
     {
         DefaultPlayerStats* stats = m_playerStats[ship];
         int playerScore = stats->m_numKills - stats->m_numDeaths;
         maxScore = playerScore > maxScore ? playerScore : maxScore;
     }
-    for (PlayerShip* ship : TheGame::instance->m_players)
+    for (PlayerShip* ship : m_players)
     {
         DefaultPlayerStats* stats = m_playerStats[ship];
         int playerScore = stats->m_numKills - stats->m_numDeaths;

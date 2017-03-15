@@ -9,7 +9,7 @@ public:
     virtual ~DeathBattleMinigameMode();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Initialize();
+    virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
     virtual void Update(float deltaSeconds);
 

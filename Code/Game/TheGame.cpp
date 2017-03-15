@@ -37,6 +37,7 @@
 #include "Engine/UI/UISystem.hpp"
 #include "Game/Entities/TextSplash.hpp"
 #include "GameModes/Minigames/DeathBattleMinigameMode.hpp"
+#include "GameModes/InstancedGameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -236,7 +237,7 @@ void TheGame::Render() const
 void TheGame::InitializeMainMenuState()
 {
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
-    m_titleText = new TextRenderable2D("GOOD GAME 2017", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
+    m_titleText = new TextRenderable2D("ALLSTAR", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
     SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
     m_titleParticles = new ParticleSystem("Title", BACKGROUND_PARTICLES_BLOOM_LAYER, Vector2(0.0f, -15.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
@@ -297,10 +298,18 @@ void TheGame::RenderMainMenu() const
 //-----------------------------------------------------------------------------------
 void TheGame::EnqueueMinigames()
 {
-    for (int i = 0; i < m_numberOfMinigames; ++i)
-    {
-        m_queuedMinigameModes.push(new DeathBattleMinigameMode());
-    }
+//     for (int i = 0; i < m_numberOfMinigames; ++i)
+//     {
+//         InstancedGameMode* mode = new InstancedGameMode();
+//         for (PlayerShip* player : m_players)
+//         {
+//             mode->AddGameModeInstance(new BattleRoyaleMinigameMode(), player);    
+//         }
+//         m_queuedMinigameModes.push(mode);
+//     }
+    m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+    m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
+    m_queuedMinigameModes.push(new DeathBattleMinigameMode());
 }
 
 //-----------------------------------------------------------------------------------
@@ -333,6 +342,13 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
     m_readyText[1] = nullptr;
     m_readyText[2] = nullptr;
     m_readyText[3] = nullptr;
+
+    for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
+    {
+        PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
+        player->HideUI();
+        TheGame::instance->m_players.push_back(player);
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -476,7 +492,7 @@ void TheGame::InitializeAssemblyPlayingState()
 //     UISystem::instance->AddWidget(m_gamePausedLabel);
 //     m_gamePausedLabel->SetHidden();
 
-    m_currentGameMode->Initialize();
+    m_currentGameMode->Initialize(m_players);
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
 
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyPlayingState);
@@ -706,7 +722,7 @@ void TheGame::InitializeMinigamePlayingState()
     {
         ship->ShowUI();
     }
-    m_currentGameMode->Initialize();
+    m_currentGameMode->Initialize(m_players);
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigamePlayingState);
 }
@@ -1047,6 +1063,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("EjectPassive", keyboard->FindValue('C'));
         playerPilot->m_inputMap.MapInputValue("EjectChassis", keyboard->FindValue('V'));
         playerPilot->m_inputMap.MapInputValue("Pause", keyboard->FindValue('P'));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", keyboard->FindValue('A'));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", keyboard->FindValue('D'));
     }
     else
     {
@@ -1071,6 +1089,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::BACK));
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->FindButton(XboxButton::X));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->FindButton(XboxButton::Y));
     }
 }
 

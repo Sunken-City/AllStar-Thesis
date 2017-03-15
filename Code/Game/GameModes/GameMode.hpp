@@ -32,7 +32,7 @@ public:
     virtual ~GameMode();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Initialize();
+    virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
     virtual void Update(float deltaSeconds);
     virtual void UpdatePlayerCameras();
@@ -41,15 +41,15 @@ public:
     virtual void RemoveEntitiesInCircle(const Vector2& center, float radius);
     void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
     AABB2 GetArenaBounds();
-    inline void SpawnEntityInGameWorld(Entity* entity) { m_newEntities.push_back(entity); };
-    void SpawnBullet(Projectile* bullet);
-    void SpawnPickup(Item* item, const Vector2& spawnPosition);
+    virtual void SpawnEntityInGameWorld(Entity* entity);
+    virtual void SpawnBullet(Projectile* bullet);
+    virtual void SpawnPickup(Item* item, const Vector2& spawnPosition);
     void SetBackground(const std::string& backgroundName, const Vector2& scale);
     void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);
     float CalculateAttenuation(const Vector2& soundPosition);
     void StopPlaying();
-    void HideBackground();
-    void ShowBackground();
+    virtual void HideBackground();
+    virtual void ShowBackground();
     virtual void InitializeReadyAnim();
     virtual void UpdateReadyAnim(float deltaSeconds);
     virtual void CleanupReadyAnim();
@@ -74,6 +74,7 @@ public:
     static const double ANIMATION_LENGTH_SECONDS;
 
     std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
+    std::vector<PlayerShip*> m_players;
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
     const char* m_modeTitleText;

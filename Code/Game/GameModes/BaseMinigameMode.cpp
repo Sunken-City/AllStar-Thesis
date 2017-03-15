@@ -19,7 +19,7 @@ BaseMinigameMode::~BaseMinigameMode()
 void BaseMinigameMode::EndGameIfTooFewPlayers()
 {
     int numPlayersAlive = 0;
-    for (PlayerShip* player : TheGame::instance->m_players)
+    for (PlayerShip* player : m_players)
     {
         numPlayersAlive += player->IsAlive() ? 1 : 0;
     }

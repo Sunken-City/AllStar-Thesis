@@ -9,7 +9,7 @@ public:
     virtual ~AssemblyMode();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Initialize();
+    virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
     void SpawnStartingEntities();
     void SpawnPlayers();
