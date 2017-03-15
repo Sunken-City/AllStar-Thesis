@@ -60,6 +60,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ColorPalettes")->m_texture);
     m_transform.SetScale(DEFAULT_SCALE);
+    m_transform.SetPosition(Vector2(1000.0f));
 
     m_shieldSprite->m_material = m_sprite->m_material;
     m_shipTrail->m_colorOverride = GetPlayerColor();
