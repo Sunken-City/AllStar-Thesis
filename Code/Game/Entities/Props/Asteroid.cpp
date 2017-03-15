@@ -47,7 +47,7 @@ void Asteroid::Die()
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), 1.0f);
     ParticleSystem::PlayOneShotParticleEffect("CrateDestroyed", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()));
 
-    GameMode* gamemode = m_currentGameMode;
+    GameMode* gamemode = GameMode::GetCurrent();
     ASSERT_OR_DIE(gamemode, "Current gamemode was null for an asteroid.");
 
     if (gamemode->m_isPlaying && m_transform.GetWorldScale().x >= (MIN_ASTEROID_SCALE / 2.0f))

@@ -237,7 +237,7 @@ void TheGame::Render() const
 void TheGame::InitializeMainMenuState()
 {
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
-    m_titleText = new TextRenderable2D("GOOD GAME 2017", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
+    m_titleText = new TextRenderable2D("ALLSTAR", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
     SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
     m_titleParticles = new ParticleSystem("Title", BACKGROUND_PARTICLES_BLOOM_LAYER, Vector2(0.0f, -15.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
@@ -298,15 +298,18 @@ void TheGame::RenderMainMenu() const
 //-----------------------------------------------------------------------------------
 void TheGame::EnqueueMinigames()
 {
-    for (int i = 0; i < m_numberOfMinigames; ++i)
-    {
-        InstancedGameMode* mode = new InstancedGameMode();
-        for (PlayerShip* player : m_players)
-        {
-            mode->AddGameModeInstance(new BattleRoyaleMinigameMode(), player);    
-        }
-        m_queuedMinigameModes.push(mode);
-    }
+//     for (int i = 0; i < m_numberOfMinigames; ++i)
+//     {
+//         InstancedGameMode* mode = new InstancedGameMode();
+//         for (PlayerShip* player : m_players)
+//         {
+//             mode->AddGameModeInstance(new BattleRoyaleMinigameMode(), player);    
+//         }
+//         m_queuedMinigameModes.push(mode);
+//     }
+    m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+    m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
+    m_queuedMinigameModes.push(new DeathBattleMinigameMode());
 }
 
 //-----------------------------------------------------------------------------------
