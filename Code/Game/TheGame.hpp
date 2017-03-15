@@ -147,6 +147,7 @@ private:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
+    static const int MAX_NUM_PLAYERS = 4;
     SoundID SFX_UI_ADVANCE;
     int m_numberOfMinigames = 3;
     int m_numberOfPlayers = 0;
@@ -164,6 +165,9 @@ private:
     ParticleSystem* m_titleParticles = nullptr;
     Sprite* m_gameOverText = nullptr;
     Sprite* m_readyText[4];
+    Sprite* m_shipPreviews[4];
+    TextRenderable2D* m_joinText[4];
     TextRenderable2D* m_titleText = nullptr;
     WidgetBase* m_gamePausedLabel = nullptr;
+    unsigned int m_paletteOffsets[4];
 };

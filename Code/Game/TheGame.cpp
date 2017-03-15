@@ -320,6 +320,17 @@ void TheGame::EnqueueMinigames()
 void TheGame::InitializePlayerJoinState()
 {
     ClearPlayers();
+    //m_titleText = new TextRenderable2D("ALLSTAR", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
+    for (int i = 0; i < MAX_NUM_PLAYERS; ++i)
+    {
+        m_paletteOffsets[i] = i;
+        m_shipPreviews[i] = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
+        m_shipPreviews[i]->m_transform.SetScale(Vector2(5.0f));
+        m_shipPreviews[i]->m_material = new Material(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"), SpriteGameRenderer::instance->m_defaultRenderState);
+        m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", (float)i / 16.0f);
+        m_shipPreviews[i]->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
+        m_shipPreviews[i]->Disable();
+    }
     m_readyText[0] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[1] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[2] = new Sprite("ReadyText", TEXT_LAYER);
@@ -328,26 +339,35 @@ void TheGame::InitializePlayerJoinState()
     m_readyText[1]->m_transform.SetPosition(Vector2(1.0f, 1.0f));
     m_readyText[2]->m_transform.SetPosition(Vector2(-1.0f, -1.0f));
     m_readyText[3]->m_transform.SetPosition(Vector2(1.0f, -1.0f));
+    m_shipPreviews[0]->m_transform.SetPosition(Vector2(-5.0f, 3.0f));
+    m_shipPreviews[1]->m_transform.SetPosition(Vector2(5.0f, 3.0f));
+    m_shipPreviews[2]->m_transform.SetPosition(Vector2(-5.0f, -3.0f));
+    m_shipPreviews[3]->m_transform.SetPosition(Vector2(5.0f, -3.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayerJoinState);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupPlayerJoinState(unsigned int)
 {
-    delete m_readyText[0];
-    delete m_readyText[1];
-    delete m_readyText[2];
-    delete m_readyText[3];
-    m_readyText[0] = nullptr;
-    m_readyText[1] = nullptr;
-    m_readyText[2] = nullptr;
-    m_readyText[3] = nullptr;
+    for (int i = 0; i < MAX_NUM_PLAYERS; ++i)
+    {
+        delete m_readyText[i];
+        m_readyText[i] = nullptr;
+
+        delete m_shipPreviews[i]->m_material->m_shaderProgram;
+        delete m_shipPreviews[i]->m_material;
+        delete m_shipPreviews[i];
+        m_shipPreviews[i] = nullptr;
+    }
 
     for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
     {
         PlayerShip* player = new PlayerShip(TheGame::instance->m_playerPilots[i]);
         player->HideUI();
         TheGame::instance->m_players.push_back(player);
+
+        float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
+        m_players[i]->m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     }
 }
 
@@ -359,9 +379,14 @@ void TheGame::UpdatePlayerJoin(float)
         return;
     }
 
-    //If someone presses their button a second time, we know all players are in and we're ready to start.
-    for (PlayerPilot* pilot : m_playerPilots)
+    for (int i = 0; i < MAX_NUM_PLAYERS; ++i)
     {
+    }
+
+    //If someone presses their button a second time, we know all players are in and we're ready to start.
+    for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
+    {
+        PlayerPilot* pilot = m_playerPilots[i];
         if (pilot->m_inputMap.WasJustPressed("Accept") || (m_numberOfPlayers == 4 && InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
         {
 
@@ -377,12 +402,38 @@ void TheGame::UpdatePlayerJoin(float)
             m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::KINDA_GRAY.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
-        }        
+        } 
+        else if (pilot->m_inputMap.WasJustPressed("CycleColorsLeft"))
+        {
+            m_paletteOffsets[i] = (m_paletteOffsets[i] - 1) % 16;
+            float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
+            m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
+        }
+        else if (pilot->m_inputMap.WasJustPressed("CycleColorsRight"))
+        {
+            m_paletteOffsets[i] = (m_paletteOffsets[i] + 1) % 16;
+            float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
+            m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
+        }
+
+        static const float DEADZONE_BEFORE_ROTATION = 0.3f;
+        static const float DEADZONE_BEFORE_ROTATION_SQUARED = DEADZONE_BEFORE_ROTATION * DEADZONE_BEFORE_ROTATION;
+        Vector2 shootDirection = pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
+        if (shootDirection.CalculateMagnitudeSquared() > DEADZONE_BEFORE_ROTATION_SQUARED)
+        {
+            m_shipPreviews[i]->m_transform.SetRotationDegrees(shootDirection.GetDirectionDegreesFromNormalizedVector());
+        }
+        else
+        {
+            float rotationAmount = MathUtils::Lerp(0.1f, m_shipPreviews[i]->m_transform.GetLocalRotationDegrees(), (float)GetCurrentTimeSeconds() * 50.0f);
+            m_shipPreviews[i]->m_transform.SetRotationDegrees(rotationAmount);
+        }
     }
 
     if (!m_hasKeyboardPlayer && m_numberOfPlayers < 4 && (InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
     {
         m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+        m_shipPreviews[m_numberOfPlayers]->Enable();
         PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
         m_playerPilots.push_back(pilot);
         InitializeKeyMappingsForPlayer(pilot);
@@ -394,6 +445,7 @@ void TheGame::UpdatePlayerJoin(float)
         if (controller->IsConnected() && m_numberOfPlayers < 4 && controller->JustPressed(XboxButton::START))
         {
             m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+            m_shipPreviews[m_numberOfPlayers]->Enable();
             PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
             pilot->m_controllerIndex = i;
             m_playerPilots.push_back(pilot);
@@ -1091,6 +1143,10 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->FindButton(XboxButton::X));
         playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->FindButton(XboxButton::Y));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->FindButton(XboxButton::LB));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->FindButton(XboxButton::RB));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->GetLeftTrigger());
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->GetRightTrigger());
     }
 }
 
@@ -1185,7 +1241,7 @@ void TheGame::RegisterSprites()
     plasmaBall->m_defaultMaterial = new Material(SpriteGameRenderer::instance->m_defaultShader, SpriteGameRenderer::instance->m_additiveBlendRenderState);
 
     //Color Palettes:
-    ResourceDatabase::instance->RegisterSprite("ColorPalettes", "Data\\Images\\Palettes\\gameboyPalettes.png");    
+    ResourceDatabase::instance->RegisterSprite("ShipColorPalettes", "Data\\Images\\Palettes\\gameboyPalettes.png");    
 
     //Chassis
     ResourceDatabase::instance->RegisterSprite("DefaultChassis", "Data\\Images\\Chassis\\defaultChassis.png");

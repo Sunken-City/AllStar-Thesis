@@ -58,7 +58,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     float paletteIndex = ((float)((PlayerPilot*)m_pilot)->m_playerNumber + 1.0f) / 16.0f;
     m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
-    m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ColorPalettes")->m_texture);
+    m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
     m_transform.SetScale(DEFAULT_SCALE);
     m_transform.SetPosition(Vector2(1000.0f));
 
