@@ -12,7 +12,7 @@ const float Stats::MIN_ACCELERATION_VALUE = 0.05f;
 const float Stats::MAX_ACCELERATION_VALUE = 0.9f;
 const float Stats::MIN_HANDLING_VALUE = 0.05f;
 const float Stats::MAX_HANDLING_VALUE = 0.9f;
-const float Stats::MIN_BRAKING_VALUE = 0.98f;
+const float Stats::MIN_BRAKING_VALUE = 0.97f;
 const float Stats::MAX_BRAKING_VALUE = 0.95f;
 
 //POWER/////////////////////////////////////////////////////////////////////
@@ -26,12 +26,12 @@ const float Stats::MIN_RATE_OF_FIRE = 3.0f; //Shots per second
 const float Stats::MAX_RATE_OF_FIRE = 10.0f;
 
 //DEFENSE/////////////////////////////////////////////////////////////////////
-const float Stats::MIN_HP_VALUE = 20.0f;
+const float Stats::MIN_HP_VALUE = 100.0f;
 const float Stats::MAX_HP_VALUE = 1000.0f;
 const float Stats::MIN_CAPACITY_VALUE = 30.0f;
-const float Stats::MAX_CAPACITY_VALUE = 400.0f;
-const float Stats::MIN_REGEN_RATE = 5.0f; //Points per second
-const float Stats::MAX_REGEN_RATE = 25.0f;
+const float Stats::MAX_CAPACITY_VALUE = 200.0f;
+const float Stats::MIN_REGEN_RATE = 10.0f; //Points per second
+const float Stats::MAX_REGEN_RATE = 50.0f;
 const float Stats::MIN_DEFLECTION_VALUE = 0.0f;
 const float Stats::MAX_DEFLECTION_VALUE = 30.0f;
 
