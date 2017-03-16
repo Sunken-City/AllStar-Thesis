@@ -168,6 +168,8 @@ private:
     Sprite* m_gameOverText = nullptr;
     Sprite* m_readyText[4];
     Sprite* m_shipPreviews[4];
+    Sprite* m_rightArrows[4];
+    Sprite* m_leftArrows[4];
     TextRenderable2D* m_joinText[4];
     TextRenderable2D* m_titleText = nullptr;
     WidgetBase* m_gamePausedLabel = nullptr;

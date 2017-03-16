@@ -38,6 +38,7 @@
 #include "Game/Entities/TextSplash.hpp"
 #include "GameModes/Minigames/DeathBattleMinigameMode.hpp"
 #include "GameModes/InstancedGameMode.hpp"
+#include "Engine/Math/MathUtils.hpp"
 #include <gl/GL.h>
 
 TheGame* TheGame::instance = nullptr;
@@ -335,9 +336,25 @@ void TheGame::InitializePlayerJoinState()
         m_shipPreviews[i]->m_transform.SetScale(Vector2(5.0f));
         m_shipPreviews[i]->m_material = new Material(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"), SpriteGameRenderer::instance->m_defaultRenderState);
         m_shipPreviews[i]->m_material->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
-        m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", (float)i / 16.0f);
+        m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", static_cast<float>(i) / 16.0f);
         m_shipPreviews[i]->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
         m_shipPreviews[i]->Disable();
+
+        m_leftArrows[i] = new Sprite("Arrow", TheGame::PLAYER_LAYER);
+        m_leftArrows[i]->m_transform.SetScale(Vector2(2.0f));
+        m_leftArrows[i]->m_material = new Material(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"), SpriteGameRenderer::instance->m_defaultRenderState);
+        m_leftArrows[i]->m_material->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
+        m_leftArrows[i]->m_material->SetFloatUniform("PaletteOffset", static_cast<float>(Mod(i + 1, 16)) / 16.0f);
+        m_leftArrows[i]->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
+        m_leftArrows[i]->Disable();
+        m_rightArrows[i] = new Sprite("Arrow", TheGame::PLAYER_LAYER);
+        m_rightArrows[i]->m_transform.SetScale(Vector2(2.0f));
+        m_rightArrows[i]->m_material = new Material(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"), SpriteGameRenderer::instance->m_defaultRenderState);
+        m_rightArrows[i]->m_material->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
+        m_rightArrows[i]->m_material->SetFloatUniform("PaletteOffset", static_cast<float>(Mod(i - 1, 16)) / 16.0f);
+        m_rightArrows[i]->m_transform.SetRotationDegrees(180.0f);
+        m_rightArrows[i]->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
+        m_rightArrows[i]->Disable();
     }
     m_readyText[0] = new Sprite("ReadyText", TEXT_LAYER);
     m_readyText[1] = new Sprite("ReadyText", TEXT_LAYER);
@@ -351,6 +368,14 @@ void TheGame::InitializePlayerJoinState()
     m_shipPreviews[1]->m_transform.SetPosition(Vector2(5.0f, 3.0f));
     m_shipPreviews[2]->m_transform.SetPosition(Vector2(-5.0f, -3.0f));
     m_shipPreviews[3]->m_transform.SetPosition(Vector2(5.0f, -3.0f));
+    m_leftArrows[0]->m_transform.SetPosition(Vector2(-3.0f, 3.0f));
+    m_leftArrows[1]->m_transform.SetPosition(Vector2(7.0f, 3.0f));
+    m_leftArrows[2]->m_transform.SetPosition(Vector2(-3.0f, -3.0f));
+    m_leftArrows[3]->m_transform.SetPosition(Vector2(7.0f, -3.0f));
+    m_rightArrows[0]->m_transform.SetPosition(Vector2(-7.0f, 3.0f));
+    m_rightArrows[1]->m_transform.SetPosition(Vector2(3.0f, 3.0f));
+    m_rightArrows[2]->m_transform.SetPosition(Vector2(-7.0f, -3.0f));
+    m_rightArrows[3]->m_transform.SetPosition(Vector2(3.0f, -3.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayerJoinState);
 }
 
@@ -366,6 +391,14 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
         delete m_shipPreviews[i]->m_material;
         delete m_shipPreviews[i];
         m_shipPreviews[i] = nullptr;
+        delete m_leftArrows[i]->m_material->m_shaderProgram;
+        delete m_leftArrows[i]->m_material;
+        delete m_leftArrows[i];
+        m_leftArrows[i] = nullptr;
+        delete m_rightArrows[i]->m_material->m_shaderProgram;
+        delete m_rightArrows[i]->m_material;
+        delete m_rightArrows[i];
+        m_rightArrows[i] = nullptr;
     }
 
     for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
@@ -415,15 +448,25 @@ void TheGame::UpdatePlayerJoin(float)
         } 
         else if (pilot->m_inputMap.WasJustPressed("CycleColorsLeft"))
         {
-            m_paletteOffsets[i] = (m_paletteOffsets[i] - 1) % 16;
+            m_paletteOffsets[i] = Mod((m_paletteOffsets[i] - 1), 16);
             float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
             m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
+
+            float rightPaletteIndex = static_cast<float>(Mod((m_paletteOffsets[i] - 1), 16)) / 16.0f;
+            float leftPaletteIndex = static_cast<float>(Mod((m_paletteOffsets[i] + 1), 16)) / 16.0f;
+            m_leftArrows[i]->m_material->SetFloatUniform("PaletteOffset", leftPaletteIndex);
+            m_rightArrows[i]->m_material->SetFloatUniform("PaletteOffset", rightPaletteIndex);
         }
         else if (pilot->m_inputMap.WasJustPressed("CycleColorsRight"))
         {
-            m_paletteOffsets[i] = (m_paletteOffsets[i] + 1) % 16;
+            m_paletteOffsets[i] = Mod((m_paletteOffsets[i] + 1), 16);
             float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
             m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
+
+            float rightPaletteIndex = static_cast<float>(Mod((m_paletteOffsets[i] - 1), 16)) / 16.0f;
+            float leftPaletteIndex = static_cast<float>(Mod((m_paletteOffsets[i] + 1), 16)) / 16.0f;
+            m_leftArrows[i]->m_material->SetFloatUniform("PaletteOffset", leftPaletteIndex);
+            m_rightArrows[i]->m_material->SetFloatUniform("PaletteOffset", rightPaletteIndex);
         }
 
         static const float DEADZONE_BEFORE_ROTATION = 0.3f;
@@ -438,12 +481,16 @@ void TheGame::UpdatePlayerJoin(float)
             float rotationAmount = MathUtils::Lerp(0.1f, m_shipPreviews[i]->m_transform.GetLocalRotationDegrees(), (float)GetCurrentTimeSeconds() * 50.0f);
             m_shipPreviews[i]->m_transform.SetRotationDegrees(rotationAmount);
         }
+        m_rightArrows[i]->m_transform.SetScale(Vector2(2.0f + (sin(GetCurrentTimeSeconds()) * 0.5f)));
+        m_leftArrows[i]->m_transform.SetScale(Vector2(2.0f + (sin(GetCurrentTimeSeconds()) * 0.5f)));
     }
 
     if (!m_hasKeyboardPlayer && m_numberOfPlayers < 4 && (InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
     {
         m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
         m_shipPreviews[m_numberOfPlayers]->Enable();
+        m_leftArrows[m_numberOfPlayers]->Enable();
+        m_rightArrows[m_numberOfPlayers]->Enable();
         PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
         m_playerPilots.push_back(pilot);
         InitializeKeyMappingsForPlayer(pilot);
@@ -456,6 +503,8 @@ void TheGame::UpdatePlayerJoin(float)
         {
             m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
             m_shipPreviews[m_numberOfPlayers]->Enable();
+            m_leftArrows[m_numberOfPlayers]->Enable();
+            m_rightArrows[m_numberOfPlayers]->Enable();
             PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
             pilot->m_controllerIndex = i;
             m_playerPilots.push_back(pilot);
@@ -1197,8 +1246,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ReadyText", "Data\\Images\\ready.png");
 
     //UI
-    ResourceDatabase::instance->RegisterSprite("SpindleArm", "Data\\Images\\spindleArm.png");
-    ResourceDatabase::instance->EditSpriteResource("SpindleArm")->m_pivotPoint = Vector2(0.0f, 1.0f);
+    ResourceDatabase::instance->RegisterSprite("Arrow", "Data\\Images\\UI\\Arrow.png");
 
     //Transitions
     ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");
