@@ -38,6 +38,7 @@
 #include "Game/Entities/TextSplash.hpp"
 #include "GameModes/Minigames/DeathBattleMinigameMode.hpp"
 #include "GameModes/InstancedGameMode.hpp"
+#include <gl/GL.h>
 
 TheGame* TheGame::instance = nullptr;
 
@@ -333,6 +334,7 @@ void TheGame::InitializePlayerJoinState()
         m_shipPreviews[i] = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
         m_shipPreviews[i]->m_transform.SetScale(Vector2(5.0f));
         m_shipPreviews[i]->m_material = new Material(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"), SpriteGameRenderer::instance->m_defaultRenderState);
+        m_shipPreviews[i]->m_material->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
         m_shipPreviews[i]->m_material->SetFloatUniform("PaletteOffset", (float)i / 16.0f);
         m_shipPreviews[i]->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
         m_shipPreviews[i]->Disable();
@@ -1251,7 +1253,8 @@ void TheGame::RegisterSprites()
     plasmaBall->m_defaultMaterial = new Material(SpriteGameRenderer::instance->m_defaultShader, SpriteGameRenderer::instance->m_additiveBlendRenderState);
 
     //Color Palettes:
-    ResourceDatabase::instance->RegisterSprite("ShipColorPalettes", "Data\\Images\\Palettes\\gameboyPalettes.png");    
+    ResourceDatabase::instance->RegisterSprite("ShipColorPalettes", "Data\\Images\\Palettes\\shipPalettes.png");
+    ResourceDatabase::instance->RegisterSprite("ColorPalettes", "Data\\Images\\Palettes\\gameboyPalettes.png");
 
     //Chassis
     ResourceDatabase::instance->RegisterSprite("DefaultChassis", "Data\\Images\\Chassis\\defaultChassis.png");

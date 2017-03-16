@@ -32,6 +32,7 @@
 #include "../Items/Weapons/SpreadShot.hpp"
 #include "../Items/Passives/SprayAndPrayPassive.hpp"
 #include "../Items/Weapons/WaveGun.hpp"
+#include <gl/GL.h>
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -50,6 +51,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 {
     m_isDead = false;
     m_paletteSwapMaterial = new Material(m_paletteSwapShader, SpriteGameRenderer::instance->m_defaultRenderState);
+    m_paletteSwapMaterial->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
     m_cooldownMaterial = new Material(m_cooldownShader, SpriteGameRenderer::instance->m_defaultRenderState);
 
     m_sprite = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
