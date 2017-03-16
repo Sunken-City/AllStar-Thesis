@@ -150,11 +150,14 @@ public:
     static const int MAX_NUM_PLAYERS = 4;
     static const char* NO_CONTROLLER_STRING;
     static const char* PRESS_START_TO_JOIN_STRING;
+    static const char* PRESS_START_TO_READY_STRING;
+    static const char* READY_STRING;
     SoundID SFX_UI_ADVANCE;
     SoundID m_menuMusic;
     SoundID m_resultsMusic;
     int m_numberOfMinigames = 3;
     int m_numberOfPlayers = 0;
+    int m_numberOfReadyPlayers = 0;
     bool m_hasKeyboardPlayer = false;
     std::vector<PlayerPilot*> m_playerPilots;
     std::vector<PlayerShip*> m_players;
@@ -168,11 +171,11 @@ private:
     Material* m_rainbowFBOEffect = nullptr;
     ParticleSystem* m_titleParticles = nullptr;
     Sprite* m_gameOverText = nullptr;
-    Sprite* m_readyText[4];
     Sprite* m_shipPreviews[4];
     Sprite* m_rightArrows[4];
     Sprite* m_leftArrows[4];
     TextRenderable2D* m_joinText[4];
+    TextRenderable2D* m_readyText[4];
     TextRenderable2D* m_titleText = nullptr;
     WidgetBase* m_gamePausedLabel = nullptr;
     unsigned int m_paletteOffsets[4];

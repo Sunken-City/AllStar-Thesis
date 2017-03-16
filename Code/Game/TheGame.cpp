@@ -49,6 +49,8 @@ const float TheGame::TRANSITION_TIME_SECONDS = TOTAL_TRANSITION_TIME_SECONDS * 0
 
 const char* TheGame::NO_CONTROLLER_STRING = "No Controller Connected :c";
 const char* TheGame::PRESS_START_TO_JOIN_STRING = "Press Start to Join";
+const char* TheGame::PRESS_START_TO_READY_STRING = "Press Start when Ready";
+const char* TheGame::READY_STRING = "Ready!";
 
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
@@ -336,6 +338,11 @@ void TheGame::InitializePlayerJoinState()
     {
         m_joinText[i] = new TextRenderable2D(NO_CONTROLLER_STRING, Transform2D(), TheGame::TEXT_LAYER);
         m_joinText[i]->m_fontSize = 0.25f;
+        m_joinText[i]->m_color = RGBA::GBWHITE;
+        m_readyText[i] = new TextRenderable2D(PRESS_START_TO_READY_STRING, Transform2D(), TheGame::TEXT_LAYER);
+        m_readyText[i]->m_fontSize = 0.3f;
+        m_readyText[i]->m_color = RGBA::CORNFLOWER_BLUE;
+        m_readyText[i]->Disable();
 
         m_paletteOffsets[i] = i;
         m_shipPreviews[i] = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
@@ -362,31 +369,31 @@ void TheGame::InitializePlayerJoinState()
         m_rightArrows[i]->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
         m_rightArrows[i]->Disable();
     }
-    m_readyText[0] = new Sprite("ReadyText", TEXT_LAYER);
-    m_readyText[1] = new Sprite("ReadyText", TEXT_LAYER);
-    m_readyText[2] = new Sprite("ReadyText", TEXT_LAYER);
-    m_readyText[3] = new Sprite("ReadyText", TEXT_LAYER);
-    m_readyText[0]->m_transform.SetPosition(Vector2(-1.0f, 1.0f));
-    m_readyText[1]->m_transform.SetPosition(Vector2(1.0f, 1.0f));
-    m_readyText[2]->m_transform.SetPosition(Vector2(-1.0f, -1.0f));
-    m_readyText[3]->m_transform.SetPosition(Vector2(1.0f, -1.0f));
+    m_readyText[0]->m_transform.SetPosition(Vector2(-5.0f, 1.0f));
+    m_readyText[1]->m_transform.SetPosition(Vector2(5.0f, 1.0f));
+    m_readyText[2]->m_transform.SetPosition(Vector2(-5.0f, -4.5f));
+    m_readyText[3]->m_transform.SetPosition(Vector2(5.0f, -4.5f));
 
     m_joinText[0]->m_transform.SetPosition(Vector2(-5.0f, 3.0f));
     m_joinText[1]->m_transform.SetPosition(Vector2(5.0f, 3.0f));
     m_joinText[2]->m_transform.SetPosition(Vector2(-5.0f, -3.0f));
     m_joinText[3]->m_transform.SetPosition(Vector2(5.0f, -3.0f));
+
     m_shipPreviews[0]->m_transform.SetPosition(Vector2(-5.0f, 3.0f));
     m_shipPreviews[1]->m_transform.SetPosition(Vector2(5.0f, 3.0f));
     m_shipPreviews[2]->m_transform.SetPosition(Vector2(-5.0f, -3.0f));
     m_shipPreviews[3]->m_transform.SetPosition(Vector2(5.0f, -3.0f));
+
     m_leftArrows[0]->m_transform.SetPosition(Vector2(-3.0f, 3.0f));
     m_leftArrows[1]->m_transform.SetPosition(Vector2(7.0f, 3.0f));
     m_leftArrows[2]->m_transform.SetPosition(Vector2(-3.0f, -3.0f));
     m_leftArrows[3]->m_transform.SetPosition(Vector2(7.0f, -3.0f));
+
     m_rightArrows[0]->m_transform.SetPosition(Vector2(-7.0f, 3.0f));
     m_rightArrows[1]->m_transform.SetPosition(Vector2(3.0f, 3.0f));
     m_rightArrows[2]->m_transform.SetPosition(Vector2(-7.0f, -3.0f));
     m_rightArrows[3]->m_transform.SetPosition(Vector2(3.0f, -3.0f));
+
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupPlayerJoinState);
 }
 
@@ -443,9 +450,21 @@ void TheGame::UpdatePlayerJoin(float)
     for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
     {
         PlayerPilot* pilot = m_playerPilots[i];
-        if (pilot->m_inputMap.WasJustPressed("Accept") || (m_numberOfPlayers == 4 && InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
-        {
 
+        if(pilot->m_inputMap.WasJustPressed("Accept") && (m_numberOfReadyPlayers < m_numberOfPlayers) && m_readyText[i]->m_text == PRESS_START_TO_READY_STRING)
+        {
+            ++m_numberOfReadyPlayers;
+            m_readyText[i]->m_text = READY_STRING;
+            m_readyText[i]->m_color = RGBA::GREEN;
+        }
+        else if (pilot->m_inputMap.WasJustPressed("Back") && (m_numberOfReadyPlayers > 0) && m_readyText[i]->m_text == READY_STRING)
+        {
+            --m_numberOfReadyPlayers;
+            m_readyText[i]->m_text = PRESS_START_TO_READY_STRING;
+            m_readyText[i]->m_color = RGBA::CORNFLOWER_BLUE;
+        }
+        else if (((pilot->m_inputMap.WasJustPressed("Accept")) && (m_numberOfReadyPlayers == m_numberOfPlayers)) || (m_numberOfPlayers == 4 && InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
+        {
             RunAfterSeconds([]()
             {
                 SetGameState(ASSEMBLY_GET_READY);
@@ -500,25 +519,44 @@ void TheGame::UpdatePlayerJoin(float)
 
     if (!m_hasKeyboardPlayer && m_numberOfPlayers < 4 && (InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
     {
-        m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+        //Hack to assert that we don't let a player double add themselves
+        for (PlayerPilot* pilot : m_playerPilots)
+        {
+            if (pilot->m_controllerIndex == -1 && !InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
+            {
+                return;
+            }
+        }
+        m_readyText[m_numberOfPlayers]->Enable();
         m_shipPreviews[m_numberOfPlayers]->Enable();
         m_leftArrows[m_numberOfPlayers]->Enable();
         m_rightArrows[m_numberOfPlayers]->Enable();
         m_joinText[m_numberOfPlayers]->Disable();
         PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
+        pilot->m_controllerIndex = -1;
         m_playerPilots.push_back(pilot);
         InitializeKeyMappingsForPlayer(pilot);
     }
 
-    for (int i = 0; i < 4; ++i)
+    for (unsigned int i = 0; i < 4; ++i)
     {
         XInputController* controller = InputSystem::instance->m_controllers[i];
         if (controller->IsConnected())
         {
             m_joinText[i]->m_text = PRESS_START_TO_JOIN_STRING;
+            m_joinText[i]->m_color = RGBA::YELLOW;
+
+            //Hack to assert that we don't let a player double add themselves
+            for (PlayerPilot* pilot : m_playerPilots)
+            {
+                if (pilot->m_controllerIndex == i)
+                {
+                    return;
+                }
+            }
             if (m_numberOfPlayers < 4 && controller->JustPressed(XboxButton::START))
             {
-                m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+                m_readyText[m_numberOfPlayers]->Enable();
                 m_shipPreviews[m_numberOfPlayers]->Enable();
                 m_leftArrows[m_numberOfPlayers]->Enable();
                 m_rightArrows[m_numberOfPlayers]->Enable();
@@ -532,6 +570,7 @@ void TheGame::UpdatePlayerJoin(float)
         else
         {
             m_joinText[i]->m_text = NO_CONTROLLER_STRING;
+            m_joinText[i]->m_color = RGBA::GBWHITE;
         }
     }
 }
@@ -1189,6 +1228,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Activate", mouse->FindButtonValue(InputSystem::MouseButton::RIGHT_MOUSE_BUTTON));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
+        playerPilot->m_inputMap.MapInputValue("Back", keyboard->FindValue(InputSystem::ExtraKeys::BACKSPACE));
+        playerPilot->m_inputMap.MapInputValue("Back", keyboard->FindValue('B'));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue('R'));
         playerPilot->m_inputMap.MapInputValue("Respawn", keyboard->FindValue('P'));
@@ -1220,6 +1261,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("EjectChassis", controller->FindButton(XboxButton::Y));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::A));
         playerPilot->m_inputMap.MapInputValue("Accept", controller->FindButton(XboxButton::START));
+        playerPilot->m_inputMap.MapInputValue("Back", controller->FindButton(XboxButton::B));
+        playerPilot->m_inputMap.MapInputValue("Back", controller->FindButton(XboxButton::BACK));
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::BACK));
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
