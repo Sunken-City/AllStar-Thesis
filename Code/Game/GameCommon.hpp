@@ -31,3 +31,4 @@ extern bool g_spawnCrates;
 extern bool g_spawnGeometry;
 extern bool g_nearlyInvulnerable;
 extern bool g_spawnWithDebugLoadout;
+extern bool g_muteMusic;

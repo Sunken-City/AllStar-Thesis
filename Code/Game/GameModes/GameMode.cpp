@@ -33,7 +33,7 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
     , m_modeTitleText("MODE NAME")
     , m_modeDescriptionText("MODE DESCRIPTION")
 {
-    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
+    //m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/PlaceholderMusic1.m4a");
     
     m_starfield->m_transform.SetScale(Vector2(5.0f));
     m_starfield2->m_transform.SetScale(Vector2(16.0f));
@@ -65,7 +65,7 @@ GameMode::~GameMode()
 //-----------------------------------------------------------------------------------
 void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 {
-    if (!m_muteMusic)
+    if (!g_muteMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
     }

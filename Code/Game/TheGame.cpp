@@ -49,6 +49,8 @@ const float TheGame::TRANSITION_TIME_SECONDS = TOTAL_TRANSITION_TIME_SECONDS * 0
 TheGame::TheGame()
     : m_currentGameMode(nullptr)
     , SFX_UI_ADVANCE(AudioSystem::instance->CreateOrGetSound("Data/SFX/UI/UI_Select_01.wav"))
+    , m_menuMusic(AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg"))
+    , m_resultsMusic(AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg"))
 {
     srand(GetTimeBasedSeed());
     ResourceDatabase::instance = new ResourceDatabase();
@@ -240,6 +242,10 @@ void TheGame::InitializeMainMenuState()
     m_titleText = new TextRenderable2D("ALLSTAR", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
     SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
     m_titleParticles = new ParticleSystem("Title", BACKGROUND_PARTICLES_BLOOM_LAYER, Vector2(0.0f, -15.0f));
+    if (!g_muteMusic)
+    {
+        AudioSystem::instance->PlayLoopingSound(m_menuMusic, 0.6f);
+    }
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
 }
 
@@ -369,6 +375,8 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
         float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
         m_players[i]->m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
     }
+
+    AudioSystem::instance->StopSound(m_menuMusic);
 }
 
 //-----------------------------------------------------------------------------------
@@ -1173,6 +1181,8 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_4.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_5.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
 }
 
 //-----------------------------------------------------------------------------------

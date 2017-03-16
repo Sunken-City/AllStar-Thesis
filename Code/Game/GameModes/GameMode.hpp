@@ -83,7 +83,6 @@ public:
     float m_scaledDeltaSeconds = 0.0f;
     SoundID m_backgroundMusic = 0;
     bool m_respawnAllowed = true;
-    bool m_muteMusic = true;
     bool m_isPlaying = false;
     bool m_dropItemsOnDeath = false;
     RGBA m_readyBGColor = RGBA::FOREST_GREEN;

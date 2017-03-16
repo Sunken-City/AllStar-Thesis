@@ -18,7 +18,7 @@ DeathBattleMinigameMode::DeathBattleMinigameMode()
 {
     m_gameLengthSeconds = 121.0f;
     m_respawnAllowed = false;
-    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/SFX/Music/Persona 4 Golden - Time To Make History.mp3");
+    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
     m_modeTitleText = "DEATH BATTLE";
     m_modeDescriptionText = "No Respawns, Get as many kills as you can!";
     m_readyBGColor = RGBA::JOLTIK_PURPLE;

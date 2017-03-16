@@ -149,6 +149,8 @@ private:
 public:
     static const int MAX_NUM_PLAYERS = 4;
     SoundID SFX_UI_ADVANCE;
+    SoundID m_menuMusic;
+    SoundID m_resultsMusic;
     int m_numberOfMinigames = 3;
     int m_numberOfPlayers = 0;
     bool m_hasKeyboardPlayer = false;
