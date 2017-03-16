@@ -47,6 +47,9 @@ const float TheGame::TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI = 0.5f;
 const float TheGame::TOTAL_TRANSITION_TIME_SECONDS = 0.5f;
 const float TheGame::TRANSITION_TIME_SECONDS = TOTAL_TRANSITION_TIME_SECONDS * 0.5f;
 
+const char* TheGame::NO_CONTROLLER_STRING = "No Controller Connected :c";
+const char* TheGame::PRESS_START_TO_JOIN_STRING = "Press Start to Join";
+
 //-----------------------------------------------------------------------------------
 TheGame::TheGame()
     : m_currentGameMode(nullptr)
@@ -331,6 +334,9 @@ void TheGame::InitializePlayerJoinState()
     //m_titleText = new TextRenderable2D("ALLSTAR", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
     for (int i = 0; i < MAX_NUM_PLAYERS; ++i)
     {
+        m_joinText[i] = new TextRenderable2D(NO_CONTROLLER_STRING, Transform2D(), TheGame::TEXT_LAYER);
+        m_joinText[i]->m_fontSize = 0.25f;
+
         m_paletteOffsets[i] = i;
         m_shipPreviews[i] = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
         m_shipPreviews[i]->m_transform.SetScale(Vector2(5.0f));
@@ -364,6 +370,11 @@ void TheGame::InitializePlayerJoinState()
     m_readyText[1]->m_transform.SetPosition(Vector2(1.0f, 1.0f));
     m_readyText[2]->m_transform.SetPosition(Vector2(-1.0f, -1.0f));
     m_readyText[3]->m_transform.SetPosition(Vector2(1.0f, -1.0f));
+
+    m_joinText[0]->m_transform.SetPosition(Vector2(-5.0f, 3.0f));
+    m_joinText[1]->m_transform.SetPosition(Vector2(5.0f, 3.0f));
+    m_joinText[2]->m_transform.SetPosition(Vector2(-5.0f, -3.0f));
+    m_joinText[3]->m_transform.SetPosition(Vector2(5.0f, -3.0f));
     m_shipPreviews[0]->m_transform.SetPosition(Vector2(-5.0f, 3.0f));
     m_shipPreviews[1]->m_transform.SetPosition(Vector2(5.0f, 3.0f));
     m_shipPreviews[2]->m_transform.SetPosition(Vector2(-5.0f, -3.0f));
@@ -386,6 +397,8 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
     {
         delete m_readyText[i];
         m_readyText[i] = nullptr;
+        delete m_joinText[i];
+        m_joinText[i] = nullptr;
 
         delete m_shipPreviews[i]->m_material->m_shaderProgram;
         delete m_shipPreviews[i]->m_material;
@@ -491,6 +504,7 @@ void TheGame::UpdatePlayerJoin(float)
         m_shipPreviews[m_numberOfPlayers]->Enable();
         m_leftArrows[m_numberOfPlayers]->Enable();
         m_rightArrows[m_numberOfPlayers]->Enable();
+        m_joinText[m_numberOfPlayers]->Disable();
         PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
         m_playerPilots.push_back(pilot);
         InitializeKeyMappingsForPlayer(pilot);
@@ -499,16 +513,25 @@ void TheGame::UpdatePlayerJoin(float)
     for (int i = 0; i < 4; ++i)
     {
         XInputController* controller = InputSystem::instance->m_controllers[i];
-        if (controller->IsConnected() && m_numberOfPlayers < 4 && controller->JustPressed(XboxButton::START))
+        if (controller->IsConnected())
         {
-            m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
-            m_shipPreviews[m_numberOfPlayers]->Enable();
-            m_leftArrows[m_numberOfPlayers]->Enable();
-            m_rightArrows[m_numberOfPlayers]->Enable();
-            PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
-            pilot->m_controllerIndex = i;
-            m_playerPilots.push_back(pilot);
-            InitializeKeyMappingsForPlayer(pilot);
+            m_joinText[i]->m_text = PRESS_START_TO_JOIN_STRING;
+            if (m_numberOfPlayers < 4 && controller->JustPressed(XboxButton::START))
+            {
+                m_readyText[m_numberOfPlayers]->m_tintColor = RGBA::GREEN;
+                m_shipPreviews[m_numberOfPlayers]->Enable();
+                m_leftArrows[m_numberOfPlayers]->Enable();
+                m_rightArrows[m_numberOfPlayers]->Enable();
+                m_joinText[m_numberOfPlayers]->Disable();
+                PlayerPilot* pilot = new PlayerPilot(m_numberOfPlayers++);
+                pilot->m_controllerIndex = i;
+                m_playerPilots.push_back(pilot);
+                InitializeKeyMappingsForPlayer(pilot);
+            }
+        }
+        else
+        {
+            m_joinText[i]->m_text = NO_CONTROLLER_STRING;
         }
     }
 }

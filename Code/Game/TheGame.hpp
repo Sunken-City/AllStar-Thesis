@@ -148,6 +148,8 @@ private:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
     static const int MAX_NUM_PLAYERS = 4;
+    static const char* NO_CONTROLLER_STRING;
+    static const char* PRESS_START_TO_JOIN_STRING;
     SoundID SFX_UI_ADVANCE;
     SoundID m_menuMusic;
     SoundID m_resultsMusic;
