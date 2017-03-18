@@ -65,11 +65,6 @@ GameMode::~GameMode()
 //-----------------------------------------------------------------------------------
 void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 {
-    if (!g_muteMusic)
-    {
-        AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
-    }
-
     for (PlayerShip* player : players)
     {
         player->m_currentGameMode = this;
@@ -361,6 +356,11 @@ void GameMode::ShowBackground()
 //-----------------------------------------------------------------------------------
 void GameMode::InitializeReadyAnim()
 {
+    if (!g_muteMusic)
+    {
+        AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
+    }
+
     m_readyAnimFBOEffect = new Material(
         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\readyAnimation.frag"),
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
