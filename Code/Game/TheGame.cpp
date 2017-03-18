@@ -57,7 +57,7 @@ TheGame::TheGame()
     : m_currentGameMode(nullptr)
     , SFX_UI_ADVANCE(AudioSystem::instance->CreateOrGetSound("Data/SFX/UI/UI_Select_01.wav"))
     , m_menuMusic(AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg"))
-    , m_resultsMusic(AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg"))
+    , m_resultsMusic(AudioSystem::instance->CreateOrGetSound("Data/Music/Overcast.ogg"))
 {
     srand(GetTimeBasedSeed());
     ResourceDatabase::instance = new ResourceDatabase();
@@ -757,6 +757,10 @@ void TheGame::RenderSplitscreenLines() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyResultsState()
 {
+    if (!g_muteMusic)
+    {
+        AudioSystem::instance->PlayLoopingSound(m_resultsMusic, 0.6f);
+    }
     m_currentGameMode->HideBackground();
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
@@ -789,6 +793,7 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
     m_queuedMinigameModes.pop();
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
+    AudioSystem::instance->StopSound(m_resultsMusic);
 }
 
 //-----------------------------------------------------------------------------------
@@ -961,6 +966,10 @@ void TheGame::RenderMinigamePlaying() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMinigameResultsState()
 {
+    if (!g_muteMusic)
+    {
+        AudioSystem::instance->PlayLoopingSound(m_resultsMusic, 0.6f);
+    }
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
     m_currentGameMode->HideBackground();
@@ -995,6 +1004,7 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
     {
         m_currentGameMode = m_queuedMinigameModes.front();
         m_queuedMinigameModes.pop();
+        AudioSystem::instance->StopSound(m_resultsMusic);
     }
     else
     {
@@ -1075,6 +1085,7 @@ void TheGame::InitializeGameOverState()
 void TheGame::CleanupGameOverState(unsigned int)
 {
     delete m_gameOverText;
+    AudioSystem::instance->StopSound(m_resultsMusic);
     for (PlayerShip* ship : m_players)
     {
         delete ship;
@@ -1300,6 +1311,7 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/Music/Overcast.ogg");
 }
 
 //-----------------------------------------------------------------------------------
