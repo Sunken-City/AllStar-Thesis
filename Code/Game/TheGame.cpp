@@ -543,18 +543,21 @@ void TheGame::UpdatePlayerJoin(float)
         XInputController* controller = InputSystem::instance->m_controllers[i];
         if (controller->IsConnected())
         {
-            m_joinText[i]->m_text = PRESS_START_TO_JOIN_STRING;
-            m_joinText[i]->m_color = RGBA::YELLOW;
-
             //Hack to assert that we don't let a player double add themselves
+            bool alreadyAssignedToPlayer = false;
             for (PlayerPilot* pilot : m_playerPilots)
             {
                 if (pilot->m_controllerIndex == i)
                 {
-                    return;
+                    alreadyAssignedToPlayer = true;
+                    break;
                 }
             }
-            if (m_numberOfPlayers < 4 && controller->JustPressed(XboxButton::START))
+
+            m_joinText[i]->m_text = PRESS_START_TO_JOIN_STRING;
+            m_joinText[i]->m_color = RGBA::YELLOW;
+
+            if ((!alreadyAssignedToPlayer) && (m_numberOfPlayers < 4) && controller->JustPressed(XboxButton::START))
             {
                 m_readyText[m_numberOfPlayers]->Enable();
                 m_shipPreviews[m_numberOfPlayers]->Enable();
