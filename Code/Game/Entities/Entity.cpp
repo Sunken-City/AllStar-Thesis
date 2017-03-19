@@ -156,6 +156,7 @@ float Entity::TakeDamage(float damage, float disruption /*= 1.0f*/)
         }
         if (m_currentHp <= 0.0f)
         {
+            m_currentHp = 0.0f;
             Die();
         }
     }

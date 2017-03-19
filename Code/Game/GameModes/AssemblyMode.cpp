@@ -82,6 +82,7 @@ void AssemblyMode::SpawnPlayers()
     {
         player->SetPosition(GetRandomPlayerSpawnPoint());
         player->FlushParticleTrailIfExists();
+        player->Respawn();
         m_entities.push_back(player);
     }
     InitializePlayerData();

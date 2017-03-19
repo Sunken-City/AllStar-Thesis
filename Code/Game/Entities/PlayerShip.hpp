@@ -26,6 +26,8 @@ public:
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity) override;
     virtual float TakeDamage(float damage, float disruption = 1.0f) override;
+    virtual void Heal(float healValue = 99999999.0f) override;
+    virtual void SetShieldHealth(float newShieldValue = 99999999.0f) override;
     virtual void Die() override;
     void Respawn();
     inline virtual bool IsPlayer() { return true; }
@@ -87,6 +89,8 @@ public:
     TextRenderable2D* m_speedText = nullptr;
     TextRenderable2D* m_scoreText = nullptr;
     TextRenderable2D* m_statValues[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
+    BarGraphRenderable2D* m_healthBar = nullptr;
+    BarGraphRenderable2D* m_shieldBar = nullptr;
     BarGraphRenderable2D* m_statBarGraphs[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     double m_activeBeginEjectMilliseconds = -10.0f;
     double m_passiveBeginEjectMilliseconds = -10.0f;

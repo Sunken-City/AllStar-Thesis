@@ -1223,6 +1223,8 @@ void TheGame::InitializeSpriteLayers()
     SpriteGameRenderer::instance->CreateOrGetLayer(TEXT_LAYER)->m_isCullingEnabled = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(FBO_FREE_TEXT_LAYER)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(FBO_FREE_TEXT_LAYER)->m_isCullingEnabled = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_UI_LAYER)->m_isWorldSpaceLayer = false;
+    SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_UI_LAYER)->m_isCullingEnabled = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(UI_LAYER)->m_isCullingEnabled = false;
 
@@ -1337,6 +1339,8 @@ void TheGame::RegisterSprites()
 
     //UI
     ResourceDatabase::instance->RegisterSprite("Arrow", "Data\\Images\\UI\\Arrow.png");
+    ResourceDatabase::instance->RegisterSprite("HealthUI", "Data\\Images\\UI\\healthBarUI.png");
+    ResourceDatabase::instance->EditSpriteResource("HealthUI")->m_pivotPoint = Vector2::ZERO;
 
     //Transitions
     ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");

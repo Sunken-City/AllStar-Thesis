@@ -47,6 +47,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_scoreText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_healthBar(new BarGraphRenderable2D(AABB2(Vector2::ZERO, Vector2(5.55f, 0.6f)), RGBA::RED, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
+    , m_shieldBar(new BarGraphRenderable2D(AABB2(Vector2(0.0f, 0.6f), Vector2(4.1f, 1.2f)), RGBA::CERULEAN, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
     , m_paletteSwapShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
     , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
 {
@@ -108,6 +110,8 @@ PlayerShip::~PlayerShip()
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_playerData->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_healthText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_shieldText->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_healthBar->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_shieldBar->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_speedText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_scoreText->m_transform);
     delete m_equipUI;
@@ -119,6 +123,8 @@ PlayerShip::~PlayerShip()
     delete m_respawnText;
     delete m_healthText;
     delete m_shieldText;
+    delete m_healthBar;
+    delete m_shieldBar;
     delete m_speedText;
     delete m_scoreText;
     delete m_shieldDownEffect->m_shaderProgram;
@@ -150,11 +156,10 @@ void PlayerShip::InitializeUI()
     m_equipUI->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_equipUI->m_transform);
 
-    m_playerData = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
+    m_playerData = new Sprite("HealthUI", TheGame::UI_LAYER);
     m_playerData->m_tintColor = GetPlayerColor();
-    m_playerData->m_tintColor.SetAlphaFloat(0.75f);
-    m_playerData->m_transform.SetScale(Vector2(15.0f));
-    m_playerData->m_transform.SetPosition(Vector2(0.5f, 0.5f));
+    m_playerData->m_transform.SetScale(Vector2(1.0f));
+    m_playerData->m_transform.SetPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_playerData->m_transform);
 
     m_currentWeaponUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
@@ -183,17 +188,19 @@ void PlayerShip::InitializeUI()
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentPassiveUI->m_transform);
           
     m_respawnText->m_color = RGBA::WHITE;
-    m_healthText->m_color = RGBA::RED;
-    m_shieldText->m_color = RGBA::CERULEAN;
+    m_healthText->m_color = RGBA::WHITE;
+    m_healthText->m_color.SetAlphaFloat(0.75f);
+    m_shieldText->m_color = RGBA::WHITE;
+    m_shieldText->m_color.SetAlphaFloat(0.75f);
     m_speedText->m_color = RGBA::GBDARKGREEN;
     m_scoreText->m_color = RGBA::GBLIGHTGREEN;
-    m_healthText->m_transform.SetPosition(Vector2(1.0f, 1.8f));
-    m_shieldText->m_transform.SetPosition(Vector2(1.0f, 1.3f));
-    m_speedText->m_transform.SetPosition(Vector2(1.1f, 0.8f));
-    m_scoreText->m_transform.SetPosition(Vector2(1.1f, 0.3f));
+    m_healthText->m_transform.SetPosition(Vector2(1.1f, 0.3f));
+    m_shieldText->m_transform.SetPosition(Vector2(1.1f, 0.9f));
+    m_speedText->m_transform.SetPosition(Vector2(1.0f, 1.3f));
+    m_scoreText->m_transform.SetPosition(Vector2(1.0f, 1.8f));
     m_respawnText->m_transform.SetScale(Vector2(2.0f));
-    m_healthText->m_transform.SetScale(Vector2(2.0f));
-    m_shieldText->m_transform.SetScale(Vector2(2.0f));
+    m_healthText->m_transform.SetScale(Vector2(1.5f));
+    m_shieldText->m_transform.SetScale(Vector2(1.5f));
     m_speedText->m_transform.SetScale(Vector2(2.0f));
     m_scoreText->m_transform.SetScale(Vector2(2.0f));
     m_respawnText->m_fontSize = 0.1f;
@@ -203,6 +210,8 @@ void PlayerShip::InitializeUI()
     m_scoreText->m_fontSize = 0.1f;
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_shieldText->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthBar->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomLeft(&m_shieldBar->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_speedText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_scoreText->m_transform);
 
@@ -216,6 +225,8 @@ void PlayerShip::InitializeUI()
     m_respawnText->m_viewableBy = visibilityFilter;
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
+    m_healthBar->m_viewableBy = visibilityFilter;
+    m_shieldBar->m_viewableBy = visibilityFilter;
     m_speedText->m_viewableBy = visibilityFilter;
     m_scoreText->m_viewableBy = visibilityFilter;
 }
@@ -249,15 +260,15 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     float rotationFromSpeed = 0.075f + (0.05f * speed);
     float newRotationDegrees = m_equipUI->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
     m_equipUI->m_transform.SetRotationDegrees(newRotationDegrees);
-    m_playerData->m_transform.SetRotationDegrees(-newRotationDegrees);
+    //m_playerData->m_transform.SetRotationDegrees(-newRotationDegrees);
 
     m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
     m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
     m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
     m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
 
-    m_healthText->m_text = Stringf("HP: %03i", static_cast<int>(m_currentHp));
-    m_shieldText->m_text = Stringf("SH: %03i", static_cast<int>(m_currentShieldHealth));
+    m_healthText->m_text = Stringf("HP: %03i/%03i", static_cast<int>(m_currentHp), static_cast<int>(CalculateHpValue()));
+    m_shieldText->m_text = Stringf("SH: %03i/%03i", static_cast<int>(m_currentShieldHealth), static_cast<int>(CalculateShieldCapacityValue()));
     m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>((speed / CalculateTopSpeedValue()) * 100.0f));
     m_scoreText->m_text = Stringf("LVL: %03i", m_powerupStatModifiers.GetTotalNumberOfDroppablePowerUps());
 
@@ -310,6 +321,8 @@ void PlayerShip::HideUI()
     m_shieldText->Disable();
     m_speedText->Disable();
     m_scoreText->Disable();
+    m_healthBar->Disable();
+    m_shieldBar->Disable();
 }
 
 //-----------------------------------------------------------------------------------
@@ -323,8 +336,10 @@ void PlayerShip::ShowUI()
     m_currentPassiveUI->Enable();
     m_healthText->Enable();
     m_shieldText->Enable();
-    m_speedText->Enable();
+    //m_speedText->Enable();
     m_scoreText->Enable();
+    m_healthBar->Enable();
+    m_shieldBar->Enable();
 }
 
 //-----------------------------------------------------------------------------------
@@ -349,10 +364,25 @@ float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
         ratioOfDamage *= 4.0f;
         ratioOfDamage = Clamp(ratioOfDamage, 0.0f, 1.0f);
         m_pilot->LightRumble(ratioOfDamage, 0.25f);
+        m_healthBar->SetPercentageFilled(m_currentHp / CalculateHpValue());
     }
     m_pilot->HeavyRumble(ratioOfDamage, 0.25f);
 
     return returnValue;
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::Heal(float healValue /*= 99999999.0f*/)
+{
+    Ship::Heal(healValue);
+    m_healthBar->SetPercentageFilled(m_currentHp / CalculateHpValue());
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::SetShieldHealth(float newShieldValue /*= 99999999.0f*/)
+{
+    Ship::SetShieldHealth(newShieldValue);
+    m_shieldBar->SetPercentageFilled(m_currentShieldHealth / CalculateShieldCapacityValue());
 }
 
 //-----------------------------------------------------------------------------------
@@ -370,20 +400,24 @@ void PlayerShip::Die()
     m_sprite->Disable();
     m_respawnText->m_text = (GameMode::GetCurrent()->m_respawnAllowed) ? RESPAWN_TEXT : DEAD_TEXT;
     m_respawnText->Enable();
+    m_healthBar->SetPercentageFilled(0.0f);
+    m_shieldBar->SetPercentageFilled(0.0f);
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::Respawn()
 {
     m_isDead = false;
-    Heal(CalculateHpValue());
-    SetShieldHealth(CalculateShieldCapacityValue());
+    Heal();
+    SetShieldHealth();
     m_velocity = Vector2::ZERO;
     m_shipTrail->Flush();
     m_sprite->Enable();
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
     SetVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
     m_respawnText->Disable();
+    m_healthBar->SetPercentageFilled(1.0f);
+    m_shieldBar->SetPercentageFilled(1.0f);
 }
 
 //-----------------------------------------------------------------------------------
@@ -578,6 +612,7 @@ void PlayerShip::HideStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         m_statValues[i]->Disable();
+        m_statBarGraphs[i]->SetPercentageFilled(0.0f);
         m_statBarGraphs[i]->Disable();
     }
 }

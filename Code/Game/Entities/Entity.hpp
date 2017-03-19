@@ -30,7 +30,7 @@ public:
     virtual void SetRotation(const float newDegreesRotation);
     virtual void Heal(float healValue = 99999999.0f);
     virtual void DropInventory();
-    virtual void SetShieldHealth(float newShieldValue);
+    virtual void SetShieldHealth(float newShieldValue = 99999999.0f);
     virtual bool FlushParticleTrailIfExists() { return false; };
     virtual void SetVortexShaderPosition(const Vector2& warpHolePosition);
     void InitializeInventory(unsigned int inventorySize);
