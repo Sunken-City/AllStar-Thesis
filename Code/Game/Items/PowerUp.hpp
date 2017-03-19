@@ -33,10 +33,12 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() override;
     const char* GetPowerUpSpriteResourceName();
-    static const char* GetPowerUpSpriteResourceName(PowerUpType type);
     void ApplyPickupEffect(PlayerShip* player);
     void SetStatChangeFromType(PowerUpType type);
     SoundID GetPickupSFXID();
+
+    static const char* GetPowerUpSpriteResourceName(PowerUpType type);
+    static RGBA GetPowerUpColor(PowerUpType type);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     PowerUpType m_powerUpType;

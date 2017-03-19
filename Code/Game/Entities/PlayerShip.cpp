@@ -33,6 +33,7 @@
 #include "../Items/Passives/SprayAndPrayPassive.hpp"
 #include "../Items/Weapons/WaveGun.hpp"
 #include <gl/GL.h>
+#include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -129,6 +130,7 @@ PlayerShip::~PlayerShip()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         delete m_statValues[i];
+        delete m_statBarGraphs[i];
     }
 
     delete m_paletteSwapShader;
@@ -541,23 +543,31 @@ void PlayerShip::InitializeStatGraph()
 
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
-        TextRenderable2D* statLine = new TextRenderable2D(Stringf("%s: %i", PowerUp::GetPowerUpSpriteResourceName((PowerUpType)i), 0), Transform2D(Vector2(0.0f, 3.0f - (0.5f * i))), TheGame::STAT_GRAPH_LAYER);
+        PowerUpType type = (PowerUpType)i;
+        TextRenderable2D* statLine = new TextRenderable2D(Stringf("%s: %i", PowerUp::GetPowerUpSpriteResourceName(type), 0), Transform2D(Vector2(-3.0f, 3.0f - (0.5f * i))), TheGame::STAT_GRAPH_LAYER_TEXT);
         statLine->m_fontSize = 0.3f;
         statLine->Disable();
         statLine->m_viewableBy = visibilityFilter;
         m_statValues[i] = statLine;
+
+        BarGraphRenderable2D* statGraph = new BarGraphRenderable2D(AABB2(Vector2(0.0f, 2.75f - (0.5f * i)), Vector2(5.0f, 3.25f - (0.5f * i))), PowerUp::GetPowerUpColor(type), RGBA::GRAY, TheGame::STAT_GRAPH_LAYER);
+        statGraph->SetPercentageFilled(0.0f);
+        statGraph->Disable();
+        m_statBarGraphs[i] = statGraph;
     }
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::ShowStatGraph()
 {
-    m_statValuesBG->Enable();
+    //m_statValuesBG->Enable();
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
         m_statValues[i]->m_text = Stringf("%s : %i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
         m_statValues[i]->Enable();
+        m_statBarGraphs[i]->Enable();
+        m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
     }
 }
 
@@ -568,6 +578,7 @@ void PlayerShip::HideStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         m_statValues[i]->Disable();
+        m_statBarGraphs[i]->Disable();
     }
 }
 
@@ -613,7 +624,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
         ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, powerUp->GetSpriteResource());
 
-        TextSplash::CreateTextSplash(Stringf("%s Up", powerUp->GetPowerUpSpriteResourceName()), m_transform, velocity, RGBA::GBLIGHTGREEN);
+        TextSplash::CreateTextSplash(Stringf("%s Up", powerUp->GetPowerUpSpriteResourceName()), m_transform, velocity, PowerUp::GetPowerUpColor(powerUp->m_powerUpType));
 
         delete powerUp;
     }
@@ -621,14 +632,14 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
     {
         EjectWeapon();
         m_weapon = (Weapon*)pickedUpItem;
-        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::RED);
     }
     else if (pickedUpItem->IsChassis())
     {
         EjectChassis();
         m_chassis = (Chassis*)pickedUpItem;
         m_sprite->m_spriteResource = m_chassis->GetShipSpriteResource();
-        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::YELLOW);
     }
     else if (pickedUpItem->IsPassiveEffect())
     {
@@ -637,7 +648,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
             EjectPassive();
         }
         m_passiveEffect = (PassiveEffect*)pickedUpItem;
-        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::CERULEAN);
 
         NamedProperties props;
         props.Set<Ship*>("ShipPtr", (Ship*)this);
@@ -650,7 +661,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
             EjectActive();
         }
         m_activeEffect = (ActiveEffect*)pickedUpItem;
-        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GBLIGHTGREEN);
+        TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::GREEN);
     }
 }
 

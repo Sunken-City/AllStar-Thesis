@@ -8,6 +8,7 @@
 enum class PowerUpType;
 class PlayerPilot;
 class TextRenderable2D;
+class BarGraphRenderable2D;
 class Material;
 class ShaderProgram;
 
@@ -86,6 +87,7 @@ public:
     TextRenderable2D* m_speedText = nullptr;
     TextRenderable2D* m_scoreText = nullptr;
     TextRenderable2D* m_statValues[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
+    BarGraphRenderable2D* m_statBarGraphs[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     double m_activeBeginEjectMilliseconds = -10.0f;
     double m_passiveBeginEjectMilliseconds = -10.0f;
     double m_weaponBeginEjectMilliseconds = -10.0f;

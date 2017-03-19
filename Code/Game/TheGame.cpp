@@ -40,6 +40,7 @@
 #include "GameModes/InstancedGameMode.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include <gl/GL.h>
+#include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
 
 TheGame* TheGame::instance = nullptr;
 

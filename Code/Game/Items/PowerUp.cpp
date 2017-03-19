@@ -110,6 +110,40 @@ const char* PowerUp::GetPowerUpSpriteResourceName()
 }
 
 //-----------------------------------------------------------------------------------
+RGBA PowerUp::GetPowerUpColor(PowerUpType type)
+{
+    switch (type)
+    {
+    case PowerUpType::TOP_SPEED:
+        return RGBA(0x7DFA92FF);
+    case PowerUpType::ACCELERATION:
+        return RGBA(0xB4F67BFF);
+    case PowerUpType::HANDLING:
+        return RGBA(0x6AD89DFF);
+    case PowerUpType::BRAKING:
+        return RGBA(0X77D76BFF);
+    case PowerUpType::DAMAGE:
+        return RGBA(0xE668DBFF);
+    case PowerUpType::SHIELD_DISRUPTION:
+        return RGBA(0xFD8671FF);
+    case PowerUpType::SHOT_HOMING:
+        return RGBA(0xE66866FF);
+    case PowerUpType::RATE_OF_FIRE:
+        return RGBA(0xFF7BB2FF);
+    case PowerUpType::HP:
+        return RGBA(0x06D1FAFF);
+    case PowerUpType::SHIELD_CAPACITY:
+        return RGBA(0x1358F9FF);
+    case PowerUpType::SHIELD_REGEN:
+        return RGBA(0x1885E0FF);
+    case PowerUpType::SHOT_DEFLECTION:
+        return RGBA(0x27E2CCFF);
+    default:
+        ERROR_AND_DIE("Invalid Pickup type");
+    }
+}
+
+//-----------------------------------------------------------------------------------
 const char* PowerUp::GetPowerUpSpriteResourceName(PowerUpType type)
 {
     switch (type)
