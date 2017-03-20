@@ -5,6 +5,7 @@
 #include "Game/Items/PowerUp.hpp"
 #include "Game/Items/Weapons/Weapon.hpp"
 #include "Game/Pilots/Pilot.hpp"
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 const float Grunt::MAX_ANGULAR_VELOCITY = 15.0f;
 
@@ -14,16 +15,20 @@ Grunt::Grunt(const Vector2& initialPosition)
     , m_angularVelocity(MathUtils::GetRandomFloatFromZeroTo(MAX_ANGULAR_VELOCITY) - (MAX_ANGULAR_VELOCITY * 2.0f))
 {
     m_sprite = new Sprite("Grunt", TheGame::ENEMY_LAYER);
+    m_shieldSprite->m_material = m_sprite->m_material;
+    m_shipTrail->m_emitters[0]->m_materialOverride = m_sprite->m_material;
+
     m_sprite->m_transform.SetParent(&m_transform);
+    m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
     m_transform.SetScale(Vector2(4.0f));  
     CalculateCollisionRadius();
     SetPosition(initialPosition);
-    m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
+
     m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
     m_baseStats.rateOfFire -= 5.0f;
     m_baseStats.hp -= 2.0f;
     m_baseStats.shieldCapacity -= 2.0f; 
-    SetShieldHealth(100000.0f);
+    SetShieldHealth();
     Heal();
 }
 
