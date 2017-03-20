@@ -417,6 +417,10 @@ void PlayerShip::Respawn()
     m_respawnText->Disable();
     m_healthBar->SetPercentageFilled(1.0f);
     m_shieldBar->SetPercentageFilled(1.0f);
+    if (m_activeEffect)
+    {
+        m_activeEffect->m_energy = 1.0f;
+    }
 }
 
 //-----------------------------------------------------------------------------------
