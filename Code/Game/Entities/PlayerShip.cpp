@@ -149,11 +149,10 @@ PlayerShip::~PlayerShip()
 //-----------------------------------------------------------------------------------
 void PlayerShip::InitializeUI()
 {
-    m_equipUI = new Sprite("MuzzleFlash", TheGame::UI_LAYER);
+    m_equipUI = new Sprite("EquipmentUI", TheGame::UI_LAYER);
     m_equipUI->m_tintColor = GetPlayerColor();
-    m_equipUI->m_tintColor.SetAlphaFloat(0.75f);
-    m_equipUI->m_transform.SetScale(Vector2(15.0f));
-    m_equipUI->m_transform.SetPosition(Vector2(-0.5f, 0.5f));
+    m_equipUI->m_transform.SetScale(Vector2(1.0f));
+    m_equipUI->m_transform.SetPosition(Vector2(-3.6f, 1.0f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_equipUI->m_transform);
 
     m_playerData = new Sprite("HealthUI", TheGame::UI_LAYER);
@@ -165,26 +164,26 @@ void PlayerShip::InitializeUI()
     m_currentWeaponUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentWeaponUI->m_transform.SetScale(Vector2(1.0f));
-    m_currentWeaponUI->m_transform.SetPosition(Vector2(-0.4f, 1.0f));
+    m_currentWeaponUI->m_transform.SetPosition(Vector2(-3.3f, 0.7f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentWeaponUI->m_transform);
 
     m_currentActiveUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentActiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentActiveUI->m_transform.SetScale(Vector2(1.0f));
-    m_currentActiveUI->m_transform.SetPosition(Vector2(-1.0f, 0.4f));
+    m_currentActiveUI->m_transform.SetPosition(Vector2(-4.6f, 0.7f));
     m_currentActiveUI->m_material = m_cooldownMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentActiveUI->m_transform);
 
     m_currentChassisUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentChassisUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentChassisUI->m_transform.SetScale(Vector2(1.0f));
-    m_currentChassisUI->m_transform.SetPosition(Vector2(-1.0f, 1.6f));
+    m_currentChassisUI->m_transform.SetPosition(Vector2(-0.8f, 0.7f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentChassisUI->m_transform);
 
     m_currentPassiveUI = new Sprite("EmptyEquipSlot", TheGame::UI_LAYER);
     m_currentPassiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentPassiveUI->m_transform.SetScale(Vector2(1.0f));
-    m_currentPassiveUI->m_transform.SetPosition(Vector2(-1.6f, 1.0f));
+    m_currentPassiveUI->m_transform.SetPosition(Vector2(-2.1f, 0.7f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentPassiveUI->m_transform);
           
     m_respawnText->m_color = RGBA::WHITE;
@@ -257,10 +256,6 @@ void PlayerShip::Update(float deltaSeconds)
 void PlayerShip::UpdatePlayerUI(float deltaSeconds)
 {
     float speed = m_velocity.CalculateMagnitude();
-    float rotationFromSpeed = 0.075f + (0.05f * speed);
-    float newRotationDegrees = m_equipUI->m_transform.GetWorldRotationDegrees() + rotationFromSpeed;
-    m_equipUI->m_transform.SetRotationDegrees(newRotationDegrees);
-    //m_playerData->m_transform.SetRotationDegrees(-newRotationDegrees);
 
     m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
     m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
