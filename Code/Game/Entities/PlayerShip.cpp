@@ -590,6 +590,7 @@ void PlayerShip::InitializeStatGraph()
         BarGraphRenderable2D* statGraph = new BarGraphRenderable2D(AABB2(Vector2(0.0f, 2.75f - (0.5f * i)), Vector2(5.0f, 3.25f - (0.5f * i))), PowerUp::GetPowerUpColor(type), RGBA::GRAY, TheGame::STAT_GRAPH_LAYER);
         statGraph->SetPercentageFilled(0.0f);
         statGraph->Disable();
+        statGraph->m_viewableBy = visibilityFilter;
         m_statBarGraphs[i] = statGraph;
     }
 }
