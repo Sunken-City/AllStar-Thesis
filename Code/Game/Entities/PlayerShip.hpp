@@ -83,6 +83,7 @@ public:
     Sprite* m_currentPassiveUI = nullptr;
     Sprite* m_currentChassisUI = nullptr;
     Sprite* m_statValuesBG = nullptr;
+    Sprite* m_statSprites[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     TextRenderable2D* m_respawnText = nullptr;
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;

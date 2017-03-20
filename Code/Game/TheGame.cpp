@@ -1190,7 +1190,7 @@ void TheGame::CheckForGamePaused()
             if (g_isGamePaused)
             {
                 SpriteGameRenderer::instance->AddEffectToLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
-                //m_gamePausedLabel->SetVisible();
+                GameMode::GetCurrent()->MarkTimerPaused();
                 for (PlayerShip* player : m_players)
                 {
                     player->ShowStatGraph();

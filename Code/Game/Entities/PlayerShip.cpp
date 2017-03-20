@@ -572,15 +572,18 @@ void PlayerShip::InitializeStatGraph()
 {
     static const float SPACE_PER_ROW = 0.6f;
     static const float HALF_SPACE_PER_ROW = SPACE_PER_ROW * 0.5f;
-    static const float BAR_GRAPH_LENGTH = 8.0f;
+    static const float BAR_GRAPH_START = 1.0f;
+    static const float BAR_GRAPH_LENGTH = 7.0f;
     static const float STARTING_Y_VALUE = 2.5f;
-    static const float STARTING_X_VALUE = -3.5f;
+    static const float STARTING_X_VALUE = -4.0f;
+    static const float SPRITE_X_VALUE = -0.8f;
 
     uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
 
     m_statValuesBG = new Sprite("Quad", TheGame::STAT_GRAPH_LAYER_BACKGROUND, true);
-    m_statValuesBG->m_transform.SetScale(Vector2(8.0f, 11.0f));
+    m_statValuesBG->m_transform.SetScale(Vector2(100.0f, 100.0f));
     m_statValuesBG->m_tintColor = RGBA::GBDARKGREEN;
+    m_statValuesBG->m_tintColor.SetAlphaFloat(0.75f);
     m_statValuesBG->m_transform.SetPosition(Vector2::ZERO);
     m_statValuesBG->m_viewableBy = visibilityFilter;
     m_statValuesBG->Disable();
@@ -588,14 +591,29 @@ void PlayerShip::InitializeStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
-        TextRenderable2D* statLine = new TextRenderable2D(Stringf("%-20s%2i", PowerUp::GetPowerUpSpriteResourceName(type), 0), Transform2D(Vector2(STARTING_X_VALUE, STARTING_Y_VALUE - (SPACE_PER_ROW * i))), TheGame::STAT_GRAPH_LAYER_TEXT);
+        TextRenderable2D* statLine = new TextRenderable2D("This is a bug", Transform2D(Vector2(STARTING_X_VALUE, STARTING_Y_VALUE - (SPACE_PER_ROW * i))), TheGame::STAT_GRAPH_LAYER_TEXT);
         statLine->m_fontSize = 0.5f;
         statLine->m_font = BitmapFont::CreateOrGetFont("FixedSys");
+        statLine->m_color = PowerUp::GetPowerUpColor(type);
         statLine->Disable();
         statLine->m_viewableBy = visibilityFilter;
         m_statValues[i] = statLine;
 
-        BarGraphRenderable2D* statGraph = new BarGraphRenderable2D(AABB2(Vector2(0.0f, (STARTING_Y_VALUE - HALF_SPACE_PER_ROW) - (SPACE_PER_ROW * i)), Vector2(BAR_GRAPH_LENGTH, (STARTING_Y_VALUE + HALF_SPACE_PER_ROW) - (SPACE_PER_ROW * i))), PowerUp::GetPowerUpColor(type), RGBA::GRAY, TheGame::STAT_GRAPH_LAYER);
+        Sprite* statSprite = new Sprite(PowerUp::GetPowerUpSpriteResourceName(type), TheGame::STAT_GRAPH_LAYER_TEXT);
+        statSprite->m_transform.SetPosition(Vector2(SPRITE_X_VALUE, STARTING_Y_VALUE - (SPACE_PER_ROW * i)));
+        statSprite->m_transform.SetScale(Vector2(0.5f));
+        statSprite->Disable();
+        statSprite->m_viewableBy = visibilityFilter;
+        m_statSprites[i] = statSprite;
+
+        BarGraphRenderable2D* statGraph = new BarGraphRenderable2D(
+            AABB2(
+                Vector2(BAR_GRAPH_START, (STARTING_Y_VALUE - HALF_SPACE_PER_ROW) - (SPACE_PER_ROW * i)), 
+                Vector2(BAR_GRAPH_START + BAR_GRAPH_LENGTH, (STARTING_Y_VALUE + HALF_SPACE_PER_ROW) - (SPACE_PER_ROW * i))
+                ), 
+            PowerUp::GetPowerUpColor(type), 
+            RGBA::GRAY, TheGame::STAT_GRAPH_LAYER);
+
         statGraph->SetPercentageFilled(0.0f);
         statGraph->Disable();
         statGraph->m_viewableBy = visibilityFilter;
@@ -606,12 +624,13 @@ void PlayerShip::InitializeStatGraph()
 //-----------------------------------------------------------------------------------
 void PlayerShip::ShowStatGraph()
 {
-    //m_statValuesBG->Enable();
+    m_statValuesBG->Enable();
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
-        m_statValues[i]->m_text = Stringf("%-20s%2i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
+        m_statValues[i]->m_text = Stringf("%-20sx%1i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
         m_statValues[i]->Enable();
+        m_statSprites[i]->Enable();
         m_statBarGraphs[i]->Enable();
         m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
     }
@@ -624,6 +643,7 @@ void PlayerShip::HideStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         m_statValues[i]->Disable();
+        m_statSprites[i]->Disable();
         m_statBarGraphs[i]->SetPercentageFilled(0.0f);
         m_statBarGraphs[i]->Disable();
     }
