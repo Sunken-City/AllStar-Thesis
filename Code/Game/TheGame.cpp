@@ -775,6 +775,7 @@ void TheGame::RenderSplitscreenLines() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyResultsState()
 {
+    SpriteGameRenderer::instance->SetSplitscreen(4);
     if (!g_muteMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_resultsMusic, 0.6f);
@@ -782,15 +783,16 @@ void TheGame::InitializeAssemblyResultsState()
     m_currentGameMode->HideBackground();
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
+
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* ship = TheGame::instance->m_players[i];
         ship->Respawn();
         ship->m_shieldSprite->Disable();
+        ship->m_sprite->Disable();
+        ship->m_shipTrail->Disable();
         ship->LockMovement();
-        float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
-        float yMultiplier = i >= 2 ? -1.0f : 1.0f;
-        ship->SetPosition(Vector2(3.0f * xMultiplier, 3.0f * yMultiplier));
+        ship->ShowStatGraph();
     }
 }
 
@@ -800,10 +802,13 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
     EnqueueMinigames();
     for (PlayerShip* ship : TheGame::instance->m_players)
     {
-        ship->UnlockMovement();
         ship->m_isDead = false;
         ship->Respawn();
         ship->m_shieldSprite->Enable();
+        ship->m_sprite->Enable();
+        ship->m_shipTrail->Enable();
+        ship->UnlockMovement();
+        ship->HideStatGraph();
     }
     m_currentGameMode->HideBackground();
     delete m_currentGameMode;
@@ -851,6 +856,7 @@ void TheGame::RenderAssemblyResults() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::GBLIGHTGREEN);
     SpriteGameRenderer::instance->Render();
+    RenderSplitscreenLines();
 }
 
 //-----------------------------------------------------------------------------------
