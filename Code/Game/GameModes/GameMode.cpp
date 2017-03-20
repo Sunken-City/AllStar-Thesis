@@ -52,6 +52,10 @@ GameMode::~GameMode()
     {
         delete iterator.second;
     }
+    m_playerStats.clear();
+
+
+
     delete m_arenaBackground;
     m_arenaBackground = nullptr;
     delete m_starfield;
@@ -70,8 +74,6 @@ void GameMode::Initialize(const std::vector<PlayerShip*>& players)
         player->m_currentGameMode = this;
         m_players.push_back(player);
     }
-
-    InitializePlayerData();
 
     ShowBackground();
 

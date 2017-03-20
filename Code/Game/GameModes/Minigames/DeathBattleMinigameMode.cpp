@@ -41,6 +41,7 @@ void DeathBattleMinigameMode::Initialize(const std::vector<PlayerShip*>& players
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f), Vector2(20.0f)));
     GameMode::Initialize(players);
 
+    InitializePlayerData();
     SpawnGeometry();
     SpawnPlayers();
     m_isPlaying = true;

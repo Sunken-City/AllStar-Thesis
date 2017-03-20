@@ -17,6 +17,7 @@ class Encounter;
 struct DefaultPlayerStats
 {
     DefaultPlayerStats(PlayerShip* player) : m_player(player) {};
+    virtual ~DefaultPlayerStats() {};
 
     PlayerShip* m_player = nullptr;
     int m_numKills = 0;
