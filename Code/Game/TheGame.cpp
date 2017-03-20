@@ -1340,10 +1340,10 @@ void TheGame::RegisterSprites()
     //UI
     ResourceDatabase::instance->RegisterSprite("Arrow", "Data\\Images\\UI\\Arrow.png");
     ResourceDatabase::instance->RegisterSprite("EquipmentUI", "Data\\Images\\UI\\equipmentUI.png");
-    //ResourceDatabase::instance->EditSpriteResource("EquipmentUI")->m_pivotPoint = Vector2(1.0f, 0.0f);
+    ResourceDatabase::instance->EditSpriteResource("EquipmentUI")->m_pivotPoint = Vector2(1.0f, 0.0f);
     ResourceDatabase::instance->RegisterSprite("HealthUI", "Data\\Images\\UI\\healthBarUI.png");
     ResourceDatabase::instance->EditSpriteResource("HealthUI")->m_pivotPoint = Vector2::ZERO;
-    ResourceDatabase::instance->RegisterSprite("EmptyEquipSlot", "Data\\Images\\UI\\EquipmentChip.png");
+    ResourceDatabase::instance->RegisterSprite("EmptyEquipSlot", "Data\\Images\\UI\\emptyShield.png");
 
     //Transitions
     ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");
