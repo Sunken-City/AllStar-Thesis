@@ -95,7 +95,7 @@ void GameMode::Initialize(const std::vector<PlayerShip*>& players)
     m_timerWidget->SetProperty("BackgroundColor", RGBA::CLEAR);
     m_timerWidget->SetProperty("BorderWidth", 0.0f);
     m_timerWidget->SetProperty("TextSize", 4.0f);
-    m_timerWidget->SetProperty("Offset", Vector2(675.0f, 750.0f));
+    m_timerWidget->SetProperty("Offset", Vector2(675.0f, 775.0f));
     UISystem::instance->AddWidget(m_timerWidget);
 }
 

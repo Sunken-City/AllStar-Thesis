@@ -34,6 +34,7 @@
 #include "../Items/Weapons/WaveGun.hpp"
 #include <gl/GL.h>
 #include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
+#include "Engine/Fonts/BitmapFont.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -569,6 +570,12 @@ void PlayerShip::DebugUpdate(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void PlayerShip::InitializeStatGraph()
 {
+    static const float SPACE_PER_ROW = 0.6f;
+    static const float HALF_SPACE_PER_ROW = SPACE_PER_ROW * 0.5f;
+    static const float BAR_GRAPH_LENGTH = 8.0f;
+    static const float STARTING_Y_VALUE = 2.5f;
+    static const float STARTING_X_VALUE = -3.5f;
+
     uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
 
     m_statValuesBG = new Sprite("Quad", TheGame::STAT_GRAPH_LAYER_BACKGROUND, true);
@@ -581,13 +588,14 @@ void PlayerShip::InitializeStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
-        TextRenderable2D* statLine = new TextRenderable2D(Stringf("%s: %i", PowerUp::GetPowerUpSpriteResourceName(type), 0), Transform2D(Vector2(-3.0f, 3.0f - (0.5f * i))), TheGame::STAT_GRAPH_LAYER_TEXT);
-        statLine->m_fontSize = 0.3f;
+        TextRenderable2D* statLine = new TextRenderable2D(Stringf("%-20s%2i", PowerUp::GetPowerUpSpriteResourceName(type), 0), Transform2D(Vector2(STARTING_X_VALUE, STARTING_Y_VALUE - (SPACE_PER_ROW * i))), TheGame::STAT_GRAPH_LAYER_TEXT);
+        statLine->m_fontSize = 0.5f;
+        statLine->m_font = BitmapFont::CreateOrGetFont("FixedSys");
         statLine->Disable();
         statLine->m_viewableBy = visibilityFilter;
         m_statValues[i] = statLine;
 
-        BarGraphRenderable2D* statGraph = new BarGraphRenderable2D(AABB2(Vector2(0.0f, 2.75f - (0.5f * i)), Vector2(5.0f, 3.25f - (0.5f * i))), PowerUp::GetPowerUpColor(type), RGBA::GRAY, TheGame::STAT_GRAPH_LAYER);
+        BarGraphRenderable2D* statGraph = new BarGraphRenderable2D(AABB2(Vector2(0.0f, (STARTING_Y_VALUE - HALF_SPACE_PER_ROW) - (SPACE_PER_ROW * i)), Vector2(BAR_GRAPH_LENGTH, (STARTING_Y_VALUE + HALF_SPACE_PER_ROW) - (SPACE_PER_ROW * i))), PowerUp::GetPowerUpColor(type), RGBA::GRAY, TheGame::STAT_GRAPH_LAYER);
         statGraph->SetPercentageFilled(0.0f);
         statGraph->Disable();
         statGraph->m_viewableBy = visibilityFilter;
@@ -602,7 +610,7 @@ void PlayerShip::ShowStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
-        m_statValues[i]->m_text = Stringf("%s : %i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
+        m_statValues[i]->m_text = Stringf("%-20s%2i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
         m_statValues[i]->Enable();
         m_statBarGraphs[i]->Enable();
         m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
