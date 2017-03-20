@@ -4,15 +4,18 @@
 class ItemCrate : public Entity
 {
 public:
+    //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
     ItemCrate(const Vector2& position);
     virtual ~ItemCrate();
 
+    //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds) override;
     virtual void Die() override;
-    //inline virtual bool IsProp() override { return true; };
     void GenerateItems();
+    void DecorateCrate();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
+    Sprite* m_itemHintSprite = nullptr;
     float m_angularVelocity;
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////

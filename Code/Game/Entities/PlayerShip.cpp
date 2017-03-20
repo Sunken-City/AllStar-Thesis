@@ -643,12 +643,13 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 
     if (pickedUpItem->IsPowerUp())
     {
+        const float PREVIOUS_HP = CalculateHpValue();
         PowerUp* powerUp = ((PowerUp*)pickedUpItem);
         powerUp->ApplyPickupEffect(this);
 
         if (powerUp->m_powerUpType == PowerUpType::HP)
         {
-            Heal(Stats::MIN_HP_VALUE);
+            Heal(CalculateHpValue() - PREVIOUS_HP);
         }
 
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());

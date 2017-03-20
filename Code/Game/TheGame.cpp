@@ -158,7 +158,7 @@ void TheGame::Update(float deltaSeconds)
         return;
     }
     DispatchRunAfterSeconds();
-   
+
     switch (GetGameState())
     {
     case MAIN_MENU:
@@ -288,11 +288,11 @@ void TheGame::PressStart(NamedProperties&)
         return;
     }
 
-    RunAfterSeconds([]() 
-    { 
-        SetGameState(PLAYER_JOIN); 
-        TheGame::instance->InitializePlayerJoinState(); 
-        //TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+    RunAfterSeconds([]()
+    {
+        SetGameState(PLAYER_JOIN);
+        TheGame::instance->InitializePlayerJoinState();
+        //TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
     }, TRANSITION_TIME_SECONDS);
 
     BeginTransitioning();
@@ -317,7 +317,7 @@ void TheGame::EnqueueMinigames()
 //         InstancedGameMode* mode = new InstancedGameMode();
 //         for (PlayerShip* player : m_players)
 //         {
-//             mode->AddGameModeInstance(new BattleRoyaleMinigameMode(), player);    
+//             mode->AddGameModeInstance(new BattleRoyaleMinigameMode(), player);
 //         }
 //         m_queuedMinigameModes.push(mode);
 //     }
@@ -478,7 +478,7 @@ void TheGame::UpdatePlayerJoin(float)
             m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
-        } 
+        }
         else if (pilot->m_inputMap.WasJustPressed("CycleColorsLeft"))
         {
             m_paletteOffsets[i] = Mod((m_paletteOffsets[i] - 1), 16);
@@ -712,12 +712,12 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
             return;
         }
 
-        RunAfterSeconds([]() 
+        RunAfterSeconds([]()
         {
             SetGameState(ASSEMBLY_RESULTS);
             TheGame::instance->InitializeAssemblyResultsState();
             GameMode::GetCurrent()->CleanUp();
-            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
         }, TRANSITION_TIME_SECONDS);
 
         BeginTransitioning();
@@ -732,7 +732,7 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
 void TheGame::RenderAssemblyPlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
-    SpriteGameRenderer::instance->Render(); 
+    SpriteGameRenderer::instance->Render();
     RenderSplitscreenLines();
     RenderDebug();
 }
@@ -825,13 +825,13 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
             return;
         }
 
-        RunAfterSeconds([]() 
+        RunAfterSeconds([]()
         {
             SetGameState(MINIGAME_GET_READY);
             TheGame::instance->InitializeMinigameGetReadyState();
-            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
         }, TRANSITION_TIME_SECONDS);
-        
+
         BeginTransitioning();
         m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
         m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
@@ -877,13 +877,13 @@ void TheGame::UpdateMinigameGetReady(float deltaSeconds)
     {
         if (pilot->m_inputMap.WasJustPressed("Accept") || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
         {
-            RunAfterSeconds([]() 
+            RunAfterSeconds([]()
             {
                 SetGameState(MINIGAME_PLAYING);
                 TheGame::instance->InitializeMinigamePlayingState();
-                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
             }, TRANSITION_TIME_SECONDS);
-        
+
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
             m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
@@ -946,14 +946,14 @@ void TheGame::UpdateMinigamePlaying(float deltaSeconds)
     }
     if (!m_currentGameMode->m_isPlaying || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9))
     {
-        RunAfterSeconds([]() 
+        RunAfterSeconds([]()
         {
             SetGameState(MINIGAME_RESULTS);
             TheGame::instance->InitializeMinigameResultsState();
             GameMode::GetCurrent()->CleanUp();
-            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
         }, TRANSITION_TIME_SECONDS);
-    
+
         BeginTransitioning();
         m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
         m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
@@ -1042,13 +1042,13 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
         }
         if (m_queuedMinigameModes.size() > 0)
         {
-            RunAfterSeconds([]() 
+            RunAfterSeconds([]()
             {
                 SetGameState(MINIGAME_GET_READY);
                 TheGame::instance->InitializeMinigameGetReadyState();
-                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
             }, TRANSITION_TIME_SECONDS);
-        
+
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
             m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
@@ -1116,13 +1116,13 @@ void TheGame::UpdateGameOver(float )
         {
             return;
         }
-        RunAfterSeconds([]() 
+        RunAfterSeconds([]()
         {
             SetGameState(MAIN_MENU);
             TheGame::instance->InitializeMainMenuState();
-            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture); 
+            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
         }, TRANSITION_TIME_SECONDS);
-        
+
         BeginTransitioning();
         m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
         m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
@@ -1230,7 +1230,7 @@ void TheGame::InitializeSpriteLayers()
 
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_PARTICLES_BLOOM_LAYER)->m_isBloomEnabled = true;
     SpriteGameRenderer::instance->CreateOrGetLayer(BULLET_LAYER_BLOOM)->m_isBloomEnabled = true;
-    SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER)->m_isWorldSpaceLayer = false; 
+    SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER_BACKGROUND)->m_isWorldSpaceLayer = false;
     SpriteGameRenderer::instance->CreateOrGetLayer(STAT_GRAPH_LAYER_TEXT)->m_isWorldSpaceLayer = false;
 }
@@ -1373,9 +1373,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("MuzzleFlash", "Data\\Images\\Lasers\\muzzleFlash.png");
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
     ResourceDatabase::instance->RegisterSprite("Shield", "Data\\Images\\Shield.png");
-    ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
-    ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 
     //Props
@@ -1383,6 +1381,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Nebula", "Data\\Images\\Props\\Nebula.png");
     ResourceDatabase::instance->RegisterSprite("Nebula2", "Data\\Images\\Props\\Nebula2.png");
     ResourceDatabase::instance->RegisterSprite("Wormhole", "Data\\Images\\Props\\cheapVortex3.png");
+    ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\Props\\itemCrate.png");
 
     //Enemies
     ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Enemies\\grunt.png");
@@ -1392,7 +1391,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Missile1", "Data\\Images\\Lasers\\basicMissile.png");
     ResourceDatabase::instance->RegisterSprite("Missile2", "Data\\Images\\Lasers\\basicMissile2.png");
     ResourceDatabase::instance->RegisterSprite("PlasmaBall", "Data\\Images\\Lasers\\plasmaBall.png");
-    SpriteResource* plasmaBall = ResourceDatabase::instance->EditSpriteResource("PlasmaBall"); 
+    SpriteResource* plasmaBall = ResourceDatabase::instance->EditSpriteResource("PlasmaBall");
     delete plasmaBall->m_defaultMaterial;
     plasmaBall->m_defaultMaterial = new Material(SpriteGameRenderer::instance->m_defaultShader, SpriteGameRenderer::instance->m_additiveBlendRenderState);
 
@@ -1420,7 +1419,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("CloakPassive", "Data\\Images\\Passives\\cloakPassive.png");
     ResourceDatabase::instance->RegisterSprite("StealthTrailPassive", "Data\\Images\\Passives\\stealthTrailPassive.png");
     ResourceDatabase::instance->RegisterSprite("SprayAndPrayPassive", "Data\\Images\\Passives\\sprayAndPrayPassive.png");
-    ResourceDatabase::instance->RegisterSprite("SpecialTrailPassiveLol", "Data\\Images\\Passives\\specialTrailPassiveLol.png"); 
+    ResourceDatabase::instance->RegisterSprite("SpecialTrailPassiveLol", "Data\\Images\\Passives\\specialTrailPassiveLol.png");
 
     //Active Pickups
     ResourceDatabase::instance->RegisterSprite("WarpActive", "Data\\Images\\Actives\\warpActive.png");
@@ -1500,7 +1499,7 @@ void TheGame::RegisterParticleEffects()
     const float WARP_ANIMATION_LENGTH = 1.5f;
     const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.15f;
     const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.01f;
-    const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f; 
+    const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f;
     const float COLLISION_ANIMATION_LENGTH = 0.3f;
 
     //EMITTERS/////////////////////////////////////////////////////////////////////
