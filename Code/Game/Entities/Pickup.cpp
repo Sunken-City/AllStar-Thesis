@@ -15,7 +15,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     ASSERT_OR_DIE(m_item, "Attempted to create a pickup with no item!");
     m_collidesWithBullets = false;
     m_noCollide = true;
-    m_sprite = new Sprite("Invalid", TheGame::ITEM_LAYER);
+    m_sprite = new Sprite("Invalid", TheGame::POWER_UP_LAYER);
     m_sprite->m_transform.SetParent(&m_transform);
     m_sprite->m_spriteResource = m_item->GetSpriteResource();
     CalculateCollisionRadius();
@@ -34,13 +34,21 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     {
         m_transform.AddChild(&m_descriptionTextRenderable->m_transform);
         m_descriptionTextRenderable->m_fontSize = 0.4f;
-        m_descriptionTextRenderable->m_transform.SetRotationDegrees(-m_transform.GetWorldRotationDegrees());
+        m_descriptionTextRenderable->m_transform.SetRotationDegrees(0.0f);
+        m_descriptionTextRenderable->m_transform.IgnoreParentScale();
+        m_descriptionTextRenderable->m_transform.IgnoreParentRotation();
         m_descriptionTextRenderable->Disable();
 
         m_transform.AddChild(&m_equipTextRenderable->m_transform);
         m_equipTextRenderable->m_fontSize = 0.3f;
-        m_equipTextRenderable->m_transform.SetRotationDegrees(-m_transform.GetWorldRotationDegrees());
+        m_equipTextRenderable->m_transform.SetRotationDegrees(0.0f);
+        m_equipTextRenderable->m_transform.IgnoreParentScale();
+        m_equipTextRenderable->m_transform.IgnoreParentRotation();
         m_equipTextRenderable->Disable();
+
+        m_sprite->ChangeLayer(TheGame::EQUIP_LAYER);
+        m_sprite->m_transform.SetScale(Vector2(2.0f));
+        CalculateCollisionRadius();
     }
     else
     {

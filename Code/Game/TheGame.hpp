@@ -62,13 +62,14 @@ public:
     static unsigned int const BACKGROUND_PARTICLES_LAYER = 600;
     static unsigned int const BACKGROUND_PARTICLES_BLOOM_LAYER = 650;
     static unsigned int const GEOMETRY_LAYER = 700;
-    static unsigned int const ITEM_LAYER = 800;
+    static unsigned int const POWER_UP_LAYER = 800;
+    static unsigned int const EQUIP_LAYER = 810;
     static unsigned int const CRATE_LAYER = 830;
     static unsigned int const CRATE_DECORATION_LAYER = 840;
-    static unsigned int const ITEM_TEXT_LAYER = 850;
     static unsigned int const ENEMY_LAYER = 900;
     static unsigned int const PLAYER_LAYER = 1000;
     static unsigned int const SHIELD_LAYER = 1050;
+    static unsigned int const ITEM_TEXT_LAYER = 1075;
     static unsigned int const BULLET_LAYER_BLOOM = 1100;
     static unsigned int const BULLET_LAYER = 1200;
     static unsigned int const FOREGROUND_LAYER = 2000;
