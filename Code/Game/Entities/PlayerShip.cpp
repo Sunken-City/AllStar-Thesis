@@ -68,8 +68,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_transform.SetPosition(Vector2(1000.0f));
 
     m_shieldSprite->m_material = m_sprite->m_material;
+    m_shipTrail->m_emitters[0]->m_materialOverride = m_sprite->m_material;
     m_shieldSprite->m_tintColor = GetPlayerColor();
-    m_shieldSprite->m_transform.IgnoreParentScale();
     m_shipTrail->m_colorOverride = GetPlayerColor();
     m_factionColor = GetPlayerColor();
     InitializeUI();

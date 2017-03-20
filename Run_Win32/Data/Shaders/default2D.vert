@@ -5,7 +5,7 @@
 uniform mat4 gModel;
 uniform mat4 gView;
 uniform mat4 gProj;
-uniform vec3 gWarpPosition;
+uniform vec3 gWarpPosition = vec3(20000.0f, 20000.0f, 0.0f);
 
 //INPUTS/////////////////////////////////////////////////////////////////////
 in vec2 inPosition;

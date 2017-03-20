@@ -26,6 +26,7 @@ Ship::Ship(Pilot* pilot)
     m_collisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("Explosion");
     m_shieldCollisionSpriteResource = ResourceDatabase::instance->GetSpriteResource("ParticleGreen");
     m_smokeDamage->Disable();
+    m_shieldSprite->m_transform.IgnoreParentScale();
 }
 
 //-----------------------------------------------------------------------------------
@@ -272,4 +273,5 @@ void Ship::SetVortexShaderPosition(const Vector2& warpHolePosition)
 {
     Entity::SetVortexShaderPosition(warpHolePosition);
     m_shieldSprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(warpHolePosition, 0.0f));
+    m_shipTrail->m_emitters[0]->m_materialOverride->SetVec3Uniform("gWarpPosition", Vector3(warpHolePosition, 0.0f));
 }

@@ -3,7 +3,6 @@
 
 //UNIFORMS/////////////////////////////////////////////////////////////////////
 uniform sampler2D gDiffuseTexture;
-uniform vec4 gLayerTint;
 
 //INPUTS/////////////////////////////////////////////////////////////////////
 in vec2 passUV;
@@ -17,5 +16,5 @@ void main()
 {
   vec4 diffuseColor = texture(gDiffuseTexture, passUV);
 
-  fragmentColor = passColor * diffuseColor * gLayerTint;
+  fragmentColor = passColor * diffuseColor;
 }
