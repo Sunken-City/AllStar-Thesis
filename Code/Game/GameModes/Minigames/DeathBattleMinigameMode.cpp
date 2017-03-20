@@ -137,9 +137,12 @@ void DeathBattleMinigameMode::Update(float deltaSeconds)
         }
         ++iter;
     }
-
+    
     EndGameIfTooFewPlayers();
-
+    for (PlayerShip* player : m_players)
+    {
+        UpdatePlayerScoreDisplay(player);
+    }
 
     UpdatePlayerCameras();
 }

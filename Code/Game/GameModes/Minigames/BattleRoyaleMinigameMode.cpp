@@ -130,6 +130,11 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
         ++iter;
     }
 
+    for (PlayerShip* player : m_players)
+    {
+        UpdatePlayerScoreDisplay(player);
+    }
+
     UpdatePlayerCameras();
 }
 
