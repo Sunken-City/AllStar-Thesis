@@ -1371,9 +1371,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Pico", "Data\\Images\\Pico.png");
     ResourceDatabase::instance->RegisterSprite("Shield", "Data\\Images\\Shield.png");
     ResourceDatabase::instance->RegisterSprite("EmptyEquipSlot", "Data\\Images\\emptyShield.png");
-    ResourceDatabase::instance->RegisterSprite("TitleText", "Data\\Images\\Title.png");
     ResourceDatabase::instance->RegisterSprite("GameOverText", "Data\\Images\\GameOver.png");
-    ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\ItemBox.png");
     ResourceDatabase::instance->RegisterSprite("Invalid", "Data\\Images\\invalidSpriteResource.png");
 
     //Props
@@ -1381,6 +1379,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Nebula", "Data\\Images\\Props\\Nebula.png");
     ResourceDatabase::instance->RegisterSprite("Nebula2", "Data\\Images\\Props\\Nebula2.png");
     ResourceDatabase::instance->RegisterSprite("Wormhole", "Data\\Images\\Props\\cheapVortex3.png");
+    ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\Props\\itemCrate.png");
 
     //Enemies
     ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Enemies\\grunt.png");
