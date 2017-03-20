@@ -604,12 +604,18 @@ void TheGame::InitializeAssemblyGetReadyState()
     m_currentGameMode = static_cast<GameMode*>(new AssemblyMode());
     m_currentGameMode->InitializeReadyAnim();
 
+    SpriteGameRenderer::instance->DisableAllLayers();
+    SpriteGameRenderer::instance->EnableLayer(TEXT_LAYER);
+    SpriteGameRenderer::instance->EnableLayer(UI_LAYER);
+    SpriteGameRenderer::instance->EnableLayer(FULL_SCREEN_EFFECT_LAYER);
+
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyGetReadyState);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupAssemblyGetReadyState(unsigned int)
 {
+    SpriteGameRenderer::instance->EnableAllLayers();
     m_currentGameMode->CleanupReadyAnim();
 }
 
@@ -856,12 +862,19 @@ void TheGame::InitializeMinigameGetReadyState()
 {
     m_currentGameMode->InitializeReadyAnim();
     m_currentGameMode->HideBackground();
+
+    SpriteGameRenderer::instance->DisableAllLayers();
+    SpriteGameRenderer::instance->EnableLayer(TEXT_LAYER);
+    SpriteGameRenderer::instance->EnableLayer(UI_LAYER);
+    SpriteGameRenderer::instance->EnableLayer(FULL_SCREEN_EFFECT_LAYER);
+
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameGetReadyState);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupMinigameGetReadyState(unsigned int)
 {
+    SpriteGameRenderer::instance->EnableAllLayers();
     m_currentGameMode->CleanupReadyAnim();
 }
 
