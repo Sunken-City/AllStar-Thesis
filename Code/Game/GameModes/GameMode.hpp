@@ -49,6 +49,7 @@ public:
     void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);
     float CalculateAttenuation(const Vector2& soundPosition);
     void StopPlaying();
+    void MarkTimerPaused();
     virtual void HideBackground();
     virtual void ShowBackground();
     virtual void InitializeReadyAnim();

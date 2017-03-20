@@ -340,6 +340,12 @@ void GameMode::StopPlaying()
 }
 
 //-----------------------------------------------------------------------------------
+void GameMode::MarkTimerPaused()
+{
+    m_timerWidget->SetProperty<std::string>("Text", "Paused");
+}
+
+//-----------------------------------------------------------------------------------
 void GameMode::HideBackground()
 {
     m_arenaBackground->Disable();
