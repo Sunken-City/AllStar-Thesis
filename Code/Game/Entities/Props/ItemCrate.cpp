@@ -20,7 +20,7 @@ ItemCrate::ItemCrate(const Vector2& initialPosition)
 {
     m_sprite = new Sprite("ItemBox", TheGame::CRATE_LAYER);
     m_sprite->m_transform.SetParent(&m_transform);
-    m_transform.SetScale(Vector2(0.5f));
+    m_transform.SetScale(Vector2(1.0f));
     CalculateCollisionRadius();
     SetPosition(initialPosition);
     m_transform.SetRotationDegrees(MathUtils::GetRandomFloatFromZeroTo(360.0f));
