@@ -151,6 +151,7 @@ void PlayerShip::InitializeUI()
 {
     m_equipUI = new Sprite("EquipmentUI", TheGame::UI_LAYER);
     m_equipUI->m_tintColor = GetPlayerColor();
+    m_equipUI->m_tintColor.SetAlphaFloat(0.75f);
     m_equipUI->m_transform.SetScale(Vector2(1.0f));
     m_equipUI->m_transform.SetPosition(Vector2(-5.6f, 0.0f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_equipUI->m_transform);
@@ -160,24 +161,30 @@ void PlayerShip::InitializeUI()
     m_playerData->m_transform.SetScale(Vector2(1.0f));
     m_playerData->m_transform.SetPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_playerData->m_transform);
+    m_healthBar->m_fillColor.SetAlphaFloat(0.75f);
+    m_shieldBar->m_fillColor.SetAlphaFloat(0.75f);
 
     m_currentWeaponUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentWeaponUI->m_transform.SetScale(Vector2(2.1f));
     m_currentWeaponUI->m_transform.SetPosition(Vector2(-3.46f, 0.725f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentWeaponUI->m_transform);
 
     m_currentActiveUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentActiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentActiveUI->m_transform.SetScale(Vector2(2.4f));
     m_currentActiveUI->m_transform.SetPosition(Vector2(-4.777f, 0.725f));
     m_currentActiveUI->m_material = m_cooldownMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentActiveUI->m_transform);
 
     m_currentChassisUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentChassisUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentChassisUI->m_transform.SetScale(Vector2(2.1f));
     m_currentChassisUI->m_transform.SetPosition(Vector2(-1.0f, 0.725f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentChassisUI->m_transform);
 
     m_currentPassiveUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentPassiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentPassiveUI->m_transform.SetScale(Vector2(2.1f));
     m_currentPassiveUI->m_transform.SetPosition(Vector2(-2.23f, 0.725f));
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentPassiveUI->m_transform);
