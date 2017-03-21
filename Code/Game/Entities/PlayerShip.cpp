@@ -138,6 +138,7 @@ PlayerShip::~PlayerShip()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         delete m_statValues[i];
+        delete m_statSprites[i];
         delete m_statBarGraphs[i];
     }
 
@@ -267,8 +268,8 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
     m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
 
-    m_healthText->m_text = Stringf("HP: %03i/%03i", static_cast<int>(m_currentHp), static_cast<int>(CalculateHpValue()));
-    m_shieldText->m_text = Stringf("SH: %03i/%03i", static_cast<int>(m_currentShieldHealth), static_cast<int>(CalculateShieldCapacityValue()));
+    m_healthText->m_text = Stringf("HP: %03i/%03i", static_cast<int>(ceil(m_currentHp)), static_cast<int>(ceil(CalculateHpValue())));
+    m_shieldText->m_text = Stringf("SH: %03i/%03i", static_cast<int>(ceil(m_currentShieldHealth)), static_cast<int>(ceil(CalculateShieldCapacityValue())));
     m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>((speed / CalculateTopSpeedValue()) * 100.0f));
     m_scoreText->m_text = Stringf("LVL: %03i", m_powerupStatModifiers.GetTotalNumberOfDroppablePowerUps());
 
