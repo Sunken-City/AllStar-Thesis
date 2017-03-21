@@ -784,6 +784,9 @@ void TheGame::InitializeAssemblyResultsState()
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
 
+    m_titleText = new TextRenderable2D("Assembly Results:", Transform2D(Vector2(-3.5f, 4.0f)), FBO_FREE_TEXT_LAYER);
+    m_titleText->m_fontSize = 1.0f;
+
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* ship = TheGame::instance->m_players[i];
@@ -802,6 +805,8 @@ void TheGame::InitializeAssemblyResultsState()
 void TheGame::CleanupAssemblyResultsState(unsigned int)
 {
     EnqueueMinigames();
+
+    delete m_titleText;
     for (PlayerShip* ship : TheGame::instance->m_players)
     {
         ship->m_isDead = false;
