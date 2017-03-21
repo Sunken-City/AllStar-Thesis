@@ -775,7 +775,7 @@ void TheGame::RenderSplitscreenLines() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyResultsState()
 {
-    SpriteGameRenderer::instance->SetSplitscreen(4);
+    SpriteGameRenderer::instance->SetSplitscreen(m_numberOfPlayers);
     if (!g_muteMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_resultsMusic, 0.6f);
@@ -784,7 +784,7 @@ void TheGame::InitializeAssemblyResultsState()
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupAssemblyResultsState);
 
-    m_titleText = new TextRenderable2D("Assembly Results:", Transform2D(Vector2(-3.5f, 4.0f)), FBO_FREE_TEXT_LAYER);
+    m_titleText = new TextRenderable2D("Assembly Results:", Transform2D(Vector2(0.0f, 4.0f)), FBO_FREE_TEXT_LAYER);
     m_titleText->m_fontSize = 1.0f;
 
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
@@ -1292,6 +1292,8 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Pause", keyboard->FindValue('P'));
         playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", keyboard->FindValue('A'));
         playerPilot->m_inputMap.MapInputValue("CycleColorsRight", keyboard->FindValue('D'));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", keyboard->FindValue(InputSystem::ExtraKeys::LEFT));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", keyboard->FindValue(InputSystem::ExtraKeys::RIGHT));
     }
     else
     {
@@ -1318,12 +1320,16 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::BACK));
         playerPilot->m_inputMap.MapInputValue("Respawn", controller->FindButton(XboxButton::START));
         playerPilot->m_inputMap.MapInputValue("Pause", controller->FindButton(XboxButton::START));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->FindButton(XboxButton::DLEFT));
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->FindButton(XboxButton::DRIGHT));
         playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->FindButton(XboxButton::X));
         playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->FindButton(XboxButton::Y));
         playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->FindButton(XboxButton::LB));
         playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->FindButton(XboxButton::RB));
         playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", controller->GetLeftTrigger());
         playerPilot->m_inputMap.MapInputValue("CycleColorsRight", controller->GetRightTrigger());
+        playerPilot->m_inputMap.MapInputValue("CycleColorsLeft", &controller->GetInvertedLeftStick()->m_xAxis);
+        playerPilot->m_inputMap.MapInputValue("CycleColorsRight", &controller->GetLeftStick()->m_xAxis);
     }
 }
 

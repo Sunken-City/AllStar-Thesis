@@ -571,13 +571,23 @@ void PlayerShip::DebugUpdate(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void PlayerShip::InitializeStatGraph()
 {
-    static const float SPACE_PER_ROW = 0.6f;
-    static const float HALF_SPACE_PER_ROW = SPACE_PER_ROW * 0.5f;
-    static const float BAR_GRAPH_START = 1.0f;
-    static const float BAR_GRAPH_LENGTH = 7.0f;
-    static const float STARTING_Y_VALUE = 2.5f;
-    static const float STARTING_X_VALUE = -4.0f;
-    static const float SPRITE_X_VALUE = -0.8f;
+    float SCALE_FACTOR = 1.0f;
+    if (TheGame::instance->m_numberOfPlayers == 2)
+    {
+        SCALE_FACTOR = 0.75f;
+    }
+    else if (TheGame::instance->m_numberOfPlayers == 3)
+    {
+        SCALE_FACTOR = 0.65f;
+    }
+    
+    const float SPACE_PER_ROW = 0.6f;
+    const float HALF_SPACE_PER_ROW = SPACE_PER_ROW * 0.5f;
+    const float BAR_GRAPH_START = 1.0f * SCALE_FACTOR;
+    const float BAR_GRAPH_LENGTH = 7.0f * SCALE_FACTOR;
+    const float STARTING_Y_VALUE = 2.5f * SCALE_FACTOR;
+    const float STARTING_X_VALUE = -4.0f * SCALE_FACTOR;
+    const float SPRITE_X_VALUE = -0.8f * SCALE_FACTOR;
 
     uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
 
@@ -593,7 +603,7 @@ void PlayerShip::InitializeStatGraph()
     {
         PowerUpType type = (PowerUpType)i;
         TextRenderable2D* statLine = new TextRenderable2D("This is a bug", Transform2D(Vector2(STARTING_X_VALUE, STARTING_Y_VALUE - (SPACE_PER_ROW * i))), TheGame::STAT_GRAPH_LAYER_TEXT);
-        statLine->m_fontSize = 0.5f;
+        statLine->m_fontSize = 0.5f * SCALE_FACTOR;
         statLine->m_font = BitmapFont::CreateOrGetFont("FixedSys");
         statLine->m_color = PowerUp::GetPowerUpColor(type);
         statLine->Disable();
