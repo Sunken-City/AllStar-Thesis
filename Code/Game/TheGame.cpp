@@ -789,7 +789,9 @@ void TheGame::InitializeAssemblyResultsState()
         PlayerShip* ship = TheGame::instance->m_players[i];
         ship->Respawn();
         ship->m_shieldSprite->Disable();
-        ship->m_sprite->Disable();
+        ship->SetPosition(Vector2(-5.0f, 0.0f));
+        ship->m_sprite->m_transform.SetScale(Vector2(8.0f));
+        ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(i);
         ship->m_shipTrail->Disable();
         ship->LockMovement();
         ship->ShowStatGraph();
@@ -805,7 +807,8 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
         ship->m_isDead = false;
         ship->Respawn();
         ship->m_shieldSprite->Enable();
-        ship->m_sprite->Enable();
+        ship->m_sprite->m_transform.SetScale(Vector2(1.0f));
+        ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::PlayerVisibility::ALL;
         ship->m_shipTrail->Enable();
         ship->UnlockMovement();
         ship->HideStatGraph();
