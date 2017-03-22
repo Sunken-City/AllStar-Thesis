@@ -35,6 +35,8 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static constexpr float ANGULAR_VELOCITY = 300.0f;
+    static constexpr float DEADZONE_BEFORE_ROTATION = 0.3f;
+    static constexpr float DEADZONE_BEFORE_ROTATION_SQUARED = DEADZONE_BEFORE_ROTATION * DEADZONE_BEFORE_ROTATION;
 
     LaserGun m_defaultWeapon;
     Pilot* m_pilot;

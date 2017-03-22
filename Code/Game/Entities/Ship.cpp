@@ -64,8 +64,6 @@ void Ship::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void Ship::UpdateShooting()
 {
-    static const float DEADZONE_BEFORE_ROTATION = 0.3f;
-    static const float DEADZONE_BEFORE_ROTATION_SQUARED = DEADZONE_BEFORE_ROTATION * DEADZONE_BEFORE_ROTATION;
     InputMap& input = m_pilot->m_inputMap;
     Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
     bool isShooting = input.FindInputValue("Shoot")->IsDown();
@@ -188,6 +186,15 @@ void Ship::UpdateMotion(float deltaSeconds)
 
     Vector2 attemptedPosition = m_transform.GetWorldPosition() + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);
+
+    //Rotate the ship towards it's direction of motion if it's not being rotated.
+    Vector2 shootDirection = input.GetVector2("ShootRight", "ShootUp");
+    bool isShooting = input.FindInputValue("Shoot")->IsDown();
+
+    if (shootDirection.CalculateMagnitudeSquared() < DEADZONE_BEFORE_ROTATION_SQUARED && !isShooting)
+    {
+        SetRotation(MathUtils::Lerp(0.1f, GetRotation(), m_velocity.GetDirectionDegreesFromNormalizedVector()));
+    }
 }
 
 //-----------------------------------------------------------------------------------
