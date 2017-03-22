@@ -5,7 +5,17 @@
 uniform mat4 gModel;
 uniform mat4 gView;
 uniform mat4 gProj;
-uniform vec3 gWarpPosition = vec3(20000.0f, 20000.0f, 0.0f);
+//uniform vec3 gWarpPosition = vec3(20000.0f, 20000.0f, 0.0f);
+uniform vec3 gWarpPositions[16] =
+{vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f),
+vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f),
+vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f),
+vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f)};
+uniform float gVortexRadii[16] =
+{1, 1, 1, 1,
+1, 1, 1, 1,
+1, 1, 1, 1,
+1, 1, 1, 1};
 
 //INPUTS/////////////////////////////////////////////////////////////////////
 in vec2 inPosition;
@@ -25,11 +35,14 @@ void main()
   passColor = inColor;
 
   vec2 position = (vec4(inPosition, 0, 1) * gModel).xy;
-  vec2 warpPosition = gWarpPosition.xy;
-  float distanceToPosition = length(position - warpPosition);
-  vec2 finalPosition = mix(warpPosition, position, clamp((distanceToPosition - 0.5f) / 3.0f, 0.0f, 1.0f));
+  for(int i = 0; i < 16; ++i)
+  {
+    vec2 warpPosition = gWarpPositions[i].xy;
+    float distanceToPosition = length(position - warpPosition);
+    position = mix(warpPosition, position, clamp((distanceToPosition / gVortexRadii[i]), 0.0f, 1.0f));
+  }
 
   // gl_Position is always a vec4 - clip space vector
   //gl_Position = vec4(inPosition, 0, 1) * mvp;
-  gl_Position = vec4(finalPosition, 0, 1) * gView * gProj;
+  gl_Position = vec4(position, 0, 1) * gView * gProj;
 }

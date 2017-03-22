@@ -24,6 +24,7 @@
 
 const double GameMode::AFTER_GAME_SLOWDOWN_SECONDS = 3.0;
 const double GameMode::ANIMATION_LENGTH_SECONDS = 1.0;
+int GameMode::s_currentVortexId = 0;
 
 //-----------------------------------------------------------------------------------
 GameMode::GameMode(const std::string& arenaBackgroundImage)
@@ -103,7 +104,7 @@ void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 void GameMode::CleanUp()
 {
     StopPlaying();
-    ClearBlackHolePositions(); 
+    ClearVortexPositions(); 
     DeleteAllEntities();
 
     AudioSystem::instance->StopSound(m_backgroundMusic);
@@ -434,12 +435,17 @@ void GameMode::CleanupReadyAnim()
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::ClearBlackHolePositions()
+void GameMode::ClearVortexPositions()
 {
     for (Entity* entity : m_entities)
     {
-        entity->SetVortexShaderPosition(Vector2(20000.0f, 20000.0f));
+        for (int i = 0; i < s_currentVortexId; ++i)
+        {
+            entity->SetVortexShaderPosition(Vector2(20000.0f, 20000.0f), i, 1.0f);
+        }
     }
+
+    s_currentVortexId = 0;
 }
 
 //-----------------------------------------------------------------------------------

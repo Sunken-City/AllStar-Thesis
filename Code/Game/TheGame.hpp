@@ -17,6 +17,7 @@ class GameMode;
 class NamedProperties;
 class TextRenderable2D;
 class WidgetBase;
+class ShaderProgram;
 class ParticleSystem;
 
 typedef void(RunAfterSecondsFunction)();
@@ -156,6 +157,14 @@ public:
     static const char* PRESS_START_TO_JOIN_STRING;
     static const char* PRESS_START_TO_READY_STRING;
     static const char* READY_STRING;
+
+    std::vector<RunAfterSecondsCallback> m_runAfterSecondsCallbackFunctions;
+    std::vector<PlayerPilot*> m_playerPilots;
+    std::vector<PlayerShip*> m_players;
+    std::queue<GameMode*> m_queuedMinigameModes;
+    GameMode* m_currentGameMode;
+    Material* m_UIMaterial = nullptr;
+    ShaderProgram* m_UIShader = nullptr;
     SoundID SFX_UI_ADVANCE;
     SoundID m_menuMusic;
     SoundID m_resultsMusic;
@@ -163,11 +172,6 @@ public:
     int m_numberOfPlayers = 0;
     int m_numberOfReadyPlayers = 0;
     bool m_hasKeyboardPlayer = false;
-    std::vector<PlayerPilot*> m_playerPilots;
-    std::vector<PlayerShip*> m_players;
-    std::queue<GameMode*> m_queuedMinigameModes;
-    std::vector<RunAfterSecondsCallback> m_runAfterSecondsCallbackFunctions;
-    GameMode* m_currentGameMode;
 
 private:
     Sprite* m_shipPreviews[4];

@@ -63,7 +63,8 @@ public:
     virtual Vector2 FindSpaceForEncounter(float radius, const std::vector<Encounter*>& encounters);
     virtual void SetTimeRemaining(float timeRemainingSeconds);
     virtual inline float GetTimerSecondsElapsed() { return m_timerSecondsElapsed; };
-    void ClearBlackHolePositions();
+    void ClearVortexPositions();
+    inline int GetNextVortexID() { return s_currentVortexId++; };
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();
@@ -78,6 +79,8 @@ public:
 public:
     static const double AFTER_GAME_SLOWDOWN_SECONDS;
     static const double ANIMATION_LENGTH_SECONDS;
+    static const int MAX_NUM_VORTEXES = 16;
+    static int s_currentVortexId;
 
     std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
     std::vector<PlayerShip*> m_players;

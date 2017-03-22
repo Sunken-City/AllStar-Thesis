@@ -15,9 +15,10 @@ public:
     inline virtual bool IsProp() override { return true; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    float m_angularVelocity;
     Wormhole* m_linkedWormhole;
     Sprite* m_overlaySprite;
+    float m_angularVelocity;
+    int m_vortexID;
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;

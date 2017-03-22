@@ -17,6 +17,7 @@ public:
     Sprite* m_overlaySprite = nullptr;
     float m_angularVelocity;
     bool m_growsOverTime = false;
+    int m_vortexID = -1;
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;

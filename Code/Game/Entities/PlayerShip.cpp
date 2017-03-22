@@ -76,7 +76,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     InitializeUI();
     InitializeStatGraph();
 
-    SetVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
+    //SetVortexShaderPosition(Vector2(-999.0f), TODO); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;
@@ -157,12 +157,14 @@ void PlayerShip::InitializeUI()
     m_equipUI->m_tintColor.SetAlphaFloat(0.75f);
     m_equipUI->m_transform.SetScale(Vector2(1.0f));
     m_equipUI->m_transform.SetPosition(Vector2(-5.6f, 0.0f));
+    m_equipUI->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_equipUI->m_transform);
 
     m_playerData = new Sprite("HealthUI", TheGame::UI_LAYER);
     m_playerData->m_tintColor = GetPlayerColor();
     m_playerData->m_transform.SetScale(Vector2(1.0f));
     m_playerData->m_transform.SetPosition(Vector2::ZERO);
+    m_playerData->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_playerData->m_transform);
     m_healthBar->m_fillColor.SetAlphaFloat(0.75f);
     m_shieldBar->m_fillColor.SetAlphaFloat(0.75f);
@@ -171,6 +173,7 @@ void PlayerShip::InitializeUI()
     m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentWeaponUI->m_transform.SetScale(Vector2(2.1f));
     m_currentWeaponUI->m_transform.SetPosition(Vector2(-3.46f, 0.725f));
+    m_currentWeaponUI->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentWeaponUI->m_transform);
 
     m_currentActiveUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
@@ -184,12 +187,14 @@ void PlayerShip::InitializeUI()
     m_currentChassisUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentChassisUI->m_transform.SetScale(Vector2(2.1f));
     m_currentChassisUI->m_transform.SetPosition(Vector2(-1.0f, 0.725f));
+    m_currentChassisUI->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentChassisUI->m_transform);
 
     m_currentPassiveUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
     m_currentPassiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentPassiveUI->m_transform.SetScale(Vector2(2.1f));
     m_currentPassiveUI->m_transform.SetPosition(Vector2(-2.23f, 0.725f));
+    m_currentPassiveUI->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentPassiveUI->m_transform);
           
     m_respawnText->m_color = RGBA::WHITE;
@@ -415,7 +420,6 @@ void PlayerShip::Respawn()
     m_shipTrail->Flush();
     m_sprite->Enable();
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
-    SetVortexShaderPosition(Vector2(-999.0f)); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
     m_respawnText->Disable();
     m_healthBar->SetPercentageFilled(1.0f);
     m_shieldBar->SetPercentageFilled(1.0f);
@@ -615,6 +619,7 @@ void PlayerShip::InitializeStatGraph()
         statSprite->m_transform.SetScale(Vector2(0.5f));
         statSprite->Disable();
         statSprite->m_viewableBy = visibilityFilter;
+        statSprite->m_material = TheGame::instance->m_UIMaterial;
         m_statSprites[i] = statSprite;
 
         BarGraphRenderable2D* statGraph = new BarGraphRenderable2D(

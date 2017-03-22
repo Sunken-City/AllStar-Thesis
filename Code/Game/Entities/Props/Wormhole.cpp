@@ -26,6 +26,7 @@ Wormhole::Wormhole(const Vector2& initialPosition)
     m_isInvincible = true;
     m_noCollide = true;
     m_collidesWithBullets = false;
+    m_vortexID = GameMode::GetCurrent()->GetNextVortexID();
 }
 
 //-----------------------------------------------------------------------------------
@@ -53,7 +54,7 @@ void Wormhole::ResolveCollision(Entity* otherEntity)
     Vector2 dispFromOtherToCenter = m_transform.GetWorldPosition() - otherEntity->m_transform.GetWorldPosition();
     Vector2 normDirectionTowardsCenter = dispFromOtherToCenter.GetNorm();
 
-    otherEntity->SetVortexShaderPosition(m_transform.GetWorldPosition());
+    otherEntity->SetVortexShaderPosition(m_transform.GetWorldPosition(), m_vortexID, m_collisionRadius);
 
     if ((dispFromOtherToCenter.CalculateMagnitudeSquared() < INNER_RADIUS_SQUARED) && (GetCurrentTimeSeconds() - otherEntity->m_timeLastWarped > GRACE_PERIOD_TELEPORT_SECONDS))
     {

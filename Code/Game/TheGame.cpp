@@ -83,6 +83,9 @@ TheGame::TheGame()
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
 
+    m_UIShader = ShaderProgram::CreateFromShaderStrings(SpriteGameRenderer::DEFAULT_VERT_SHADER, SpriteGameRenderer::DEFAULT_FRAG_SHADER);
+    m_UIMaterial = new Material(m_UIShader, SpriteGameRenderer::instance->m_defaultRenderState);
+
     m_transitionFBOEffect->SetFloatUniform("gEffectTime", -10.0f);
     m_transitionFBOEffect->SetFloatUniform("gEffectDurationSeconds", TRANSITION_TIME_SECONDS);
     m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
@@ -105,6 +108,8 @@ TheGame::~TheGame()
     delete m_pauseFBOEffect;
     delete m_rainbowFBOEffect->m_shaderProgram;
     delete m_rainbowFBOEffect;
+    delete m_UIShader;
+    delete m_UIMaterial;
 
     if (m_currentGameMode)
     {
