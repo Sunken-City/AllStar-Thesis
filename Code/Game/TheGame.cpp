@@ -585,13 +585,16 @@ void TheGame::RenderPlayerJoin() const
     SpriteGameRenderer::instance->SetClearColor(RGBA::GBBLACK);
     SpriteGameRenderer::instance->Render();
 
-    static const float LINE_WIDTH = 5.0f;
-    Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_windowVirtualWidth, SpriteGameRenderer::instance->m_windowVirtualHeight, Vector2::ZERO);
+    if (!IsTransitioningStates())
     {
-        SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, LINE_WIDTH);
-        SpriteGameRenderer::instance->DrawLine(Vector2(20.0f, 0.0f), Vector2(-20.0f, 0.0f), RGBA::WHITE, LINE_WIDTH);
+        static const float LINE_WIDTH = 5.0f;
+        Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_windowVirtualWidth, SpriteGameRenderer::instance->m_windowVirtualHeight, Vector2::ZERO);
+        {
+            SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, LINE_WIDTH);
+            SpriteGameRenderer::instance->DrawLine(Vector2(20.0f, 0.0f), Vector2(-20.0f, 0.0f), RGBA::WHITE, LINE_WIDTH);
+        }
+        Renderer::instance->EndOrtho();
     }
-    Renderer::instance->EndOrtho();
 }
 
 //-----------------------------------------------------------------------------------
