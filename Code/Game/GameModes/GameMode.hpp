@@ -65,7 +65,7 @@ public:
     virtual void InitializePlayerData();
     virtual void RecordPlayerDeath(PlayerShip* ship);
     virtual void RecordPlayerKill(PlayerShip* killer, Ship* victim);
-    virtual void DetermineWinners();
+    virtual void RankPlayers();
 
     //STATIC FUNCTIONS/////////////////////////////////////////////////////////////////////
     static GameMode* GetCurrent();

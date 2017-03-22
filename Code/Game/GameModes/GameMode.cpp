@@ -441,28 +441,32 @@ void GameMode::RecordPlayerKill(PlayerShip* killer, Ship*)
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::DetermineWinners()
+void GameMode::RankPlayers()
 {
-    int maxScore = 0;
-    for (PlayerShip* ship : m_players)
+    int* scores = new int[TheGame::instance->m_numberOfPlayers];
+    for (unsigned int i = 0; i < m_players.size(); ++i)
     {
+        scores[i] = INT_MIN;
+        PlayerShip* ship = m_players[i];
         DefaultPlayerStats* stats = m_playerStats[ship];
-        int playerScore = stats->m_numKills - stats->m_numDeaths;
-        maxScore = playerScore > maxScore ? playerScore : maxScore;
+        scores[i] = stats->m_numKills - stats->m_numDeaths;
+        ship->m_rank = 999;
     }
-    for (PlayerShip* ship : m_players)
+    for (unsigned int i = 0; i < m_players.size(); ++i)
     {
-        DefaultPlayerStats* stats = m_playerStats[ship];
-        int playerScore = stats->m_numKills - stats->m_numDeaths;
-        if (playerScore == maxScore)
+        int numBetterPlayers = 0;
+        int myScore = scores[i];
+        for (unsigned int j = 0; j < m_players.size(); ++j)
         {
-            ship->m_sprite->m_tintColor = RGBA::GOLD;
+            int otherScore = scores[j];
+            if (myScore < otherScore)
+            {
+                ++numBetterPlayers;
+            }
         }
-        else
-        {
-            ship->m_sprite->m_tintColor = RGBA::GRAY;
-        }
+        m_players[i]->m_rank = numBetterPlayers + 1; //1st place has 0 people better
     }
+    delete scores;
 }
 
 //-----------------------------------------------------------------------------------

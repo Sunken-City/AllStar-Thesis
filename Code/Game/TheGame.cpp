@@ -1013,6 +1013,8 @@ void TheGame::InitializeMinigameResultsState()
     SpriteGameRenderer::instance->SetSplitscreen(1);
     m_currentGameMode->HideBackground();
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameResultsState);
+
+    m_currentGameMode->RankPlayers();
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* ship = TheGame::instance->m_players[i];
@@ -1022,21 +1024,41 @@ void TheGame::InitializeMinigameResultsState()
         float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
         float yMultiplier = i >= 2 ? -1.0f : 1.0f;
         ship->SetPosition(Vector2(3.0f * xMultiplier, 3.0f * yMultiplier));
+        std::string shipRank;
+        switch (ship->m_rank)
+        {
+        case (1):
+            shipRank = "1st";
+            break;
+        case (2):
+            shipRank = "2nd";
+            break;
+        case (3):
+            shipRank = "3rd";
+            break;
+        case (4):
+            shipRank = "4th";
+            break;
+        default:
+            shipRank = "ERROR";
+            break;
+        }
+        m_rankText[i] = new TextRenderable2D(shipRank, Vector2(4.0f * xMultiplier, 4.0f * yMultiplier), TEXT_LAYER);
     }
-
-    m_currentGameMode->DetermineWinners();
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupMinigameResultsState(unsigned int)
 {
-    for (PlayerShip* ship : TheGame::instance->m_players)
+    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
+        PlayerShip* ship = TheGame::instance->m_players[i];
         ship->UnlockMovement();
         ship->m_isDead = false;
         ship->Respawn();
         ship->m_sprite->m_tintColor = RGBA::WHITE;
         ship->m_shieldSprite->Enable();
+        delete m_rankText[i];
     }
     delete m_currentGameMode;
     if (m_queuedMinigameModes.size() > 0)
