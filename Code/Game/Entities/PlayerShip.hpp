@@ -100,5 +100,5 @@ public:
     double m_timeSinceFullDisplayedMilliseconds = -10.0f;
     float m_totalDamageDone = 0.0f;
     int m_rank = 0;
-    int m_gamePoints = 0;
+    int m_gameScore = 0;
 };

@@ -170,18 +170,20 @@ public:
     GameMode* m_currentGameMode;
 
 private:
-    Material* m_transitionFBOEffect = nullptr;
-    Material* m_pauseFBOEffect = nullptr;
-    Material* m_rainbowFBOEffect = nullptr;
-    ParticleSystem* m_titleParticles = nullptr;
-    Sprite* m_gameOverText = nullptr;
     Sprite* m_shipPreviews[4];
     Sprite* m_rightArrows[4];
     Sprite* m_leftArrows[4];
     TextRenderable2D* m_rankText[4];
+    TextRenderable2D* m_scoreEarnedText[4];
+    TextRenderable2D* m_totalScoreText[4];
     TextRenderable2D* m_joinText[4];
     TextRenderable2D* m_readyText[4];
     TextRenderable2D* m_titleText = nullptr;
+    Sprite* m_gameOverText = nullptr;
     WidgetBase* m_gamePausedLabel = nullptr;
+    Material* m_transitionFBOEffect = nullptr;
+    Material* m_pauseFBOEffect = nullptr;
+    Material* m_rainbowFBOEffect = nullptr;
+    ParticleSystem* m_titleParticles = nullptr;
     unsigned int m_paletteOffsets[4];
 };

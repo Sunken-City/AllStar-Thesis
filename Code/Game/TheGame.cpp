@@ -778,6 +778,7 @@ void TheGame::RenderSplitscreenLines() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeAssemblyResultsState()
 {
+    static const float SHIP_SCALE = 8.0f;
     SpriteGameRenderer::instance->SetSplitscreen(m_numberOfPlayers);
     if (!g_muteMusic)
     {
@@ -796,7 +797,7 @@ void TheGame::InitializeAssemblyResultsState()
         ship->Respawn();
         ship->m_shieldSprite->Disable();
         ship->SetPosition(Vector2(-5.0f, 0.0f));
-        ship->m_sprite->m_transform.SetScale(Vector2(8.0f));
+        ship->m_sprite->m_transform.SetScale(Vector2(SHIP_SCALE));
         ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(i);
         ship->m_shipTrail->Disable();
         ship->LockMovement();
@@ -1008,6 +1009,17 @@ void TheGame::RenderMinigamePlaying() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMinigameResultsState()
 {
+    static const float SHIP_SCALE = 6.0f;
+    static const float PLAYER_OFFSET = 3.0f;
+    static const float RANK_X_OFFSET = 6.0f;
+    static const float RANK_Y_OFFSET = 4.0f;
+    static const float SCORE_X_OFFSET = 6.0f;
+    static const float SCORE_Y_OFFSET = 3.0f;
+    static const float LOWER_SCORE_Y_OFFSET = 2.0f;
+    static const float TOTAL_X_OFFSET = 6.0f;
+    static const float TOTAL_Y_OFFSET = 1.0f;
+    static const int POINTS_PER_PLACE[4] = {7, 4, 2, 1};
+
     if (!g_muteMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_resultsMusic, 0.6f);
@@ -1023,10 +1035,13 @@ void TheGame::InitializeMinigameResultsState()
         PlayerShip* ship = TheGame::instance->m_players[i];
         ship->Respawn();
         ship->m_shieldSprite->Disable();
+        ship->m_sprite->m_transform.SetScale(Vector2(SHIP_SCALE));
         ship->LockMovement();
         float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
         float yMultiplier = i >= 2 ? -1.0f : 1.0f;
-        ship->SetPosition(Vector2(3.0f * xMultiplier, 3.0f * yMultiplier));
+        ship->SetPosition(Vector2(PLAYER_OFFSET * xMultiplier, PLAYER_OFFSET * yMultiplier));
+        ship->m_gameScore += POINTS_PER_PLACE[ship->m_rank - 1];
+
         std::string shipRank;
         switch (ship->m_rank)
         {
@@ -1046,7 +1061,21 @@ void TheGame::InitializeMinigameResultsState()
             shipRank = "ERROR";
             break;
         }
-        m_rankText[i] = new TextRenderable2D(shipRank, Vector2(4.0f * xMultiplier, 4.0f * yMultiplier), TEXT_LAYER);
+
+        if (yMultiplier > 0.0f)
+        {
+            m_rankText[i] = new TextRenderable2D(shipRank, Vector2(RANK_X_OFFSET * xMultiplier, RANK_Y_OFFSET * yMultiplier), TEXT_LAYER);
+            m_scoreEarnedText[i] = new TextRenderable2D(Stringf("Earned %i points!", POINTS_PER_PLACE[ship->m_rank - 1]), Vector2(SCORE_X_OFFSET * xMultiplier, LOWER_SCORE_Y_OFFSET * yMultiplier), TEXT_LAYER);
+            m_totalScoreText[i] = new TextRenderable2D(Stringf("Total Points: %i pts", ship->m_gameScore), Vector2(TOTAL_X_OFFSET * xMultiplier, TOTAL_Y_OFFSET * yMultiplier), TEXT_LAYER);
+        }
+        else
+        {
+            m_rankText[i] = new TextRenderable2D(shipRank, Vector2(RANK_X_OFFSET * xMultiplier, TOTAL_Y_OFFSET * yMultiplier), TEXT_LAYER);
+            m_scoreEarnedText[i] = new TextRenderable2D(Stringf("Earned %i points!", POINTS_PER_PLACE[ship->m_rank - 1]), Vector2(SCORE_X_OFFSET * xMultiplier, SCORE_Y_OFFSET * yMultiplier), TEXT_LAYER);
+            m_totalScoreText[i] = new TextRenderable2D(Stringf("Total Points: %i pts", ship->m_gameScore), Vector2(TOTAL_X_OFFSET * xMultiplier, RANK_Y_OFFSET * yMultiplier), TEXT_LAYER);
+        }
+        m_scoreEarnedText[i]->m_fontSize = 0.5f;
+        m_totalScoreText[i]->m_fontSize = 0.5f;
     }
 }
 
@@ -1059,9 +1088,11 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
         ship->UnlockMovement();
         ship->m_isDead = false;
         ship->Respawn();
-        ship->m_sprite->m_tintColor = RGBA::WHITE;
+        ship->m_sprite->m_transform.SetScale(Vector2::ONE);
         ship->m_shieldSprite->Enable();
         delete m_rankText[i];
+        delete m_scoreEarnedText[i];
+        delete m_totalScoreText[i];
     }
     delete m_currentGameMode;
     if (m_queuedMinigameModes.size() > 0)
