@@ -508,7 +508,7 @@ void TheGame::UpdatePlayerJoin(float)
         Vector2 shootDirection = pilot->m_inputMap.GetVector2("ShootRight", "ShootUp");
         if (shootDirection.CalculateMagnitudeSquared() > DEADZONE_BEFORE_ROTATION_SQUARED)
         {
-            m_shipPreviews[i]->m_transform.SetRotationDegrees(shootDirection.GetDirectionDegreesFromNormalizedVector());
+            m_shipPreviews[i]->m_transform.SetRotationDegrees(shootDirection.GetDirectionDegrees());
         }
         else
         {

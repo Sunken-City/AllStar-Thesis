@@ -69,6 +69,10 @@ public:
     static const Vector2 DEFAULT_SCALE;
     static const char* RESPAWN_TEXT;
     static const char* DEAD_TEXT;
+    static constexpr double EJECT_TIME_SECONDS = 0.5f;
+    static constexpr double EJECT_TIME_MILLISECONDS = EJECT_TIME_SECONDS * 1000.0f;
+    static constexpr double FULL_MESSAGE_TIME_SECONDS = 1.0f;
+    static constexpr double FULL_MESSAGE_TIME_MILLISECONDS = FULL_MESSAGE_TIME_SECONDS * 1000.0f;
 
     Stats m_powerupStatModifiers;
     ShaderProgram* m_paletteSwapShader = nullptr;

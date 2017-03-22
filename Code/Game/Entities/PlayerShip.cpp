@@ -752,9 +752,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 //-----------------------------------------------------------------------------------
 bool PlayerShip::CanPickUp(Item* item)
 {
-    static const double FULL_TIME_SECONDS = 1.0f;
-    static const double FULL_TIME_MILLISECONDS = FULL_TIME_SECONDS * 1000.0f;
-
+    double currentTimeMilliseconds = GetCurrentTimeMilliseconds();
     if (item->IsPowerUp())
     {
         PowerUp* powerUp = (PowerUp*)item;
@@ -765,7 +763,7 @@ bool PlayerShip::CanPickUp(Item* item)
         else
         {
             double currTimeMilliseconds = GetCurrentTimeMilliseconds();
-            if (currTimeMilliseconds - m_timeSinceFullDisplayedMilliseconds > FULL_TIME_MILLISECONDS)
+            if (currTimeMilliseconds - m_timeSinceFullDisplayedMilliseconds > FULL_MESSAGE_TIME_MILLISECONDS)
             {
                 m_timeSinceFullDisplayedMilliseconds = currTimeMilliseconds;
 
@@ -777,33 +775,36 @@ bool PlayerShip::CanPickUp(Item* item)
             return false;
         }
     }
-    else if (item->IsWeapon() && m_weapon == nullptr)
+    else if (item->IsWeapon() && (currentTimeMilliseconds - m_weaponBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectWeapon")))
     {
+        EjectWeapon();
+        m_weaponBeginEjectMilliseconds = currentTimeMilliseconds;
         return true;
     }
-    else if (item->IsChassis() && m_chassis == nullptr)
+    else if (item->IsChassis() && (currentTimeMilliseconds - m_chassisBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectChassis")))
     {
+        EjectChassis();
+        m_chassisBeginEjectMilliseconds = currentTimeMilliseconds;
         return true;
     }
-    else if (item->IsPassiveEffect() && m_passiveEffect == nullptr)
+    else if (item->IsPassiveEffect() && (currentTimeMilliseconds - m_passiveBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectPassive")))
     {
+        EjectPassive();
+        m_passiveBeginEjectMilliseconds = currentTimeMilliseconds;
         return true;
     }
-    else if (item->IsActiveEffect() && m_activeEffect == nullptr)
+    else if (item->IsActiveEffect() && (currentTimeMilliseconds - m_activeBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectActive")))
     {
+        EjectActive();
+        m_activeBeginEjectMilliseconds = currentTimeMilliseconds;
         return true;
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 //-----------------------------------------------------------------------------------
 void PlayerShip::CheckToEjectEquipment(float)
 {
-    static const double EJECT_TIME_SECONDS = 0.5f;
-    static const double EJECT_TIME_MILLISECONDS = EJECT_TIME_SECONDS * 1000.0f;
     double currentTimeMilliseconds = GetCurrentTimeMilliseconds();
 
     if (m_pilot->m_inputMap.WasJustPressed("EjectActive"))
@@ -820,27 +821,6 @@ void PlayerShip::CheckToEjectEquipment(float)
     }
     if (m_pilot->m_inputMap.WasJustPressed("EjectChassis"))
     {
-        m_chassisBeginEjectMilliseconds = currentTimeMilliseconds;
-    }
-
-    if (currentTimeMilliseconds - m_activeBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectActive"))
-    {
-        EjectActive();
-        m_activeBeginEjectMilliseconds = currentTimeMilliseconds;
-    }
-    if (currentTimeMilliseconds - m_passiveBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectPassive"))
-    {
-        EjectPassive();
-        m_passiveBeginEjectMilliseconds = currentTimeMilliseconds;
-    }
-    if (currentTimeMilliseconds - m_weaponBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectWeapon"))
-    {
-        EjectWeapon();
-        m_weaponBeginEjectMilliseconds = currentTimeMilliseconds;
-    }
-    if (currentTimeMilliseconds - m_chassisBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS && m_pilot->m_inputMap.IsDown("EjectChassis"))
-    {
-        EjectChassis();
         m_chassisBeginEjectMilliseconds = currentTimeMilliseconds;
     }
 }
