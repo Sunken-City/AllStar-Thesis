@@ -1010,7 +1010,7 @@ void TheGame::RenderMinigamePlaying() const
 void TheGame::InitializeMinigameResultsState()
 {
     static const float SHIP_SCALE = 6.0f;
-    static const float PLAYER_OFFSET = 3.0f;
+    static const float PLAYER_OFFSET = 2.5f;
     static const float RANK_X_OFFSET = 6.0f;
     static const float RANK_Y_OFFSET = 4.0f;
     static const float SCORE_X_OFFSET = 6.0f;
