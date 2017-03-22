@@ -90,7 +90,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
         PickUpItem(new WaveGun());
         PickUpItem(new SpeedChassis());
         PickUpItem(new BoostActive());
-        PickUpItem(new SprayAndPrayPassive());
+        PickUpItem(new CloakPassive());
     }
 
     m_shieldDownEffect = new Material(

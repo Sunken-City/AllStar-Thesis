@@ -193,7 +193,10 @@ void Ship::UpdateMotion(float deltaSeconds)
 
     if (shootDirection.CalculateMagnitudeSquared() < DEADZONE_BEFORE_ROTATION_SQUARED && !isShooting)
     {
-        SetRotation(MathUtils::Lerp(0.1f, GetRotation(), m_velocity.GetDirectionDegreesFromNormalizedVector()));
+        float currRotation = GetRotation();
+        float angleDifference = MathUtils::CalcShortestAngularDisplacement(currRotation, m_velocity.GetDirectionDegreesFromNormalizedVector());
+        float desiredRotation = currRotation + angleDifference;
+        SetRotation(MathUtils::Lerp(0.1f, currRotation, desiredRotation));
     }
 }
 

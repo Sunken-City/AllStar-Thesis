@@ -3,6 +3,7 @@
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
+#include "Game/GameModes/GameMode.hpp"
 
 //-----------------------------------------------------------------------------------
 CloakPassive::CloakPassive()
@@ -29,6 +30,11 @@ void CloakPassive::Update(float deltaSeconds)
     m_owner->m_sprite->m_tintColor.SetAlphaFloat(alphaValue);
     m_owner->m_shieldSprite->m_tintColor.SetAlphaFloat(Min<float>(alphaValue, m_owner->m_shieldSprite->m_tintColor.GetAlphaFloat()));
     m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(alphaValue);
+
+    if (!GameMode::GetCurrent()->m_isPlaying)
+    {
+        m_owner->m_sprite->m_tintColor.SetAlphaFloat(1.0f);
+    }
 }
 
 //-----------------------------------------------------------------------------------

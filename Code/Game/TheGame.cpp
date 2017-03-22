@@ -447,11 +447,7 @@ void TheGame::UpdatePlayerJoin(float)
     {
         return;
     }
-
-    for (int i = 0; i < MAX_NUM_PLAYERS; ++i)
-    {
-    }
-
+    
     //If someone presses their button a second time, we know all players are in and we're ready to start.
     for (unsigned int i = 0; i < m_playerPilots.size(); ++i)
     {
@@ -516,7 +512,10 @@ void TheGame::UpdatePlayerJoin(float)
         }
         else
         {
-            float rotationAmount = MathUtils::Lerp(0.1f, m_shipPreviews[i]->m_transform.GetLocalRotationDegrees(), (float)GetCurrentTimeSeconds() * 50.0f);
+            float currRotation = m_shipPreviews[i]->m_transform.GetLocalRotationDegrees();
+            float angleDifference = MathUtils::CalcShortestAngularDisplacement(currRotation, (float)GetCurrentTimeSeconds() * 50.0f);
+            float desiredRotation = currRotation + angleDifference;
+            float rotationAmount = MathUtils::Lerp(0.1f, currRotation, desiredRotation);
             m_shipPreviews[i]->m_transform.SetRotationDegrees(rotationAmount);
         }
         m_rightArrows[i]->m_transform.SetScale(Vector2(2.0f + (sin(GetCurrentTimeSeconds()) * 0.5f)));
