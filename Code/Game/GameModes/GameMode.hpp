@@ -35,6 +35,9 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
+
+    void DeleteAllEntities();
+
     virtual void Update(float deltaSeconds);
     virtual void UpdatePlayerCameras();
     virtual Vector2 GetRandomLocationInArena(float radius = 0.0f);
@@ -60,6 +63,7 @@ public:
     virtual Vector2 FindSpaceForEncounter(float radius, const std::vector<Encounter*>& encounters);
     virtual void SetTimeRemaining(float timeRemainingSeconds);
     virtual inline float GetTimerSecondsElapsed() { return m_timerSecondsElapsed; };
+    void ClearBlackHolePositions();
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();

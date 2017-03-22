@@ -103,7 +103,23 @@ void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 void GameMode::CleanUp()
 {
     StopPlaying();
+    ClearBlackHolePositions(); 
+    DeleteAllEntities();
+
     AudioSystem::instance->StopSound(m_backgroundMusic);
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::DeleteAllEntities()
+{
+    for (Entity* ent : m_entities)
+    {
+        if (!ent->IsPlayer())
+        {
+            delete ent;
+        }
+    }
+    m_entities.clear();
 }
 
 //-----------------------------------------------------------------------------------
@@ -415,6 +431,15 @@ void GameMode::CleanupReadyAnim()
     m_modeTitleRenderable = nullptr;
     delete m_getReadyRenderable;
     m_getReadyRenderable = nullptr;
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::ClearBlackHolePositions()
+{
+    for (Entity* entity : m_entities)
+    {
+        entity->SetVortexShaderPosition(Vector2(20000.0f, 20000.0f));
+    }
 }
 
 //-----------------------------------------------------------------------------------

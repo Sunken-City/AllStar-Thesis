@@ -48,14 +48,6 @@ void BattleRoyaleMinigameMode::Initialize(const std::vector<PlayerShip*>& player
 //-----------------------------------------------------------------------------------
 void BattleRoyaleMinigameMode::CleanUp()
 {
-    for (Entity* ent : m_entities)
-    {
-        if (!ent->IsPlayer())
-        {
-            delete ent;
-        }
-    }
-    m_entities.clear();
     GameMode::CleanUp();
 }
 

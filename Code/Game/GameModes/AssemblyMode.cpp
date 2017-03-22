@@ -47,14 +47,6 @@ void AssemblyMode::Initialize(const std::vector<PlayerShip*>& players)
 //-----------------------------------------------------------------------------------
 void AssemblyMode::CleanUp()
 {
-    for (Entity* ent : m_entities)
-    {
-        if (!ent->IsPlayer())
-        {
-            delete ent;
-        }
-    }
-    m_entities.clear();
     GameMode::CleanUp();
 }
 
