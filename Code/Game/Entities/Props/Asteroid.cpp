@@ -40,6 +40,29 @@ Asteroid::~Asteroid()
 }
 
 //-----------------------------------------------------------------------------------
+void Asteroid::ResolveCollision(Entity* otherEntity)
+{
+    Entity::ResolveCollision(otherEntity);
+
+    //Only push away against other pickups.
+    if ((m_isImmobile || otherEntity->m_isImmobile) && (dynamic_cast<Asteroid*>(otherEntity) != nullptr))
+    {
+        Vector2 myPosition = GetPosition();
+        Vector2 otherPosition = otherEntity->GetPosition();
+        Vector2 displacementFromOtherToMe = myPosition - otherPosition;
+        Vector2 directionFromOtherToMe = displacementFromOtherToMe.GetNorm();
+
+        float distanceBetweenEntities = displacementFromOtherToMe.CalculateMagnitude();
+        float sumOfRadii = m_collisionRadius + otherEntity->m_collisionRadius;
+        float overlapDistance = sumOfRadii - distanceBetweenEntities;
+        float pushDistance = overlapDistance * 0.5f;
+        Vector2 myPositionCorrection = directionFromOtherToMe * pushDistance;
+        SetPosition(myPosition + myPositionCorrection);
+        otherEntity->SetPosition(otherPosition - myPositionCorrection);
+    }
+}
+
+//-----------------------------------------------------------------------------------
 void Asteroid::Die()
 {
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");

@@ -8,6 +8,7 @@ public:
     virtual ~Asteroid();
 
     virtual void Die() override;
+    virtual void ResolveCollision(Entity* otherEntity) override;
     inline virtual bool IsProp() override { return true; };
     virtual void Update(float deltaSeconds);
     void RecalculateHP();
