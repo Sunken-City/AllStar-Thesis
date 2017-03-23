@@ -686,16 +686,6 @@ void TheGame::InitializeAssemblyPlayingState()
         ship->ShowUI();
     }
 
-//     m_gamePausedLabel = UISystem::instance->CreateWidget("Label");
-//     m_gamePausedLabel->SetProperty<std::string>("Name", "GamePausedLabel");
-//     m_gamePausedLabel->SetProperty<std::string>("Text", "Game Paused");
-//     m_gamePausedLabel->SetProperty("BackgroundColor", RGBA::CLEAR);
-//     m_gamePausedLabel->SetProperty("BorderWidth", 0.0f);
-//     m_gamePausedLabel->SetProperty("TextSize", 7.0f);
-//     m_gamePausedLabel->SetProperty("Offset", Vector2(1600.0f/4.0f, 900.0f/2.0f));
-//     UISystem::instance->AddWidget(m_gamePausedLabel);
-//     m_gamePausedLabel->SetHidden();
-
     m_currentGameMode->Initialize(m_players);
     SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
 
@@ -709,7 +699,6 @@ void TheGame::CleanupAssemblyPlayingState(unsigned int)
     {
         ship->HideUI();
     }
-    //UISystem::instance->DeleteWidget(m_gamePausedLabel);
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
 }
@@ -1263,7 +1252,7 @@ void TheGame::CheckForGamePaused()
 {
     for (PlayerShip* ship : m_players)
     {
-        if (!ship->m_isDead && ship->m_pilot->m_inputMap.FindInputValue("Pause")->WasJustPressed())
+        if (!ship->m_isDead && ship->m_pilot->m_inputMap.FindInputValue("Pause")->WasJustPressed() || (g_isGamePaused && ship->m_pilot->m_inputMap.FindInputValue("Back")->WasJustPressed()))
         {
             g_isGamePaused = !g_isGamePaused;
             if (g_isGamePaused)
@@ -1278,7 +1267,6 @@ void TheGame::CheckForGamePaused()
             else
             {
                 SpriteGameRenderer::instance->RemoveEffectFromLayer(m_pauseFBOEffect, FULL_SCREEN_EFFECT_LAYER);
-                //m_gamePausedLabel->SetHidden();
                 for (PlayerShip* player : m_players)
                 {
                     player->HideStatGraph();

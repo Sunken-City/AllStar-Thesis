@@ -41,6 +41,12 @@ ItemCrate::~ItemCrate()
 //-----------------------------------------------------------------------------------
 void ItemCrate::Update(float deltaSeconds)
 {
+    Entity::Update(deltaSeconds);
+    Vector2 pos = m_transform.GetWorldPosition();
+    pos += m_velocity * deltaSeconds;
+    m_velocity *= 0.9f;
+    SetPosition(pos);
+
     float newRotation = m_transform.GetWorldRotationDegrees() + m_angularVelocity * deltaSeconds;
     Vector2 direction = Vector2::DegreesToDirection(-newRotation, Vector2::ZERO_DEGREES_UP);
     m_transform.SetRotationDegrees(newRotation);

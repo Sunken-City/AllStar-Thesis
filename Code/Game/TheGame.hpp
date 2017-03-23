@@ -70,11 +70,11 @@ public:
     static unsigned int const ENEMY_LAYER = 900;
     static unsigned int const PLAYER_LAYER = 1000;
     static unsigned int const SHIELD_LAYER = 1050;
-    static unsigned int const ITEM_TEXT_LAYER = 1075;
     static unsigned int const BULLET_LAYER_BLOOM = 1100;
     static unsigned int const BULLET_LAYER = 1200;
     static unsigned int const FOREGROUND_LAYER = 2000;
     static unsigned int const TEXT_PARTICLE_LAYER = 2300;
+    static unsigned int const ITEM_TEXT_LAYER = 2400;
     static unsigned int const BACKGROUND_UI_LAYER = 2500;
     static unsigned int const UI_LAYER = 3000;
     static unsigned int const TEXT_LAYER = 3500;
@@ -184,7 +184,6 @@ private:
     TextRenderable2D* m_readyText[4];
     TextRenderable2D* m_titleText = nullptr;
     Sprite* m_gameOverText = nullptr;
-    WidgetBase* m_gamePausedLabel = nullptr;
     Material* m_transitionFBOEffect = nullptr;
     Material* m_pauseFBOEffect = nullptr;
     Material* m_resultsBackgroundEffect = nullptr;
