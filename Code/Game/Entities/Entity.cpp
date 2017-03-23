@@ -116,6 +116,16 @@ void Entity::ResolveCollision(Entity* otherEntity)
     {
         otherEntity->SetPosition(otherPosition - myPositionCorrection); 
     }
+
+    //Take damage from the collision if anything does damage on contact
+    if (m_collisionDamageAmount > 0.0f)
+    {
+        otherEntity->TakeDamage(m_collisionDamageAmount);
+    }
+    if (otherEntity->m_collisionDamageAmount > 0.0f)
+    {
+        TakeDamage(otherEntity->m_collisionDamageAmount);
+    }
 }
 
 //-----------------------------------------------------------------------------------

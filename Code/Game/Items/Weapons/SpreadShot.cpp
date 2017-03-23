@@ -49,6 +49,7 @@ bool SpreadShot::AttemptFire(Ship* shooter)
         {
             float degreesOffset = MathUtils::GetRandomFloat(-halfSpreadDegrees, halfSpreadDegrees);
             Projectile* bullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+            bullet->m_lifeSpan = 0.5f;
             currentGameMode->SpawnBullet(bullet);
             if (shooter->IsPlayer())
             {

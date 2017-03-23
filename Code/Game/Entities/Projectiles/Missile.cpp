@@ -35,6 +35,8 @@ Missile::Missile(Entity* owner, float degreesOffset, float damage, float disrupt
 
     Vector2 muzzleVelocity = direction * adjustedSpeed;
     m_velocity = muzzleVelocity;
+
+    m_lifeSpan = 1.0f;
 }
 
 //-----------------------------------------------------------------------------------

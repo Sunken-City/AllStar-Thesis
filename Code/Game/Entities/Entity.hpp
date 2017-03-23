@@ -106,6 +106,7 @@ public:
     float m_frictionValue;
     float m_currentShieldHealth;
     float m_mass = 1.0f;
+    float m_collisionDamageAmount = 0.0f;
     bool m_isDead = false;
     bool m_collidesWithBullets = true;
     bool m_noCollide = false;

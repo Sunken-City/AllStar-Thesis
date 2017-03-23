@@ -89,9 +89,9 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     if (g_spawnWithDebugLoadout)
     {
         PickUpItem(new WaveGun());
-        PickUpItem(new SpeedChassis());
+        //PickUpItem(new SpeedChassis());
         PickUpItem(new BoostActive());
-        PickUpItem(new CloakPassive());
+        //PickUpItem(new CloakPassive());
     }
 
     m_shieldDownEffect = new Material(

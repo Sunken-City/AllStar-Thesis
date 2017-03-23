@@ -54,7 +54,7 @@ PlasmaBall::PlasmaBall(Entity* owner, float degreesOffset /*= 0.0f*/, float dama
     Vector2 muzzleVelocity = m_muzzleDirection * adjustedSpeed;
     m_velocity = muzzleVelocity;
     m_centralVelocity = muzzleVelocity;
-    m_lifeSpan = 1.0f;
+    m_lifeSpan = 0.5f;
 }
 
 //-----------------------------------------------------------------------------------

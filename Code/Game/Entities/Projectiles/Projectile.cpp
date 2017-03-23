@@ -14,7 +14,7 @@ Projectile::Projectile(Entity* owner, float degreesOffset /*= 0.0f*/, float dama
     , m_damage(damage)
     , m_disruption(disruption)
     , m_shotHoming(homing)
-    , m_lifeSpan(2.0f)
+    , m_lifeSpan(1.0f)
 {
     m_owner = owner;
     m_collidesWithBullets = false;
