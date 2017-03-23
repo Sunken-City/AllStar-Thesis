@@ -26,6 +26,7 @@ Wormhole::Wormhole(const Vector2& initialPosition)
     m_isInvincible = true;
     m_noCollide = true;
     m_collidesWithBullets = false;
+    m_isImmobile = true;
     m_vortexID = GameMode::GetCurrent()->GetNextVortexID();
 }
 

@@ -108,6 +108,29 @@ void Pickup::ResolveCollision(Entity* otherEntity)
         return;
     }
 
+    //Only push away against other pickups.
+    if (otherEntity->IsPickup())
+    {
+        Vector2 myPosition = GetPosition();
+        Vector2 otherPosition = otherEntity->GetPosition();
+        Vector2 displacementFromOtherToMe = myPosition - otherPosition;
+        Vector2 directionFromOtherToMe = displacementFromOtherToMe.GetNorm();
+
+        float distanceBetweenEntities = displacementFromOtherToMe.CalculateMagnitude();
+        float sumOfRadii = m_collisionRadius + otherEntity->m_collisionRadius;
+        float overlapDistance = sumOfRadii - distanceBetweenEntities;
+        float pushDistance = overlapDistance * 0.5f;
+        Vector2 myPositionCorrection = directionFromOtherToMe * pushDistance;
+        if (!m_isImmobile)
+        {
+            SetPosition(myPosition + myPositionCorrection);
+        }
+        if (!otherEntity->m_isImmobile)
+        {
+            otherEntity->SetPosition(otherPosition - myPositionCorrection);
+        }
+    }
+
     for (PlayerShip* player : TheGame::instance->m_players)
     {
         if ((Entity*)player == otherEntity && !player->m_isDead && m_item)

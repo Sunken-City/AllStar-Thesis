@@ -1469,7 +1469,7 @@ void TheGame::RegisterSprites()
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\bg1.jpg");
     ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\bg1.jpg");
-    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\bg2.jpg");
+    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\bg3.jpg");
     ResourceDatabase::instance->RegisterSprite("Starfield", "Data\\Images\\Starfield_Foreground.png");
     ResourceDatabase::instance->EditSpriteResource("Starfield")->m_uvBounds = AABB2(Vector2(-15.0f), Vector2(15.0f));
 
@@ -1575,6 +1575,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("BlueWarp", "Data\\Images\\Particles\\particleBlue_2.png");
     ResourceDatabase::instance->RegisterSprite("WhiteBeam", "Data\\Images\\Particles\\particleWhite_5.png");
     ResourceDatabase::instance->RegisterSprite("White4Star", "Data\\Images\\Particles\\particleWhite_7.png");
+    ResourceDatabase::instance->RegisterSprite("White5Star", "Data\\Images\\Particles\\particleWhite_3.png");
     ResourceDatabase::instance->RegisterSprite("White8Star", "Data\\Images\\Particles\\particleWhite_6.png");
     ResourceDatabase::instance->RegisterSprite("Blue4Star", "Data\\Images\\Particles\\particleBlue_7.png");
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
@@ -1785,7 +1786,7 @@ void TheGame::RegisterParticleEffects()
     collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
     collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.1f));
 
-    ParticleEmitterDefinition* titleScreenParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("White4Star"));
+    ParticleEmitterDefinition* titleScreenParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("White5Star"));
     titleScreenParticle->m_properties.Set<std::string>(PROPERTY_NAME, "TitleScreen");
     titleScreenParticle->m_properties.Set<float>(PROPERTY_GRAVITY_SCALE, -1.0f);
     titleScreenParticle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
