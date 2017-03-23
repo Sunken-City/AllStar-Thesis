@@ -35,6 +35,7 @@ Entity::Entity()
     , m_currentShieldHealth(0.0f)
 {
     m_shieldSprite->m_transform.SetParent(&m_transform);
+    m_shieldSprite->m_transform.IgnoreParentRotation();
 }
 
 //-----------------------------------------------------------------------------------

@@ -187,6 +187,7 @@ private:
     WidgetBase* m_gamePausedLabel = nullptr;
     Material* m_transitionFBOEffect = nullptr;
     Material* m_pauseFBOEffect = nullptr;
+    Material* m_resultsBackgroundEffect = nullptr;
     Material* m_rainbowFBOEffect = nullptr;
     ParticleSystem* m_titleParticles = nullptr;
     unsigned int m_paletteOffsets[4];

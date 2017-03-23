@@ -9,4 +9,4 @@ bool g_spawnCrates              = true;
 bool g_spawnGeometry            = true;
 bool g_nearlyInvulnerable       = false;
 bool g_spawnWithDebugLoadout    = false;
-bool g_muteMusic                = false;
+bool g_muteMusic                = true;

@@ -82,6 +82,10 @@ TheGame::TheGame()
         new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\rainbow.frag"),
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
+    m_resultsBackgroundEffect = new Material(
+        new ShaderProgram("Data\\Shaders\\fixedVertexFormat.vert", "Data\\Shaders\\Post\\pixelBackground.frag"),
+        RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
+        );
 
     m_UIShader = ShaderProgram::CreateFromShaderStrings(SpriteGameRenderer::DEFAULT_VERT_SHADER, SpriteGameRenderer::DEFAULT_FRAG_SHADER);
     m_UIMaterial = new Material(m_UIShader, SpriteGameRenderer::instance->m_defaultRenderState);
@@ -108,6 +112,8 @@ TheGame::~TheGame()
     delete m_pauseFBOEffect;
     delete m_rainbowFBOEffect->m_shaderProgram;
     delete m_rainbowFBOEffect;
+    delete m_resultsBackgroundEffect->m_shaderProgram;
+    delete m_resultsBackgroundEffect;
     delete m_UIShader;
     delete m_UIMaterial;
 
@@ -783,6 +789,8 @@ void TheGame::RenderSplitscreenLines() const
 void TheGame::InitializeAssemblyResultsState()
 {
     static const float SHIP_SCALE = 8.0f;
+
+    SpriteGameRenderer::instance->AddEffectToLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     SpriteGameRenderer::instance->SetSplitscreen(m_numberOfPlayers);
     if (!g_muteMusic)
     {
@@ -800,7 +808,7 @@ void TheGame::InitializeAssemblyResultsState()
         PlayerShip* ship = TheGame::instance->m_players[i];
         ship->Respawn();
         ship->m_shieldSprite->Disable();
-        ship->SetPosition(Vector2(-5.0f, 0.0f));
+        ship->SetPosition(Vector2(5.0f, 0.0f));
         ship->m_sprite->m_transform.SetScale(Vector2(SHIP_SCALE));
         ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(i);
         ship->m_shipTrail->Disable();
@@ -812,6 +820,7 @@ void TheGame::InitializeAssemblyResultsState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupAssemblyResultsState(unsigned int)
 {
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     EnqueueMinigames();
 
     delete m_titleText;
@@ -870,7 +879,7 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderAssemblyResults() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::GBLIGHTGREEN);
+    SpriteGameRenderer::instance->SetClearColor(GameMode::GetCurrent()->m_readyBGColor);
     SpriteGameRenderer::instance->Render();
     RenderSplitscreenLines();
 }
@@ -1030,6 +1039,7 @@ void TheGame::InitializeMinigameResultsState()
     }
     SpriteGameRenderer::instance->SetCameraPosition(Vector2::ZERO);
     SpriteGameRenderer::instance->SetSplitscreen(1);
+    SpriteGameRenderer::instance->AddEffectToLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     m_currentGameMode->HideBackground();
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameResultsState);
 
@@ -1086,6 +1096,7 @@ void TheGame::InitializeMinigameResultsState()
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupMinigameResultsState(unsigned int)
 {
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* ship = TheGame::instance->m_players[i];
@@ -1163,7 +1174,7 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMinigameResults() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::GBLIGHTGREEN);
+    SpriteGameRenderer::instance->SetClearColor(GameMode::GetCurrent()->m_readyBGColor);
     SpriteGameRenderer::instance->Render();
 }
 

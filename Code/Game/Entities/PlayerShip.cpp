@@ -628,7 +628,7 @@ void PlayerShip::InitializeStatGraph()
                 Vector2(BAR_GRAPH_START + BAR_GRAPH_LENGTH, (STARTING_Y_VALUE + HALF_SPACE_PER_ROW) - (SPACE_PER_ROW * i))
                 ), 
             PowerUp::GetPowerUpColor(type), 
-            RGBA::GRAY, TheGame::STAT_GRAPH_LAYER);
+            RGBA::CLEAR, TheGame::STAT_GRAPH_LAYER);
 
         statGraph->SetPercentageFilled(0.0f);
         statGraph->Disable();
