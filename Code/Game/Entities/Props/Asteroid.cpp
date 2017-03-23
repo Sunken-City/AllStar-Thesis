@@ -65,6 +65,7 @@ void Asteroid::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 void Asteroid::Die()
 {
+    static const float IMPULSE_SCALE = 550.0f;
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
     Entity::Die();
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), 1.0f);
@@ -83,8 +84,8 @@ void Asteroid::Die()
         Asteroid* asteroid2 = new Asteroid(m_transform.GetWorldPosition());
         asteroid1->m_transform.SetScale(newScale + Vector2(randomScaleOffset1));
         asteroid2->m_transform.SetScale(newScale + Vector2(randomScaleOffset2));
-        asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1250.0f);
-        asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * 1250.0f);
+        asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * IMPULSE_SCALE);
+        asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * IMPULSE_SCALE);
         asteroid1->CalculateCollisionRadius();
         asteroid2->CalculateCollisionRadius();
 
@@ -113,7 +114,7 @@ void Asteroid::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     Vector2 pos = m_transform.GetWorldPosition();
     pos += m_velocity * deltaSeconds;
-    m_velocity *= 0.9f;
+    m_velocity *= 0.98f;
     SetPosition(pos);
 
     float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);

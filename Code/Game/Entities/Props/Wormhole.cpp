@@ -59,7 +59,7 @@ void Wormhole::ResolveCollision(Entity* otherEntity)
 
     if ((dispFromOtherToCenter.CalculateMagnitudeSquared() < INNER_RADIUS_SQUARED) && (GetCurrentTimeSeconds() - otherEntity->m_timeLastWarped > GRACE_PERIOD_TELEPORT_SECONDS))
     {
-        const float IMPULSE_MAGNITUDE = otherEntity->IsPickup() ? 2000.0f : 1000.0f;
+        const float IMPULSE_MAGNITUDE = otherEntity->IsPlayer() ? 1000000.0f : 2000.0f;
         ASSERT_OR_DIE(m_linkedWormhole, "Wormhole wasn't linked to another!");
         Vector2 otherWormholePosition = m_linkedWormhole->m_transform.GetWorldPosition();
 
