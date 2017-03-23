@@ -109,7 +109,7 @@ void Pickup::ResolveCollision(Entity* otherEntity)
     }
 
     //Only push away against other pickups.
-    if (otherEntity->IsPickup())
+    if (otherEntity->IsPickup() || (otherEntity->IsProp() && !otherEntity->m_isInvincible))
     {
         Vector2 myPosition = GetPosition();
         Vector2 otherPosition = otherEntity->GetPosition();
