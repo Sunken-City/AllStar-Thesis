@@ -11,7 +11,7 @@
 #include "Engine/Renderer/Material.hpp"
 #include "TextSplash.hpp"
 
-Vector2 Entity::SHEILD_SCALE_FUDGE_VALUE = Vector2(0.25f);
+Vector2 Entity::SHIELD_SCALE_FUDGE_VALUE = Vector2(0.1f);
 
 //-----------------------------------------------------------------------------------
 Entity::Entity()
@@ -176,8 +176,8 @@ void Entity::CalculateCollisionRadius()
     m_collisionRadius = maxVirtualSize * maxSpriteScale;
 
     //Get the shield to match the scale of the entity, then add more to encompass it entirely.
-    m_shieldSprite->m_transform.SetScale(Vector2(m_collisionRadius * 3.0f) / (m_shieldSprite->m_spriteResource->m_virtualSize));
-    //m_shieldSprite->m_scale += SHEILD_SCALE_FUDGE_VALUE;
+    Vector2 scale = Vector2(m_collisionRadius * 3.0f) / (m_shieldSprite->m_spriteResource->m_virtualSize);
+    m_shieldSprite->m_transform.SetScale(scale + SHIELD_SCALE_FUDGE_VALUE);
 }
 
 //-----------------------------------------------------------------------------------

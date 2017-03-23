@@ -79,7 +79,7 @@ public:
     virtual float CalculateShotDeflectionValue();
 
     //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
-    static Vector2 SHEILD_SCALE_FUDGE_VALUE;
+    static Vector2 SHIELD_SCALE_FUDGE_VALUE;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_baseStats;
