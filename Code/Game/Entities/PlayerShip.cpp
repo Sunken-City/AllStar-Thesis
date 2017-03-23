@@ -286,6 +286,22 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     {
         m_cooldownMaterial->SetFloatUniform("gPercentage", 1.0f);
     }
+        
+    float lerpAmount = Clamp01(fabs(GameMode::GetCurrent()->GetArenaBounds().mins.y - m_transform.GetWorldPosition().y));
+    m_currentWeaponUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_currentActiveUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_currentChassisUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_currentPassiveUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_equipUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_playerData->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_healthText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_shieldText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_speedText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_scoreText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_healthBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_shieldBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_healthBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_shieldBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
 }
 
 //-----------------------------------------------------------------------------------
