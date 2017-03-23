@@ -44,6 +44,7 @@ public:
     inline virtual bool HasShield() { return m_currentShieldHealth > 0.0f; };
     inline virtual bool IsDead() { return m_isDead; };
     inline virtual bool IsAlive() { return !m_isDead; };
+    inline virtual bool ShowsDamageNumbers() { return true; };
     inline virtual Vector2 GetPosition() { return m_transform.GetWorldPosition(); };
     inline virtual float GetRotation() { return m_transform.GetWorldRotationDegrees(); };
     inline virtual Vector2 GetMuzzlePosition() { return GetPosition(); };

@@ -12,6 +12,7 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void ResolveCollision(Entity* otherEntity) override;
     inline virtual bool IsProp() override { return true; };
+    inline virtual bool ShowsDamageNumbers() { return false; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Sprite* m_overlaySprite = nullptr;

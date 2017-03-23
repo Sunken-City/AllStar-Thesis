@@ -66,6 +66,8 @@ void Asteroid::ResolveCollision(Entity* otherEntity)
 void Asteroid::Die()
 {
     static const float IMPULSE_SCALE = 550.0f;
+    static const int MIN_NUM_ASTEROIDS_SPAWNED = 2;
+    static const int MAX_NUM_ASTEROIDS_SPAWNED = 4;
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
     Entity::Die();
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), 1.0f);
@@ -76,35 +78,26 @@ void Asteroid::Die()
 
     if (gamemode->m_isPlaying && m_transform.GetWorldScale().x >= (MIN_ASTEROID_SCALE / 2.0f))
     {
-        Vector2 newScale = m_transform.GetWorldScale() / 2.0f;
-        float randomScaleOffset1 = MathUtils::GetRandomFloat(-0.1f, 0.1f);
-        float randomScaleOffset2 = MathUtils::GetRandomFloat(-0.1f, 0.1f);
-
-        Asteroid* asteroid1 = new Asteroid(m_transform.GetWorldPosition());
-        Asteroid* asteroid2 = new Asteroid(m_transform.GetWorldPosition());
-        asteroid1->m_transform.SetScale(newScale + Vector2(randomScaleOffset1));
-        asteroid2->m_transform.SetScale(newScale + Vector2(randomScaleOffset2));
-        asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * IMPULSE_SCALE);
-        asteroid2->ApplyImpulse(MathUtils::GetRandomDirectionVector() * IMPULSE_SCALE);
-        asteroid1->CalculateCollisionRadius();
-        asteroid2->CalculateCollisionRadius();
-
-        if (asteroid1->m_transform.GetWorldScale().x <= MIN_ASTEROID_SCALE)
+        int numAsteroidsToSpawn = MathUtils::GetRandomInt(MIN_NUM_ASTEROIDS_SPAWNED, MAX_NUM_ASTEROIDS_SPAWNED);
+        for (int i = 0; i < numAsteroidsToSpawn; ++i)
         {
-            asteroid1->m_isImmobile = false;
-        }   
-        if (asteroid2->m_transform.GetWorldScale().x <= MIN_ASTEROID_SCALE)
-        {
-            asteroid2->m_isImmobile = false;
+            float randomScaleOffset = MathUtils::GetRandomFloat(-0.1f, 0.1f);
+            Vector2 newScale = m_transform.GetWorldScale() / (2.0f + randomScaleOffset);
+            Asteroid* asteroid1 = new Asteroid(m_transform.GetWorldPosition());
+            asteroid1->m_transform.SetScale(newScale);
+            asteroid1->ApplyImpulse(MathUtils::GetRandomDirectionVector() * IMPULSE_SCALE);
+            asteroid1->CalculateCollisionRadius();
+
+            if (asteroid1->m_transform.GetWorldScale().x <= MIN_ASTEROID_SCALE)
+            {
+                asteroid1->m_isImmobile = false;
+            }
+            gamemode->SpawnEntityInGameWorld(asteroid1);
         }
-
         if (gamemode->m_dropItemsOnDeath && MathUtils::CoinFlip())
         {
             gamemode->SpawnPickup(new PowerUp(), m_transform.GetWorldPosition());
         }
-
-        gamemode->SpawnEntityInGameWorld(asteroid1);
-        gamemode->SpawnEntityInGameWorld(asteroid2);
     }
 }
 

@@ -16,6 +16,7 @@ public:
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity) override;
     inline virtual bool IsPickup() override { return true; };
+    inline virtual bool ShowsDamageNumbers() { return false; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Item* m_item;

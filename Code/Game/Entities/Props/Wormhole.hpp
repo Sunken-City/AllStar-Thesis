@@ -13,6 +13,7 @@ public:
     virtual void ResolveCollision(Entity* otherEntity) override;
     static void LinkWormholes(Wormhole* wormhole1, Wormhole* wormhole2);
     inline virtual bool IsProp() override { return true; };
+    inline virtual bool ShowsDamageNumbers() { return false; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Wormhole* m_linkedWormhole;

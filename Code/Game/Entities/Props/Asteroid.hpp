@@ -10,6 +10,7 @@ public:
     virtual void Die() override;
     virtual void ResolveCollision(Entity* otherEntity) override;
     inline virtual bool IsProp() override { return true; };
+    inline virtual bool ShowsDamageNumbers() { return false; };
     virtual void Update(float deltaSeconds);
     void RecalculateHP();
 
