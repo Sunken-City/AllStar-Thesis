@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "Engine/Renderer/RGBA.hpp"
 #include "../Items/PowerUp.hpp"
+#include "../Items/Actives/WarpActive.hpp"
 
 enum class PowerUpType;
 class PlayerPilot;
@@ -74,6 +75,7 @@ public:
     static constexpr double FULL_MESSAGE_TIME_SECONDS = 1.0f;
     static constexpr double FULL_MESSAGE_TIME_MILLISECONDS = FULL_MESSAGE_TIME_SECONDS * 1000.0f;
 
+    WarpActive m_warpFreebieActive;
     Stats m_powerupStatModifiers;
     ShaderProgram* m_paletteSwapShader = nullptr;
     ShaderProgram* m_cooldownShader = nullptr;
@@ -95,6 +97,7 @@ public:
     TextRenderable2D* m_scoreText = nullptr;
     TextRenderable2D* m_statValues[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     BarGraphRenderable2D* m_healthBar = nullptr;
+    BarGraphRenderable2D* m_teleportBar = nullptr;
     BarGraphRenderable2D* m_shieldBar = nullptr;
     BarGraphRenderable2D* m_statBarGraphs[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     double m_activeBeginEjectMilliseconds = -10.0f;

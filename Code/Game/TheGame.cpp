@@ -1337,6 +1337,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.MapInputValue("Shoot", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Shoot", mouse->FindButtonValue(InputSystem::MouseButton::LEFT_MOUSE_BUTTON));
         playerPilot->m_inputMap.MapInputValue("Activate", mouse->FindButtonValue(InputSystem::MouseButton::RIGHT_MOUSE_BUTTON));
+        playerPilot->m_inputMap.MapInputValue("Warp", mouse->FindButtonValue(InputSystem::MouseButton::MIDDLE_MOUSE_BUTTON));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(InputSystem::ExtraKeys::ENTER));
         playerPilot->m_inputMap.MapInputValue("Accept", keyboard->FindValue(' '));
         playerPilot->m_inputMap.MapInputValue("Back", keyboard->FindValue(InputSystem::ExtraKeys::BACKSPACE));
@@ -1365,7 +1366,7 @@ void TheGame::InitializeKeyMappingsForPlayer(PlayerPilot* playerPilot)
         playerPilot->m_inputMap.FindInputAxis("ShootRight")->m_deadzoneValue = 0.3f;
         playerPilot->m_inputMap.FindInputAxis("ShootUp")->m_deadzoneValue = 0.3f;
         playerPilot->m_inputMap.MapInputValue("Shoot", ChordResolutionMode::RESOLVE_MAXS_ABSOLUTE)->m_deadzoneValue = XInputController::INNER_DEADZONE;
-        playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightTrigger());
+        playerPilot->m_inputMap.MapInputValue("Warp", controller->GetRightTrigger());
         playerPilot->m_inputMap.MapInputValue("Shoot", controller->GetRightStickMagnitude());
         playerPilot->m_inputMap.MapInputValue("Activate", controller->GetLeftTrigger());
         playerPilot->m_inputMap.MapInputValue("EjectActive", controller->FindButton(XboxButton::A));

@@ -48,8 +48,9 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_scoreText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
-    , m_healthBar(new BarGraphRenderable2D(AABB2(Vector2::ZERO, Vector2(5.55f, 0.6f)), RGBA::RED, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
-    , m_shieldBar(new BarGraphRenderable2D(AABB2(Vector2(0.0f, 0.6f), Vector2(4.1f, 1.2f)), RGBA::CERULEAN, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
+    , m_healthBar(new BarGraphRenderable2D(AABB2(Vector2(-0.05f, 0.0f), Vector2(5.55f, 0.6f)), RGBA::RED, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
+    , m_teleportBar(new BarGraphRenderable2D(AABB2(Vector2(0.05f, 1.8f), Vector2(-4.79f, 1.4f)), RGBA::GREEN, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
+    , m_shieldBar(new BarGraphRenderable2D(AABB2(Vector2(-0.05f, 0.6f), Vector2(4.1f, 1.2f)), RGBA::CERULEAN, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
     , m_paletteSwapShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
     , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
 {
@@ -109,6 +110,7 @@ PlayerShip::~PlayerShip()
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentActiveUI->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentChassisUI->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentPassiveUI->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_teleportBar->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_playerData->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_healthText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_shieldText->m_transform);
@@ -126,6 +128,7 @@ PlayerShip::~PlayerShip()
     delete m_healthText;
     delete m_shieldText;
     delete m_healthBar;
+    delete m_teleportBar;
     delete m_shieldBar;
     delete m_speedText;
     delete m_scoreText;
@@ -167,6 +170,7 @@ void PlayerShip::InitializeUI()
     m_playerData->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_playerData->m_transform);
     m_healthBar->m_fillColor.SetAlphaFloat(0.75f);
+    m_teleportBar->m_fillColor.SetAlphaFloat(0.75f);
     m_shieldBar->m_fillColor.SetAlphaFloat(0.75f);
 
     m_currentWeaponUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
@@ -221,6 +225,7 @@ void PlayerShip::InitializeUI()
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_shieldText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthBar->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_teleportBar->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_shieldBar->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_speedText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_scoreText->m_transform);
@@ -236,6 +241,7 @@ void PlayerShip::InitializeUI()
     m_healthText->m_viewableBy = visibilityFilter;
     m_shieldText->m_viewableBy = visibilityFilter;
     m_healthBar->m_viewableBy = visibilityFilter;
+    m_teleportBar->m_viewableBy = visibilityFilter;
     m_shieldBar->m_viewableBy = visibilityFilter;
     m_speedText->m_viewableBy = visibilityFilter;
     m_scoreText->m_viewableBy = visibilityFilter;
@@ -298,10 +304,12 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     m_shieldText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
     m_speedText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
     m_scoreText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_healthBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_shieldBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_healthBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_shieldBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_healthBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
+    m_teleportBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
+    m_shieldBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
+    m_healthBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
+    m_teleportBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
+    m_shieldBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
 }
 
 //-----------------------------------------------------------------------------------
@@ -321,6 +329,14 @@ void PlayerShip::UpdateEquips(float deltaSeconds)
         }
         m_activeEffect->Update(deltaSeconds);
     }
+    if (m_pilot->m_inputMap.WasJustPressed("Warp") && IsAlive())
+    {
+        NamedProperties props;
+        props.Set<Ship*>("ShipPtr", (Ship*)this);
+        m_warpFreebieActive.Activate(props);
+    }
+    m_warpFreebieActive.Update(deltaSeconds);
+    m_teleportBar->SetPercentageFilled(m_warpFreebieActive.m_energy);
 }
 
 //-----------------------------------------------------------------------------------
@@ -344,6 +360,7 @@ void PlayerShip::HideUI()
     m_speedText->Disable();
     m_scoreText->Disable();
     m_healthBar->Disable();
+    m_teleportBar->Disable();
     m_shieldBar->Disable();
 }
 
@@ -361,6 +378,7 @@ void PlayerShip::ShowUI()
     //m_speedText->Enable();
     m_scoreText->Enable();
     m_healthBar->Enable();
+    m_teleportBar->Enable();
     m_shieldBar->Enable();
 }
 
@@ -438,6 +456,7 @@ void PlayerShip::Respawn()
     SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
     m_respawnText->Disable();
     m_healthBar->SetPercentageFilled(1.0f);
+    m_teleportBar->SetPercentageFilled(1.0f);
     m_shieldBar->SetPercentageFilled(1.0f);
     if (m_activeEffect)
     {
