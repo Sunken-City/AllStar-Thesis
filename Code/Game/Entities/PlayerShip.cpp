@@ -46,10 +46,10 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_respawnText(new TextRenderable2D(RESPAWN_TEXT, Transform2D(Vector2(0.0f, 0.0f)), TheGame::FBO_FREE_TEXT_LAYER, false))
     , m_healthText(new TextRenderable2D("HP:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_shieldText(new TextRenderable2D("SH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
-    , m_speedText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
+    , m_tpText(new TextRenderable2D("MPH:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_scoreText(new TextRenderable2D("DPS:@@@", Transform2D(Vector2(0.0f, 0.0f)), TheGame::TEXT_LAYER))
     , m_healthBar(new BarGraphRenderable2D(AABB2(Vector2(-0.05f, 0.0f), Vector2(5.55f, 0.6f)), RGBA::RED, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
-    , m_teleportBar(new BarGraphRenderable2D(AABB2(Vector2(0.05f, 1.8f), Vector2(-4.79f, 1.4f)), RGBA::GREEN, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
+    , m_teleportBar(new BarGraphRenderable2D(AABB2(Vector2(0.05f, 1.8f), Vector2(-4.791f, 1.4f)), RGBA::PURPLE, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
     , m_shieldBar(new BarGraphRenderable2D(AABB2(Vector2(-0.05f, 0.6f), Vector2(4.1f, 1.2f)), RGBA::CERULEAN, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
     , m_paletteSwapShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
     , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
@@ -111,12 +111,12 @@ PlayerShip::~PlayerShip()
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentChassisUI->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_currentPassiveUI->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_teleportBar->m_transform);
+    SpriteGameRenderer::instance->RemoveAnchorBottomRight(&m_tpText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_playerData->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_healthText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_shieldText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_healthBar->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_shieldBar->m_transform);
-    SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_speedText->m_transform);
     SpriteGameRenderer::instance->RemoveAnchorBottomLeft(&m_scoreText->m_transform);
     delete m_equipUI;
     delete m_playerData;
@@ -130,7 +130,7 @@ PlayerShip::~PlayerShip()
     delete m_healthBar;
     delete m_teleportBar;
     delete m_shieldBar;
-    delete m_speedText;
+    delete m_tpText;
     delete m_scoreText;
     delete m_shieldDownEffect->m_shaderProgram;
     delete m_shieldDownEffect;
@@ -206,28 +206,28 @@ void PlayerShip::InitializeUI()
     m_healthText->m_color.SetAlphaFloat(0.75f);
     m_shieldText->m_color = RGBA::WHITE;
     m_shieldText->m_color.SetAlphaFloat(0.75f);
-    m_speedText->m_color = RGBA::GBDARKGREEN;
+    m_tpText->m_color = RGBA::WHITE;
     m_scoreText->m_color = RGBA::GBLIGHTGREEN;
     m_healthText->m_transform.SetPosition(Vector2(1.1f, 0.3f));
     m_shieldText->m_transform.SetPosition(Vector2(1.1f, 0.9f));
-    m_speedText->m_transform.SetPosition(Vector2(1.0f, 1.3f));
+    m_tpText->m_transform.SetPosition(Vector2(-1.0f, 1.6f));
     m_scoreText->m_transform.SetPosition(Vector2(1.0f, 1.8f));
     m_respawnText->m_transform.SetScale(Vector2(2.0f));
     m_healthText->m_transform.SetScale(Vector2(1.5f));
     m_shieldText->m_transform.SetScale(Vector2(1.5f));
-    m_speedText->m_transform.SetScale(Vector2(2.0f));
+    m_tpText->m_transform.SetScale(Vector2(1.5f));
     m_scoreText->m_transform.SetScale(Vector2(2.0f));
     m_respawnText->m_fontSize = 0.1f;
     m_healthText->m_fontSize = 0.1f;
     m_shieldText->m_fontSize = 0.1f;
-    m_speedText->m_fontSize = 0.1f;
+    m_tpText->m_fontSize = 0.1f;
     m_scoreText->m_fontSize = 0.1f;
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_teleportBar->m_transform);
+    SpriteGameRenderer::instance->AnchorBottomRight(&m_tpText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_shieldText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthBar->m_transform);
-    SpriteGameRenderer::instance->AnchorBottomRight(&m_teleportBar->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_shieldBar->m_transform);
-    SpriteGameRenderer::instance->AnchorBottomLeft(&m_speedText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_scoreText->m_transform);
 
     uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
@@ -243,7 +243,7 @@ void PlayerShip::InitializeUI()
     m_healthBar->m_viewableBy = visibilityFilter;
     m_teleportBar->m_viewableBy = visibilityFilter;
     m_shieldBar->m_viewableBy = visibilityFilter;
-    m_speedText->m_viewableBy = visibilityFilter;
+    m_tpText->m_viewableBy = visibilityFilter;
     m_scoreText->m_viewableBy = visibilityFilter;
 }
 
@@ -281,7 +281,8 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
 
     m_healthText->m_text = Stringf("HP: %03i/%03i", static_cast<int>(ceil(m_currentHp)), static_cast<int>(ceil(CalculateHpValue())));
     m_shieldText->m_text = Stringf("SH: %03i/%03i", static_cast<int>(ceil(m_currentShieldHealth)), static_cast<int>(ceil(CalculateShieldCapacityValue())));
-    m_speedText->m_text = Stringf("MPH: %03i", static_cast<int>((speed / CalculateTopSpeedValue()) * 100.0f));
+    m_tpText->m_text = Stringf("TP: %2.2f%s", m_warpFreebieActive.m_energy * 100.0f, "%");
+    m_tpText->m_color = m_warpFreebieActive.m_energy > m_warpFreebieActive.m_costToActivate ? RGBA::WHITE : RGBA::RED;
     m_scoreText->m_text = Stringf("LVL: %03i", m_powerupStatModifiers.GetTotalNumberOfDroppablePowerUps());
 
     if (m_activeEffect)
@@ -302,7 +303,7 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     m_playerData->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
     m_healthText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
     m_shieldText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_speedText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
+    m_tpText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
     m_scoreText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
     m_healthBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
     m_teleportBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
@@ -357,7 +358,7 @@ void PlayerShip::HideUI()
     m_respawnText->Disable();
     m_healthText->Disable();
     m_shieldText->Disable();
-    m_speedText->Disable();
+    m_tpText->Disable();
     m_scoreText->Disable();
     m_healthBar->Disable();
     m_teleportBar->Disable();
@@ -375,7 +376,7 @@ void PlayerShip::ShowUI()
     m_currentPassiveUI->Enable();
     m_healthText->Enable();
     m_shieldText->Enable();
-    //m_speedText->Enable();
+    m_tpText->Enable();
     m_scoreText->Enable();
     m_healthBar->Enable();
     m_teleportBar->Enable();

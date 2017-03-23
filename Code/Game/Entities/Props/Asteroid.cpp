@@ -67,7 +67,7 @@ void Asteroid::Die()
 {
     static const float IMPULSE_SCALE = 550.0f;
     static const int MIN_NUM_ASTEROIDS_SPAWNED = 2;
-    static const int MAX_NUM_ASTEROIDS_SPAWNED = 4;
+    static const int MAX_NUM_ASTEROIDS_SPAWNED = 2;
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/cratePop.ogg");
     Entity::Die();
     TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), 1.0f);

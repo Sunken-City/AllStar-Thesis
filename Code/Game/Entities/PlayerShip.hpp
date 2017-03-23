@@ -93,7 +93,7 @@ public:
     TextRenderable2D* m_respawnText = nullptr;
     TextRenderable2D* m_healthText = nullptr;
     TextRenderable2D* m_shieldText = nullptr;
-    TextRenderable2D* m_speedText = nullptr;
+    TextRenderable2D* m_tpText = nullptr;
     TextRenderable2D* m_scoreText = nullptr;
     TextRenderable2D* m_statValues[(unsigned int)PowerUpType::NUM_POWERUP_TYPES];
     BarGraphRenderable2D* m_healthBar = nullptr;

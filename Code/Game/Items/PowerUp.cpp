@@ -68,6 +68,8 @@ void PowerUp::SetStatChangeFromType(PowerUpType type)
         break;
     default:
         ERROR_RECOVERABLE("Invalid PowerUpType used for setting stats");
+        m_statChanges.hp = 1;
+        break;
     }
 }
 
