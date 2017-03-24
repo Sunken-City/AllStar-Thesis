@@ -90,7 +90,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         PickUpItem(new WaveGun());
         PickUpItem(new SpeedChassis());
-        PickUpItem(new ShieldActive());
+        PickUpItem(new BoostActive());
         //PickUpItem(new CloakPassive());
     }
 

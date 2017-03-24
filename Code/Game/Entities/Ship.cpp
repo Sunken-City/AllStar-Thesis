@@ -182,9 +182,11 @@ void Ship::UpdateMotion(float deltaSeconds)
     Vector2 totalAcceleration = accelerationComponent + agilityComponent;
     m_velocity += totalAcceleration;
     m_velocity *= CalculateBrakingValue();
-    m_velocity.ClampMagnitude(CalculateTopSpeedValue());
+    Vector2 clampedVelocity = m_velocity;
+    clampedVelocity.ClampMagnitude(CalculateTopSpeedValue());
+    Vector2 velocity = Lerp<Vector2>(0.8f, m_velocity, clampedVelocity);
 
-    Vector2 attemptedPosition = m_transform.GetWorldPosition() + (m_velocity * deltaSeconds);
+    Vector2 attemptedPosition = m_transform.GetWorldPosition() + (velocity * deltaSeconds);
     SetPosition(attemptedPosition);
 
     //Rotate the ship towards it's direction of motion if it's not being rotated.

@@ -1030,6 +1030,7 @@ void TheGame::InitializeMinigameResultsState()
     SpriteGameRenderer::instance->SetSplitscreen(1);
     SpriteGameRenderer::instance->AddEffectToLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     m_currentGameMode->HideBackground();
+    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-8.0f, -5.0f), Vector2(8.0f, 5.0f))); //Let the players goof off on the screen
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameResultsState);
 
     m_currentGameMode->RankPlayers();
