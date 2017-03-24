@@ -45,6 +45,7 @@ void ShieldActive::Activate(NamedProperties& parameters)
     {
         m_statBonuses.shotDeflection = 30.0f;
         m_statBonuses.shieldRegen = 30.0f;
+        m_statBonuses.shieldCapacity = 10.0f;
         m_isActive = true;
         m_lastActivatedMiliseconds = GetCurrentTimeMilliseconds();
         m_energy -= m_costToActivate;
@@ -60,6 +61,8 @@ void ShieldActive::Deactivate(NamedProperties& parameters)
 {
     UNUSED(parameters);
     m_statBonuses.shotDeflection = 0.0f;
+    m_statBonuses.shieldRegen = 0.0f;
+    m_statBonuses.shieldCapacity = 0.0f;
     m_isActive = false;
 }
 

@@ -89,8 +89,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     if (g_spawnWithDebugLoadout)
     {
         PickUpItem(new WaveGun());
-        //PickUpItem(new SpeedChassis());
-        PickUpItem(new BoostActive());
+        PickUpItem(new SpeedChassis());
+        PickUpItem(new ShieldActive());
         //PickUpItem(new CloakPassive());
     }
 
@@ -467,6 +467,7 @@ void PlayerShip::Respawn()
     m_respawnText->Disable();
     m_healthBar->SetPercentageFilled(1.0f);
     m_teleportBar->SetPercentageFilled(1.0f);
+    m_warpFreebieActive.m_energy = 1.0f;
     m_shieldBar->SetPercentageFilled(1.0f);
     if (m_activeEffect)
     {
@@ -477,16 +478,14 @@ void PlayerShip::Respawn()
 //-----------------------------------------------------------------------------------
 void PlayerShip::DropPowerupsAndEquipment()
 {
-    //No matter what, the chassis gets destroyed. Bye bye! ;D
-    if (m_chassis)
-    {
-        delete m_chassis;
-        m_chassis = nullptr;
-        m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("DefaultChassis");
-    }
-
-    float powerUpPercentageDropped = 0.2f;
+    static const unsigned int AVERAGE_NUM_PICKUPS = 84;
+    static const unsigned int MIN_NUM_PICKUPS_DROPPED = 3;
+    static const float ABSOLUTE_MAX_NUM_PICKUPS = 240.0f;
+    static const float MAX_PERCENTAGE_LOST = 0.3f;
+    unsigned int numPowerups = m_powerupStatModifiers.GetTotalNumberOfDroppablePowerUps();
+    float powerUpPercentageDropped = MathUtils::SmoothStart2((float)numPowerups / ABSOLUTE_MAX_NUM_PICKUPS) * MAX_PERCENTAGE_LOST;
     int randomNumber = MathUtils::GetRandomIntFromZeroTo(4);
+
     switch (randomNumber)
     {
     case 0:
@@ -514,13 +513,20 @@ void PlayerShip::DropPowerupsAndEquipment()
         //Lose extra power ups this time.
         break;
     }
-    
 
-    unsigned int numPowerups = m_powerupStatModifiers.GetTotalNumberOfDroppablePowerUps();
-    unsigned int numPowerupsToDrop = (unsigned int)(numPowerups * powerUpPercentageDropped);
-    unsigned int numPowerupsToSpawn = (numPowerups <= 3) ? numPowerups : numPowerupsToDrop;
+    //No matter what, the chassis gets destroyed. Bye bye! ;D
+    if (m_chassis)
+    {
+        delete m_chassis;
+        m_chassis = nullptr;
+        m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("DefaultChassis");
+    }
 
-    for (unsigned int i = 0; i < numPowerupsToSpawn; ++i)
+    unsigned int numPowerupsToDrop = (unsigned int)ceil((float)numPowerups * powerUpPercentageDropped);
+    numPowerupsToDrop = (numPowerupsToDrop < MIN_NUM_PICKUPS_DROPPED) ? MIN_NUM_PICKUPS_DROPPED : numPowerupsToDrop; //Ensure we drop more than the minimum
+    numPowerupsToDrop = (numPowerups < numPowerupsToDrop) ? numPowerups : numPowerupsToDrop; //...Unless we're too poor.
+
+    for (unsigned int i = 0; i < numPowerupsToDrop; ++i)
     {
         DropRandomPowerup();
     }
