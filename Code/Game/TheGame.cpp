@@ -1644,6 +1644,17 @@ void TheGame::RegisterParticleEffects()
     blueWarpOrb->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
     blueWarpOrb->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-1.5f, -1.5f));
 
+    ParticleEmitterDefinition* eyeTwinkle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("White4Star"));
+    eyeTwinkle->m_properties.Set<std::string>(PROPERTY_NAME, "Eye Twinkle");
+    eyeTwinkle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    eyeTwinkle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
+    eyeTwinkle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(1.8f), Vector2(2.0f)));
+    eyeTwinkle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    eyeTwinkle->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, WARP_ANIMATION_LENGTH);
+    eyeTwinkle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(180.0f, 270.0f));
+    eyeTwinkle->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
+    eyeTwinkle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-1.5f, -1.5f));
+
     ParticleEmitterDefinition* yellowStars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow4Star"));
     yellowStars->m_properties.Set<std::string>(PROPERTY_NAME, "Yellow Stars");
     yellowStars->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
@@ -1841,6 +1852,9 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* warpedParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Warped", ONE_SHOT);
     warpedParticleSystem->AddEmitter(blueWarpOrb);
+
+    ParticleSystemDefinition* eyeTwinkleParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("EyeTwinkle", ONE_SHOT);
+    eyeTwinkleParticleSystem->AddEmitter(eyeTwinkle);
 
     ParticleSystemDefinition* powerupPickupParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("PowerupPickup", ONE_SHOT);
     powerupPickupParticleSystem->AddEmitter(powerupPickup);

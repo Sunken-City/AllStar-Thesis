@@ -106,6 +106,7 @@ public:
     double m_chassisBeginEjectMilliseconds = -10.0f;
     double m_timeSinceFullDisplayedMilliseconds = -10.0f;
     float m_totalDamageDone = 0.0f;
+    float m_tpChargeLastFrame;
     int m_rank = 0;
     int m_gameScore = 0;
 };

@@ -311,6 +311,14 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     m_healthBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
     m_teleportBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
     m_shieldBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
+
+    if (m_warpFreebieActive.m_energy > m_warpFreebieActive.m_costToActivate && m_tpChargeLastFrame < m_warpFreebieActive.m_costToActivate)
+    {
+        ParticleSystem* system = ParticleSystem::PlayOneShotParticleEffect("EyeTwinkle", TheGame::UI_LAYER, m_tpText->m_transform);
+        system->m_emitters[0]->m_materialOverride = TheGame::instance->m_UIMaterial;
+        system->m_emitters[0]->m_spriteOverride = ResourceDatabase::instance->GetSpriteResource("White4Star");
+        system->m_viewableBy = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -336,6 +344,7 @@ void PlayerShip::UpdateEquips(float deltaSeconds)
         props.Set<Ship*>("ShipPtr", (Ship*)this);
         m_warpFreebieActive.Activate(props);
     }
+    m_tpChargeLastFrame = m_warpFreebieActive.m_energy;
     m_warpFreebieActive.Update(deltaSeconds);
     m_teleportBar->SetPercentageFilled(m_warpFreebieActive.m_energy);
 }
