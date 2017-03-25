@@ -5,7 +5,7 @@
 #include "Game/TheGame.hpp"
 #include "Game/Entities/Ship.hpp"
 
-const double ShieldActive::SECONDS_DURATION = 10.0f;
+const double ShieldActive::SECONDS_DURATION = TheGame::SHIELD_ACTIVE_DURATION;
 const double ShieldActive::MILISECONDS_DURATION = SECONDS_DURATION * 1000.0f;
 
 //-----------------------------------------------------------------------------------

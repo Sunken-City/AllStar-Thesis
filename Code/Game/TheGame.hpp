@@ -150,14 +150,24 @@ private:
     void RenderGameOver() const;
     void RenderDebug() const;
 
-    //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 public:
+    //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const int MAX_NUM_PLAYERS = 4;
     static const char* NO_CONTROLLER_STRING;
     static const char* PRESS_START_TO_JOIN_STRING;
     static const char* PRESS_START_TO_READY_STRING;
     static const char* READY_STRING;
+    static constexpr float POWER_UP_DURATION = 5.0f;
+    static constexpr float SHIELD_ACTIVE_DURATION = 10.0f;
+    static constexpr float BOOST_DURATION = 1.0f;
+    static constexpr float DEATH_ANIMATION_LENGTH = 1.5f;
+    static constexpr float WARP_ANIMATION_LENGTH = 1.5f;
+    static constexpr float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.15f;
+    static constexpr float MUZZLE_FLASH_ANIMATION_LENGTH = 0.01f;
+    static constexpr float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f;
+    static constexpr float COLLISION_ANIMATION_LENGTH = 0.3f;
 
+    //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<RunAfterSecondsCallback> m_runAfterSecondsCallbackFunctions;
     std::vector<PlayerPilot*> m_playerPilots;
     std::vector<PlayerShip*> m_players;

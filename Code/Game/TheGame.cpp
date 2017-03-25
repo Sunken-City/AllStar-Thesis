@@ -803,6 +803,7 @@ void TheGame::InitializeAssemblyResultsState()
         ship->m_shipTrail->Disable();
         ship->LockMovement();
         ship->ShowStatGraph();
+        ship->m_statValuesBG->ChangeLayer(GEOMETRY_LAYER);
     }
 }
 
@@ -823,6 +824,7 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
         ship->m_shipTrail->Enable();
         ship->UnlockMovement();
         ship->HideStatGraph();
+        ship->m_statValuesBG->ChangeLayer(STAT_GRAPH_LAYER_BACKGROUND);
     }
     m_currentGameMode->HideBackground();
     delete m_currentGameMode;
@@ -1034,6 +1036,8 @@ void TheGame::InitializeMinigameResultsState()
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameResultsState);
 
     m_currentGameMode->RankPlayers();
+    m_players[0]->m_statValuesBG->Enable();
+    m_players[0]->m_statValuesBG->ChangeLayer(GEOMETRY_LAYER);
     for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
     {
         PlayerShip* ship = TheGame::instance->m_players[i];
@@ -1099,6 +1103,8 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
         delete m_scoreEarnedText[i];
         delete m_totalScoreText[i];
     }
+    m_players[0]->m_statValuesBG->Disable();    
+    m_players[0]->m_statValuesBG->ChangeLayer(STAT_GRAPH_LAYER_BACKGROUND);
     delete m_currentGameMode;
     if (m_queuedMinigameModes.size() > 0)
     {
@@ -1588,15 +1594,6 @@ void TheGame::RegisterSpriteAnimations()
 //-----------------------------------------------------------------------------------
 void TheGame::RegisterParticleEffects()
 {
-    const float POWER_UP_DURATION = 5.0f;
-    const float BOOST_DURATION = 1.0f;
-    const float DEATH_ANIMATION_LENGTH = 1.5f;
-    const float WARP_ANIMATION_LENGTH = 1.5f;
-    const float POWER_UP_PICKUP_ANIMATION_LENGTH = 0.15f;
-    const float MUZZLE_FLASH_ANIMATION_LENGTH = 0.01f;
-    const float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f;
-    const float COLLISION_ANIMATION_LENGTH = 0.3f;
-
     //EMITTERS/////////////////////////////////////////////////////////////////////
     ParticleEmitterDefinition* white8Stars = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("White8Star"));
     white8Stars->m_properties.Set<std::string>(PROPERTY_NAME, "Sparkly 8Star Power");
@@ -1687,7 +1684,7 @@ void TheGame::RegisterParticleEffects()
     blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.5f), Vector2(0.7f)));
     blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
     blueShieldHex->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.0f);
-    blueShieldHex->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, POWER_UP_DURATION);
+    blueShieldHex->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, SHIELD_ACTIVE_DURATION);
     blueShieldHex->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 4.0f);
     blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(4.0f));
 
