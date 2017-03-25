@@ -77,8 +77,13 @@ void Grunt::Render() const
 void Grunt::Die()
 {
     Ship::Die();
+    TheGame::instance->m_currentGameMode->SpawnPickup(new PowerUp(), GetPosition());
     if (MathUtils::CoinFlip())
     {
         TheGame::instance->m_currentGameMode->SpawnPickup(new PowerUp(), GetPosition());
+        if (MathUtils::CoinFlip())
+        {
+            TheGame::instance->m_currentGameMode->SpawnPickup(new PowerUp(), GetPosition());
+        }
     }
 }

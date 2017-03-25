@@ -20,25 +20,6 @@ class WidgetBase;
 class ShaderProgram;
 class ParticleSystem;
 
-typedef void(RunAfterSecondsFunction)();
-
-//-----------------------------------------------------------------------------------
-struct RunAfterSecondsCallback
-{
-    RunAfterSecondsCallback(RunAfterSecondsFunction* functionPointer, float secondsToWait)
-        : m_functionPointer(functionPointer)
-        , m_secondsToWait(secondsToWait)
-    {
-        m_dispatchedTimestampSeconds = GetCurrentTimeSeconds();
-    }
-
-    RunAfterSecondsFunction* m_functionPointer;
-    double m_dispatchedTimestampSeconds;
-    float m_secondsToWait;
-
-    bool operator< (const RunAfterSecondsCallback& other) { return this->m_secondsToWait < other.m_secondsToWait; };
-};
-
 //-----------------------------------------------------------------------------------
 class TheGame
 {
@@ -51,7 +32,6 @@ public:
     void Update(float deltaTime);
     void Render() const;
     void InitializeGameOverState();
-    void RunAfterSeconds(RunAfterSecondsFunction* functionPointer, float secondsToWait);
 
     static TheGame* instance;
 
@@ -100,7 +80,6 @@ private:
     void EnqueueMinigames();
     void InitializeSpriteLayers();
     void CheckForGamePaused();
-    void DispatchRunAfterSeconds();
 
     void InitializeMainMenuState();
     void CleanupMainMenuState(unsigned int);
@@ -168,7 +147,6 @@ public:
     static constexpr float COLLISION_ANIMATION_LENGTH = 0.3f;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
-    std::vector<RunAfterSecondsCallback> m_runAfterSecondsCallbackFunctions;
     std::vector<PlayerPilot*> m_playerPilots;
     std::vector<PlayerShip*> m_players;
     std::queue<GameMode*> m_queuedMinigameModes;

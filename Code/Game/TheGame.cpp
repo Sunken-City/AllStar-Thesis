@@ -41,6 +41,7 @@
 #include "Engine/Math/MathUtils.hpp"
 #include <gl/GL.h>
 #include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
+#include "Engine/Core/RunInSeconds.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -104,6 +105,7 @@ TheGame::~TheGame()
 {
     SetGameState(GameState::SHUTDOWN);
     TextSplash::Cleanup();
+    FlushRunAfterSecondsFunctions();
 
     SpriteGameRenderer::instance->RemoveEffectFromLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
     delete m_transitionFBOEffect->m_shaderProgram;
@@ -802,7 +804,7 @@ void TheGame::InitializeAssemblyResultsState()
         ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(i);
         ship->m_shipTrail->Disable();
         ship->LockMovement();
-        ship->ShowStatGraph();
+        ship->SlowShowStatGraph();
         ship->m_statValuesBG->ChangeLayer(GEOMETRY_LAYER);
     }
 }
@@ -823,8 +825,8 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
         ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::PlayerVisibility::ALL;
         ship->m_shipTrail->Enable();
         ship->UnlockMovement();
-        ship->HideStatGraph();
         ship->m_statValuesBG->ChangeLayer(STAT_GRAPH_LAYER_BACKGROUND);
+        ship->HideStatGraph();
     }
     m_currentGameMode->HideBackground();
     delete m_currentGameMode;
@@ -1103,8 +1105,8 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
         delete m_scoreEarnedText[i];
         delete m_totalScoreText[i];
     }
-    m_players[0]->m_statValuesBG->Disable();    
     m_players[0]->m_statValuesBG->ChangeLayer(STAT_GRAPH_LAYER_BACKGROUND);
+    m_players[0]->m_statValuesBG->Disable();    
     delete m_currentGameMode;
     if (m_queuedMinigameModes.size() > 0)
     {
@@ -1281,31 +1283,6 @@ void TheGame::CheckForGamePaused()
             }
             break;
         }
-    }
-}
-
-//-----------------------------------------------------------------------------------
-void TheGame::RunAfterSeconds(RunAfterSecondsFunction* functionPointer, float secondsToWait)
-{
-    m_runAfterSecondsCallbackFunctions.emplace_back(functionPointer, secondsToWait);
-}
-
-//-----------------------------------------------------------------------------------
-void TheGame::DispatchRunAfterSeconds()
-{
-    for (auto iter = m_runAfterSecondsCallbackFunctions.begin(); iter != m_runAfterSecondsCallbackFunctions.end();)
-    {
-        RunAfterSecondsCallback& callbackData = *iter;
-        if (GetCurrentTimeSeconds() - callbackData.m_dispatchedTimestampSeconds > callbackData.m_secondsToWait)
-        {
-            callbackData.m_functionPointer();
-            iter = m_runAfterSecondsCallbackFunctions.erase(iter);
-        }
-        if (iter == m_runAfterSecondsCallbackFunctions.end())
-        {
-            break;
-        }
-        ++iter;
     }
 }
 

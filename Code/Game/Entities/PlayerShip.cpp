@@ -35,6 +35,7 @@
 #include <gl/GL.h>
 #include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
 #include "Engine/Fonts/BitmapFont.hpp"
+#include "Engine/Core/RunInSeconds.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -717,28 +718,21 @@ void PlayerShip::ShowStatGraph()
 //-----------------------------------------------------------------------------------
 void PlayerShip::SlowShowStatGraph()
 {
-//     const float TIME_SECONDS_PER_BAR = 0.5f;
-//     m_statValuesBG->Enable();
-//     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
-//     {
-//         PowerUpType type = (PowerUpType)i;
-//         m_statValues[i]->m_text = Stringf("%-20sx%1i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
-//         m_statValues[i]->Enable();
-//         m_statSprites[i]->Enable();
-//         m_statBarGraphs[i]->Enable();
-//         m_statBarGraphs[i]->SetPercentageFilled(0.0f);
-//     }
-//     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
-//     {
-//         TheGame::instance->RunAfterSeconds([i]()
-//         {
-//             for (unsigned int i = 0; i < TheGame::instance->m_numberOfPlayers; ++i)
-//             {
-//                 PlayerShip* ship = TheGame::instance->m_players[i];
-//                 ship->m_statBarGraphs[i]->SetPercentageFilled((*ship->m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
-//             }
-//         }, TIME_SECONDS_PER_BAR * i);
-//     }
+    const float TIME_SECONDS_PER_BAR = 0.25f;
+    m_statValuesBG->Enable();
+    for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
+    {
+        PowerUpType type = (PowerUpType)i;
+        m_statValues[i]->m_text = Stringf("%-20sx%1i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
+        m_statValues[i]->Enable();
+        m_statSprites[i]->Enable();
+        m_statBarGraphs[i]->Enable();
+        m_statBarGraphs[i]->SetPercentageFilled(0.0f);
+        RunAfterSeconds([=]()
+        {
+            m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
+        }, TIME_SECONDS_PER_BAR * i);
+    }
 }
 
 //-----------------------------------------------------------------------------------
