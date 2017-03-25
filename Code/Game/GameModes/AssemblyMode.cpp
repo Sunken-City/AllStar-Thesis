@@ -22,7 +22,7 @@ AssemblyMode::AssemblyMode()
     m_modeTitleText = "ASSEMBLY MODE";
     m_modeDescriptionText = "Collect and Prepare for Challenges!";
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
-    m_gameLengthSeconds = 301.0f;
+    m_gameLengthSeconds = 300.0f;
     m_dropItemsOnDeath = true;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 02 Jawbreaker.ogg");
 }

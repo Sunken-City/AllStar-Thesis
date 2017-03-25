@@ -130,8 +130,17 @@ void GameMode::Update(float deltaSeconds)
     if (m_isPlaying)
     {
         m_timerSecondsElapsed += deltaSeconds;
-        int timeRemainingSeconds = static_cast<int>(m_gameLengthSeconds - m_timerSecondsElapsed);
-        m_timerWidget->SetProperty<std::string>("Text", Stringf("%02i:%02i", timeRemainingSeconds / 60, timeRemainingSeconds % 60));
+        int timeRemainingSeconds = static_cast<int>(ceil(m_gameLengthSeconds - m_timerSecondsElapsed));
+        int minutesRemaining = timeRemainingSeconds / 60;
+        int secondsRemaining = timeRemainingSeconds % 60;
+        if (minutesRemaining > 0)
+        {
+            m_timerWidget->SetProperty<std::string>("Text", Stringf("%01i:%02i", minutesRemaining, secondsRemaining));
+        }
+        else
+        {
+            m_timerWidget->SetProperty<std::string>("Text", Stringf(":%02i", secondsRemaining));
+        }
     }
 
     if ((m_timerSecondsElapsed >= (m_gameLengthSeconds - 5.0f)) && m_timerSecondsElapsed < m_gameLengthSeconds)
@@ -161,7 +170,7 @@ void GameMode::Update(float deltaSeconds)
         {
             AudioSystem::instance->PlaySound(AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg"));
         }
-        m_timerWidget->SetProperty<std::string>("Text", "00:00");
+        m_timerWidget->SetProperty<std::string>("Text", ":00");
         m_countdownWidget->SetProperty<std::string>("Text", "TIME!");
         m_countdownWidget->SetProperty("TextSize", 4.0f);
         m_countdownWidget->SetProperty("Offset", Vector2(675.0f, 375.0f));

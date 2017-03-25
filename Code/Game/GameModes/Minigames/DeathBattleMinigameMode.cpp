@@ -16,7 +16,7 @@
 DeathBattleMinigameMode::DeathBattleMinigameMode()
     : BaseMinigameMode()
 {
-    m_gameLengthSeconds = 121.0f;
+    m_gameLengthSeconds = 120.0f;
     m_respawnAllowed = false;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
     m_modeTitleText = "DEATH BATTLE";

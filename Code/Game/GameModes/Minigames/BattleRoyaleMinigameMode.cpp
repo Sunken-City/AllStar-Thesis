@@ -14,7 +14,7 @@
 BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
     : BaseMinigameMode()
 {
-    m_gameLengthSeconds = 121.0f;
+    m_gameLengthSeconds = 120.0f;
     m_respawnAllowed = true;
     m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
     m_modeTitleText = "BATTLE ROYALE";
