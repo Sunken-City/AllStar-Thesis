@@ -90,7 +90,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         PickUpItem(new WaveGun());
         PickUpItem(new SpeedChassis());
-        PickUpItem(new BoostActive());
+        PickUpItem(new ShieldActive());
         //PickUpItem(new CloakPassive());
     }
 
@@ -272,6 +272,9 @@ void PlayerShip::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void PlayerShip::UpdatePlayerUI(float deltaSeconds)
 {
+    static const float MIN_UI_ALPHA = 0.1f;
+    static const float MAX_UI_ALPHA = 1.0f;
+    static const float MAX_BAR_UI_ALPHA = 0.75f;
     float speed = m_velocity.CalculateMagnitude();
 
     m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
@@ -294,23 +297,23 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
         m_cooldownMaterial->SetFloatUniform("gPercentage", 1.0f);
     }
         
-    float lerpAmount = Clamp01(fabs(GameMode::GetCurrent()->GetArenaBounds().mins.y - m_transform.GetWorldPosition().y));
-    m_currentWeaponUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_currentActiveUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_currentChassisUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_currentPassiveUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_equipUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_playerData->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_healthText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_shieldText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_tpText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_scoreText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 1.0f));
-    m_healthBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
-    m_teleportBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
-    m_shieldBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
-    m_healthBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
-    m_teleportBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
-    m_shieldBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, 0.0f, 0.75f));
+    float lerpAmount = Clamp01(fabs(GameMode::GetCurrent()->GetArenaBounds().mins.y - m_transform.GetWorldPosition().y) * 0.25f);
+    m_currentWeaponUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_currentActiveUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_currentChassisUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_currentPassiveUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_equipUI->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_playerData->m_tintColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_healthText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_shieldText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_tpText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_scoreText->m_color.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_UI_ALPHA));
+    m_healthBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
+    m_teleportBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
+    m_shieldBar->m_fillColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
+    m_healthBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
+    m_teleportBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
+    m_shieldBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
 
     if (m_warpFreebieActive.m_energy > m_warpFreebieActive.m_costToActivate && m_tpChargeLastFrame < m_warpFreebieActive.m_costToActivate)
     {
@@ -700,7 +703,42 @@ void PlayerShip::ShowStatGraph()
         m_statSprites[i]->Enable();
         m_statBarGraphs[i]->Enable();
         m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
+
+//         if ((*m_powerupStatModifiers.GetStatReference(type)) >= 18.0f)
+//         {
+//             TheGame::instance->RunAfterSeconds([&]()
+//             {
+//                 TextSplash::CreateTextSplash("Wow!", m_statBarGraphs[i]->m_transform, Vector2::ONE, RGBA::YELLOW);
+//             }, 1.0f);
+//         }
     }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::SlowShowStatGraph()
+{
+//     const float TIME_SECONDS_PER_BAR = 0.5f;
+//     m_statValuesBG->Enable();
+//     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
+//     {
+//         PowerUpType type = (PowerUpType)i;
+//         m_statValues[i]->m_text = Stringf("%-20sx%1i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
+//         m_statValues[i]->Enable();
+//         m_statSprites[i]->Enable();
+//         m_statBarGraphs[i]->Enable();
+//         m_statBarGraphs[i]->SetPercentageFilled(0.0f);
+//     }
+//     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
+//     {
+//         TheGame::instance->RunAfterSeconds([i]()
+//         {
+//             for (unsigned int i = 0; i < TheGame::instance->m_numberOfPlayers; ++i)
+//             {
+//                 PlayerShip* ship = TheGame::instance->m_players[i];
+//                 ship->m_statBarGraphs[i]->SetPercentageFilled((*ship->m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
+//             }
+//         }, TIME_SECONDS_PER_BAR * i);
+//     }
 }
 
 //-----------------------------------------------------------------------------------

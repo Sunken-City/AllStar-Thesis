@@ -51,6 +51,7 @@ public:
     void Update(float deltaTime);
     void Render() const;
     void InitializeGameOverState();
+    void RunAfterSeconds(RunAfterSecondsFunction* functionPointer, float secondsToWait);
 
     static TheGame* instance;
 
@@ -99,7 +100,6 @@ private:
     void EnqueueMinigames();
     void InitializeSpriteLayers();
     void CheckForGamePaused();
-    void RunAfterSeconds(RunAfterSecondsFunction* functionPointer, float secondsToWait);
     void DispatchRunAfterSeconds();
 
     void InitializeMainMenuState();

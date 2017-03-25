@@ -22,7 +22,7 @@ void main(void)
 
       vec4 diffuseColor = texture(gDiffuseTexture, passUV0);
       diffuseColor.rgb += vec3(0.001f * gTime);
-      vec4 w = fract((sin(a.x * 7.0 + 31.0 * a.y + 0.01 * gTime) + diffuseColor) * 13.545317); // randoms
+      vec4 w = fract((sin(7.0f * a.x + 11.0 * a.y + 0.01 * gTime) + diffuseColor) * 13.545317); // randoms
 
       color += w.xyz *                                 // color
              smoothstep(0.45,0.55,w.w) *               // intensity

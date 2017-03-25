@@ -40,6 +40,7 @@ public:
     void ShowUI();
     void InitializeStatGraph();
     void ShowStatGraph();
+    void SlowShowStatGraph();
     void HideStatGraph();
     void InitializeUI();
     bool CanPickUp(Item* item);

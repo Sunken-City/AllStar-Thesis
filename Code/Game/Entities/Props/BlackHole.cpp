@@ -52,7 +52,7 @@ void BlackHole::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (m_angularVelocity * deltaSeconds);
     m_transform.SetRotationDegrees(newRotationDegrees);
-    m_overlaySprite->m_transform.SetRotationDegrees(-4.5313f * newRotationDegrees);
+    m_overlaySprite->m_transform.SetRotationDegrees(4.5313f * newRotationDegrees);
 }
 
 //-----------------------------------------------------------------------------------
