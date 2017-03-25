@@ -36,6 +36,7 @@
 #include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
 #include "Engine/Fonts/BitmapFont.hpp"
 #include "Engine/Core/RunInSeconds.hpp"
+#include "../GameStrings.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -720,6 +721,8 @@ void PlayerShip::SlowShowStatGraph()
 {
     const float TIME_SECONDS_PER_BAR = 0.25f;
     m_statValuesBG->Enable();
+    uchar visibilityFilter = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(m_pilot)->m_playerNumber);
+
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
@@ -732,6 +735,23 @@ void PlayerShip::SlowShowStatGraph()
         {
             m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
         }, TIME_SECONDS_PER_BAR * i);
+
+        if ((int)(*m_powerupStatModifiers.GetStatReference(type)) >= 20)
+        {
+            RunAfterSeconds([=]()
+            {
+               TextSplash* textSplash = TextSplash::CreateTextSplash(GameStrings::GetAwesomeStatString(), m_statBarGraphs[i]->m_filledMaxsTransform, Vector2::ONE, RGBA::YELLOW, TheGame::STAT_GRAPH_LAYER_TEXT);
+               textSplash->m_textRenderable->m_viewableBy = visibilityFilter;
+            }, TIME_SECONDS_PER_BAR * (i + 2));
+        }
+        else if ((int)(*m_powerupStatModifiers.GetStatReference(type)) == 0)
+        {
+            RunAfterSeconds([=]()
+            {
+                TextSplash* textSplash = TextSplash::CreateTextSplash(GameStrings::GetTerribleStatString(), m_statBarGraphs[i]->m_filledMaxsTransform, Vector2::ONE, RGBA::YELLOW, TheGame::STAT_GRAPH_LAYER_TEXT);
+                textSplash->m_textRenderable->m_viewableBy = visibilityFilter;
+            }, TIME_SECONDS_PER_BAR * (i + 2));
+        }
     }
 }
 

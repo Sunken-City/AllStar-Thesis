@@ -4,6 +4,7 @@
 #include "Engine\Core\Memory\UntrackedAllocator.hpp"
 #include <vector>
 #include "Engine\Renderer\RGBA.hpp"
+#include "..\TheGame.hpp"
 
 class TextRenderable2D;
 
@@ -11,12 +12,12 @@ class TextRenderable2D;
 class TextSplash
 {
 public:
-    static void CreateTextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color = RGBA::WHITE);
+    static TextSplash* CreateTextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color = RGBA::WHITE, int orderLayer = TheGame::TEXT_PARTICLE_LAYER);
     static void Update(float deltaSeconds);
     static void Cleanup();
 
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    TextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color = RGBA::WHITE);
+    TextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color = RGBA::WHITE, int orderLayer = TheGame::TEXT_PARTICLE_LAYER);
     ~TextSplash();
 
     //VARIABLES/////////////////////////////////////////////////////////////////////

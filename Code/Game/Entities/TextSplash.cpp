@@ -5,10 +5,10 @@
 std::vector<TextSplash*, UntrackedAllocator<TextSplash*>> TextSplash::m_textSplashes;
 
 //-----------------------------------------------------------------------------------
-TextSplash::TextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color)
+TextSplash::TextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color /*= RGBA::WHITE*/, int orderLayer /*= TheGame::TEXT_PARTICLE_LAYER*/) 
     : m_velocity(velocity)
 {
-    m_textRenderable = new TextRenderable2D(text, spawnTransform, TheGame::TEXT_PARTICLE_LAYER, true);
+    m_textRenderable = new TextRenderable2D(text, spawnTransform, orderLayer, true);
     m_textRenderable->m_fontSize /= 3.5f;
     m_textRenderable->m_transform.SetRotationDegrees(0.0f);
     m_textRenderable->m_color = color;
@@ -32,11 +32,13 @@ void TextSplash::Cleanup()
 }
 
 //-----------------------------------------------------------------------------------
-void TextSplash::CreateTextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color)
+//Returns a splash in case you need to edit one's properties.
+TextSplash* TextSplash::CreateTextSplash(const std::string& text, const Transform2D& spawnTransform, const Vector2& velocity, RGBA color /*= RGBA::WHITE*/, int orderLayer /*= TheGame::TEXT_PARTICLE_LAYER*/)
 {
-    TextSplash* textSplash = new TextSplash(text, spawnTransform, velocity, color);
+    TextSplash* textSplash = new TextSplash(text, spawnTransform, velocity, color, orderLayer);
     textSplash->m_textRenderable->m_transform.SetScale(Vector2(1.0f));
     m_textSplashes.push_back(textSplash);
+    return textSplash;
 }
 
 //-----------------------------------------------------------------------------------

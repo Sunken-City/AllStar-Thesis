@@ -179,6 +179,7 @@
     <ClCompile Include="GameModes\Minigames\DeathBattleMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\RaceMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp" />
+    <ClCompile Include="GameStrings.cpp" />
     <ClCompile Include="Items\Actives\ActiveEffect.cpp" />
     <ClCompile Include="Items\Actives\BoostActive.cpp" />
     <ClCompile Include="Items\Actives\ShieldActive.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="GameModes\Minigames\DeathBattleMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\RaceMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp" />
+    <ClInclude Include="GameStrings.hpp" />
     <ClInclude Include="Items\Actives\ActiveEffect.hpp" />
     <ClInclude Include="Items\Actives\BoostActive.hpp" />
     <ClInclude Include="Items\Actives\ShieldActive.hpp" />
