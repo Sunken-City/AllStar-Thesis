@@ -9,6 +9,8 @@ public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
     LaserGun();
     virtual ~LaserGun();
+    virtual void Activate(NamedProperties&) override {};
+    virtual void Deactivate(NamedProperties&) override {};
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource();

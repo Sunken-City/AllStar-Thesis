@@ -44,7 +44,7 @@ Weapon* GetRandomWeapon()
 //-----------------------------------------------------------------------------------
 Chassis* GetRandomChassis()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(4);
     if (randomNumber == 0)
     {
         return new SpeedChassis();
@@ -55,7 +55,7 @@ Chassis* GetRandomChassis()
     }
     else if (randomNumber == 2)
     {
-        return new GlassCannonChassis();
+        return new TankChassis();
     }
     else if (randomNumber == 3)
     {
@@ -63,7 +63,7 @@ Chassis* GetRandomChassis()
     }
     else
     {
-        return new TankChassis();
+        return new GlassCannonChassis();
     }
 }
 

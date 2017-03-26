@@ -45,7 +45,7 @@ bool SpreadShot::AttemptFire(Ship* shooter)
         GameMode* currentGameMode = TheGame::instance->m_currentGameMode;
 
         float halfSpreadDegrees = m_spreadDegrees / 2.0f;
-        for (int i = 0; i < m_numProjectilesPerShot; ++i)
+        for (unsigned int i = 0; i < m_numProjectilesPerShot; ++i)
         {
             float degreesOffset = MathUtils::GetRandomFloat(-halfSpreadDegrees, halfSpreadDegrees);
             Projectile* bullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());

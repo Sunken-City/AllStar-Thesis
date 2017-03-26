@@ -91,8 +91,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     if (g_spawnWithDebugLoadout)
     {
         PickUpItem(new WaveGun());
-        PickUpItem(new SpeedChassis());
-        PickUpItem(new ShieldActive());
+        PickUpItem(new TankChassis());
+        PickUpItem(new BoostActive());
         //PickUpItem(new CloakPassive());
     }
 
@@ -175,28 +175,28 @@ void PlayerShip::InitializeUI()
     m_teleportBar->m_fillColor.SetAlphaFloat(0.75f);
     m_shieldBar->m_fillColor.SetAlphaFloat(0.75f);
 
-    m_currentWeaponUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentWeaponUI = new Sprite("EmptyWeaponSlot", TheGame::BACKGROUND_UI_LAYER);
     m_currentWeaponUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentWeaponUI->m_transform.SetScale(Vector2(2.1f));
     m_currentWeaponUI->m_transform.SetPosition(Vector2(-3.46f, 0.725f));
     m_currentWeaponUI->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentWeaponUI->m_transform);
 
-    m_currentActiveUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentActiveUI = new Sprite("EmptyActiveSlot", TheGame::BACKGROUND_UI_LAYER);
     m_currentActiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentActiveUI->m_transform.SetScale(Vector2(2.4f));
     m_currentActiveUI->m_transform.SetPosition(Vector2(-4.777f, 0.725f));
     m_currentActiveUI->m_material = m_cooldownMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentActiveUI->m_transform);
 
-    m_currentChassisUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentChassisUI = new Sprite("EmptyChassisSlot", TheGame::BACKGROUND_UI_LAYER);
     m_currentChassisUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentChassisUI->m_transform.SetScale(Vector2(2.1f));
     m_currentChassisUI->m_transform.SetPosition(Vector2(-1.0f, 0.725f));
     m_currentChassisUI->m_material = TheGame::instance->m_UIMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_currentChassisUI->m_transform);
 
-    m_currentPassiveUI = new Sprite("EmptyEquipSlot", TheGame::BACKGROUND_UI_LAYER);
+    m_currentPassiveUI = new Sprite("EmptyPassiveSlot", TheGame::BACKGROUND_UI_LAYER);
     m_currentPassiveUI->m_tintColor.SetAlphaFloat(0.75f);
     m_currentPassiveUI->m_transform.SetScale(Vector2(2.1f));
     m_currentPassiveUI->m_transform.SetPosition(Vector2(-2.23f, 0.725f));
@@ -274,15 +274,15 @@ void PlayerShip::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void PlayerShip::UpdatePlayerUI(float deltaSeconds)
 {
+    UNUSED(deltaSeconds);
     static const float MIN_UI_ALPHA = 0.1f;
     static const float MAX_UI_ALPHA = 1.0f;
     static const float MAX_BAR_UI_ALPHA = 0.75f;
-    float speed = m_velocity.CalculateMagnitude();
 
-    m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
-    m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
-    m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
-    m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyEquipSlot");
+    m_currentWeaponUI->m_spriteResource = m_weapon ? m_weapon->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyWeaponSlot");
+    m_currentActiveUI->m_spriteResource = m_activeEffect ? m_activeEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyActiveSlot");
+    m_currentChassisUI->m_spriteResource = m_chassis ? m_chassis->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyChassisSlot");
+    m_currentPassiveUI->m_spriteResource = m_passiveEffect ? m_passiveEffect->GetSpriteResource() : ResourceDatabase::instance->GetSpriteResource("EmptyPassiveSlot");
 
     m_healthText->m_text = Stringf("HP: %03i/%03i", static_cast<int>(ceil(m_currentHp)), static_cast<int>(ceil(CalculateHpValue())));
     m_shieldText->m_text = Stringf("SH: %03i/%03i", static_cast<int>(ceil(m_currentShieldHealth)), static_cast<int>(ceil(CalculateShieldCapacityValue())));
@@ -567,6 +567,7 @@ void PlayerShip::EjectChassis()
 {
     if (m_chassis)
     {
+        m_chassis->Deactivate(NamedProperties::NONE);
         TheGame::instance->m_currentGameMode->SpawnPickup(m_chassis, m_transform.GetWorldPosition() - (Vector2::DegreesToDirection(-m_transform.GetWorldRotationDegrees()) * 0.5f));
         m_chassis = nullptr;
         m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("DefaultChassis");
@@ -601,6 +602,7 @@ void PlayerShip::EjectPassive()
 //-----------------------------------------------------------------------------------
 void PlayerShip::DebugUpdate(float deltaSeconds)
 {
+    UNUSED(deltaSeconds);
     if (InputSystem::instance->WasKeyJustPressed('1'))
     {
         m_powerupStatModifiers = Stats(-5.0f);
@@ -827,6 +829,9 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         m_chassis = (Chassis*)pickedUpItem;
         m_sprite->m_spriteResource = m_chassis->GetShipSpriteResource();
         TextSplash::CreateTextSplash(Stringf("%s", pickedUpItem->m_name), m_transform, velocity, RGBA::YELLOW);
+        NamedProperties props;
+        props.Set<Ship*>("ShipPtr", (Ship*)this);
+        m_chassis->Activate(props);
     }
     else if (pickedUpItem->IsPassiveEffect())
     {

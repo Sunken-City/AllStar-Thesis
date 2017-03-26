@@ -526,8 +526,8 @@ void TheGame::UpdatePlayerJoin(float)
             float rotationAmount = MathUtils::Lerp(0.1f, currRotation, desiredRotation);
             m_shipPreviews[i]->m_transform.SetRotationDegrees(rotationAmount);
         }
-        m_rightArrows[i]->m_transform.SetScale(Vector2(2.0f + (sin(GetCurrentTimeSeconds()) * 0.5f)));
-        m_leftArrows[i]->m_transform.SetScale(Vector2(2.0f + (sin(GetCurrentTimeSeconds()) * 0.5f)));
+        m_rightArrows[i]->m_transform.SetScale(Vector2(2.0f + (sin((float)GetCurrentTimeSeconds()) * 0.5f)));
+        m_leftArrows[i]->m_transform.SetScale(Vector2(2.0f + (sin((float)GetCurrentTimeSeconds()) * 0.5f)));
     }
 
     if (!m_hasKeyboardPlayer && m_numberOfPlayers < 4 && (InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9)))
@@ -560,7 +560,7 @@ void TheGame::UpdatePlayerJoin(float)
             bool alreadyAssignedToPlayer = false;
             for (PlayerPilot* pilot : m_playerPilots)
             {
-                if (pilot->m_controllerIndex == i)
+                if (pilot->m_controllerIndex == (int)i)
                 {
                     alreadyAssignedToPlayer = true;
                     break;
@@ -1421,6 +1421,10 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("HealthUI", "Data\\Images\\UI\\healthBarUI.png");
     ResourceDatabase::instance->EditSpriteResource("HealthUI")->m_pivotPoint = Vector2::ZERO;
     ResourceDatabase::instance->RegisterSprite("EmptyEquipSlot", "Data\\Images\\UI\\emptyShield.png");
+    ResourceDatabase::instance->RegisterSprite("EmptyChassisSlot", "Data\\Images\\Chassis\\None.png");
+    ResourceDatabase::instance->RegisterSprite("EmptyActiveSlot", "Data\\Images\\Actives\\None.png");
+    ResourceDatabase::instance->RegisterSprite("EmptyWeaponSlot", "Data\\Images\\Weapons\\None.png");
+    ResourceDatabase::instance->RegisterSprite("EmptyPassiveSlot", "Data\\Images\\Passives\\None.png");
 
     //Transitions
     ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");
@@ -1479,16 +1483,16 @@ void TheGame::RegisterSprites()
     //Chassis
     ResourceDatabase::instance->RegisterSprite("DefaultChassis", "Data\\Images\\Chassis\\defaultChassis.png");
     ResourceDatabase::instance->RegisterSprite("SpeedChassis", "Data\\Images\\Chassis\\speedChassis.png");
-    ResourceDatabase::instance->RegisterSprite("PowerChassis", "Data\\Images\\Chassis\\speedChassis.png");
-    ResourceDatabase::instance->RegisterSprite("TankChassis", "Data\\Images\\Chassis\\speedChassis.png");
+    ResourceDatabase::instance->RegisterSprite("PowerChassis", "Data\\Images\\Chassis\\powerChassis.png");
+    ResourceDatabase::instance->RegisterSprite("TankChassis", "Data\\Images\\Chassis\\tankChassis.png");
     ResourceDatabase::instance->RegisterSprite("GlassCannonChassis", "Data\\Images\\Chassis\\speedChassis.png");
     ResourceDatabase::instance->RegisterSprite("BlackHoleChassis", "Data\\Images\\Chassis\\blackHoleChassis.png");
 
     //Chassis Pickups
     ResourceDatabase::instance->RegisterSprite("DefaultChassisPickup", "Data\\Images\\Chassis\\normalPickup.png");
     ResourceDatabase::instance->RegisterSprite("SpeedChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
-    ResourceDatabase::instance->RegisterSprite("PowerChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
-    ResourceDatabase::instance->RegisterSprite("TankChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
+    ResourceDatabase::instance->RegisterSprite("PowerChassisPickup", "Data\\Images\\Chassis\\powerPickup.png");
+    ResourceDatabase::instance->RegisterSprite("TankChassisPickup", "Data\\Images\\Chassis\\tankPickup.png");
     ResourceDatabase::instance->RegisterSprite("GlassCannonChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
     ResourceDatabase::instance->RegisterSprite("BlackHoleChassisPickup", "Data\\Images\\Chassis\\blackHolePickup.png");
 

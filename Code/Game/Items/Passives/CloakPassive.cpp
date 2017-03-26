@@ -23,6 +23,7 @@ CloakPassive::~CloakPassive()
 //-----------------------------------------------------------------------------------
 void CloakPassive::Update(float deltaSeconds)
 {
+    UNUSED(deltaSeconds);
     static const float SPEED_THRESHOLD_FOR_CLOAK = 4.0f; //2.0f does a neat little flicker, 4.0f is more reasonable and smooth.
     static const float SPEED_THRESHOLD_FOR_CLOAK_SQUARED = SPEED_THRESHOLD_FOR_CLOAK * SPEED_THRESHOLD_FOR_CLOAK;
     float squaredMagnitude = m_owner->m_velocity.CalculateMagnitudeSquared();

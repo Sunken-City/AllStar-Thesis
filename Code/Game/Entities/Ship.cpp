@@ -214,7 +214,7 @@ float Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
     float damageTaken = Entity::TakeDamage(damage, disruption);
     if (currentShieldCapacity != m_currentShieldHealth)
     {
-        if (m_currentShieldHealth != 0.0f)
+        if (m_currentShieldHealth != 0.0f && m_timeSinceLastHit < 0.25f)
         {
             TheGame::instance->m_currentGameMode->PlaySoundAt(hitShieldSound, GetPosition(), m_hitSoundMaxVolume);
         }

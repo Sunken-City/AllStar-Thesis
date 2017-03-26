@@ -32,6 +32,8 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource() override;
+    virtual void Activate(NamedProperties&) override {};
+    virtual void Deactivate(NamedProperties&) override {};
     const char* GetPowerUpSpriteResourceName();
     void ApplyPickupEffect(PlayerShip* player);
     void SetStatChangeFromType(PowerUpType type);

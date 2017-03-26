@@ -13,5 +13,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource();
     virtual bool AttemptFire(Ship* shooter);
+    virtual void Activate(NamedProperties&) override {};
+    virtual void Deactivate(NamedProperties&) override {};
 };
 
