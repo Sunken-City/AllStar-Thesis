@@ -20,6 +20,8 @@ public:
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const double SECONDS_DURATION;
     static const double MILISECONDS_DURATION;
+    static constexpr float BOOST_DAMAGE_PER_FRAME = 4.0f;
+
     PlayerShip* m_owner = nullptr;
 };
 

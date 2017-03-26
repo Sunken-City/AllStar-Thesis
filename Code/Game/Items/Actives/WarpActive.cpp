@@ -7,6 +7,7 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/TheGame.hpp"
 #include "Game/Pilots/Pilot.hpp"
+#include "Engine/Core/RunInSeconds.hpp"
 
 const double WarpActive::SECONDS_UNTIL_WARP = 0.0;
 const double WarpActive::MILISECONDS_UNTIL_WARP = SECONDS_UNTIL_WARP * 1000.0;
@@ -58,6 +59,7 @@ void WarpActive::Activate(NamedProperties& parameters)
 
         ParticleSystem::PlayOneShotParticleEffect("Warping", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &m_transportee->m_transform);
         GameMode::GetCurrent()->PlaySoundAt(warpingSound, m_transportee->GetPosition());
+        m_transportee->m_collisionDamageAmount += WARP_DAMAGE_PER_FRAME;
     }
 }
 
@@ -65,6 +67,14 @@ void WarpActive::Activate(NamedProperties& parameters)
 void WarpActive::Deactivate(NamedProperties& parameters)
 {
     UNUSED(parameters);
+    RunAfterSeconds([=]()
+    {
+        m_transportee->m_collisionDamageAmount -= WARP_DAMAGE_PER_FRAME;
+        if (fabs(m_transportee->m_collisionDamageAmount) < 0.25f)
+        {
+            m_transportee->m_collisionDamageAmount = 0.0f;
+        }
+    }, 0.0f);
     m_isActive = false;
 }
 

@@ -59,7 +59,7 @@ void BoostActive::Activate(NamedProperties& parameters)
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", ship) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
         ParticleSystem::PlayOneShotParticleEffect("Boost", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
         m_owner = dynamic_cast<PlayerShip*>(ship);
-        m_owner->m_collisionDamageAmount = 4.0f;
+        m_owner->m_collisionDamageAmount += BOOST_DAMAGE_PER_FRAME;
         m_owner->m_velocity += Vector2::DegreesToDirection(-m_owner->m_sprite->m_transform.GetWorldRotationDegrees(), Vector2::ZERO_DEGREES_UP) * 10.0f;
     }
 }
@@ -74,7 +74,11 @@ void BoostActive::Deactivate(NamedProperties& parameters)
     m_statBonuses.handling = 0.0f;
     m_statBonuses.braking = 0.0f;
     m_isActive = false;
-    m_owner->m_collisionDamageAmount = 0.0f;
+    m_owner->m_collisionDamageAmount -= BOOST_DAMAGE_PER_FRAME;
+    if (fabs(m_owner->m_collisionDamageAmount) < 0.25f)
+    {
+        m_owner->m_collisionDamageAmount = 0.0f;
+    }
 }
 
 //-----------------------------------------------------------------------------------

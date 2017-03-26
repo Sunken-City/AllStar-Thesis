@@ -21,4 +21,5 @@ public:
 
     static const double SECONDS_UNTIL_WARP;
     static const double MILISECONDS_UNTIL_WARP;
+    static constexpr float WARP_DAMAGE_PER_FRAME = 50.0f;
 };
