@@ -441,8 +441,7 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
         player->HideUI();
         TheGame::instance->m_players.push_back(player);
 
-        float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
-        m_players[i]->m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
+        m_players[i]->SetPaletteOffset(m_paletteOffsets[i]);
     }
 
     AudioSystem::instance->StopSound(m_menuMusic);
@@ -1187,6 +1186,13 @@ void TheGame::InitializeGameOverState()
     m_gameOverText = new Sprite("GameOverText", PLAYER_LAYER);
     m_gameOverText->m_transform.SetScale(Vector2(10.0f, 10.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupGameOverState);
+
+//     m_playerRankPodiums = new BarGraphRenderable2D*[m_numberOfPlayers];
+// 
+//     for (int i = 0; i < m_numberOfPlayers; ++i)
+//     {
+//         m_playerRankPodiums[i] = new BarGraphRenderable2D(;
+//     }
 }
 
 //-----------------------------------------------------------------------------------
@@ -1204,26 +1210,29 @@ void TheGame::CleanupGameOverState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateGameOver(float )
 {
-    bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
-    bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
-    if (keyboardStart || controllerStart)
+    if (g_secondsInState > 3.0f)
     {
-        if (IsTransitioningStates())
+        bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
+        bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
+        if (keyboardStart || controllerStart)
         {
-            return;
-        }
-        RunAfterSeconds([]()
-        {
-            SetGameState(MAIN_MENU);
-            TheGame::instance->InitializeMainMenuState();
-            TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
-        }, TRANSITION_TIME_SECONDS);
+            if (IsTransitioningStates())
+            {
+                return;
+            }
+            RunAfterSeconds([]()
+            {
+                SetGameState(MAIN_MENU);
+                TheGame::instance->InitializeMainMenuState();
+                TheGame::instance->m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeLeft")->m_texture);
+            }, TRANSITION_TIME_SECONDS);
 
-        BeginTransitioning();
-        m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
-        m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
-        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
-        AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
+            BeginTransitioning();
+            m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
+            m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
+            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
+        }
     }
 }
 

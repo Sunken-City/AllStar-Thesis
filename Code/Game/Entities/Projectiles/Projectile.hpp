@@ -13,6 +13,7 @@ public:
     virtual void ResolveCollision(Entity* otherEntity);
     virtual inline bool IsProjectile() { return true; };
     virtual float GetKnockbackMagnitude();
+    virtual void LockOn() {};
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const float KNOCKBACK_MAGNITUDE;

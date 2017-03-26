@@ -60,21 +60,24 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_paletteSwapMaterial = new Material(m_paletteSwapShader, SpriteGameRenderer::instance->m_defaultRenderState);
     m_paletteSwapMaterial->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
     m_cooldownMaterial = new Material(m_cooldownShader, SpriteGameRenderer::instance->m_defaultRenderState);
+    m_playerTintedUIMaterial = new Material(new ShaderProgram("Data/Shaders/noWarp2D.vert", "Data/Shaders/paletteSwap2D.frag"), SpriteGameRenderer::instance->m_defaultRenderState);
 
     m_sprite = new Sprite("DefaultChassis", TheGame::PLAYER_LAYER);
     m_sprite->m_transform.SetParent(&m_transform);
     m_sprite->m_material = m_paletteSwapMaterial;
     float paletteIndex = ((float)((PlayerPilot*)m_pilot)->m_playerNumber + 1.0f) / 16.0f;
     m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
-    m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
+    m_playerTintedUIMaterial->SetFloatUniform("PaletteOffset", paletteIndex);
+    //m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
+    m_playerTintedUIMaterial->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
     m_transform.SetScale(DEFAULT_SCALE);
     m_transform.SetPosition(Vector2(1000.0f));
 
     m_shieldSprite->m_material = m_sprite->m_material;
     m_shipTrail->m_emitters[0]->m_materialOverride = m_sprite->m_material;
-    m_shieldSprite->m_tintColor = GetPlayerColor();
-    m_shipTrail->m_colorOverride = GetPlayerColor();
+    //m_shieldSprite->m_tintColor = GetPlayerColor();
+    //m_shipTrail->m_colorOverride = GetPlayerColor();
     m_factionColor = GetPlayerColor();
     InitializeUI();
     InitializeStatGraph();
@@ -90,8 +93,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        PickUpItem(new WaveGun());
-        PickUpItem(new TankChassis());
+        PickUpItem(new MissileLauncher());
+        //PickUpItem(new TankChassis());
         PickUpItem(new BoostActive());
         //PickUpItem(new CloakPassive());
     }
@@ -136,6 +139,8 @@ PlayerShip::~PlayerShip()
     delete m_scoreText;
     delete m_shieldDownEffect->m_shaderProgram;
     delete m_shieldDownEffect;
+    delete m_playerTintedUIMaterial->m_shaderProgram;
+    delete m_playerTintedUIMaterial;
 
     SpriteGameRenderer::instance->RemoveEffectFromLayer(m_shieldDownEffect, TheGame::FULL_SCREEN_EFFECT_LAYER);
 
@@ -158,18 +163,18 @@ PlayerShip::~PlayerShip()
 void PlayerShip::InitializeUI()
 {
     m_equipUI = new Sprite("EquipmentUI", TheGame::UI_LAYER);
-    m_equipUI->m_tintColor = GetPlayerColor();
+    //m_equipUI->m_tintColor = GetPlayerColor();
     m_equipUI->m_tintColor.SetAlphaFloat(0.75f);
     m_equipUI->m_transform.SetScale(Vector2(1.0f));
     m_equipUI->m_transform.SetPosition(Vector2(-5.6f, 0.0f));
-    m_equipUI->m_material = TheGame::instance->m_UIMaterial;
+    m_equipUI->m_material = m_playerTintedUIMaterial;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_equipUI->m_transform);
 
     m_playerData = new Sprite("HealthUI", TheGame::UI_LAYER);
-    m_playerData->m_tintColor = GetPlayerColor();
+    //m_playerData->m_tintColor = GetPlayerColor();
     m_playerData->m_transform.SetScale(Vector2(1.0f));
     m_playerData->m_transform.SetPosition(Vector2::ZERO);
-    m_playerData->m_material = TheGame::instance->m_UIMaterial;
+    m_playerData->m_material = m_playerTintedUIMaterial;
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_playerData->m_transform);
     m_healthBar->m_fillColor.SetAlphaFloat(0.75f);
     m_teleportBar->m_fillColor.SetAlphaFloat(0.75f);
@@ -931,4 +936,12 @@ void PlayerShip::CheckToEjectEquipment(float)
     {
         m_chassisBeginEjectMilliseconds = currentTimeMilliseconds;
     }
+}
+
+//-----------------------------------------------------------------------------------
+void PlayerShip::SetPaletteOffset(int paletteIndex)
+{
+    float paletteUV = static_cast<float>(paletteIndex) / 16.0f;
+    m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteUV);
+    m_playerTintedUIMaterial->SetFloatUniform("PaletteOffset", paletteUV);
 }

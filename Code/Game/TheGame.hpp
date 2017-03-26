@@ -19,6 +19,7 @@ class TextRenderable2D;
 class WidgetBase;
 class ShaderProgram;
 class ParticleSystem;
+class BarGraphRenderable2D;
 
 //-----------------------------------------------------------------------------------
 class TheGame
@@ -171,6 +172,7 @@ private:
     TextRenderable2D* m_joinText[4];
     TextRenderable2D* m_readyText[4];
     TextRenderable2D* m_titleText = nullptr;
+    BarGraphRenderable2D** m_playerRankPodiums = nullptr;
     Sprite* m_gameOverText = nullptr;
     Material* m_transitionFBOEffect = nullptr;
     Material* m_pauseFBOEffect = nullptr;

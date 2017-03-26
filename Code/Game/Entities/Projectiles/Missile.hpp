@@ -11,8 +11,10 @@ public:
     virtual ~Missile();
     virtual bool FlushParticleTrailIfExists();
     virtual float GetKnockbackMagnitude() override;
+    virtual void LockOn() override;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const float KNOCKBACK_MAGNITUDE;
     RibbonParticleSystem* m_missileTrail;
+    bool m_hasLockedOn = false;
 };

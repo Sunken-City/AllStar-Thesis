@@ -45,6 +45,7 @@ public:
     void InitializeUI();
     bool CanPickUp(Item* item);
     void CheckToEjectEquipment(float deltaSeconds);
+    void SetPaletteOffset(int paletteIndex);
 
     //EQUIPMENT/////////////////////////////////////////////////////////////////////
     void EjectWeapon();
@@ -81,6 +82,7 @@ public:
     ShaderProgram* m_paletteSwapShader = nullptr;
     ShaderProgram* m_cooldownShader = nullptr;
     Material* m_paletteSwapMaterial = nullptr;
+    Material* m_playerTintedUIMaterial = nullptr;
     Material* m_cooldownMaterial = nullptr;
     Material* m_shieldDownEffect = nullptr;
     Sprite* m_equipUI = nullptr;

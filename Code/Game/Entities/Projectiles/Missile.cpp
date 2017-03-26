@@ -57,3 +57,13 @@ float Missile::GetKnockbackMagnitude()
 {
     return KNOCKBACK_MAGNITUDE;
 }
+
+//-----------------------------------------------------------------------------------
+void Missile::LockOn()
+{
+    if (!m_hasLockedOn)
+    {
+        m_lifeSpan += 1.0f;
+    }
+    m_hasLockedOn = true;
+}

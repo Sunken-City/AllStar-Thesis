@@ -132,6 +132,11 @@ void Ship::ApplyShotDeflection()
                     Vector2 resolutionDirection = dotProduct > 0 ? -normalizedVelocity : normalizedVelocity;
                     float totalShotModificationConstant = CalculateShotDeflectionValue() - projectile->m_shotHoming;
                     projectile->ApplyImpulse(resolutionDirection * totalShotModificationConstant);
+
+                    if (totalShotModificationConstant < 0.0f)
+                    {
+                        projectile->LockOn();
+                    }
                 }                
             }
         }

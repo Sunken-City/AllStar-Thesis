@@ -44,7 +44,7 @@ Weapon* GetRandomWeapon()
 //-----------------------------------------------------------------------------------
 Chassis* GetRandomChassis()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(4);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
     if (randomNumber == 0)
     {
         return new SpeedChassis();
