@@ -96,7 +96,7 @@ ActiveEffect* GetRandomActive()
 //-----------------------------------------------------------------------------------
 PassiveEffect* GetRandomPassive()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(4);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(3);
     if (randomNumber == 0)
     {
         return new CloakPassive();

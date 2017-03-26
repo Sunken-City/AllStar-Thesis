@@ -29,7 +29,6 @@ void CloakPassive::Update(float deltaSeconds)
     float alphaValue = Clamp<float>(squaredMagnitude / SPEED_THRESHOLD_FOR_CLOAK_SQUARED, 0.0f, 1.0f);
     m_owner->m_sprite->m_tintColor.SetAlphaFloat(alphaValue);
     m_owner->m_shieldSprite->m_tintColor.SetAlphaFloat(Min<float>(alphaValue, m_owner->m_shieldSprite->m_tintColor.GetAlphaFloat()));
-    m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(alphaValue);
 
     if (!GameMode::GetCurrent()->m_isPlaying)
     {
@@ -41,6 +40,7 @@ void CloakPassive::Update(float deltaSeconds)
 void CloakPassive::Activate(NamedProperties& parameters)
 {
     ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", m_owner) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
+    m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(0.0f);
 }
 
 //-----------------------------------------------------------------------------------
@@ -49,6 +49,7 @@ void CloakPassive::Deactivate(NamedProperties& parameters)
     UNUSED(parameters);
     m_owner->m_sprite->m_tintColor.SetAlphaFloat(1.0f);
     m_owner->m_shieldSprite->m_tintColor.SetAlphaFloat(1.0f);
+    m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(1.0f);
     m_owner->m_shipTrail->m_colorOverride.SetAlphaFloat(1.0f);
 }
 
