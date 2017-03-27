@@ -1193,6 +1193,7 @@ void TheGame::InitializeGameOverState()
     AABB2 barGraphArea = AABB2(Vector2(-width, -height), Vector2(width, height));
 
     float widthSubsection = width / m_numberOfPlayers;
+    AudioSystem::instance->PlaySound(AudioSystem::instance->CreateOrGetSound("Data/SFX/QuickDrumroll.wav"), 1.0f);
     for (int i = 0; i < m_numberOfPlayers; ++i)
     {
         float x = (widthSubsection * i) - (width / 2.0f);
@@ -1215,7 +1216,8 @@ void TheGame::InitializeGameOverState()
 
     RunAfterSeconds([=]()
     {
-        m_confettiParticles = new ParticleSystem("Confetti", FOREGROUND_LAYER, Vector2(0.0f, height));
+        m_confettiParticles = new ParticleSystem("Confetti", FOREGROUND_LAYER, Vector2(0.0f, height + 1.0f));
+        AudioSystem::instance->PlaySound(AudioSystem::instance->CreateOrGetSound("Data/SFX/fanfareHoennHorn.ogg"), 1.0f);
 
     }, GAME_OVER_ANIMATION_LENGTH);
 }
@@ -1434,6 +1436,8 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/QuickDrumroll.wav"); 
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/fanfareHoennHorn.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/swapDimensions.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/trashExplosion.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/Powerups/Whoosh_01.wav");
@@ -1823,7 +1827,7 @@ void TheGame::RegisterParticleEffects()
     confettiParticle->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
     confettiParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
     confettiParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-360.0f, 360.0f));
-    confettiParticle->m_properties.Set<Range<float>>(PROPERTY_EXPLOSIVE_VELOCITY_MAGNITUDE, 2.0f);
+    confettiParticle->m_properties.Set<Range<float>>(PROPERTY_EXPLOSIVE_VELOCITY_MAGNITUDE, 4.0f);
     //confettiParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Range<Vector2>(Vector2(0.0f, 1.0f), Vector2(0.0f, 3.0f)));
     confettiParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.4f), Vector2(0.8f)));
 
