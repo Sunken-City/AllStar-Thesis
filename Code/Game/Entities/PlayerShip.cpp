@@ -76,6 +76,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 
     m_shieldSprite->m_material = m_sprite->m_material;
     m_shipTrail->m_emitters[0]->m_materialOverride = m_sprite->m_material;
+    m_shipTrail->m_emitters[0]->m_spriteOverride = ResourceDatabase::instance->GetSpriteResource("BeamTrail");
     //m_shieldSprite->m_tintColor = GetPlayerColor();
     //m_shipTrail->m_colorOverride = GetPlayerColor();
     m_factionColor = GetPlayerColor();
