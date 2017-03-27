@@ -1708,7 +1708,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Shot Deflection", "Data\\Images\\Pickups\\shotDeflection.png");
 
     //Trails
-    ResourceDatabase::instance->RegisterSprite("BeamTrail", "Data\\Images\\Particles\\beamTrail.png");
+    ResourceDatabase::instance->RegisterSprite("BeamTrail", "Data\\Images\\Particles\\shaderBeamTrail.png");
     ResourceDatabase::instance->RegisterSprite("SpecialTrailVStripe", "Data\\Images\\Particles\\vStripeTrail.png");
     ResourceDatabase::instance->RegisterSprite("SpecialTrailRacingStripe", "Data\\Images\\Particles\\racingStripeTrail.png");
     ResourceDatabase::instance->RegisterSprite("SpecialTrailVarying", "Data\\Images\\Particles\\varyingTrail.png");

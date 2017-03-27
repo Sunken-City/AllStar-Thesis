@@ -630,15 +630,6 @@ void PlayerShip::DebugUpdate(float deltaSeconds)
     {
         m_powerupStatModifiers = Stats(30.0f);
     }
-
-    static int paletteNumber = 0;
-    if (InputSystem::instance->WasKeyJustPressed('I'))
-    {
-        ++paletteNumber;
-        paletteNumber = (paletteNumber + (((PlayerPilot*)m_pilot)->m_playerNumber + 1)) % 16;
-        float paletteIndex = static_cast<float>(paletteNumber) / 16.0f;
-        m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
-    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -718,14 +709,6 @@ void PlayerShip::ShowStatGraph()
         m_statSprites[i]->Enable();
         m_statBarGraphs[i]->Enable();
         m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
-
-//         if ((*m_powerupStatModifiers.GetStatReference(type)) >= 18.0f)
-//         {
-//             TheGame::instance->RunAfterSeconds([&]()
-//             {
-//                 TextSplash::CreateTextSplash("Wow!", m_statBarGraphs[i]->m_transform, Vector2::ONE, RGBA::YELLOW);
-//             }, 1.0f);
-//         }
     }
 }
 
