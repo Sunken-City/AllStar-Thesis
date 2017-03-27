@@ -180,7 +180,7 @@ private:
     TextRenderable2D* m_winnerText = nullptr;
     BarGraphRenderable2D** m_playerRankPodiums = nullptr;
     PlayerShip* m_winner = nullptr;
-    Sprite* m_gameOverText = nullptr;
+    Sprite* m_background = nullptr;
     Material* m_transitionFBOEffect = nullptr;
     Material* m_pauseFBOEffect = nullptr;
     Material* m_resultsBackgroundEffect = nullptr;

@@ -260,6 +260,8 @@ void TheGame::Render() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeMainMenuState()
 {
+    m_numberOfPlayers = 0;
+    m_numberOfReadyPlayers = 0;
     SpriteGameRenderer::instance->CreateOrGetLayer(BACKGROUND_LAYER)->m_virtualScaleMultiplier = 1.0f;
     m_titleText = new TextRenderable2D("ALLSTAR", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
     SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
@@ -1223,6 +1225,8 @@ void TheGame::RenderMinigameResults() const
 void TheGame::InitializeGameOverState()
 {
     SpriteGameRenderer::instance->AddEffectToLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
+    m_background = new Sprite("BlankBG", BACKGROUND_LAYER, false);
+    m_background->m_transform.SetScale(Vector2(2.0f));
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupGameOverState);
 
     m_playerRankPodiums = new BarGraphRenderable2D*[m_numberOfPlayers];
@@ -1267,6 +1271,9 @@ void TheGame::InitializeGameOverState()
         m_confettiParticles = new ParticleSystem("Confetti", FOREGROUND_LAYER, Vector2(0.0f, height + 1.0f));
         AudioSystem::instance->PlaySound(AudioSystem::instance->CreateOrGetSound("Data/SFX/fanfareHoennHorn.ogg"), 1.0f);
 
+        m_background->m_material = GetTiedWinners()[0]->m_playerTintedUIMaterial;
+        m_background->Enable();
+
     }, GAME_OVER_ANIMATION_LENGTH);
 
     RunAfterSeconds([=]()
@@ -1300,6 +1307,7 @@ void TheGame::CleanupGameOverState(unsigned int)
     m_players.clear();
     m_winner = nullptr;
     delete m_winnerText;
+    delete m_background;
 }
 
 //-----------------------------------------------------------------------------------
@@ -1346,14 +1354,7 @@ void TheGame::UpdateGameOver(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderGameOver() const
 {
-    if (g_secondsInState < (GAME_OVER_ANIMATION_LENGTH * 0.8f))
-    {
-        SpriteGameRenderer::instance->SetClearColor(RGBA::WHITE);
-    }
-    else
-    {
-        SpriteGameRenderer::instance->SetClearColor(RGBA::DISEASED);
-    }
+    SpriteGameRenderer::instance->SetClearColor(RGBA::WHITE);
     SpriteGameRenderer::instance->Render();
 }
 
@@ -1624,6 +1625,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("SlashWipe", "Data\\Images\\Transitions\\slashWipe.png");
     ResourceDatabase::instance->RegisterSprite("PixelSlashWipe", "Data\\Images\\Transitions\\pixelSlashWipe.png");
     ResourceDatabase::instance->RegisterSprite("ReadyScreen", "Data\\Images\\Transitions\\readyScreen.png");
+    ResourceDatabase::instance->RegisterSprite("BlankBG", "Data\\Images\\Transitions\\blank.png");
 
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\bg1.jpg");
