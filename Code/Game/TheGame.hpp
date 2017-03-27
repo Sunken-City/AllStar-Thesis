@@ -146,6 +146,9 @@ public:
     static constexpr float MUZZLE_FLASH_ANIMATION_LENGTH = 0.01f;
     static constexpr float CRATE_DESTRUCTION_ANIMATION_LENGTH = 0.6f;
     static constexpr float COLLISION_ANIMATION_LENGTH = 0.3f;
+    static constexpr int POINTS_PER_PLACE[4] = { 7, 4, 2, 1 };
+    static constexpr int MAX_POINTS = POINTS_PER_PLACE[0] * 3;
+    static constexpr float GAME_OVER_ANIMATION_LENGTH = 5.0f;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<PlayerPilot*> m_playerPilots;
@@ -179,5 +182,6 @@ private:
     Material* m_resultsBackgroundEffect = nullptr;
     Material* m_rainbowFBOEffect = nullptr;
     ParticleSystem* m_titleParticles = nullptr;
+    ParticleSystem* m_confettiParticles = nullptr;
     unsigned int m_paletteOffsets[4];
 };

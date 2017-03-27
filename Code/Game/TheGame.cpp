@@ -1023,7 +1023,6 @@ void TheGame::InitializeMinigameResultsState()
     static const float LOWER_SCORE_Y_OFFSET = 2.0f;
     static const float TOTAL_X_OFFSET = 6.0f;
     static const float TOTAL_Y_OFFSET = 1.0f;
-    static const int POINTS_PER_PLACE[4] = {7, 4, 2, 1};
 
     if (!g_muteMusic)
     {
@@ -1049,7 +1048,7 @@ void TheGame::InitializeMinigameResultsState()
         float xMultiplier = i % 2 == 0 ? -1.0f : 1.0f;
         float yMultiplier = i >= 2 ? -1.0f : 1.0f;
         ship->SetPosition(Vector2(PLAYER_OFFSET * xMultiplier, PLAYER_OFFSET * yMultiplier));
-        ship->m_gameScore += POINTS_PER_PLACE[ship->m_rank - 1];
+        ship->m_points += POINTS_PER_PLACE[ship->m_rank - 1];
 
         std::string shipRank;
         switch (ship->m_rank)
@@ -1075,13 +1074,13 @@ void TheGame::InitializeMinigameResultsState()
         {
             m_rankText[i] = new TextRenderable2D(shipRank, Vector2(RANK_X_OFFSET * xMultiplier, RANK_Y_OFFSET * yMultiplier), TEXT_LAYER);
             m_scoreEarnedText[i] = new TextRenderable2D(Stringf("Earned %i points!", POINTS_PER_PLACE[ship->m_rank - 1]), Vector2(SCORE_X_OFFSET * xMultiplier, LOWER_SCORE_Y_OFFSET * yMultiplier), TEXT_LAYER);
-            m_totalScoreText[i] = new TextRenderable2D(Stringf("Total Points: %i pts", ship->m_gameScore), Vector2(TOTAL_X_OFFSET * xMultiplier, TOTAL_Y_OFFSET * yMultiplier), TEXT_LAYER);
+            m_totalScoreText[i] = new TextRenderable2D(Stringf("Total Points: %i pts", ship->m_points), Vector2(TOTAL_X_OFFSET * xMultiplier, TOTAL_Y_OFFSET * yMultiplier), TEXT_LAYER);
         }
         else
         {
             m_rankText[i] = new TextRenderable2D(shipRank, Vector2(RANK_X_OFFSET * xMultiplier, TOTAL_Y_OFFSET * yMultiplier), TEXT_LAYER);
             m_scoreEarnedText[i] = new TextRenderable2D(Stringf("Earned %i points!", POINTS_PER_PLACE[ship->m_rank - 1]), Vector2(SCORE_X_OFFSET * xMultiplier, SCORE_Y_OFFSET * yMultiplier), TEXT_LAYER);
-            m_totalScoreText[i] = new TextRenderable2D(Stringf("Total Points: %i pts", ship->m_gameScore), Vector2(TOTAL_X_OFFSET * xMultiplier, RANK_Y_OFFSET * yMultiplier), TEXT_LAYER);
+            m_totalScoreText[i] = new TextRenderable2D(Stringf("Total Points: %i pts", ship->m_points), Vector2(TOTAL_X_OFFSET * xMultiplier, RANK_Y_OFFSET * yMultiplier), TEXT_LAYER);
         }
         m_scoreEarnedText[i]->m_fontSize = 0.5f;
         m_totalScoreText[i]->m_fontSize = 0.5f;
@@ -1183,23 +1182,56 @@ void TheGame::RenderMinigameResults() const
 //-----------------------------------------------------------------------------------
 void TheGame::InitializeGameOverState()
 {
-    m_gameOverText = new Sprite("GameOverText", PLAYER_LAYER);
-    m_gameOverText->m_transform.SetScale(Vector2(10.0f, 10.0f));
+    SpriteGameRenderer::instance->AddEffectToLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupGameOverState);
 
-//     m_playerRankPodiums = new BarGraphRenderable2D*[m_numberOfPlayers];
-// 
-//     for (int i = 0; i < m_numberOfPlayers; ++i)
-//     {
-//         m_playerRankPodiums[i] = new BarGraphRenderable2D(;
-//     }
+    m_playerRankPodiums = new BarGraphRenderable2D*[m_numberOfPlayers];
+
+    AABB2 worldBounds = SpriteGameRenderer::instance->m_worldBounds;
+    float width = worldBounds.GetWidth() / 2.0f;
+    float height = worldBounds.GetHeight() / 2.0f;
+    AABB2 barGraphArea = AABB2(Vector2(-width, -height), Vector2(width, height));
+
+    float widthSubsection = width / m_numberOfPlayers;
+    for (int i = 0; i < m_numberOfPlayers; ++i)
+    {
+        float x = (widthSubsection * i) - (width / 2.0f);
+        m_playerRankPodiums[i] = new BarGraphRenderable2D(AABB2(Vector2(x, -height / 1.5f), Vector2(x + 1.0f, height / 1.5f)), RGBA::RED, RGBA::CLEAR, TheGame::GEOMETRY_LAYER);
+        m_playerRankPodiums[i]->SetPercentageFilled(0.1f);
+        m_players[i]->m_transform.SetParent(&m_playerRankPodiums[i]->m_filledMaxsTransform);
+        m_players[i]->m_transform.SetPosition(Vector2(0.0f, 0.5f));
+
+        RunAfterSeconds([=]()
+        {
+            m_playerRankPodiums[i]->SetPercentageFilled(0.5f);
+
+        }, GAME_OVER_ANIMATION_LENGTH * 0.333333f);
+        RunAfterSeconds([=]()
+        {
+            m_playerRankPodiums[i]->SetPercentageFilled((float)m_players[i]->m_points / (float)MAX_POINTS);
+
+        }, GAME_OVER_ANIMATION_LENGTH * 0.666666f);
+    }
+
+    RunAfterSeconds([=]()
+    {
+        m_confettiParticles = new ParticleSystem("Confetti", FOREGROUND_LAYER, Vector2(0.0f, height));
+
+    }, GAME_OVER_ANIMATION_LENGTH);
 }
 
 //-----------------------------------------------------------------------------------
 void TheGame::CleanupGameOverState(unsigned int)
 {
-    delete m_gameOverText;
+    SpriteGameRenderer::instance->RemoveEffectFromLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     AudioSystem::instance->StopSound(m_resultsMusic);
+    ParticleSystem::DestroyImmediately(m_confettiParticles);
+
+    for (int i = 0; i < m_numberOfPlayers; ++i)
+    {
+        delete m_playerRankPodiums[i];
+    }
+    delete m_playerRankPodiums;
     for (PlayerShip* ship : m_players)
     {
         delete ship;
@@ -1210,7 +1242,7 @@ void TheGame::CleanupGameOverState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateGameOver(float )
 {
-    if (g_secondsInState > 3.0f)
+    if (g_secondsInState > GAME_OVER_ANIMATION_LENGTH)
     {
         bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
         bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
@@ -1239,7 +1271,14 @@ void TheGame::UpdateGameOver(float )
 //-----------------------------------------------------------------------------------
 void TheGame::RenderGameOver() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::DISEASED);
+    if (g_secondsInState < (GAME_OVER_ANIMATION_LENGTH * 0.75f))
+    {
+        SpriteGameRenderer::instance->SetClearColor(RGBA::WHITE);
+    }
+    else
+    {
+        SpriteGameRenderer::instance->SetClearColor(RGBA::DISEASED);
+    }
     SpriteGameRenderer::instance->Render();
 }
 
@@ -1774,6 +1813,20 @@ void TheGame::RegisterParticleEffects()
     collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
     collisionParticle->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.1f));
 
+    ParticleEmitterDefinition* confettiParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Yellow5Star"));
+    confettiParticle->m_properties.Set<std::string>(PROPERTY_NAME, "Confetti");
+    confettiParticle->m_properties.Set<float>(PROPERTY_GRAVITY_SCALE, 1.0f);
+    confettiParticle->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    confettiParticle->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 30.0f);
+    confettiParticle->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 30);
+    confettiParticle->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 10.0f);
+    confettiParticle->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, FLT_MAX);
+    confettiParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+    confettiParticle->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-360.0f, 360.0f));
+    confettiParticle->m_properties.Set<Range<float>>(PROPERTY_EXPLOSIVE_VELOCITY_MAGNITUDE, 2.0f);
+    //confettiParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Range<Vector2>(Vector2(0.0f, 1.0f), Vector2(0.0f, 3.0f)));
+    confettiParticle->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.4f), Vector2(0.8f)));
+
     ParticleEmitterDefinition* titleScreenParticle = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("White5Star"));
     titleScreenParticle->m_properties.Set<std::string>(PROPERTY_NAME, "TitleScreen");
     titleScreenParticle->m_properties.Set<float>(PROPERTY_GRAVITY_SCALE, -1.0f);
@@ -1870,4 +1923,7 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* titleScreenParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Title", LOOPING);
     titleScreenParticleSystem->AddEmitter(titleScreenParticle);
+
+    ParticleSystemDefinition* confettiParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Confetti", LOOPING);
+    confettiParticleSystem->AddEmitter(confettiParticle);
 }

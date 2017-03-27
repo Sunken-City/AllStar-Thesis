@@ -111,5 +111,5 @@ public:
     float m_totalDamageDone = 0.0f;
     float m_tpChargeLastFrame;
     int m_rank = 0;
-    int m_gameScore = 0;
+    int m_points = 0;
 };
