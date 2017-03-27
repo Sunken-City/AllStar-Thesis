@@ -319,7 +319,7 @@ void TheGame::PressStart(NamedProperties&)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMainMenu() const
 {
-    SpriteGameRenderer::instance->SetClearColor(RGBA::VERY_GRAY);
+    SpriteGameRenderer::instance->SetClearColor(RGBA::DARK_GRAY);
     SpriteGameRenderer::instance->Render();
 }
 
@@ -1243,8 +1243,10 @@ void TheGame::InitializeGameOverState()
         ship->LockMovement();
         ship->LockAbilities();
         float x = (widthSubsection * i) - (width / 2.0f);
-        m_playerRankPodiums[i] = new BarGraphRenderable2D(AABB2(Vector2(x, -height / 1.5f), Vector2(x + 1.0f, height / 1.5f)), RGBA::RED, RGBA::CLEAR, TheGame::GEOMETRY_LAYER);
+        m_playerRankPodiums[i] = new BarGraphRenderable2D(AABB2(Vector2(x, -height / 1.5f), Vector2(x + 1.0f, height / 1.5f)), RGBA::WHITE, RGBA::CLEAR, TheGame::GEOMETRY_LAYER);
         m_playerRankPodiums[i]->SetPercentageFilled(0.1f);
+        m_playerRankPodiums[i]->m_material = m_players[i]->m_playerTintedUIMaterial;
+        m_playerRankPodiums[i]->m_material->SetDiffuseTexture(ResourceDatabase::instance->GetSpriteResource("Grey2")->m_texture);
         m_players[i]->m_transform.SetParent(&m_playerRankPodiums[i]->m_filledMaxsTransform);
         m_players[i]->m_transform.SetPosition(Vector2(0.0f, 0.5f));
 
@@ -1270,6 +1272,7 @@ void TheGame::InitializeGameOverState()
     RunAfterSeconds([=]()
     {
         m_winner = GetTiedWinners()[0];
+        m_winner->m_sprite->ChangeLayer(SHIELD_LAYER);
         m_winner->m_transform.SetPosition(m_winner->m_transform.GetParent()->GetWorldPosition());
         m_winner->m_transform.RemoveParent();
         m_winnerText = new TextRenderable2D("Congratulations!", Transform2D(Vector2(0.0f, -1.0f)), TEXT_LAYER);
@@ -1591,6 +1594,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Quad", "Data\\Images\\whitePixel.png");
     ResourceDatabase::instance->RegisterSprite("Cloudy", "Data\\Images\\Particles\\Cloudy_Thicc.png");
     ResourceDatabase::instance->RegisterSprite("ReadyText", "Data\\Images\\ready.png");
+    ResourceDatabase::instance->RegisterSprite("Grey2", "Data\\Images\\grey2.png");
 
     //UI
     ResourceDatabase::instance->RegisterSprite("Arrow", "Data\\Images\\UI\\Arrow.png");

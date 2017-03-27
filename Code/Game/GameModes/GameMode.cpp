@@ -38,8 +38,8 @@ GameMode::GameMode(const std::string& arenaBackgroundImage)
     
     m_starfield->m_transform.SetScale(Vector2(5.0f));
     m_starfield2->m_transform.SetScale(Vector2(16.0f));
-    m_starfield->m_tintColor = RGBA::KINDA_GRAY;
-    m_starfield2->m_tintColor = RGBA::KINDA_GRAY;
+    m_starfield->m_tintColor = RGBA::LIGHT_GRAY;
+    m_starfield2->m_tintColor = RGBA::LIGHT_GRAY;
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER)->m_virtualScaleMultiplier = 0.98f;
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_STARS_LAYER_SLOWER)->m_virtualScaleMultiplier = 2.0f;
 }
