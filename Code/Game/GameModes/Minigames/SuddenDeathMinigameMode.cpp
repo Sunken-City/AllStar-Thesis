@@ -1,4 +1,4 @@
-#include "Game/GameModes/Minigames/DeathBattleMinigameMode.hpp"
+#include "Game/GameModes/Minigames/SuddenDeathMinigameMode.hpp"
 #include "Game/TheGame.hpp"
 #include "Game/Entities/PlayerShip.hpp"
 #include "Game/Entities/Props/Asteroid.hpp"
@@ -13,51 +13,51 @@
 #include "Game/Entities/Props/BlackHole.hpp"
 
 //-----------------------------------------------------------------------------------
-DeathBattleMinigameMode::DeathBattleMinigameMode()
+SuddenDeathMinigameMode::SuddenDeathMinigameMode()
     : BaseMinigameMode()
 {
     m_gameLengthSeconds = 120.0f;
     m_respawnAllowed = false;
     if (!g_disableMusic)
     {
-        m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
+        m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 07 PROJECT 3.ogg");
     }
-    m_modeTitleText = "DEATH BATTLE";
-    m_modeDescriptionText = "No Respawns, Get as many kills as you can!";
-    m_readyBGColor = RGBA::JOLTIK_PURPLE;
-    m_readyTextColor = RGBA::JOLTIK_YELLOW;
+    m_modeTitleText = "SUDDEN DEATH";
+    m_modeDescriptionText = "Tiebreaker round! Don't give up!";
+    m_readyBGColor = RGBA::RED;
+    m_readyTextColor = RGBA::WHITE;
 
     HideBackground();
 }
 
 //-----------------------------------------------------------------------------------
-DeathBattleMinigameMode::~DeathBattleMinigameMode()
+SuddenDeathMinigameMode::~SuddenDeathMinigameMode()
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::Initialize(const std::vector<PlayerShip*>& players)
+void SuddenDeathMinigameMode::Initialize(const std::vector<PlayerShip*>& players)
 {
     SetBackground("BattleBackground", Vector2(25.0f));
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
-    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-20.0f), Vector2(20.0f)));
+    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-10.0f), Vector2(10.0f)));
     GameMode::Initialize(players);
 
     InitializePlayerData();
-    SpawnGeometry();
+    //SpawnGeometry(); - This causes some sort of bugs, look into this please ;w;
     SpawnPlayers();
     m_isPlaying = true;
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::CleanUp()
+void SuddenDeathMinigameMode::CleanUp()
 {
     GameMode::CleanUp();
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::SpawnPlayers()
+void SuddenDeathMinigameMode::SpawnPlayers()
 {
     for (PlayerShip* player : m_players)
     {
@@ -68,7 +68,7 @@ void DeathBattleMinigameMode::SpawnPlayers()
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::SpawnGeometry()
+void SuddenDeathMinigameMode::SpawnGeometry()
 {
     //Add in some Asteroids (for color)
     for (int i = 0; i < 20; ++i)
@@ -86,14 +86,14 @@ void DeathBattleMinigameMode::SpawnGeometry()
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::UpdatePlayerScoreDisplay(PlayerShip* player)
+void SuddenDeathMinigameMode::UpdatePlayerScoreDisplay(PlayerShip* player)
 {
     int numKills = m_playerStats[player]->m_numKills;
     player->m_scoreText->m_text = Stringf("Kills: %03i", numKills);
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::Update(float deltaSeconds)
+void SuddenDeathMinigameMode::Update(float deltaSeconds)
 {
     BaseMinigameMode::Update(deltaSeconds);
     deltaSeconds = m_scaledDeltaSeconds;
@@ -133,7 +133,7 @@ void DeathBattleMinigameMode::Update(float deltaSeconds)
         }
         ++iter;
     }
-    
+
     EndGameIfTooFewPlayers();
     for (PlayerShip* player : m_players)
     {
@@ -144,7 +144,7 @@ void DeathBattleMinigameMode::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-Encounter* DeathBattleMinigameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
+Encounter* SuddenDeathMinigameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
 {
     int random = MathUtils::GetRandomIntFromZeroTo(4);
     switch (random)
@@ -161,7 +161,7 @@ Encounter* DeathBattleMinigameMode::GetRandomMediumEncounter(const Vector2& cent
 }
 
 //-----------------------------------------------------------------------------------
-void DeathBattleMinigameMode::SetUpPlayerSpawnPoints()
+void SuddenDeathMinigameMode::SetUpPlayerSpawnPoints()
 {
     AABB2 bounds = GetArenaBounds();
     AddPlayerSpawnPoint(Vector2::ONE);

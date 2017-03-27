@@ -390,7 +390,7 @@ void GameMode::ShowBackground()
 //-----------------------------------------------------------------------------------
 void GameMode::InitializeReadyAnim()
 {
-    if (!g_muteMusic)
+    if (!g_disableMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
     }

@@ -24,7 +24,10 @@ AssemblyMode::AssemblyMode()
     SpriteGameRenderer::instance->CreateOrGetLayer(TheGame::BACKGROUND_LAYER)->m_virtualScaleMultiplier = 10.0f;
     m_gameLengthSeconds = 300.0f;
     m_dropItemsOnDeath = true;
-    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 02 Jawbreaker.ogg");
+    if (!g_disableMusic)
+    {
+        m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 02 Jawbreaker.ogg");
+    }
 }
 
 //-----------------------------------------------------------------------------------

@@ -16,7 +16,10 @@ BattleRoyaleMinigameMode::BattleRoyaleMinigameMode()
 {
     m_gameLengthSeconds = 120.0f;
     m_respawnAllowed = true;
-    m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
+    if (!g_disableMusic)
+    {
+        m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
+    }
     m_modeTitleText = "BATTLE ROYALE";
     m_modeDescriptionText = "Get as many kills as you can!";
     m_readyBGColor = RGBA::MUDKIP_BLUE;

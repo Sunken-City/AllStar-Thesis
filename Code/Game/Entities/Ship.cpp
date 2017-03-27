@@ -111,6 +111,11 @@ void Ship::ApplyShotDeflection()
     const float DEFLECTION_RADIUS_SQUARED = DEFLECTION_RADIUS * DEFLECTION_RADIUS;
     GameMode* current = GameMode::GetCurrent();
 
+    if (!current)
+    {
+        return;
+    }
+
     for (Entity* entity : current->m_entities)
     {
         if (entity->IsProjectile() && entity->m_owner != this)

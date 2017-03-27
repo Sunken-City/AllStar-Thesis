@@ -271,7 +271,10 @@ void PlayerShip::Update(float deltaSeconds)
     }
 
     CheckToEjectEquipment(deltaSeconds);
-    UpdateEquips(deltaSeconds);
+    if (!m_abilitiesLocked)
+    {
+        UpdateEquips(deltaSeconds);
+    }
     UpdatePlayerUI(deltaSeconds);
     DebugUpdate(deltaSeconds);
 }
@@ -473,7 +476,10 @@ void PlayerShip::Respawn()
     m_velocity = Vector2::ZERO;
     m_shipTrail->Flush();
     m_sprite->Enable();
-    SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
+    if (TheGame::instance->m_currentGameMode)
+    {
+        SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
+    }
     m_respawnText->Disable();
     m_healthBar->SetPercentageFilled(1.0f);
     m_teleportBar->SetPercentageFilled(1.0f);

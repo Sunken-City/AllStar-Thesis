@@ -81,6 +81,9 @@ private:
     void EnqueueMinigames();
     void InitializeSpriteLayers();
     void CheckForGamePaused();
+    bool IsThereTieForFirst();
+    int GetMaxScore();
+    std::vector<PlayerShip*> GetTiedWinners();
 
     void InitializeMainMenuState();
     void CleanupMainMenuState(unsigned int);
@@ -129,7 +132,6 @@ private:
     void UpdateGameOver(float deltaSeconds);
     void RenderGameOver() const;
     void RenderDebug() const;
-
 public:
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const int MAX_NUM_PLAYERS = 4;

@@ -42,6 +42,7 @@
 #include <gl/GL.h>
 #include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
 #include "Engine/Core/RunInSeconds.hpp"
+#include "GameModes/Minigames/SuddenDeathMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -263,7 +264,7 @@ void TheGame::InitializeMainMenuState()
     m_titleText = new TextRenderable2D("ALLSTAR", Transform2D(Vector2(0.0f, 0.0f)), TEXT_LAYER);
     SpriteGameRenderer::instance->AddEffectToLayer(m_rainbowFBOEffect, BACKGROUND_PARTICLES_BLOOM_LAYER);
     m_titleParticles = new ParticleSystem("Title", BACKGROUND_PARTICLES_BLOOM_LAYER, Vector2(0.0f, -15.0f));
-    if (!g_muteMusic)
+    if (!g_disableMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_menuMusic, 0.6f);
     }
@@ -750,19 +751,20 @@ void TheGame::RenderAssemblyPlaying() const
 void TheGame::RenderSplitscreenLines() const
 {
     static const float LINE_WIDTH = 5.0f;
+    unsigned int numPlayers = GameMode::GetCurrent()->m_players.size();
     Renderer::instance->BeginOrtho(SpriteGameRenderer::instance->m_windowVirtualWidth, SpriteGameRenderer::instance->m_windowVirtualHeight, Vector2::ZERO);
     {
-        if (m_numberOfPlayers == 2)
+        if (numPlayers == 2)
         {
             SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, LINE_WIDTH);
         }
-        else if (m_numberOfPlayers == 3)
+        else if (numPlayers == 3)
         {
             float offsetUnit = SpriteGameRenderer::instance->m_windowVirtualWidth / 6.0f;
             SpriteGameRenderer::instance->DrawLine(Vector2(-offsetUnit, 20.0f), Vector2(-offsetUnit, -20.0f), RGBA::WHITE, LINE_WIDTH);
             SpriteGameRenderer::instance->DrawLine(Vector2(offsetUnit, 20.0f), Vector2(offsetUnit, -20.0f), RGBA::WHITE, LINE_WIDTH);
         }
-        else if (m_numberOfPlayers == 4)
+        else if (numPlayers == 4)
         {
             SpriteGameRenderer::instance->DrawLine(Vector2(0.0f, 20.0f), Vector2(0.0f, -20.0f), RGBA::WHITE, LINE_WIDTH);
             SpriteGameRenderer::instance->DrawLine(Vector2(20.0f, 0.0f), Vector2(-20.0f, 0.0f), RGBA::WHITE, LINE_WIDTH);
@@ -782,7 +784,7 @@ void TheGame::InitializeAssemblyResultsState()
 
     SpriteGameRenderer::instance->AddEffectToLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     SpriteGameRenderer::instance->SetSplitscreen(m_numberOfPlayers);
-    if (!g_muteMusic)
+    if (!g_disableMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_resultsMusic, 0.6f);
     }
@@ -803,6 +805,7 @@ void TheGame::InitializeAssemblyResultsState()
         ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(i);
         ship->m_shipTrail->Disable();
         ship->LockMovement();
+        ship->LockAbilities();
         ship->SlowShowStatGraph();
         ship->m_statValuesBG->ChangeLayer(GEOMETRY_LAYER);
     }
@@ -824,6 +827,7 @@ void TheGame::CleanupAssemblyResultsState(unsigned int)
         ship->m_sprite->m_viewableBy = (uchar)SpriteGameRenderer::PlayerVisibility::ALL;
         ship->m_shipTrail->Enable();
         ship->UnlockMovement();
+        ship->UnlockAbilities();
         ship->m_statValuesBG->ChangeLayer(STAT_GRAPH_LAYER_BACKGROUND);
         ship->HideStatGraph();
     }
@@ -948,8 +952,30 @@ void TheGame::InitializeMinigamePlayingState()
     {
         ship->ShowUI();
     }
-    m_currentGameMode->Initialize(m_players);
-    SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
+    if (dynamic_cast<SuddenDeathMinigameMode*>(m_currentGameMode))
+    {
+        for (PlayerShip* ship : m_players)
+        {
+            ship->m_sprite->Disable();
+            ship->m_shieldSprite->Disable();
+            ship->m_shipTrail->Disable();
+        }
+
+        auto players = GetTiedWinners();
+        for (PlayerShip* ship : players)
+        {
+            ship->m_sprite->Enable();
+            ship->m_shieldSprite->Enable();
+            ship->m_shipTrail->Enable();
+        }
+        m_currentGameMode->Initialize(players);
+        SpriteGameRenderer::instance->SetSplitscreen(players.size());
+    }
+    else
+    {
+        m_currentGameMode->Initialize(m_players);
+        SpriteGameRenderer::instance->SetSplitscreen(m_playerPilots.size());
+    }
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigamePlayingState);
 }
 
@@ -1024,7 +1050,14 @@ void TheGame::InitializeMinigameResultsState()
     static const float TOTAL_X_OFFSET = 6.0f;
     static const float TOTAL_Y_OFFSET = 1.0f;
 
-    if (!g_muteMusic)
+    for (PlayerShip* ship : m_players)
+    {
+        ship->m_sprite->Enable();
+        ship->m_shieldSprite->Enable();
+        ship->m_shipTrail->Enable();
+    }
+
+    if (!g_disableMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_resultsMusic, 0.6f);
     }
@@ -1106,6 +1139,7 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
     m_players[0]->m_statValuesBG->ChangeLayer(STAT_GRAPH_LAYER_BACKGROUND);
     m_players[0]->m_statValuesBG->Disable();    
     delete m_currentGameMode;
+
     if (m_queuedMinigameModes.size() > 0)
     {
         m_currentGameMode = m_queuedMinigameModes.front();
@@ -1134,6 +1168,12 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
         {
             return;
         }
+
+        if ((m_queuedMinigameModes.size() == 0) && IsThereTieForFirst())
+        {
+            m_queuedMinigameModes.push(new SuddenDeathMinigameMode());
+        }
+
         if (m_queuedMinigameModes.size() > 0)
         {
             RunAfterSeconds([]()
@@ -1187,6 +1227,7 @@ void TheGame::InitializeGameOverState()
 
     m_playerRankPodiums = new BarGraphRenderable2D*[m_numberOfPlayers];
 
+    float maxScore = (float)GetMaxScore();
     AABB2 worldBounds = SpriteGameRenderer::instance->m_worldBounds;
     float width = worldBounds.GetWidth() / 2.0f;
     float height = worldBounds.GetHeight() / 2.0f;
@@ -1196,6 +1237,11 @@ void TheGame::InitializeGameOverState()
     AudioSystem::instance->PlaySound(AudioSystem::instance->CreateOrGetSound("Data/SFX/QuickDrumroll.wav"), 1.0f);
     for (int i = 0; i < m_numberOfPlayers; ++i)
     {
+        PlayerShip* ship = TheGame::instance->m_players[i];
+        ship->Respawn();
+        ship->m_shieldSprite->Disable();
+        ship->LockMovement();
+        ship->LockAbilities();
         float x = (widthSubsection * i) - (width / 2.0f);
         m_playerRankPodiums[i] = new BarGraphRenderable2D(AABB2(Vector2(x, -height / 1.5f), Vector2(x + 1.0f, height / 1.5f)), RGBA::RED, RGBA::CLEAR, TheGame::GEOMETRY_LAYER);
         m_playerRankPodiums[i]->SetPercentageFilled(0.1f);
@@ -1209,7 +1255,7 @@ void TheGame::InitializeGameOverState()
         }, GAME_OVER_ANIMATION_LENGTH * 0.333333f);
         RunAfterSeconds([=]()
         {
-            m_playerRankPodiums[i]->SetPercentageFilled((float)m_players[i]->m_points / (float)MAX_POINTS);
+            m_playerRankPodiums[i]->SetPercentageFilled((float)m_players[i]->m_points / maxScore);
 
         }, GAME_OVER_ANIMATION_LENGTH * 0.666666f);
     }
@@ -1242,8 +1288,13 @@ void TheGame::CleanupGameOverState(unsigned int)
 }
 
 //-----------------------------------------------------------------------------------
-void TheGame::UpdateGameOver(float )
+void TheGame::UpdateGameOver(float deltaSeconds)
 {
+    for (PlayerShip* ship : TheGame::instance->m_players)
+    {
+        ship->Update(deltaSeconds);
+    }
+
     if (g_secondsInState > GAME_OVER_ANIMATION_LENGTH)
     {
         bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
@@ -1304,6 +1355,56 @@ void TheGame::RenderDebug() const
         }
         Renderer::instance->EndOrtho();
     }
+}
+
+//-----------------------------------------------------------------------------------
+std::vector<PlayerShip*> TheGame::GetTiedWinners()
+{
+    int maxScore = GetMaxScore();
+    std::vector<PlayerShip*> tiedPlayers;
+    for (PlayerShip* ship : m_players)
+    {
+        if (ship->m_points == maxScore)
+        {
+            tiedPlayers.push_back(ship);
+        }
+    }
+    return tiedPlayers;
+}
+
+//-----------------------------------------------------------------------------------
+bool TheGame::IsThereTieForFirst()
+{
+    int maxScore = -1;
+    int numPlayersWithScore = 0;
+    for (PlayerShip* ship : m_players)
+    {
+        if (ship->m_points > maxScore)
+        {
+            maxScore = ship->m_points;
+            numPlayersWithScore = 1;
+        }
+        else if (ship->m_points == maxScore)
+        {
+            ++numPlayersWithScore;
+        }
+    }
+
+    return numPlayersWithScore > 1;
+}
+
+//-----------------------------------------------------------------------------------
+int TheGame::GetMaxScore()
+{
+    int maxScore = -1;
+    for (PlayerShip* ship : m_players)
+    {
+        if (ship->m_points > maxScore)
+        {
+            maxScore = ship->m_points;
+        }
+    }
+    return maxScore;
 }
 
 //-----------------------------------------------------------------------------------
@@ -1452,9 +1553,15 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_4.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_5.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg");
-    AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");
-    AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
-    AudioSystem::instance->CreateOrGetSound("Data/Music/Overcast.ogg");
+    if (!g_disableMusic)
+    {
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 07 PROJECT 3.ogg");
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 02 Jawbreaker.ogg");
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Overcast.ogg");
+    }
 }
 
 //-----------------------------------------------------------------------------------

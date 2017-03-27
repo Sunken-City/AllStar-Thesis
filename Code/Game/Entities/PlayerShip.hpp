@@ -46,6 +46,9 @@ public:
     bool CanPickUp(Item* item);
     void CheckToEjectEquipment(float deltaSeconds);
     void SetPaletteOffset(int paletteIndex);
+    void DebugUpdate(float deltaSeconds);
+    void LockAbilities() { m_abilitiesLocked = true; };
+    void UnlockAbilities() { m_abilitiesLocked = false; };
 
     //EQUIPMENT/////////////////////////////////////////////////////////////////////
     void EjectWeapon();
@@ -66,7 +69,6 @@ public:
     inline virtual float GetShieldCapacityStat() { return Ship::GetShieldCapacityStat() + m_powerupStatModifiers.shieldCapacity; };
     inline virtual float GetShieldRegenStat() { return Ship::GetShieldRegenStat() + m_powerupStatModifiers.shieldRegen; };
     inline virtual float GetShotDeflectionStat() { return Ship::GetShotDeflectionStat() + m_powerupStatModifiers.shotDeflection; };
-    void DebugUpdate(float deltaSeconds);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const Vector2 DEFAULT_SCALE;
@@ -112,4 +114,5 @@ public:
     float m_tpChargeLastFrame;
     int m_rank = 0;
     int m_points = 0;
+    bool m_abilitiesLocked = false;
 };
