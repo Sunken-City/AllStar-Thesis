@@ -1266,6 +1266,16 @@ void TheGame::InitializeGameOverState()
         AudioSystem::instance->PlaySound(AudioSystem::instance->CreateOrGetSound("Data/SFX/fanfareHoennHorn.ogg"), 1.0f);
 
     }, GAME_OVER_ANIMATION_LENGTH);
+
+    RunAfterSeconds([=]()
+    {
+        m_winner = GetTiedWinners()[0];
+        m_winner->m_transform.SetPosition(m_winner->m_transform.GetParent()->GetWorldPosition());
+        m_winner->m_transform.RemoveParent();
+        m_winnerText = new TextRenderable2D("Congratulations!", Transform2D(Vector2(0.0f, -1.0f)), TEXT_LAYER);
+        m_winnerText->m_color.SetAlphaFloat(0.0f);
+        m_winnerText->m_fontSize = 1.5f;
+    }, GAME_OVER_ANIMATION_LENGTH + 1.0f);
 }
 
 //-----------------------------------------------------------------------------------
@@ -1285,6 +1295,8 @@ void TheGame::CleanupGameOverState(unsigned int)
         delete ship;
     }
     m_players.clear();
+    m_winner = nullptr;
+    delete m_winnerText;
 }
 
 //-----------------------------------------------------------------------------------
@@ -1297,6 +1309,13 @@ void TheGame::UpdateGameOver(float deltaSeconds)
 
     if (g_secondsInState > GAME_OVER_ANIMATION_LENGTH)
     {
+        if (m_winner)
+        {
+            m_winner->m_transform.SetPosition(Lerp<Vector2>(0.05f, m_winner->m_transform.GetWorldPosition(), Vector2::ZERO));
+            m_winner->m_transform.SetScale(Lerp<Vector2>(0.05f, m_winner->m_transform.GetWorldScale(), Vector2(25.0f)));
+            m_winnerText->m_color.SetAlphaFloat(Lerp<float>(0.05f, m_winnerText->m_color.GetAlphaFloat(), 1.0f));
+        }
+
         bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
         bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
         if (keyboardStart || controllerStart)
@@ -1324,7 +1343,7 @@ void TheGame::UpdateGameOver(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void TheGame::RenderGameOver() const
 {
-    if (g_secondsInState < (GAME_OVER_ANIMATION_LENGTH * 0.75f))
+    if (g_secondsInState < (GAME_OVER_ANIMATION_LENGTH * 0.8f))
     {
         SpriteGameRenderer::instance->SetClearColor(RGBA::WHITE);
     }

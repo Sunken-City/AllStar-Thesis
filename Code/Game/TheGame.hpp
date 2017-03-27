@@ -177,7 +177,9 @@ private:
     TextRenderable2D* m_joinText[4];
     TextRenderable2D* m_readyText[4];
     TextRenderable2D* m_titleText = nullptr;
+    TextRenderable2D* m_winnerText = nullptr;
     BarGraphRenderable2D** m_playerRankPodiums = nullptr;
+    PlayerShip* m_winner = nullptr;
     Sprite* m_gameOverText = nullptr;
     Material* m_transitionFBOEffect = nullptr;
     Material* m_pauseFBOEffect = nullptr;
