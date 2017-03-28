@@ -74,9 +74,10 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_transform.SetScale(DEFAULT_SCALE);
     m_transform.SetPosition(Vector2(1000.0f));
 
+    m_shieldSprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("RecolorableShield");
     m_shieldSprite->m_material = m_sprite->m_material;
     m_shipTrail->m_emitters[0]->m_materialOverride = m_sprite->m_material;
-    m_shipTrail->m_emitters[0]->m_spriteOverride = ResourceDatabase::instance->GetSpriteResource("BeamTrail");
+    m_shipTrail->m_emitters[0]->m_spriteOverride = ResourceDatabase::instance->GetSpriteResource("RecolorableBeamTrail");
     //m_shieldSprite->m_tintColor = GetPlayerColor();
     //m_shipTrail->m_colorOverride = GetPlayerColor();
     m_factionColor = GetPlayerColor();
