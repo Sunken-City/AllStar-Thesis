@@ -3,6 +3,7 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/Entities/Ship.hpp"
+#include "../PlayerShip.hpp"
 
 const float Missile::KNOCKBACK_MAGNITUDE = 10.0f;
 
@@ -16,12 +17,20 @@ Missile::Missile(Entity* owner, float degreesOffset, float damage, float disrupt
     m_sprite->m_transform.SetParent(&m_transform);
     m_transform.SetScale(Vector2(3.0f));
     m_sprite->m_tintColor = ((Ship*)owner)->m_factionColor;
-    //m_sprite->m_material = owner->m_sprite->m_material;
     m_sprite->m_tintColor.SetAlphaFloat(1.0f);
 
     CalculateCollisionRadius();
     m_missileTrail = new RibbonParticleSystem("MissileTrail", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(), &m_transform);
     m_missileTrail->m_colorOverride = RGBA::GRAY;
+    PlayerShip* player = dynamic_cast<PlayerShip*>(m_owner);
+    if (player)
+    {
+        m_sprite->m_tintColor = RGBA::WHITE;
+        m_missileTrail->m_colorOverride = RGBA::WHITE;
+        m_missileTrail->m_emitters[0]->m_materialOverride = player->m_shipTrail->m_emitters[0]->m_materialOverride;
+        m_missileTrail->m_emitters[0]->m_spriteOverride = player->m_shipTrail->m_emitters[0]->m_spriteOverride;
+        m_sprite->m_material = player->m_sprite->m_material;
+    }
     SetPosition(owner->GetMuzzlePosition());
 
     float parentRotationDegrees = m_owner->m_transform.GetWorldRotationDegrees();

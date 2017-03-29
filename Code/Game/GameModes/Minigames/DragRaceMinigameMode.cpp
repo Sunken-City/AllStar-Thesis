@@ -93,7 +93,7 @@ void DragRaceMinigameMode::UpdatePlayerScoreDisplay(PlayerShip* player)
     if (distanceToFinish < 0.0f)
     {
         distanceToFinish = 0.0f;
-        if (((RacePlayerStats*)m_playerStats[player])->m_timeToFinish == -1.0f)
+        if (((RacePlayerStats*)m_playerStats[player])->m_timeToFinish == m_gameLengthSeconds)
         {
             ((RacePlayerStats*)m_playerStats[player])->m_timeToFinish = GetTimerRealSecondsElapsed();
             if (GetTimerSecondsElapsed() < m_gameLengthSeconds)
@@ -102,7 +102,7 @@ void DragRaceMinigameMode::UpdatePlayerScoreDisplay(PlayerShip* player)
             }
         }
     }
-    if (((RacePlayerStats*)m_playerStats[player])->m_timeToFinish != -1.0f)
+    if (((RacePlayerStats*)m_playerStats[player])->m_timeToFinish != m_gameLengthSeconds)
     {
         ((RacePlayerStats*)m_playerStats[player])->m_distanceToFinish = 0.0f;
     }
@@ -110,7 +110,7 @@ void DragRaceMinigameMode::UpdatePlayerScoreDisplay(PlayerShip* player)
     {
         ((RacePlayerStats*)m_playerStats[player])->m_distanceToFinish = distanceToFinish;
     }
-    player->m_scoreText->m_text = Stringf("Dist: %03.1f", distanceToFinish);
+    player->m_scoreText->m_text = Stringf("Dist Left: %03.1f", distanceToFinish);
 }
 
 //-----------------------------------------------------------------------------------
@@ -118,7 +118,9 @@ void DragRaceMinigameMode::InitializePlayerData()
 {
     for (PlayerShip* player : m_players)
     {
-        m_playerStats[player] = new RacePlayerStats(player);
+        RacePlayerStats* stats = new RacePlayerStats(player);
+        stats->m_timeToFinish = m_gameLengthSeconds;
+        m_playerStats[player] = stats;
     }
 }
 

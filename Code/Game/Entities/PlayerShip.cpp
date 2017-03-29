@@ -327,7 +327,8 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     m_teleportBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
     m_shieldBar->m_unfilledColor.SetAlphaFloat(Lerp<float>(lerpAmount, MIN_UI_ALPHA, MAX_BAR_UI_ALPHA));
 
-    if (m_warpFreebieActive.m_energy > m_warpFreebieActive.m_costToActivate && m_tpChargeLastFrame < m_warpFreebieActive.m_costToActivate)
+    GameMode* current = GameMode::GetCurrent();
+    if (current && current->m_isPlaying && m_warpFreebieActive.m_energy > m_warpFreebieActive.m_costToActivate && m_tpChargeLastFrame < m_warpFreebieActive.m_costToActivate)
     {
         ParticleSystem* system = ParticleSystem::PlayOneShotParticleEffect("EyeTwinkle", TheGame::UI_LAYER, m_tpText->m_transform);
         system->m_emitters[0]->m_materialOverride = TheGame::instance->m_UIMaterial;

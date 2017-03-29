@@ -45,6 +45,7 @@ bool LaserGun::AttemptFire(Ship* shooter)
         float halfSpreadDegrees = m_spreadDegrees / 2.0f;
         float degreesOffset = MathUtils::GetRandomFloat(-halfSpreadDegrees, halfSpreadDegrees);
         Projectile* bullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
+
         if (shooter->IsPlayer())
         {
             bullet->m_reportDPSToPlayer = true;
