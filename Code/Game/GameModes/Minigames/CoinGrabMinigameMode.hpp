@@ -29,7 +29,7 @@ public:
     virtual void RecordPlayerDeath(PlayerShip* ship);
     virtual void RecordPlayerPickupCoin(PlayerShip* ship, int coinValue);
     virtual void InitializePlayerData() override;
-    //virtual void RankPlayers() override;
+    virtual void RankPlayers() override;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static constexpr float SECONDS_BETWEEN_COIN_SPAWNS = 0.5f;

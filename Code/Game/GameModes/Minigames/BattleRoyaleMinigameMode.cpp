@@ -45,6 +45,7 @@ void BattleRoyaleMinigameMode::Initialize(const std::vector<PlayerShip*>& player
     InitializePlayerData();
     SpawnGeometry();
     SpawnPlayers();
+    SpawnEncounters();
     m_isPlaying = true;
 }
 
