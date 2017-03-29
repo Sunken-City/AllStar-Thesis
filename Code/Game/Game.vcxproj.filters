@@ -185,6 +185,8 @@
     <ClCompile Include="GameModes\Minigames\DragRaceMinigameMode.cpp">
       <Filter>General\GameModes\Minigames</Filter>
     </ClCompile>
+    <ClCompile Include="GameModes\Minigames\CoinGrabMinigameMode.cpp" />
+    <ClCompile Include="Entities\MinigameEntities\Coin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -328,6 +330,8 @@
     <ClInclude Include="GameModes\Minigames\DragRaceMinigameMode.hpp">
       <Filter>General\GameModes\Minigames</Filter>
     </ClInclude>
+    <ClInclude Include="GameModes\Minigames\CoinGrabMinigameMode.hpp" />
+    <ClInclude Include="Entities\MinigameEntities\Coin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

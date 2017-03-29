@@ -44,6 +44,7 @@
 #include "Engine/Core/RunInSeconds.hpp"
 #include "GameModes/Minigames/SuddenDeathMinigameMode.hpp"
 #include "GameModes/Minigames/DragRaceMinigameMode.hpp"
+#include "GameModes/Minigames/CoinGrabMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -331,12 +332,13 @@ void TheGame::EnqueueMinigames()
 {
     for (int i = 0; i < m_numberOfMinigames; ++i)
     {
-        DragRaceMinigameMode* mode = new DragRaceMinigameMode();
+        CoinGrabMinigameMode* mode = new CoinGrabMinigameMode();
         m_queuedMinigameModes.push(mode);
     }
 //     m_queuedMinigameModes.push(new DeathBattleMinigameMode());
 //     m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
 //     m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+//      DragRaceMinigameMode* mode = new DragRaceMinigameMode();
 }
 
 //-----------------------------------------------------------------------------------
@@ -1572,6 +1574,7 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_4.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/count_5.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/coin.wav");
     if (!g_disableMusic)
     {
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");
@@ -1711,6 +1714,11 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Shield Capacity", "Data\\Images\\Pickups\\shieldCapacity.png");
     ResourceDatabase::instance->RegisterSprite("Shield Regen", "Data\\Images\\Pickups\\shieldRegen.png");
     ResourceDatabase::instance->RegisterSprite("Shot Deflection", "Data\\Images\\Pickups\\shotDeflection.png");
+
+    //Minigame Entities
+    ResourceDatabase::instance->RegisterSprite("BronzeCoin", "Data\\Images\\Pickups\\coin_bronze.png");
+    ResourceDatabase::instance->RegisterSprite("SilverCoin", "Data\\Images\\Pickups\\coin_silver.png");
+    ResourceDatabase::instance->RegisterSprite("GoldCoin", "Data\\Images\\Pickups\\coin_gold.png");
 
     //Trails
     ResourceDatabase::instance->RegisterSprite("RecolorableBeamTrail", "Data\\Images\\Particles\\shaderBeamTrail.png");
