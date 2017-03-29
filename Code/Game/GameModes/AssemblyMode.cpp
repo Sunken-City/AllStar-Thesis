@@ -73,9 +73,10 @@ void AssemblyMode::SpawnStartingEntities()
 //-----------------------------------------------------------------------------------
 void AssemblyMode::SpawnPlayers()
 {
-    for (PlayerShip* player : m_players)
+    for (unsigned int i = 0; i < m_players.size(); ++i)
     {
-        player->SetPosition(GetRandomPlayerSpawnPoint());
+        PlayerShip* player = m_players[i];
+        player->SetPosition(GetPlayerSpawnPoint(i));
         player->FlushParticleTrailIfExists();
         player->Respawn();
         m_entities.push_back(player);

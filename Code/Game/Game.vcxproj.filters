@@ -83,9 +83,6 @@
     <ClCompile Include="GameModes\Minigames\BattleRoyaleMinigameMode.cpp">
       <Filter>General\GameModes\Minigames</Filter>
     </ClCompile>
-    <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp">
-      <Filter>General\GameModes\Minigames</Filter>
-    </ClCompile>
     <ClCompile Include="Items\Item.cpp">
       <Filter>General\Items</Filter>
     </ClCompile>
@@ -184,6 +181,10 @@
     <ClCompile Include="GameModes\Minigames\DeathBattleMinigameMode.cpp" />
     <ClCompile Include="GameModes\InstancedGameMode.cpp" />
     <ClCompile Include="GameStrings.cpp" />
+    <ClCompile Include="GameModes\Minigames\SuddenDeathMinigameMode.cpp" />
+    <ClCompile Include="GameModes\Minigames\DragRaceMinigameMode.cpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -220,9 +221,6 @@
       <Filter>General\GameModes\Minigames</Filter>
     </ClInclude>
     <ClInclude Include="GameModes\Minigames\BattleRoyaleMinigameMode.hpp">
-      <Filter>General\GameModes\Minigames</Filter>
-    </ClInclude>
-    <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp">
       <Filter>General\GameModes\Minigames</Filter>
     </ClInclude>
     <ClInclude Include="Items\Item.hpp">
@@ -326,6 +324,10 @@
     <ClInclude Include="GameModes\Minigames\DeathBattleMinigameMode.hpp" />
     <ClInclude Include="GameModes\InstancedGameMode.hpp" />
     <ClInclude Include="GameStrings.hpp" />
+    <ClInclude Include="GameModes\Minigames\SuddenDeathMinigameMode.hpp" />
+    <ClInclude Include="GameModes\Minigames\DragRaceMinigameMode.hpp">
+      <Filter>General\GameModes\Minigames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

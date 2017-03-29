@@ -43,6 +43,7 @@
 #include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
 #include "Engine/Core/RunInSeconds.hpp"
 #include "GameModes/Minigames/SuddenDeathMinigameMode.hpp"
+#include "GameModes/Minigames/DragRaceMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -328,18 +329,14 @@ void TheGame::RenderMainMenu() const
 //-----------------------------------------------------------------------------------
 void TheGame::EnqueueMinigames()
 {
-//     for (int i = 0; i < m_numberOfMinigames; ++i)
-//     {
-//         InstancedGameMode* mode = new InstancedGameMode();
-//         for (PlayerShip* player : m_players)
-//         {
-//             mode->AddGameModeInstance(new BattleRoyaleMinigameMode(), player);
-//         }
-//         m_queuedMinigameModes.push(mode);
-//     }
-    m_queuedMinigameModes.push(new DeathBattleMinigameMode());
-    m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
-    m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+    for (int i = 0; i < m_numberOfMinigames; ++i)
+    {
+        DragRaceMinigameMode* mode = new DragRaceMinigameMode();
+        m_queuedMinigameModes.push(mode);
+    }
+//     m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+//     m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
+//     m_queuedMinigameModes.push(new DeathBattleMinigameMode());
 }
 
 //-----------------------------------------------------------------------------------
@@ -1067,7 +1064,6 @@ void TheGame::InitializeMinigameResultsState()
     SpriteGameRenderer::instance->SetSplitscreen(1);
     SpriteGameRenderer::instance->AddEffectToLayer(m_resultsBackgroundEffect, BACKGROUND_LAYER);
     m_currentGameMode->HideBackground();
-    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-8.0f, -5.0f), Vector2(8.0f, 5.0f))); //Let the players goof off on the screen
     OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMinigameResultsState);
 
     m_currentGameMode->RankPlayers();
@@ -1120,6 +1116,7 @@ void TheGame::InitializeMinigameResultsState()
         m_scoreEarnedText[i]->m_fontSize = 0.5f;
         m_totalScoreText[i]->m_fontSize = 0.5f;
     }
+    SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-8.0f, -5.0f), Vector2(8.0f, 5.0f))); //Let the players goof off on the screen
 }
 
 //-----------------------------------------------------------------------------------
@@ -1131,7 +1128,6 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
         PlayerShip* ship = TheGame::instance->m_players[i];
         ship->UnlockMovement();
         ship->m_isDead = false;
-        ship->Respawn();
         ship->m_sprite->m_transform.SetScale(Vector2::ONE);
         ship->m_shieldSprite->Enable();
         delete m_rankText[i];
@@ -1631,6 +1627,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\bg1.jpg");
     ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\bg1.jpg");
     ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\bg3.jpg");
+    ResourceDatabase::instance->RegisterSprite("RaceBackground", "Data\\Images\\Backgrounds\\bg4.jpg");
     ResourceDatabase::instance->RegisterSprite("Starfield", "Data\\Images\\Starfield_Foreground.png");
     ResourceDatabase::instance->EditSpriteResource("Starfield")->m_uvBounds = AABB2(Vector2(-15.0f), Vector2(15.0f));
 
@@ -1644,6 +1641,7 @@ void TheGame::RegisterSprites()
 
     //Props
     ResourceDatabase::instance->RegisterSprite("Asteroid", "Data\\Images\\Props\\asteroid01.png");
+    ResourceDatabase::instance->RegisterSprite("FinishLine", "Data\\Images\\Props\\finishLine.png");
     ResourceDatabase::instance->RegisterSprite("Nebula", "Data\\Images\\Props\\Nebula.png");
     ResourceDatabase::instance->RegisterSprite("Nebula2", "Data\\Images\\Props\\Nebula2.png");
     ResourceDatabase::instance->RegisterSprite("Wormhole", "Data\\Images\\Props\\cheapVortex3.png");

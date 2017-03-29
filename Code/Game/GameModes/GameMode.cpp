@@ -70,13 +70,14 @@ GameMode::~GameMode()
 //-----------------------------------------------------------------------------------
 void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 {
+    ShowBackground(); 
+    SetUpPlayerSpawnPoints();
     for (PlayerShip* player : players)
     {
         player->m_currentGameMode = this;
         m_players.push_back(player);
+        player->Respawn();
     }
-
-    ShowBackground();
 
     m_countdownWidget = UISystem::instance->CreateWidget("Label");
     m_countdownWidget->SetProperty<std::string>("Name", "Countdown");
@@ -130,6 +131,7 @@ void GameMode::Update(float deltaSeconds)
     if (m_isPlaying)
     {
         m_timerSecondsElapsed += deltaSeconds;
+        m_timerRealSecondsElapsed += deltaSeconds; //Never gets modified, only updated
         int timeRemainingSeconds = static_cast<int>(ceil(m_gameLengthSeconds - m_timerSecondsElapsed));
         int minutesRemaining = timeRemainingSeconds / 60;
         int secondsRemaining = timeRemainingSeconds % 60;
@@ -233,12 +235,20 @@ Vector2 GameMode::GetRandomLocationInArena(float radius /*= 0.0f*/)
 }
 
 //-----------------------------------------------------------------------------------
-Vector2 GameMode::GetRandomPlayerSpawnPoint()
+Vector2 GameMode::GetPlayerSpawnPoint(int playerNumber)
 {
+    unsigned int numSpawnPoints = m_playerSpawnPoints.size();
     if (m_playerSpawnPoints.size() > 0)
     {
-        int randomPoint = MathUtils::GetRandomIntFromZeroTo(m_playerSpawnPoints.size());
-        return m_playerSpawnPoints[randomPoint];
+        if (m_uniquePlayerSpawns)
+        {
+            return m_playerSpawnPoints[playerNumber];
+        }
+        else
+        {
+            int randomPoint = MathUtils::GetRandomIntFromZeroTo(m_playerSpawnPoints.size());
+            return m_playerSpawnPoints[randomPoint];
+        }
     }
     else
     {

@@ -179,7 +179,7 @@
     <ClCompile Include="GameModes\Minigames\DeathBattleMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\RaceMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\SuddenDeathMinigameMode.cpp" />
-    <ClCompile Include="GameModes\Minigames\SurvivalMinigameMode.cpp" />
+    <ClCompile Include="GameModes\Minigames\DragRaceMinigameMode.cpp" />
     <ClCompile Include="GameStrings.cpp" />
     <ClCompile Include="Items\Actives\ActiveEffect.cpp" />
     <ClCompile Include="Items\Actives\BoostActive.cpp" />
@@ -246,7 +246,7 @@
     <ClInclude Include="GameModes\Minigames\DeathBattleMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\RaceMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\SuddenDeathMinigameMode.hpp" />
-    <ClInclude Include="GameModes\Minigames\SurvivalMinigameMode.hpp" />
+    <ClInclude Include="GameModes\Minigames\DragRaceMinigameMode.hpp" />
     <ClInclude Include="GameStrings.hpp" />
     <ClInclude Include="Items\Actives\ActiveEffect.hpp" />
     <ClInclude Include="Items\Actives\BoostActive.hpp" />

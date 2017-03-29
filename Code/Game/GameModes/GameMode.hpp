@@ -41,8 +41,9 @@ public:
     virtual void Update(float deltaSeconds);
     virtual void UpdatePlayerCameras();
     virtual Vector2 GetRandomLocationInArena(float radius = 0.0f);
-    virtual Vector2 GetRandomPlayerSpawnPoint();
+    virtual Vector2 GetPlayerSpawnPoint(int playerNumber);
     virtual void RemoveEntitiesInCircle(const Vector2& center, float radius);
+    virtual void SetUpPlayerSpawnPoints() {};
     void AddPlayerSpawnPoint(const Vector2& newSpawnPoint);
     AABB2 GetArenaBounds();
     virtual void SpawnEntityInGameWorld(Entity* entity);
@@ -63,14 +64,15 @@ public:
     virtual Vector2 FindSpaceForEncounter(float radius, const std::vector<Encounter*>& encounters);
     virtual void SetTimeRemaining(float timeRemainingSeconds);
     virtual inline float GetTimerSecondsElapsed() { return m_timerSecondsElapsed; };
+    virtual inline float GetTimerRealSecondsElapsed() { return m_timerRealSecondsElapsed; };
     void ClearVortexPositions();
     inline int GetNextVortexID() { return s_currentVortexId++; };
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();
+    virtual void RankPlayers();
     virtual void RecordPlayerDeath(PlayerShip* ship);
     virtual void RecordPlayerKill(PlayerShip* killer, Ship* victim);
-    virtual void RankPlayers();
 
     //STATIC FUNCTIONS/////////////////////////////////////////////////////////////////////
     static GameMode* GetCurrent();
@@ -94,6 +96,7 @@ public:
     bool m_respawnAllowed = true;
     bool m_isPlaying = false;
     bool m_dropItemsOnDeath = false;
+    bool m_uniquePlayerSpawns = false;
     RGBA m_readyBGColor = RGBA::FOREST_GREEN;
     RGBA m_readyTextColor = RGBA::RED;
 
@@ -103,6 +106,7 @@ private:
     Sprite* m_starfield = nullptr;
     Sprite* m_starfield2 = nullptr;
     float m_timerSecondsElapsed = 0.0f;
+    float m_timerRealSecondsElapsed = 0.0f;
     WidgetBase* m_timerWidget = nullptr;
     WidgetBase* m_countdownWidget = nullptr;
 

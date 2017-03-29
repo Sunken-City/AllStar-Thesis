@@ -480,7 +480,7 @@ void PlayerShip::Respawn()
     m_sprite->Enable();
     if (TheGame::instance->m_currentGameMode)
     {
-        SetPosition(TheGame::instance->m_currentGameMode->GetRandomPlayerSpawnPoint());
+        SetPosition(TheGame::instance->m_currentGameMode->GetPlayerSpawnPoint(((PlayerPilot*)m_pilot)->m_playerNumber));
     }
     m_respawnText->Disable();
     m_healthBar->SetPercentageFilled(1.0f);
