@@ -49,6 +49,10 @@ GameMode::~GameMode()
 {
     StopPlaying();
 
+    for (Encounter* encounter : m_encounters)
+    {
+        delete encounter;
+    }
     for (auto iterator : m_playerStats)
     {
         delete iterator.second;
@@ -552,7 +556,7 @@ Vector2 GameMode::FindSpaceForEncounter(float radius, const std::vector<Encounte
 }
 
 //-----------------------------------------------------------------------------------
-Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
+Encounter* GameMode::GetRandomMinorEncounter(const Vector2& center, float radius)
 {
     int random = MathUtils::GetRandomIntFromZeroTo(4);
     switch (random)
@@ -561,7 +565,6 @@ Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radiu
     case 1:
         return new NebulaEncounter(center, radius);
     case 2:
-        return new CargoShipEncounter(center, radius);
     case 3:
         return new BossteroidEncounter(center, radius);
     default:
@@ -570,7 +573,7 @@ Encounter* GameMode::GetRandomMediumEncounter(const Vector2& center, float radiu
 }
 
 //-----------------------------------------------------------------------------------
-Encounter* GameMode::GetRandomLargeEncounter(const Vector2& center, float radius)
+Encounter* GameMode::GetRandomMajorEncounter(const Vector2& center, float radius)
 {
     int random = MathUtils::GetRandomIntFromZeroTo(2);
     switch (random)
@@ -581,5 +584,58 @@ Encounter* GameMode::GetRandomLargeEncounter(const Vector2& center, float radius
         return new BlackHoleEncounter(center, radius);
     default:
         ERROR_AND_DIE("Random medium encounter roll out of range");
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::SpawnEncounters()
+{
+    int numMediumEncounters = MathUtils::GetRandomInt(MIN_NUM_MINOR_ENCOUNTERS, MAX_NUM_MINOR_ENCOUNTERS);
+    int numLargeEncounters = MathUtils::GetRandomInt(MIN_NUM_MAJOR_ENCOUNTERS, MAX_NUM_MAJOR_ENCOUNTERS);
+
+    for (int i = 0; i < numLargeEncounters; ++i)
+    {
+        float radius = MathUtils::GetRandomFloat(MIN_MAJOR_RADIUS, MAX_MAJOR_RADIUS);
+        Vector2 center = FindSpaceForEncounter(radius, m_encounters);
+        Encounter* newEncounter = GetRandomMajorEncounter(center, radius);
+
+        RemoveEntitiesInCircle(center, radius);
+        m_encounters.push_back(newEncounter);
+        newEncounter->Spawn();
+
+        if (newEncounter->NeedsLinkedEncounter())
+        {
+            float linkedRadius = MathUtils::GetRandomFloat(MIN_MAJOR_RADIUS, MAX_MAJOR_RADIUS);
+            Vector2 linkedCenter = FindSpaceForEncounter(linkedRadius, m_encounters);
+            Encounter* linkedEncounter = newEncounter->CreateLinkedEncounter(linkedCenter, linkedRadius);
+
+            RemoveEntitiesInCircle(linkedCenter, linkedRadius);
+            m_encounters.push_back(linkedEncounter);
+            linkedEncounter->Spawn();
+            ++i;
+        }
+    }
+
+    for (int i = 0; i < numMediumEncounters; ++i)
+    {
+        float radius = MathUtils::GetRandomFloat(MIN_MINOR_RADIUS, MAX_MINOR_RADIUS);
+        Vector2 center = FindSpaceForEncounter(radius, m_encounters);
+        Encounter* newEncounter = GetRandomMinorEncounter(center, radius);
+
+        RemoveEntitiesInCircle(center, radius);
+        m_encounters.push_back(newEncounter);
+        newEncounter->Spawn();
+
+        if (newEncounter->NeedsLinkedEncounter())
+        {
+            float linkedRadius = MathUtils::GetRandomFloat(MIN_MINOR_RADIUS, MAX_MINOR_RADIUS);
+            Vector2 linkedCenter = FindSpaceForEncounter(linkedRadius, m_encounters);
+            Encounter* linkedEncounter = newEncounter->CreateLinkedEncounter(linkedCenter, linkedRadius);
+
+            RemoveEntitiesInCircle(linkedCenter, linkedRadius);
+            m_encounters.push_back(linkedEncounter);
+            linkedEncounter->Spawn();
+            ++i;
+        }
     }
 }

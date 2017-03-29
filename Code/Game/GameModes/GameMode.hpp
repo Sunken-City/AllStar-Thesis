@@ -59,14 +59,15 @@ public:
     virtual void InitializeReadyAnim();
     virtual void UpdateReadyAnim(float deltaSeconds);
     virtual void CleanupReadyAnim();
-    virtual Encounter* GetRandomMediumEncounter(const Vector2& center, float radius);
-    virtual Encounter* GetRandomLargeEncounter(const Vector2& center, float radius);
+    virtual Encounter* GetRandomMinorEncounter(const Vector2& center, float radius);
+    virtual Encounter* GetRandomMajorEncounter(const Vector2& center, float radius);
     virtual Vector2 FindSpaceForEncounter(float radius, const std::vector<Encounter*>& encounters);
     virtual void SetTimeRemaining(float timeRemainingSeconds);
     virtual inline float GetTimerSecondsElapsed() { return m_timerSecondsElapsed; };
     virtual inline float GetTimerRealSecondsElapsed() { return m_timerRealSecondsElapsed; };
     void ClearVortexPositions();
     inline int GetNextVortexID() { return s_currentVortexId++; };
+    virtual void SpawnEncounters();
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();
@@ -83,11 +84,20 @@ public:
     static const double ANIMATION_LENGTH_SECONDS;
     static const int MAX_NUM_VORTEXES = 16;
     static int s_currentVortexId;
+    float MIN_MINOR_RADIUS = 3.0f;
+    float MAX_MINOR_RADIUS = 4.0f;
+    float MIN_MAJOR_RADIUS = 4.0f;
+    float MAX_MAJOR_RADIUS = 5.0f;
+    unsigned int MIN_NUM_MINOR_ENCOUNTERS = 2;
+    unsigned int MAX_NUM_MINOR_ENCOUNTERS = 4;
+    unsigned int MIN_NUM_MAJOR_ENCOUNTERS = 0;
+    unsigned int MAX_NUM_MAJOR_ENCOUNTERS = 0;
 
     std::map<PlayerShip*, DefaultPlayerStats*> m_playerStats;
     std::vector<PlayerShip*> m_players;
     std::vector<Entity*> m_entities;
     std::vector<Entity*> m_newEntities;
+    std::vector<Encounter*> m_encounters;
     const char* m_modeTitleText;
     const char* m_modeDescriptionText;
     float m_gameLengthSeconds = 2000.0f;

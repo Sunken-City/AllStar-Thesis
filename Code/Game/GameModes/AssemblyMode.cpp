@@ -13,6 +13,8 @@
 #include "../Encounters/NebulaEncounter.hpp"
 #include "../Encounters/WormholeEncounter.hpp"
 #include "../Encounters/BlackHoleEncounter.hpp"
+#include "../Encounters/CargoShipEncounter.hpp"
+#include "../Encounters/BossteroidEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -28,6 +30,11 @@ AssemblyMode::AssemblyMode()
     {
         m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 02 Jawbreaker.ogg");
     }
+
+    MIN_NUM_MINOR_ENCOUNTERS = 8;
+    MAX_NUM_MINOR_ENCOUNTERS = 12;
+    MIN_NUM_MAJOR_ENCOUNTERS = 3;
+    MAX_NUM_MAJOR_ENCOUNTERS = 6;
 }
 
 //-----------------------------------------------------------------------------------
@@ -96,61 +103,20 @@ void AssemblyMode::GenerateLevel()
 }
 
 //-----------------------------------------------------------------------------------
-void AssemblyMode::SpawnEncounters()
+Encounter* AssemblyMode::GetRandomMinorEncounter(const Vector2& center, float radius)
 {
-    int numMediumEncounters = MathUtils::GetRandomInt(MIN_NUM_MEDIUM_ENCOUNTERS, MAX_NUM_MEDIUM_ENCOUNTERS);
-    int numLargeEncounters = MathUtils::GetRandomInt(MIN_NUM_LARGE_ENCOUNTERS, MAX_NUM_LARGE_ENCOUNTERS);
-    std::vector<Encounter*> encounters;
-
-    for (int i = 0; i < numLargeEncounters; ++i)
+    int random = MathUtils::GetRandomIntFromZeroTo(4);
+    switch (random)
     {
-        float radius = MathUtils::GetRandomFloat(MIN_LARGE_RADIUS, MAX_LARGE_RADIUS);
-        Vector2 center = FindSpaceForEncounter(radius, encounters);
-        Encounter* newEncounter = GetRandomLargeEncounter(center, radius);
-
-        RemoveEntitiesInCircle(center, radius);
-        encounters.push_back(newEncounter);
-        newEncounter->Spawn();
-
-        if (newEncounter->NeedsLinkedEncounter())
-        {
-            float linkedRadius = MathUtils::GetRandomFloat(MIN_LARGE_RADIUS, MAX_LARGE_RADIUS);
-            Vector2 linkedCenter = FindSpaceForEncounter(linkedRadius, encounters);
-            Encounter* linkedEncounter = newEncounter->CreateLinkedEncounter(linkedCenter, linkedRadius);
-
-            RemoveEntitiesInCircle(linkedCenter, linkedRadius);
-            encounters.push_back(linkedEncounter);
-            linkedEncounter->Spawn();
-            ++i;
-        }
-    }
-
-    for (int i = 0; i < numMediumEncounters; ++i)
-    {
-        float radius = MathUtils::GetRandomFloat(MIN_MEDIUM_RADIUS, MAX_MEDIUM_RADIUS);
-        Vector2 center = FindSpaceForEncounter(radius, encounters);
-        Encounter* newEncounter = GetRandomMediumEncounter(center, radius);
-
-        RemoveEntitiesInCircle(center, radius);
-        encounters.push_back(newEncounter);
-        newEncounter->Spawn();
-
-        if (newEncounter->NeedsLinkedEncounter())
-        {
-            float linkedRadius = MathUtils::GetRandomFloat(MIN_MEDIUM_RADIUS, MAX_MEDIUM_RADIUS);
-            Vector2 linkedCenter = FindSpaceForEncounter(linkedRadius, encounters);
-            Encounter* linkedEncounter = newEncounter->CreateLinkedEncounter(linkedCenter, linkedRadius);
-
-            RemoveEntitiesInCircle(linkedCenter, linkedRadius);
-            encounters.push_back(linkedEncounter);
-            linkedEncounter->Spawn();
-            ++i;
-        }
-    }
-
-    for (Encounter* encounter : encounters)
-    {
-        delete encounter;
+    case 0:
+    case 1:
+        return new NebulaEncounter(center, radius);
+    case 2:
+        return new CargoShipEncounter(center, radius);
+    case 3:
+        return new BossteroidEncounter(center, radius);
+    default:
+        ERROR_AND_DIE("Random medium encounter roll out of range");
     }
 }
 

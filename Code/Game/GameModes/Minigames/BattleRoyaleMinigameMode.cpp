@@ -135,7 +135,7 @@ void BattleRoyaleMinigameMode::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-Encounter* BattleRoyaleMinigameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
+Encounter* BattleRoyaleMinigameMode::GetRandomMinorEncounter(const Vector2& center, float radius)
 {
     int random = MathUtils::GetRandomIntFromZeroTo(4);
     switch (random)

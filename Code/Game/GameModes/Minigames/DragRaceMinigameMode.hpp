@@ -24,7 +24,7 @@ public:
     virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
     virtual void Update(float deltaSeconds);
-    virtual Encounter* GetRandomMediumEncounter(const Vector2& center, float radius) override;
+    virtual Encounter* GetRandomMinorEncounter(const Vector2& center, float radius) override;
     virtual void SetUpPlayerSpawnPoints() override;
     void SpawnPlayers();
     void SpawnGeometry();

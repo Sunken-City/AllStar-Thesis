@@ -24,8 +24,8 @@ DragRaceMinigameMode::DragRaceMinigameMode()
     }
     m_modeTitleText = "DRAG RACE";
     m_modeDescriptionText = "It's a race to the finish!";
-    m_readyBGColor = RGBA::MUDKIP_ORANGE;
-    m_readyTextColor = RGBA::FOREST_GREEN;
+    m_readyBGColor = RGBA(0xA840A8FF);
+    m_readyTextColor = RGBA(0xF88000FF);
 
     m_winZoneRenderer = new BarGraphRenderable2D(m_winZone, RGBA::GREEN, RGBA::CLEAR, TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER);
     m_winZoneRenderer->SetPercentageFilled(1.0f);
@@ -49,6 +49,7 @@ void DragRaceMinigameMode::Initialize(const std::vector<PlayerShip*>& players)
 
     InitializePlayerData();
     SpawnGeometry();
+    SpawnEncounters();
     SpawnPlayers();
     m_isPlaying = true;
 }
@@ -74,7 +75,7 @@ void DragRaceMinigameMode::SpawnPlayers()
 void DragRaceMinigameMode::SpawnGeometry()
 {
     //Add in some Asteroids (for color)
-    for (int i = 0; i < 20; ++i)
+    for (int i = 0; i < 30; ++i)
     {
         Asteroid* newAsteroid = new Asteroid(GetRandomLocationInArena());
         newAsteroid->m_currentGameMode = this;
@@ -201,7 +202,7 @@ void DragRaceMinigameMode::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-Encounter* DragRaceMinigameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
+Encounter* DragRaceMinigameMode::GetRandomMinorEncounter(const Vector2& center, float radius)
 {
     int random = MathUtils::GetRandomIntFromZeroTo(4);
     switch (random)

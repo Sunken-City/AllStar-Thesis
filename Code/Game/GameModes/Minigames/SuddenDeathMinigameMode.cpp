@@ -144,7 +144,7 @@ void SuddenDeathMinigameMode::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-Encounter* SuddenDeathMinigameMode::GetRandomMediumEncounter(const Vector2& center, float radius)
+Encounter* SuddenDeathMinigameMode::GetRandomMinorEncounter(const Vector2& center, float radius)
 {
     int random = MathUtils::GetRandomIntFromZeroTo(4);
     switch (random)
