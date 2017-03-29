@@ -79,6 +79,7 @@ private:
     void RegisterSpriteAnimations();
     void RegisterParticleEffects();
     void EnqueueMinigames();
+    GameMode* GetRandomUniqueGameMode();
     void InitializeSpriteLayers();
     void CheckForGamePaused();
     bool IsThereTieForFirst();
@@ -162,6 +163,7 @@ public:
     SoundID SFX_UI_ADVANCE;
     SoundID m_menuMusic;
     SoundID m_resultsMusic;
+    unsigned int m_gamemodeFlags = 0;
     int m_numberOfMinigames = 3;
     int m_numberOfPlayers = 0;
     int m_numberOfReadyPlayers = 0;

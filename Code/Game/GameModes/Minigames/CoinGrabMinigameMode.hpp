@@ -10,6 +10,7 @@ struct CoinGrabPlayerStats : public DefaultPlayerStats
     int m_numberOfCoins = 0;
 };
 
+//-----------------------------------------------------------------------------------
 class CoinGrabMinigameMode : public BaseMinigameMode
 {
 public:

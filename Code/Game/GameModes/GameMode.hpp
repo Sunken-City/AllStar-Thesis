@@ -84,6 +84,7 @@ public:
     static const double ANIMATION_LENGTH_SECONDS;
     static const int MAX_NUM_VORTEXES = 16;
     static int s_currentVortexId;
+
     float MIN_MINOR_RADIUS = 3.0f;
     float MAX_MINOR_RADIUS = 4.0f;
     float MIN_MAJOR_RADIUS = 4.0f;

@@ -220,7 +220,7 @@ void PlayerShip::InitializeUI()
     m_healthText->m_transform.SetPosition(Vector2(1.1f, 0.3f));
     m_shieldText->m_transform.SetPosition(Vector2(1.1f, 0.9f));
     m_tpText->m_transform.SetPosition(Vector2(-1.0f, 1.6f));
-    m_scoreText->m_transform.SetPosition(Vector2(1.0f, 1.8f));
+    m_scoreText->m_transform.SetPosition(Vector2(2.0f, 1.8f));
     m_respawnText->m_transform.SetScale(Vector2(2.0f));
     m_healthText->m_transform.SetScale(Vector2(1.5f));
     m_shieldText->m_transform.SetScale(Vector2(1.5f));

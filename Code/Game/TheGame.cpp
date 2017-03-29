@@ -330,15 +330,47 @@ void TheGame::RenderMainMenu() const
 //-----------------------------------------------------------------------------------
 void TheGame::EnqueueMinigames()
 {
+    m_gamemodeFlags = 0;
     for (int i = 0; i < m_numberOfMinigames; ++i)
     {
-        CoinGrabMinigameMode* mode = new CoinGrabMinigameMode();
-        m_queuedMinigameModes.push(mode);
+        m_queuedMinigameModes.push(GetRandomUniqueGameMode());
     }
-//     m_queuedMinigameModes.push(new DeathBattleMinigameMode());
-//     m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
-//     m_queuedMinigameModes.push(new DeathBattleMinigameMode());
-//      DragRaceMinigameMode* mode = new DragRaceMinigameMode();
+}
+
+//-----------------------------------------------------------------------------------
+GameMode* TheGame::GetRandomUniqueGameMode()
+{
+    static const int NUM_GAMEMODES = 4;
+    ASSERT_OR_DIE(m_numberOfMinigames <= NUM_GAMEMODES, "Requested more unique gamemodes than the game has available");
+    
+    GameMode* mode = nullptr;
+
+    while (mode == nullptr)
+    {
+        int randomNumber = MathUtils::GetRandomIntFromZeroTo(NUM_GAMEMODES);
+
+        if (!IsBitSetUint(m_gamemodeFlags, BIT(randomNumber)))
+        {
+            SetBitUint(m_gamemodeFlags, BIT(randomNumber));
+            switch (randomNumber)
+            {
+            case 0:
+                mode = new CoinGrabMinigameMode();
+                break;
+            case 1:
+                mode = new DeathBattleMinigameMode();
+                break;
+            case 2:
+                mode = new DragRaceMinigameMode();
+                break;
+            case 3:
+                mode = new BattleRoyaleMinigameMode();
+                break;
+            }
+        }
+    }
+
+    return mode;
 }
 
 //-----------------------------------------------------------------------------------

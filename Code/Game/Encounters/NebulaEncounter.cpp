@@ -3,6 +3,7 @@
 #include "Engine/Math/Dice.hpp"
 #include "../Entities/Props/ItemCrate.hpp"
 #include "../Entities/Grunt.hpp"
+#include "../GameModes/AssemblyMode.hpp"
 
 //-----------------------------------------------------------------------------------
 NebulaEncounter::NebulaEncounter(const Vector2& center, float radius)
@@ -23,21 +24,25 @@ void NebulaEncounter::Spawn()
     nebby->m_transform.SetScale(normalizingScale * Vector2(m_radius));
     nebby->CalculateCollisionRadius();
 
-    Dice nebulaItemDie(1, 4);
-    int dieRoll = nebulaItemDie.Roll();
-    if (dieRoll == 1)
+    //Only spawn the presents in the correct kind of game mode
+    if (dynamic_cast<AssemblyMode*>(gameMode))
     {
-        float x = MathUtils::GetRandomFloat(-0.5f, 0.5f);
-        float y = MathUtils::GetRandomFloat(-0.5f, 0.5f);
-        Vector2 spawnPos = Vector2(x, y);
-        gameMode->SpawnEntityInGameWorld(new ItemCrate(CalculateSpawnPosition(spawnPos)));
-    }
-    else if (dieRoll == 2)
-    {
-        float x = MathUtils::GetRandomFloat(-0.5f, 0.5f);
-        float y = MathUtils::GetRandomFloat(-0.5f, 0.5f);
-        Vector2 spawnPos = Vector2(x, y);
-        gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(spawnPos)));
+        Dice nebulaItemDie(1, 4);
+        int dieRoll = nebulaItemDie.Roll();
+        if (dieRoll == 1)
+        {
+            float x = MathUtils::GetRandomFloat(-0.5f, 0.5f);
+            float y = MathUtils::GetRandomFloat(-0.5f, 0.5f);
+            Vector2 spawnPos = Vector2(x, y);
+            gameMode->SpawnEntityInGameWorld(new ItemCrate(CalculateSpawnPosition(spawnPos)));
+        }
+        else if (dieRoll == 2)
+        {
+            float x = MathUtils::GetRandomFloat(-0.5f, 0.5f);
+            float y = MathUtils::GetRandomFloat(-0.5f, 0.5f);
+            Vector2 spawnPos = Vector2(x, y);
+            gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(spawnPos)));
+        }
     }
 
     gameMode->SpawnEntityInGameWorld(nebby);

@@ -19,7 +19,7 @@ CoinGrabMinigameMode::CoinGrabMinigameMode()
     m_respawnAllowed = true;
     if (!g_disableMusic)
     {
-        m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
+        m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
     }
     m_modeTitleText = "COIN GRAB";
     m_modeDescriptionText = "Grab as many coins as you can!";
@@ -256,10 +256,5 @@ Encounter* CoinGrabMinigameMode::GetRandomMinorEncounter(const Vector2& center, 
 //-----------------------------------------------------------------------------------
 void CoinGrabMinigameMode::SetUpPlayerSpawnPoints()
 {
-    AABB2 bounds = GetArenaBounds();
-    AddPlayerSpawnPoint(Vector2::ZERO);
-    AddPlayerSpawnPoint(bounds.mins + Vector2::ONE);
-    AddPlayerSpawnPoint(bounds.mins + Vector2(2.0f));
-    AddPlayerSpawnPoint(bounds.maxs - Vector2::ONE);
-    AddPlayerSpawnPoint(bounds.maxs - Vector2(2.0f));
+    //Empty, use the random spawn position list.
 }
