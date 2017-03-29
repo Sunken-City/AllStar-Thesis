@@ -11,7 +11,7 @@ const float Missile::KNOCKBACK_MAGNITUDE = 10.0f;
 Missile::Missile(Entity* owner, float degreesOffset, float damage, float disruption, float homing)
     : Projectile(owner, degreesOffset, damage, disruption, homing)
 {
-    m_speed = 4.0f;
+    m_speed = 5.5f;
 
     m_sprite = new AnimatedSprite("Missile", "Missile1", TheGame::BULLET_LAYER);
     m_sprite->m_transform.SetParent(&m_transform);
