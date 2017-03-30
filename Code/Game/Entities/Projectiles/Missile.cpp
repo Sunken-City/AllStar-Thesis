@@ -4,6 +4,7 @@
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
 #include "Game/Entities/Ship.hpp"
 #include "../PlayerShip.hpp"
+#include "Explosion.hpp"
 
 const float Missile::KNOCKBACK_MAGNITUDE = 10.0f;
 
@@ -52,6 +53,11 @@ Missile::Missile(Entity* owner, float degreesOffset, float damage, float disrupt
 Missile::~Missile()
 {
     delete m_missileTrail;
+    GameMode* gamemode = GameMode::GetCurrent();
+    if (gamemode && gamemode->m_isPlaying)
+    {
+        gamemode->SpawnBullet(new Explosion(m_owner, m_transform.GetWorldPosition(), m_damage, m_disruption));
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -75,4 +81,10 @@ void Missile::LockOn()
         m_lifeSpan += 1.0f;
     }
     m_hasLockedOn = true;
+}
+
+//-----------------------------------------------------------------------------------
+void Missile::Update(float deltaSeconds)
+{
+    Projectile::Update(deltaSeconds);
 }

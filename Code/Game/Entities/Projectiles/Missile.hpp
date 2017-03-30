@@ -12,6 +12,7 @@ public:
     virtual bool FlushParticleTrailIfExists();
     virtual float GetKnockbackMagnitude() override;
     virtual void LockOn() override;
+    virtual void Update(float deltaSeconds) override;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static const float KNOCKBACK_MAGNITUDE;

@@ -160,6 +160,7 @@
     <ClCompile Include="Entities\MinigameEntities\OuroborosCoin.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\PlayerShip.cpp" />
+    <ClCompile Include="Entities\Projectiles\Explosion.cpp" />
     <ClCompile Include="Entities\Projectiles\Laser.cpp" />
     <ClCompile Include="Entities\Projectiles\Missile.cpp" />
     <ClCompile Include="Entities\Projectiles\PlasmaBall.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="Entities\MinigameEntities\OuroborosCoin.hpp" />
     <ClInclude Include="Entities\Pickup.hpp" />
     <ClInclude Include="Entities\PlayerShip.hpp" />
+    <ClInclude Include="Entities\Projectiles\Explosion.hpp" />
     <ClInclude Include="Entities\Projectiles\Laser.hpp" />
     <ClInclude Include="Entities\Projectiles\Missile.hpp" />
     <ClInclude Include="Entities\Projectiles\PlasmaBall.hpp" />
