@@ -46,6 +46,7 @@
 #include "Game/GameModes/Minigames/DragRaceMinigameMode.hpp"
 #include "Game/GameModes/Minigames/CoinGrabMinigameMode.hpp"
 #include "GameModes/Minigames/OuroborosMinigameMode.hpp"
+#include "GameStrings.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -289,6 +290,7 @@ void TheGame::UpdateMainMenu(float)
 {
     static uchar inputCounter = 0;
     Vector2 titleOffset = Vector2::ZERO;
+    Vector2 particleOffset = Vector2(0.0f, -15.0f);
     float rotationOffset = 0.0f;
     unsigned int color = m_titleText->m_color.ToUnsignedInt();
     for (int i = 0; i < InputSystem::instance->ABSOLUTE_MAX_NUM_CONTROLLERS; ++i)
@@ -296,6 +298,7 @@ void TheGame::UpdateMainMenu(float)
         if (InputSystem::instance->m_controllers[i]->IsConnected())
         {
             titleOffset += InputSystem::instance->m_controllers[i]->GetLeftStickPosition();
+            particleOffset += InputSystem::instance->m_controllers[i]->GetRightStickPosition();
             rotationOffset -= ((float)InputSystem::instance->m_controllers[i]->GetLeftTrigger() / 255.0f) * 2.0f;
             rotationOffset += ((float)InputSystem::instance->m_controllers[i]->GetRightTrigger() / 255.0f) * 2.0f;
 
@@ -313,6 +316,15 @@ void TheGame::UpdateMainMenu(float)
                 color = color << 8;
                 ++inputCounter;
             }
+
+            if (InputSystem::instance->m_controllers[i]->JustPressed(XboxButton::DUP))
+            {
+                TextSplash::CreateTextSplash(GameStrings::GetAwesomeStatString(), Vector2::ONE, Vector2::ONE);
+            }
+            else if (InputSystem::instance->m_controllers[i]->JustPressed(XboxButton::DDOWN))
+            {
+                TextSplash::CreateTextSplash(GameStrings::GetTerribleStatString(), -Vector2::ONE, -Vector2::ONE);
+            }
         }
     }
     m_titleText->m_transform.SetPosition(titleOffset);
@@ -320,6 +332,7 @@ void TheGame::UpdateMainMenu(float)
     m_titleText->m_transform.SetScale(Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f));
     m_titleText->m_color = RGBA(color);
     m_titleText->m_color.SetAlphaFloat(1.0f);
+    m_titleParticles->m_emitters[0]->m_transform.SetPosition(particleOffset);
 
     if (inputCounter > 200)
     {
@@ -328,6 +341,10 @@ void TheGame::UpdateMainMenu(float)
     else
     {
         m_titleText->m_text = "ALLSTAR";
+    }
+    if (fabs(rotationOffset + 2.0f) > 5.0f)
+    {
+        m_titleText->m_text = "AAAAAAAAAAAAAAAAAAAAAAA";
     }
 
     bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
