@@ -13,10 +13,10 @@ SpreadShot::SpreadShot()
 {
     m_name = "Spread Shot";
 
-    m_numProjectilesPerShot = 3;
-    m_spreadDegrees = 40.0f;
-    m_statBonuses.damage = -2.0f;
-    m_statBonuses.rateOfFire = -2.0f;
+    m_numProjectilesPerShot = 4;
+    m_spreadDegrees = 75.0f;
+    m_statBonuses.damage = -5.0f;
+    m_statBonuses.rateOfFire = -3.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ bool SpreadShot::AttemptFire(Ship* shooter)
         {
             float degreesOffset = MathUtils::GetRandomFloat(-halfSpreadDegrees, halfSpreadDegrees);
             Projectile* bullet = (Projectile*)new Laser(shooter, degreesOffset, shooter->CalculateDamageValue(), shooter->CalculateShieldDisruptionValue(), shooter->CalculateShotHomingValue());
-            bullet->m_lifeSpan = 0.5f;
+            bullet->m_lifeSpan = LIFE_SPAN_PER_PROJECTILE;
             currentGameMode->SpawnBullet(bullet);
             if (shooter->IsPlayer())
             {

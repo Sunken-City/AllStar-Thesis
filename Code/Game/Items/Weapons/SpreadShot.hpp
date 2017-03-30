@@ -15,5 +15,7 @@ public:
     virtual bool AttemptFire(Ship* shooter);
     virtual void Activate(NamedProperties&) override {};
     virtual void Deactivate(NamedProperties&) override {};
+
+    static constexpr float LIFE_SPAN_PER_PROJECTILE = 0.3f;
 };
 
