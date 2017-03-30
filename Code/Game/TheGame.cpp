@@ -287,8 +287,48 @@ void TheGame::CleanupMainMenuState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMainMenu(float)
 {
-    m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetWorldRotationDegrees() + 2.0f);
+    static uchar inputCounter = 0;
+    Vector2 titleOffset = Vector2::ZERO;
+    float rotationOffset = 0.0f;
+    unsigned int color = m_titleText->m_color.ToUnsignedInt();
+    for (int i = 0; i < InputSystem::instance->ABSOLUTE_MAX_NUM_CONTROLLERS; ++i)
+    {
+        if (InputSystem::instance->m_controllers[i]->IsConnected())
+        {
+            titleOffset += InputSystem::instance->m_controllers[i]->GetLeftStickPosition();
+            rotationOffset -= ((float)InputSystem::instance->m_controllers[i]->GetLeftTrigger() / 255.0f) * 2.0f;
+            rotationOffset += ((float)InputSystem::instance->m_controllers[i]->GetRightTrigger() / 255.0f) * 2.0f;
+
+            if (InputSystem::instance->m_controllers[i]->JustPressed(XboxButton::RB))
+            {
+                color = color >> 7;
+                SetBitUint(color, 0x1);
+                color = color << 8;
+                ++inputCounter;
+            }
+            else if (InputSystem::instance->m_controllers[i]->JustPressed(XboxButton::LB))
+            {
+                color = color >> 7;
+                ClearBitUint(color, 0x1);
+                color = color << 8;
+                ++inputCounter;
+            }
+        }
+    }
+    m_titleText->m_transform.SetPosition(titleOffset);
+    m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetWorldRotationDegrees() + 2.0f + rotationOffset);
     m_titleText->m_transform.SetScale(Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f));
+    m_titleText->m_color = RGBA(color);
+    m_titleText->m_color.SetAlphaFloat(1.0f);
+
+    if (inputCounter > 200)
+    {
+        m_titleText->m_text = "PLEASE STOP :c";
+    }
+    else
+    {
+        m_titleText->m_text = "ALLSTAR";
+    }
 
     bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
