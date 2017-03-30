@@ -14,7 +14,7 @@ MissileLauncher::MissileLauncher()
 
     m_statBonuses.shotHoming = 10.0f;
     m_statBonuses.rateOfFire = -2.0f;
-    m_statBonuses.damage = -3.0f;
+    m_statBonuses.damage = -4.0f;
 
     m_numProjectilesPerShot = 1;
     m_spreadDegrees = 70.0f;

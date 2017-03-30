@@ -19,6 +19,7 @@ Explosion::Explosion(Entity* owner, const Vector2& spawnPosition, float damage /
     SetPosition(spawnPosition);
     m_velocity = Vector2::ZERO;
     m_collisionDamageAmount = damage;
+    m_isImmobile = true;
 }
 
 //-----------------------------------------------------------------------------------
