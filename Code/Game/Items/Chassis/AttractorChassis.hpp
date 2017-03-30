@@ -1,6 +1,8 @@
 #pragma once
 #include "Game/Items/Chassis/Chassis.hpp"
 
+class Ship;
+
 class AttractorChassis : public Chassis
 {
 public:
@@ -11,6 +13,8 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual const SpriteResource* GetSpriteResource();
     virtual const SpriteResource* GetShipSpriteResource();
-    virtual void Activate(NamedProperties&) override {};
-    virtual void Deactivate(NamedProperties&) override {};
+    virtual void Activate(NamedProperties& props) override;
+    virtual void Deactivate(NamedProperties& props) override;
+
+    Ship* m_owner;
 };

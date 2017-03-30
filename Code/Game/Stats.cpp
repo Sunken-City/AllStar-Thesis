@@ -16,7 +16,7 @@ const float Stats::MIN_BRAKING_VALUE = 0.97f;
 const float Stats::MAX_BRAKING_VALUE = 0.95f;
 
 //POWER/////////////////////////////////////////////////////////////////////
-const float Stats::MIN_DAMAGE_VALUE = 2.0f;
+const float Stats::MIN_DAMAGE_VALUE = 10.0f;
 const float Stats::MAX_DAMAGE_VALUE = 50.0f;
 const float Stats::MIN_DISRUPTION_PERCENTAGE = 0.0f;
 const float Stats::MAX_DISRUPTION_PERCENTAGE = 0.5f;

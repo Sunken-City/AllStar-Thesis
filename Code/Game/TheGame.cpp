@@ -885,6 +885,10 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
     {
         ship->Update(deltaSeconds);
     }
+    if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
+    {
+        return;
+    }
 
     bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
@@ -1197,6 +1201,10 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
         ship->Update(deltaSeconds);
     }
 
+    if (g_secondsInState < TIME_BEFORE_PLAYERS_CAN_ADVANCE_UI)
+    {
+        return;
+    }
     bool keyboardStart = InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::ENTER) || InputSystem::instance->WasKeyJustPressed(' ') || InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::F9);
     bool controllerStart = InputSystem::instance->WasButtonJustPressed(XboxButton::START) || InputSystem::instance->WasButtonJustPressed(XboxButton::A);
     if (keyboardStart || controllerStart)
