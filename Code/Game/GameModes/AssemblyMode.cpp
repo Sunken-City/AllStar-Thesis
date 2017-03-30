@@ -3,7 +3,7 @@
 #include "Game/TheGame.hpp"
 #include "Game/Pilots/PlayerPilot.hpp"
 #include "Game/Entities/Props/ItemCrate.hpp"
-#include "Game/Entities/Grunt.hpp"
+#include "Game/Entities/Enemies/Grunt.hpp"
 #include "Game/Entities/Props/Asteroid.hpp"
 #include "Game/GameCommon.hpp"
 #include "Engine/Input/InputSystem.hpp"

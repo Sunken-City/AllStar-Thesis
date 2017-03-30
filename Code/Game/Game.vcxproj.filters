@@ -62,9 +62,6 @@
     <ClCompile Include="Entities\Ship.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Grunt.cpp">
-      <Filter>General\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\Pickup.cpp">
       <Filter>General\Entities</Filter>
     </ClCompile>
@@ -187,6 +184,11 @@
     </ClCompile>
     <ClCompile Include="GameModes\Minigames\CoinGrabMinigameMode.cpp" />
     <ClCompile Include="Entities\MinigameEntities\Coin.cpp" />
+    <ClCompile Include="Entities\Enemies\Grunt.cpp">
+      <Filter>General\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModes\Minigames\OuroborosMinigameMode.cpp" />
+    <ClCompile Include="Entities\MinigameEntities\OuroborosCoin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -202,9 +204,6 @@
       <Filter>General\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Ship.hpp">
-      <Filter>General\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities\Grunt.hpp">
       <Filter>General\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Pickup.hpp">
@@ -332,6 +331,11 @@
     </ClInclude>
     <ClInclude Include="GameModes\Minigames\CoinGrabMinigameMode.hpp" />
     <ClInclude Include="Entities\MinigameEntities\Coin.hpp" />
+    <ClInclude Include="Entities\Enemies\Grunt.hpp">
+      <Filter>General\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModes\Minigames\OuroborosMinigameMode.hpp" />
+    <ClInclude Include="Entities\MinigameEntities\OuroborosCoin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

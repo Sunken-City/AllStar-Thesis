@@ -155,10 +155,5 @@ Encounter* BattleRoyaleMinigameMode::GetRandomMinorEncounter(const Vector2& cent
 //-----------------------------------------------------------------------------------
 void BattleRoyaleMinigameMode::SetUpPlayerSpawnPoints()
 {
-    AABB2 bounds = GetArenaBounds();
-    AddPlayerSpawnPoint(Vector2::ZERO);
-    AddPlayerSpawnPoint(bounds.mins + Vector2::ONE);
-    AddPlayerSpawnPoint(bounds.mins + Vector2(2.0f));
-    AddPlayerSpawnPoint(bounds.maxs - Vector2::ONE);
-    AddPlayerSpawnPoint(bounds.maxs - Vector2(2.0f));
+    //Random Start positions
 }

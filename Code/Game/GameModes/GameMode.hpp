@@ -74,6 +74,7 @@ public:
     virtual void RankPlayers();
     virtual void RecordPlayerDeath(PlayerShip* ship);
     virtual void RecordPlayerKill(PlayerShip* killer, Ship* victim);
+    virtual void RecordPlayerPickupCoin(PlayerShip*, int) {};
 
     //STATIC FUNCTIONS/////////////////////////////////////////////////////////////////////
     static GameMode* GetCurrent();

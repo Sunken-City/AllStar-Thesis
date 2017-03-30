@@ -163,9 +163,5 @@ Encounter* DeathBattleMinigameMode::GetRandomMinorEncounter(const Vector2& cente
 //-----------------------------------------------------------------------------------
 void DeathBattleMinigameMode::SetUpPlayerSpawnPoints()
 {
-    AABB2 bounds = GetArenaBounds();
-    AddPlayerSpawnPoint(Vector2::ONE);
-    AddPlayerSpawnPoint(Vector2(1.0f, -1.0f));
-    AddPlayerSpawnPoint(-Vector2::ONE);
-    AddPlayerSpawnPoint(Vector2(-1.0f, 1.0f));
+    //Random start positions
 }

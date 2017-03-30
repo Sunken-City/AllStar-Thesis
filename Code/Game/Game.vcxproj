@@ -155,8 +155,9 @@
     <ClCompile Include="Encounters\SquadronEncounter.cpp" />
     <ClCompile Include="Encounters\WormholeEncounter.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
-    <ClCompile Include="Entities\Grunt.cpp" />
+    <ClCompile Include="Entities\Enemies\Grunt.cpp" />
     <ClCompile Include="Entities\MinigameEntities\Coin.cpp" />
+    <ClCompile Include="Entities\MinigameEntities\OuroborosCoin.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\PlayerShip.cpp" />
     <ClCompile Include="Entities\Projectiles\Laser.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="GameModes\InstancedGameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\BattleRoyaleMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\DeathBattleMinigameMode.cpp" />
+    <ClCompile Include="GameModes\Minigames\OuroborosMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\RaceMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\CoinGrabMinigameMode.cpp" />
     <ClCompile Include="GameModes\Minigames\SuddenDeathMinigameMode.cpp" />
@@ -224,8 +226,9 @@
     <ClInclude Include="Encounters\SquadronEncounter.hpp" />
     <ClInclude Include="Encounters\WormholeEncounter.hpp" />
     <ClInclude Include="Entities\Entity.hpp" />
-    <ClInclude Include="Entities\Grunt.hpp" />
+    <ClInclude Include="Entities\Enemies\Grunt.hpp" />
     <ClInclude Include="Entities\MinigameEntities\Coin.hpp" />
+    <ClInclude Include="Entities\MinigameEntities\OuroborosCoin.hpp" />
     <ClInclude Include="Entities\Pickup.hpp" />
     <ClInclude Include="Entities\PlayerShip.hpp" />
     <ClInclude Include="Entities\Projectiles\Laser.hpp" />
@@ -248,6 +251,7 @@
     <ClInclude Include="GameModes\Minigames\BattleRoyaleMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\CoinGrabMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\DeathBattleMinigameMode.hpp" />
+    <ClInclude Include="GameModes\Minigames\OuroborosMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\RaceMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\SuddenDeathMinigameMode.hpp" />
     <ClInclude Include="GameModes\Minigames\DragRaceMinigameMode.hpp" />

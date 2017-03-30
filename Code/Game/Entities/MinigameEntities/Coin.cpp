@@ -131,8 +131,7 @@ void Coin::ResolveCollision(Entity* otherEntity)
     {
         if ((Entity*)player == otherEntity && !player->m_isDead)
         {
-            CoinGrabMinigameMode* mode = dynamic_cast<CoinGrabMinigameMode*>(GameMode::GetCurrent());
-            ASSERT_OR_DIE(mode, "Picked up a coin, but we aren't in CoinGrabMinigameMode");
+            GameMode* mode = GameMode::GetCurrent();
 
             this->m_isDead = true;
             mode->RecordPlayerPickupCoin(player, m_value);

@@ -1,4 +1,4 @@
-#include "Game/Entities/Grunt.hpp"
+#include "Game/Entities/Enemies/Grunt.hpp"
 #include "Engine/Renderer/2D/Sprite.hpp"
 #include "Game/TheGame.hpp"
 #include "Engine/Math/MathUtils.hpp"

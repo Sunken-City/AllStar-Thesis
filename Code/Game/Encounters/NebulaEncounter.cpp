@@ -2,7 +2,7 @@
 #include "../Entities/Props/Nebula.hpp"
 #include "Engine/Math/Dice.hpp"
 #include "../Entities/Props/ItemCrate.hpp"
-#include "../Entities/Grunt.hpp"
+#include "../Entities/Enemies/Grunt.hpp"
 #include "../GameModes/AssemblyMode.hpp"
 
 //-----------------------------------------------------------------------------------

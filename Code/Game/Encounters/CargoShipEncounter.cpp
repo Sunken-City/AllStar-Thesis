@@ -1,5 +1,5 @@
 #include "Game/Encounters/CargoShipEncounter.hpp"
-#include "../Entities/Grunt.hpp"
+#include "../Entities/Enemies/Grunt.hpp"
 #include "../Entities/Props/ItemCrate.hpp"
 
 //-----------------------------------------------------------------------------------

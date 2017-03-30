@@ -19,32 +19,33 @@
 #include "Game/Entities/PlayerShip.hpp"
 #include "Game/Entities/Projectiles/Projectile.hpp"
 #include "Game/Entities/Ship.hpp"
-#include "Entities/Props/ItemCrate.hpp"
-#include "Entities/Grunt.hpp"
-#include "Entities/Pickup.hpp"
+#include "Game/Entities/Props/ItemCrate.hpp"
+#include "Game/Entities/Enemies/Grunt.hpp"
+#include "Game/Entities/Pickup.hpp"
 #include "Engine/Input/InputDevices/KeyboardInputDevice.hpp"
 #include "Engine/Input/InputDevices/MouseInputDevice.hpp"
-#include "Pilots/PlayerPilot.hpp"
+#include "Game/Pilots/PlayerPilot.hpp"
 #include "Engine/Input/InputDevices/XInputDevice.hpp"
 #include "Engine/Input/InputValues.hpp"
-#include "GameModes/AssemblyMode.hpp"
-#include "GameModes/Minigames/BattleRoyaleMinigameMode.hpp"
+#include "Game/GameModes/AssemblyMode.hpp"
+#include "Game/GameModes/Minigames/BattleRoyaleMinigameMode.hpp"
 #include "Engine/Input/InputOutputUtils.hpp"
 #include "Engine/Core/Events/EventSystem.hpp"
 #include "Engine/Time/Time.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
-#include "GameCommon.hpp"
+#include "Game/GameCommon.hpp"
 #include "Engine/UI/UISystem.hpp"
 #include "Game/Entities/TextSplash.hpp"
-#include "GameModes/Minigames/DeathBattleMinigameMode.hpp"
-#include "GameModes/InstancedGameMode.hpp"
+#include "Game/GameModes/Minigames/DeathBattleMinigameMode.hpp"
+#include "Game/GameModes/InstancedGameMode.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include <gl/GL.h>
 #include "Engine/Renderer/2D/BarGraphRenderable2D.hpp"
 #include "Engine/Core/RunInSeconds.hpp"
-#include "GameModes/Minigames/SuddenDeathMinigameMode.hpp"
-#include "GameModes/Minigames/DragRaceMinigameMode.hpp"
-#include "GameModes/Minigames/CoinGrabMinigameMode.hpp"
+#include "Game/GameModes/Minigames/SuddenDeathMinigameMode.hpp"
+#include "Game/GameModes/Minigames/DragRaceMinigameMode.hpp"
+#include "Game/GameModes/Minigames/CoinGrabMinigameMode.hpp"
+#include "GameModes/Minigames/OuroborosMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -334,13 +335,14 @@ void TheGame::EnqueueMinigames()
     for (int i = 0; i < m_numberOfMinigames; ++i)
     {
         m_queuedMinigameModes.push(GetRandomUniqueGameMode());
+        //m_queuedMinigameModes.push(new OuroborosMinigameMode());
     }
 }
 
 //-----------------------------------------------------------------------------------
 GameMode* TheGame::GetRandomUniqueGameMode()
 {
-    static const int NUM_GAMEMODES = 4;
+    static const int NUM_GAMEMODES = 5;
     ASSERT_OR_DIE(m_numberOfMinigames <= NUM_GAMEMODES, "Requested more unique gamemodes than the game has available");
     
     GameMode* mode = nullptr;
@@ -365,6 +367,9 @@ GameMode* TheGame::GetRandomUniqueGameMode()
                 break;
             case 3:
                 mode = new BattleRoyaleMinigameMode();
+                break;
+            case 4:
+                mode = new OuroborosMinigameMode();
                 break;
             }
         }
@@ -1751,6 +1756,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("BronzeCoin", "Data\\Images\\Pickups\\coin_bronze.png");
     ResourceDatabase::instance->RegisterSprite("SilverCoin", "Data\\Images\\Pickups\\coin_silver.png");
     ResourceDatabase::instance->RegisterSprite("GoldCoin", "Data\\Images\\Pickups\\coin_gold.png");
+    ResourceDatabase::instance->RegisterSprite("OuroborosCoin", "Data\\Images\\Pickups\\coin_recolorable.png");
 
     //Trails
     ResourceDatabase::instance->RegisterSprite("RecolorableBeamTrail", "Data\\Images\\Particles\\shaderBeamTrail.png");

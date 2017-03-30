@@ -1,5 +1,5 @@
 #include "Game/Encounters/SquadronEncounter.hpp"
-#include "../Entities/Grunt.hpp"
+#include "../Entities/Enemies/Grunt.hpp"
 
 //-----------------------------------------------------------------------------------
 SquadronEncounter::SquadronEncounter(const Vector2& center, float radius)
