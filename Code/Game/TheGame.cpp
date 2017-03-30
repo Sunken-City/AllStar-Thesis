@@ -1709,7 +1709,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("PowerChassis", "Data\\Images\\Chassis\\powerChassis.png");
     ResourceDatabase::instance->RegisterSprite("TankChassis", "Data\\Images\\Chassis\\tankChassis.png");
     ResourceDatabase::instance->RegisterSprite("GlassCannonChassis", "Data\\Images\\Chassis\\speedChassis.png");
-    ResourceDatabase::instance->RegisterSprite("BlackHoleChassis", "Data\\Images\\Chassis\\blackHoleChassis.png");
+    ResourceDatabase::instance->RegisterSprite("AttractorChassis", "Data\\Images\\Chassis\\attractorChassis.png");
 
     //Chassis Pickups
     ResourceDatabase::instance->RegisterSprite("DefaultChassisPickup", "Data\\Images\\Chassis\\normalPickup.png");
@@ -1717,7 +1717,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("PowerChassisPickup", "Data\\Images\\Chassis\\powerPickup.png");
     ResourceDatabase::instance->RegisterSprite("TankChassisPickup", "Data\\Images\\Chassis\\tankPickup.png");
     ResourceDatabase::instance->RegisterSprite("GlassCannonChassisPickup", "Data\\Images\\Chassis\\speedPickup.png");
-    ResourceDatabase::instance->RegisterSprite("BlackHoleChassisPickup", "Data\\Images\\Chassis\\blackHolePickup.png");
+    ResourceDatabase::instance->RegisterSprite("AttractorChassisPickup", "Data\\Images\\Chassis\\attractorPickup.png");
 
     //Passive Pickups
     ResourceDatabase::instance->RegisterSprite("CloakPassive", "Data\\Images\\Passives\\cloakPassive.png");

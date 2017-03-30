@@ -4,7 +4,7 @@
 #include "Weapons\MissileLauncher.hpp"
 #include "Weapons\LaserGun.hpp"
 #include "Chassis\Chassis.hpp"
-#include "Chassis\BlackHoleChassis.hpp"
+#include "Chassis\AttractorChassis.hpp"
 #include "Chassis\SpeedChassis.hpp"
 #include "Actives\ActiveEffect.hpp"
 #include "Actives\TeleportActive.hpp"
@@ -44,14 +44,14 @@ Weapon* GetRandomWeapon()
 //-----------------------------------------------------------------------------------
 Chassis* GetRandomChassis()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(2);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(3);
     if (randomNumber == 0)
     {
         return new SpeedChassis();
     }
     else if (randomNumber == 1)
     {
-        return new BlackHoleChassis();
+        return new AttractorChassis();
     }
     else if (randomNumber == 2)
     {

@@ -152,9 +152,6 @@
     <ClCompile Include="Items\Actives\TeleportActive.cpp">
       <Filter>General\Items\Actives</Filter>
     </ClCompile>
-    <ClCompile Include="Items\Chassis\BlackHoleChassis.cpp">
-      <Filter>General\Items\Chassis</Filter>
-    </ClCompile>
     <ClCompile Include="Items\Actives\BoostActive.cpp" />
     <ClCompile Include="Items\Actives\ShieldActive.cpp" />
     <ClCompile Include="Encounters\Encounter.cpp" />
@@ -189,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="GameModes\Minigames\OuroborosMinigameMode.cpp" />
     <ClCompile Include="Entities\MinigameEntities\OuroborosCoin.cpp" />
+    <ClCompile Include="Items\Chassis\AttractorChassis.cpp">
+      <Filter>General\Items\Chassis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -299,9 +299,6 @@
     <ClInclude Include="Items\Actives\TeleportActive.hpp">
       <Filter>General\Items\Actives</Filter>
     </ClInclude>
-    <ClInclude Include="Items\Chassis\BlackHoleChassis.hpp">
-      <Filter>General\Items\Chassis</Filter>
-    </ClInclude>
     <ClInclude Include="Items\Actives\BoostActive.hpp" />
     <ClInclude Include="Items\Actives\ShieldActive.hpp" />
     <ClInclude Include="Encounters\Encounter.hpp" />
@@ -336,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="GameModes\Minigames\OuroborosMinigameMode.hpp" />
     <ClInclude Include="Entities\MinigameEntities\OuroborosCoin.hpp" />
+    <ClInclude Include="Items\Chassis\AttractorChassis.hpp">
+      <Filter>General\Items\Chassis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

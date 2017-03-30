@@ -9,8 +9,8 @@ TankChassis::TankChassis()
     m_statBonuses.topSpeed = -5.0f;
     m_statBonuses.handling = -1.0f;
     m_statBonuses.acceleration = -1.0f;
-    m_statBonuses.hp = 10.0f;
-    m_statBonuses.shieldCapacity = 5.0f;
+    m_statBonuses.hp = 5.0f;
+    m_statBonuses.shieldCapacity = 10.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -35,14 +35,14 @@ const SpriteResource* TankChassis::GetShipSpriteResource()
 void TankChassis::Activate(NamedProperties& parameters)
 {
     ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", m_owner) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
-    m_owner->m_collisionDamageAmount += COLLISION_DAMAGE_PER_FRAME;
+    m_owner->m_collisionDamageAmount += COLLISION_DAMAGE_PER_COLLISION;
 }
 
 //-----------------------------------------------------------------------------------
 void TankChassis::Deactivate(NamedProperties& parameters)
 {
     UNUSED(parameters);
-    m_owner->m_collisionDamageAmount -= COLLISION_DAMAGE_PER_FRAME;
+    m_owner->m_collisionDamageAmount -= COLLISION_DAMAGE_PER_COLLISION;
     if (fabs(m_owner->m_collisionDamageAmount) < 0.25f)
     {
         m_owner->m_collisionDamageAmount = 0.0f;

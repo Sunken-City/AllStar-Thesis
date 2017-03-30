@@ -118,11 +118,11 @@ void Entity::ResolveCollision(Entity* otherEntity)
     }
 
     //Take damage from the collision if anything does damage on contact
-    if (m_collisionDamageAmount > 0.0f)
+    if (m_collisionDamageAmount > 0.0f && otherEntity->CanTakeContactDamage())
     {
         otherEntity->TakeDamage(m_collisionDamageAmount);
     }
-    if (otherEntity->m_collisionDamageAmount > 0.0f)
+    if (otherEntity->m_collisionDamageAmount > 0.0f && CanTakeContactDamage())
     {
         TakeDamage(otherEntity->m_collisionDamageAmount);
     }

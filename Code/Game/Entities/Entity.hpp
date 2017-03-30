@@ -49,6 +49,7 @@ public:
     inline virtual float GetRotation() { return m_transform.GetWorldRotationDegrees(); };
     inline virtual Vector2 GetMuzzlePosition() { return GetPosition(); };
     virtual bool IsCollidingWith(Entity* otherEntity);
+    inline virtual bool CanTakeContactDamage() { return m_timeSinceLastHit > SECONDS_BETWEEN_CONTACT_HITS; };
     inline virtual const SpriteResource* GetCollisionSpriteResource() { return m_collisionSpriteResource; };
 
     //STAT FUNCTIONS/////////////////////////////////////////////////////////////////////
@@ -81,6 +82,7 @@ public:
 
     //STATIC VARIABLES/////////////////////////////////////////////////////////////////////
     static Vector2 SHIELD_SCALE_FUDGE_VALUE;
+    static constexpr float SECONDS_BETWEEN_CONTACT_HITS = 1.0f / 16.0f;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Stats m_baseStats;

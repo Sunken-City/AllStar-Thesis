@@ -24,7 +24,7 @@
 #include "Game/Items/Chassis/SpeedChassis.hpp"
 #include "Game/Items/Passives/CloakPassive.hpp"
 #include "Game/Items/Actives/WarpActive.hpp"
-#include "../Items/Chassis/BlackHoleChassis.hpp"
+#include "../Items/Chassis/AttractorChassis.hpp"
 #include "../Items/Passives/SpecialTrailPassive.hpp"
 #include "../Items/Actives/ShieldActive.hpp"
 #include "../Items/Actives/BoostActive.hpp"
@@ -96,7 +96,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     if (g_spawnWithDebugLoadout)
     {
         PickUpItem(new MissileLauncher());
-        //PickUpItem(new TankChassis());
+        PickUpItem(new AttractorChassis());
         PickUpItem(new BoostActive());
         //PickUpItem(new CloakPassive());
     }
