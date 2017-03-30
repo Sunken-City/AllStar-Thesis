@@ -20,6 +20,7 @@ Explosion::Explosion(Entity* owner, const Vector2& spawnPosition, float damage /
     m_velocity = Vector2::ZERO;
     m_collisionDamageAmount = damage;
     m_isImmobile = true;
+    GameMode::GetCurrent()->PlaySoundAt(AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileExplosion.wav"), spawnPosition, 0.5f);
 }
 
 //-----------------------------------------------------------------------------------
