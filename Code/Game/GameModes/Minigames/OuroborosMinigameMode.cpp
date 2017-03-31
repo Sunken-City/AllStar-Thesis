@@ -191,10 +191,13 @@ void OuroborosMinigameMode::Update(float deltaSeconds)
     m_timeSinceLastCoin += deltaSeconds;
     if (m_timeSinceLastCoin > SECONDS_BETWEEN_COIN_SPAWNS)
     {
+        //RankPlayers();
         //Ships all drop coins that they can't pick up.
         for (PlayerShip* ship : m_players)
         {
-            OuroborosCoin* ouroborosCoin = new OuroborosCoin(ship, ship->m_transform.GetWorldPosition());
+            //int coinValue = ship->m_rank == 1 ? OuroborosCoin::WINNER_OUROBOROS_VALUE : OuroborosCoin::OUROBOROS_VALUE;
+            int coinValue = OuroborosCoin::OUROBOROS_VALUE;
+            OuroborosCoin* ouroborosCoin = new OuroborosCoin(ship, ship->m_transform.GetWorldPosition(), coinValue);
             ouroborosCoin->m_currentGameMode = this;
             m_newEntities.push_back(ouroborosCoin);
         }
