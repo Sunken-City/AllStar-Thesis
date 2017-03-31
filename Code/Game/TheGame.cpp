@@ -1678,6 +1678,7 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Countdown/time_up.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/coin.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileExplosion.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/teleport.ogg");
     if (!g_disableMusic)
     {
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");

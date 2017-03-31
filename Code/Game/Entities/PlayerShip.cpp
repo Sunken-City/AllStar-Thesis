@@ -37,6 +37,7 @@
 #include "Engine/Fonts/BitmapFont.hpp"
 #include "Engine/Core/RunInSeconds.hpp"
 #include "../GameStrings.hpp"
+#include "../Items/Actives/TeleportActive.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -97,7 +98,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         //PickUpItem(new SpreadShot());
         //PickUpItem(new TankChassis());
-        //PickUpItem(new BoostActive());
+        PickUpItem(new TeleportActive());
         //PickUpItem(new CloakPassive());
     }
 
@@ -735,7 +736,7 @@ void PlayerShip::SlowShowStatGraph()
             m_statBarGraphs[i]->SetPercentageFilled((*m_powerupStatModifiers.GetStatReference(type)) / 20.0f);
         }, TIME_SECONDS_PER_BAR * i);
 
-        if ((int)(*m_powerupStatModifiers.GetStatReference(type)) >= 20)
+        if ((int)(*m_powerupStatModifiers.GetStatReference(type)) >= 17)
         {
             RunAfterSeconds([=]()
             {
@@ -743,7 +744,7 @@ void PlayerShip::SlowShowStatGraph()
                textSplash->m_textRenderable->m_viewableBy = visibilityFilter;
             }, TIME_SECONDS_PER_BAR * (i + 2));
         }
-        else if ((int)(*m_powerupStatModifiers.GetStatReference(type)) == 0)
+        else if ((int)(*m_powerupStatModifiers.GetStatReference(type)) <= 3)
         {
             RunAfterSeconds([=]()
             {
