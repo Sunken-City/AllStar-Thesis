@@ -22,5 +22,6 @@ public:
     static constexpr int BRONZE_VALUE = 1;
 
     float m_maxAge = 300.0f;
+    Vector2 m_scale = Vector2(1.0f);
     int m_value = 0;
 };

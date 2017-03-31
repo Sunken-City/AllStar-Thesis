@@ -20,6 +20,11 @@ OuroborosCoin::OuroborosCoin(PlayerShip* owner, const Vector2& position, int val
     m_velocity = Vector2::ZERO;
     SetPosition(position);
 
+    if (value > OUROBOROS_VALUE)
+    {
+        m_scale = Vector2(2.0f);
+    }
+
     uchar visibilityFilterForPlayer = (uchar)SpriteGameRenderer::instance->GetVisibilityFilterForPlayerNumber(((PlayerPilot*)owner->m_pilot)->m_playerNumber);
     uchar visibilityFilterForEveryoneButPlayer = (static_cast<uchar>(SpriteGameRenderer::PlayerVisibility::ALL) ^ visibilityFilterForPlayer);
     m_sprite->m_viewableBy = visibilityFilterForEveryoneButPlayer;

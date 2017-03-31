@@ -19,5 +19,6 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static constexpr int OUROBOROS_VALUE = 2;
+    static constexpr int WINNER_OUROBOROS_VALUE = 5;
     PlayerShip* m_owner;
 };

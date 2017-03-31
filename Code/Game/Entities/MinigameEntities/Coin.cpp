@@ -73,7 +73,7 @@ void Coin::Update(float deltaSeconds)
     const float FLASH_AGE_SECONDS = m_maxAge - 5.0f;
     Entity::Update(deltaSeconds);
 
-    Vector2 newScale = Vector2(1.0f) + Vector2(sin(m_age * 2.0f) / 4.0f);
+    Vector2 newScale = m_scale + Vector2(sin(m_age * 2.0f) / 4.0f);
     m_transform.SetScale(newScale);
     m_velocity *= 0.9f;
     Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);
