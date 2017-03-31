@@ -53,13 +53,5 @@ void Explosion::ResolveCollision(Entity* otherEntity)
         Entity::ResolveCollision(otherEntity);
         Vector2 dispFromThisToOther = otherEntity->m_transform.GetWorldPosition() - m_transform.GetWorldPosition();
         otherEntity->ApplyImpulse(dispFromThisToOther.GetNorm() * GetKnockbackMagnitude());
-
-        if (otherEntity->IsDead() && otherEntity->IsPlayer() && m_owner->IsPlayer())
-        {
-            PlayerShip* player = dynamic_cast<PlayerShip*>(m_owner);
-            PlayerShip* victim = dynamic_cast<PlayerShip*>(otherEntity);
-            ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
-            GameMode::GetCurrent()->RecordPlayerKill(player, victim);
-        }
     }
 }
