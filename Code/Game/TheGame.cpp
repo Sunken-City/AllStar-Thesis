@@ -391,8 +391,8 @@ void TheGame::EnqueueMinigames()
     m_gamemodeFlags = 0;
     for (int i = 0; i < m_numberOfMinigames; ++i)
     {
-        //m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-        m_queuedMinigameModes.push(new OuroborosMinigameMode());
+        m_queuedMinigameModes.push(GetRandomUniqueGameMode());
+        //m_queuedMinigameModes.push(new OuroborosMinigameMode());
     }
 }
 
@@ -1731,8 +1731,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("BlankBG", "Data\\Images\\Transitions\\blank.png");
 
     //Backgrounds
-    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\bg1.jpg");
-    ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\bg1.jpg");
+    ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\StarfieldBG(2).jpg");
+    ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\StarfieldBG(2).jpg");
     ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\bg3.jpg");
     ResourceDatabase::instance->RegisterSprite("RaceBackground", "Data\\Images\\Backgrounds\\bg4.jpg");
     ResourceDatabase::instance->RegisterSprite("Starfield", "Data\\Images\\Starfield_Foreground.png");
