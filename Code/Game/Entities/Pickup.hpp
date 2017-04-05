@@ -20,6 +20,7 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     Item* m_item;
+    TextRenderable2D* m_typeTextRenderable;
     TextRenderable2D* m_descriptionTextRenderable;
     TextRenderable2D* m_equipTextRenderable;
     float m_maxAge = 30.0f;

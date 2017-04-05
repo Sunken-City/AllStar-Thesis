@@ -32,6 +32,8 @@ public:
     inline bool IsActiveEffect() { return m_itemType == ACTIVE; };
     inline bool IsPassiveEffect() { return m_itemType == PASSIVE; };
     inline bool IsChassis() { return m_itemType == CHASSIS; };
+    inline virtual const char* GetTypeText() { return "ITEM"; };
+    inline virtual RGBA GetTypeColor() { return RGBA::PURPLE; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     ItemType m_itemType;

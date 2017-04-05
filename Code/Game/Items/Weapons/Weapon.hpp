@@ -14,6 +14,8 @@ public:
     virtual const SpriteResource* GetSpriteResource() = 0;
     virtual bool AttemptFire(Ship* shooter) = 0;
     virtual inline float GetKnockbackMagnitude() { return m_knockbackPerBullet * m_numProjectilesPerShot; };
+    inline virtual const char* GetTypeText() { return "WEAPON"; };
+    inline virtual RGBA GetTypeColor() { return RGBA::RED; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     unsigned int m_numProjectilesPerShot = 1;

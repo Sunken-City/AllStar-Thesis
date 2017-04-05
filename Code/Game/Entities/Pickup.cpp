@@ -9,6 +9,7 @@
 Pickup::Pickup(Item* item, const Vector2& initialPosition)
     : Entity()
     , m_item(item)
+    , m_typeTextRenderable(new TextRenderable2D(item->GetTypeText(), Transform2D(Vector2(0.0f, 1.4f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
     , m_descriptionTextRenderable(new TextRenderable2D(item->m_name, Transform2D(Vector2(0.0f, 0.9f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
     , m_equipTextRenderable(new TextRenderable2D(item->m_equipText, Transform2D(Vector2(0.0f, 0.4f), 0.0f, Vector2::ONE, &m_transform), TheGame::ITEM_TEXT_LAYER))
 {
@@ -32,6 +33,14 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
 
     if (!m_item->IsPowerUp())
     {
+        m_transform.AddChild(&m_typeTextRenderable->m_transform);
+        m_typeTextRenderable->m_fontSize = 0.4f;
+        m_typeTextRenderable->m_transform.SetRotationDegrees(0.0f);
+        m_typeTextRenderable->m_transform.IgnoreParentScale();
+        m_typeTextRenderable->m_transform.IgnoreParentRotation();
+        m_typeTextRenderable->m_color = item->GetTypeColor();
+        m_typeTextRenderable->Disable();
+
         m_transform.AddChild(&m_descriptionTextRenderable->m_transform);
         m_descriptionTextRenderable->m_fontSize = 0.4f;
         m_descriptionTextRenderable->m_transform.SetRotationDegrees(0.0f);
@@ -52,6 +61,7 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     }
     else
     {
+        m_typeTextRenderable->Disable();
         m_descriptionTextRenderable->Disable();
         m_equipTextRenderable->Disable();
     }
@@ -66,6 +76,7 @@ Pickup::~Pickup()
     }
     delete m_equipTextRenderable;
     delete m_descriptionTextRenderable;
+    delete m_typeTextRenderable;
 }
 
 //-----------------------------------------------------------------------------------
@@ -80,6 +91,7 @@ void Pickup::Update(float deltaSeconds)
     Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);
 
+    m_typeTextRenderable->Disable();
     m_descriptionTextRenderable->Disable();
     m_equipTextRenderable->Disable();
 
@@ -145,6 +157,7 @@ void Pickup::ResolveCollision(Entity* otherEntity)
             {
                 if (!m_item->IsPowerUp())
                 {
+                    m_typeTextRenderable->Enable();
                     m_descriptionTextRenderable->Enable();
                     m_equipTextRenderable->Enable();
                 }

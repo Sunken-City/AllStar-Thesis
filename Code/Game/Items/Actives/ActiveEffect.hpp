@@ -17,6 +17,8 @@ public:
     virtual void Cooldown(float deltaSeconds);
     virtual inline bool IsActive() { return m_isActive; };
     virtual inline bool CanActivate() { return (m_energy >= m_costToActivate) && (!m_isActive); };
+    inline virtual const char* GetTypeText() { return "ACTIVE"; };
+    inline virtual RGBA GetTypeColor() { return RGBA::GREEN; };
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     double m_lastActivatedMiliseconds = -10.0f;
