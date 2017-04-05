@@ -33,7 +33,7 @@ void main()
   vec4 dampingColor = vec4(0.0f);
   if((gPercentage * 360) < angle)
   {
-    dampingColor = vec4(-0.5f, -0.5f, -0.5f, 0.0f);
+    dampingColor = vec4(-0.75f, -0.75f, -0.75f, 0.0f);
   }
 
   fragmentColor = (passColor * diffuseColor) + dampingColor;
