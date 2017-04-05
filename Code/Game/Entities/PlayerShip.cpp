@@ -811,7 +811,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
         GameMode::GetCurrent()->PlaySoundAt(powerUp->GetPickupSFXID(), GetPosition());
         ParticleSystem::PlayOneShotParticleEffect("PowerupPickup", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(GetPosition()), nullptr, powerUp->GetSpriteResource());
 
-        TextSplash::CreateTextSplash(Stringf("%s Up", powerUp->GetPowerUpSpriteResourceName()), m_transform, velocity, PowerUp::GetPowerUpColor(powerUp->m_powerUpType));
+        TextSplash::CreateTextSplash(Stringf("+ %s", powerUp->GetPowerUpSpriteResourceName()), m_transform, velocity, PowerUp::GetPowerUpColor(powerUp->m_powerUpType));
 
         delete powerUp;
     }
