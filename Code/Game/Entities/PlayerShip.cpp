@@ -304,6 +304,7 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
     if (m_activeEffect)
     {
         m_cooldownMaterial->SetFloatUniform("gPercentage", m_activeEffect->m_energy);
+        m_cooldownMaterial->SetFloatUniform("gPercentagePerUse", m_activeEffect->m_costToActivate);
     }
     else
     {

@@ -5,6 +5,7 @@
 uniform sampler2D gDiffuseTexture;
 uniform float gTime;
 uniform float gPercentage;
+uniform float gPercentagePerUse;
 
 //INPUTS/////////////////////////////////////////////////////////////////////
 in vec4 passColor;
@@ -31,10 +32,17 @@ void main()
   }
 
   vec4 dampingColor = vec4(0.0f);
-  if((gPercentage * 360) < angle)
+  bool isUnderPercentage = (gPercentage * 360) < angle;
+  
+  if(isUnderPercentage)
   {
     dampingColor = vec4(-0.75f, -0.75f, -0.75f, 0.0f);
   }
 
   fragmentColor = (passColor * diffuseColor) + dampingColor;
+
+  if(isUnderPercentage && mod((angle / 360.0f), gPercentagePerUse) < 0.005f)
+  {
+    fragmentColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+  }
 }
