@@ -22,8 +22,14 @@ OuroborosCoin::OuroborosCoin(PlayerShip* owner, const Vector2& position, int val
 
     if (value > OUROBOROS_VALUE)
     {
-        m_scale = Vector2(2.0f);
+        m_transform.SetScale(Vector2(1.25f));
     }
+    else
+    {
+        m_transform.SetScale(Vector2(0.85f));
+    }
+
+    CalculateCollisionRadius();
 
     uchar visibilityFilterForPlayer = (uchar)SpriteGameRenderer::instance->GetVisibilityFilterForPlayerNumber(((PlayerPilot*)owner->m_pilot)->m_playerNumber);
     uchar visibilityFilterForEveryoneButPlayer = (static_cast<uchar>(SpriteGameRenderer::PlayerVisibility::ALL) ^ visibilityFilterForPlayer);

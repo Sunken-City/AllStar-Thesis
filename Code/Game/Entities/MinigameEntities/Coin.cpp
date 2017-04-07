@@ -48,6 +48,15 @@ Coin::Coin(const Vector2& position, int value /*= 0*/)
         m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("GoldCoin");
         break;
     }
+
+    if (m_value < SILVER_VALUE)
+    {
+        m_transform.SetScale(Vector2(0.75f));
+    }
+    else if (m_value > SILVER_VALUE)
+    {
+        m_transform.SetScale(Vector2(1.5f));
+    }
     
     CalculateCollisionRadius();
 
@@ -73,8 +82,6 @@ void Coin::Update(float deltaSeconds)
     const float FLASH_AGE_SECONDS = m_maxAge - 5.0f;
     Entity::Update(deltaSeconds);
 
-    Vector2 newScale = m_scale + Vector2(sin(m_age * 2.0f) / 4.0f);
-    m_transform.SetScale(newScale);
     m_velocity *= 0.9f;
     Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);
     SetPosition(attemptedPosition);
