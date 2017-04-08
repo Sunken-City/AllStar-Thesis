@@ -540,7 +540,7 @@ void Entity::SetShieldHealth(float newShieldValue)
 //-----------------------------------------------------------------------------------
 void Entity::SetVortexShaderPosition(const Vector2& warpHolePosition, int warpHoleID, float vortexRadii)
 {
-    m_sprite->m_material->SetVec3Uniform(Stringf("gWarpPositions[%i]", warpHoleID).c_str(), Vector3(warpHolePosition, 0.0f));
+    m_sprite->m_material->SetVec2Uniform(Stringf("gWarpPositions[%i]", warpHoleID).c_str(), warpHolePosition);
     m_sprite->m_material->SetFloatUniform(Stringf("gVortexRadii[%i]", warpHoleID).c_str(), vortexRadii);
 }
 

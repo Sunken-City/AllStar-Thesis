@@ -5,12 +5,12 @@
 uniform mat4 gModel;
 uniform mat4 gView;
 uniform mat4 gProj;
-//uniform vec3 gWarpPosition = vec3(20000.0f, 20000.0f, 0.0f);
-uniform vec3 gWarpPositions[16] =
-{vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f),
-vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f),
-vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f),
-vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f), vec3(20000.0f, 20000.0f, 0.0f)};
+//uniform vec3 gWarpPosition = vec3(20000.0f, 20000.0f, 0.0f); layout(location=5) 
+uniform vec2 gWarpPositions[16] =
+{vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f),
+ vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f),
+ vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f),
+ vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f), vec2(20000.0f, 20000.0f)};
 uniform float gVortexRadii[16] =
 {1, 1, 1, 1,
 1, 1, 1, 1,
@@ -37,7 +37,7 @@ void main()
   vec2 position = (vec4(inPosition, 0, 1) * gModel).xy;
   for(int i = 0; i < 16; ++i)
   {
-    vec2 warpPosition = gWarpPositions[i].xy;
+    vec2 warpPosition = gWarpPositions[i];
     float distanceToPosition = length(position - warpPosition);
     position = mix(warpPosition, position, clamp((distanceToPosition / gVortexRadii[i]), 0.0f, 1.0f));
   }
