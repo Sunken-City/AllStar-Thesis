@@ -57,6 +57,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_paletteSwapShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
     , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
 {
+    static const size_t paletteOffsetUniform = std::hash<std::string>{}("PaletteOffset");
     m_isDead = false;
     m_paletteSwapMaterial = new Material(m_paletteSwapShader, SpriteGameRenderer::instance->m_defaultRenderState);
     m_paletteSwapMaterial->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
@@ -67,8 +68,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     m_sprite->m_transform.SetParent(&m_transform);
     m_sprite->m_material = m_paletteSwapMaterial;
     float paletteIndex = ((float)((PlayerPilot*)m_pilot)->m_playerNumber + 1.0f) / 16.0f;
-    m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteIndex);
-    m_playerTintedUIMaterial->SetFloatUniform("PaletteOffset", paletteIndex);
+    m_sprite->m_material->SetFloatUniform(paletteOffsetUniform, paletteIndex);
+    m_playerTintedUIMaterial->SetFloatUniform(paletteOffsetUniform, paletteIndex);
     //m_sprite->m_recolorMode = (SpriteRecolorMode)(((PlayerPilot*)m_pilot)->m_playerNumber + 4);
     m_sprite->m_material->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
     m_playerTintedUIMaterial->SetEmissiveTexture(ResourceDatabase::instance->GetSpriteResource("ShipColorPalettes")->m_texture);
@@ -260,9 +261,10 @@ void PlayerShip::InitializeUI()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
+    static const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");
     if (m_isDead)
     {
-        m_shieldDownEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
+        m_shieldDownEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
         if (m_pilot->m_inputMap.FindInputValue("Respawn")->WasJustPressed() && (GameMode::GetCurrent()->m_respawnAllowed))
         {
             Respawn();
@@ -285,6 +287,8 @@ void PlayerShip::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void PlayerShip::UpdatePlayerUI(float deltaSeconds)
 {
+    static const size_t gPercentageUniform = std::hash<std::string>{}("gPercentage");
+    static const size_t gPercentagePerUseUniform = std::hash<std::string>{}("gPercentagePerUse");
     UNUSED(deltaSeconds);
     static const float MIN_UI_ALPHA = 0.1f;
     static const float MAX_UI_ALPHA = 1.0f;
@@ -303,12 +307,12 @@ void PlayerShip::UpdatePlayerUI(float deltaSeconds)
 
     if (m_activeEffect)
     {
-        m_cooldownMaterial->SetFloatUniform("gPercentage", m_activeEffect->m_energy);
-        m_cooldownMaterial->SetFloatUniform("gPercentagePerUse", m_activeEffect->m_costToActivate);
+        m_cooldownMaterial->SetFloatUniform(gPercentageUniform, m_activeEffect->m_energy);
+        m_cooldownMaterial->SetFloatUniform(gPercentagePerUseUniform, m_activeEffect->m_costToActivate);
     }
     else
     {
-        m_cooldownMaterial->SetFloatUniform("gPercentage", 1.0f);
+        m_cooldownMaterial->SetFloatUniform(gPercentageUniform, 1.0f);
     }
         
     float lerpAmount = Clamp01(fabs(GameMode::GetCurrent()->GetArenaBounds().mins.y - m_transform.GetWorldPosition().y) * 0.25f);
@@ -419,6 +423,7 @@ void PlayerShip::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
+    static const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");
     bool hadShield = HasShield();
     float ratioOfDamage = damage / CalculateHpValue();
     float returnValue = Ship::TakeDamage(damage, disruption);
@@ -427,7 +432,7 @@ float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
     {
         if (hadShield)
         {
-            m_shieldDownEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
+            m_shieldDownEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
         }
         ratioOfDamage *= 4.0f;
         ratioOfDamage = Clamp(ratioOfDamage, 0.0f, 1.0f);
@@ -935,7 +940,9 @@ void PlayerShip::CheckToEjectEquipment(float)
 //-----------------------------------------------------------------------------------
 void PlayerShip::SetPaletteOffset(int paletteIndex)
 {
+    static const size_t paletteOffsetUniform = std::hash<std::string>{}("PaletteOffset");
+
     float paletteUV = static_cast<float>(paletteIndex) / 16.0f;
-    m_sprite->m_material->SetFloatUniform("PaletteOffset", paletteUV);
-    m_playerTintedUIMaterial->SetFloatUniform("PaletteOffset", paletteUV);
+    m_sprite->m_material->SetFloatUniform(paletteOffsetUniform, paletteUV);
+    m_playerTintedUIMaterial->SetFloatUniform(paletteOffsetUniform, paletteUV);
 }
