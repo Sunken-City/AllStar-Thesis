@@ -837,7 +837,9 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
 void TheGame::RenderAssemblyPlaying() const
 {
     SpriteGameRenderer::instance->SetClearColor(RGBA::FEEDFACE);
+    ProfilingSystem::instance->PushSample("SpriteGameRenderer");
     SpriteGameRenderer::instance->Render();
+    ProfilingSystem::instance->PopSample("SpriteGameRenderer");
     RenderSplitscreenLines();
     RenderDebug();
 }

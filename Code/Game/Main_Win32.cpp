@@ -226,10 +226,15 @@ void Render()
 //-----------------------------------------------------------------------------------------------
 void RunFrame()
 {
+    ProfilingSystem::instance->MarkFrame();
     InputSystem::instance->AdvanceFrameNumber();
     RunMessagePump();
+    ProfilingSystem::instance->PushSample("Update");
     Update();
+    ProfilingSystem::instance->PopSample("Update");
+    ProfilingSystem::instance->PushSample("Render");
     Render();
+    ProfilingSystem::instance->PopSample("Render");
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -244,6 +249,7 @@ void Initialize(HINSTANCE applicationInstanceHandle)
     Console::instance = new Console();
     UISystem::instance = new UISystem();
     UISystem::instance->LoadAndParseUIXML();
+    ProfilingSystem::instance = new ProfilingSystem();
     TheGame::instance = new TheGame();
 }
 
@@ -262,6 +268,8 @@ void Shutdown()
     //Clean up all the engine subsystems.
     delete TheGame::instance;
     TheGame::instance = nullptr;
+    delete ProfilingSystem::instance;
+    ProfilingSystem::instance = nullptr;
     delete UISystem::instance;
     UISystem::instance = nullptr;
     delete Console::instance;
