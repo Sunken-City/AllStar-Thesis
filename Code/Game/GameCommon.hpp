@@ -15,6 +15,7 @@
 #include "Game/TheGame.hpp"
 #include "Engine/Core/Events/Event.hpp"
 #include "Engine/Audio/Audio.hpp"
+#include <xstddef>
 
 typedef unsigned char uchar;
 
@@ -32,3 +33,6 @@ extern bool g_spawnGeometry;
 extern bool g_nearlyInvulnerable;
 extern bool g_spawnWithDebugLoadout;
 extern bool g_disableMusic;
+
+extern const size_t gEffectTimeUniform;
+extern const size_t paletteOffsetUniform;
