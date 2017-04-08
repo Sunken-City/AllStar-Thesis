@@ -57,7 +57,6 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_paletteSwapShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
     , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
 {
-    static const size_t paletteOffsetUniform = std::hash<std::string>{}("PaletteOffset");
     m_isDead = false;
     m_paletteSwapMaterial = new Material(m_paletteSwapShader, SpriteGameRenderer::instance->m_defaultRenderState);
     m_paletteSwapMaterial->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
@@ -423,7 +422,6 @@ void PlayerShip::ResolveCollision(Entity* otherEntity)
 //-----------------------------------------------------------------------------------
 float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
 {
-    static const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");
     bool hadShield = HasShield();
     float ratioOfDamage = damage / CalculateHpValue();
     float returnValue = Ship::TakeDamage(damage, disruption);
@@ -940,8 +938,6 @@ void PlayerShip::CheckToEjectEquipment(float)
 //-----------------------------------------------------------------------------------
 void PlayerShip::SetPaletteOffset(int paletteIndex)
 {
-    static const size_t paletteOffsetUniform = std::hash<std::string>{}("PaletteOffset");
-
     float paletteUV = static_cast<float>(paletteIndex) / 16.0f;
     m_sprite->m_material->SetFloatUniform(paletteOffsetUniform, paletteUV);
     m_playerTintedUIMaterial->SetFloatUniform(paletteOffsetUniform, paletteUV);

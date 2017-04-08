@@ -10,3 +10,6 @@ bool g_spawnGeometry            = true;
 bool g_nearlyInvulnerable       = false;
 bool g_spawnWithDebugLoadout    = true;
 bool g_disableMusic             = true;
+
+const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");
+const size_t paletteOffsetUniform = std::hash<std::string>{}("PaletteOffset");
