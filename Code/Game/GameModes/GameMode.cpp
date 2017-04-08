@@ -404,6 +404,9 @@ void GameMode::ShowBackground()
 //-----------------------------------------------------------------------------------
 void GameMode::InitializeReadyAnim()
 {
+    static const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");
+    static const size_t gEffectDurationSecondsUniform = std::hash<std::string>{}("gEffectDurationSeconds");
+    static const size_t gWipeColorUniform = std::hash<std::string>{}("gWipeColor");
     if (!g_disableMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
@@ -414,10 +417,10 @@ void GameMode::InitializeReadyAnim()
         RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)
         );
 
-    m_readyAnimFBOEffect->SetFloatUniform("gEffectDurationSeconds", ANIMATION_LENGTH_SECONDS);
-    m_readyAnimFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+    m_readyAnimFBOEffect->SetFloatUniform(gEffectDurationSecondsUniform, ANIMATION_LENGTH_SECONDS);
+    m_readyAnimFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
     m_readyAnimFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("ReadyScreen")->m_texture);
-    m_readyAnimFBOEffect->SetFloatUniform("gEffectTime", GetCurrentTimeSeconds());
+    m_readyAnimFBOEffect->SetFloatUniform(gEffectTimeUniform, GetCurrentTimeSeconds());
     SpriteGameRenderer::instance->AddEffectToLayer(m_readyAnimFBOEffect, TheGame::UI_LAYER);
 
     m_modeTitleRenderable = new TextRenderable2D(m_modeTitleText, Transform2D(Vector2(0.0f, 0.9f)), TheGame::TEXT_LAYER, true);
