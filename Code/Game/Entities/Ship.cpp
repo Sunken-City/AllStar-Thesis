@@ -289,13 +289,3 @@ const SpriteResource* Ship::GetCollisionSpriteResource()
 {
     return HasShield() ? m_shieldCollisionSpriteResource : m_collisionSpriteResource;
 }
-
-//-----------------------------------------------------------------------------------
-void Ship::SetVortexShaderPosition(const Vector2& vortexPosition, int vortexID, float vortexRadii)
-{
-    Entity::SetVortexShaderPosition(vortexPosition, vortexID, vortexRadii);
-    m_shieldSprite->m_material->SetVec2Uniform(Stringf("gWarpPositions[%i]", vortexID).c_str(), vortexPosition);
-    m_shieldSprite->m_material->SetFloatUniform(Stringf("gVortexRadii[%i]", vortexID).c_str(), vortexRadii);
-    m_shipTrail->m_emitters[0]->m_materialOverride->SetVec2Uniform(Stringf("gWarpPositions[%i]", vortexID).c_str(), vortexPosition);
-    m_shipTrail->m_emitters[0]->m_materialOverride->SetFloatUniform(Stringf("gVortexRadii[%i]", vortexID).c_str(), vortexRadii);
-}

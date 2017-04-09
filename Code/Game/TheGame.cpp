@@ -105,6 +105,17 @@ TheGame::TheGame()
     m_bindingPoint = 13; //Because I say so.
     SpriteGameRenderer::instance->m_defaultShader->BindUniformBuffer("vortexInfo", m_bindingPoint);
 
+    m_fpsCounter = UISystem::instance->CreateWidget("Label");
+    m_fpsCounter->SetProperty<std::string>("Name", "FPS");
+    m_fpsCounter->SetProperty<std::string>("Text", "0");
+    m_fpsCounter->SetProperty("TextColor", RGBA::GBLIGHTGREEN);
+    m_fpsCounter->SetProperty("BackgroundColor", RGBA::CLEAR);
+    m_fpsCounter->SetProperty("BorderWidth", 0.0f);
+    m_fpsCounter->SetProperty("TextSize", 1.0f);
+    m_fpsCounter->SetProperty("Offset", Vector2(0.0f, 0.0f));
+    m_fpsCounter->SetProperty<std::string>("Text", "6");
+    UISystem::instance->AddWidget(m_fpsCounter);
+
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
 }
@@ -170,6 +181,10 @@ void TheGame::ClearPlayers()
 //-----------------------------------------------------------------------------------
 void TheGame::Update(float deltaSeconds)
 {
+    if (ProfilingSystem::instance->GetLastFrame())
+    {
+        m_fpsCounter->SetProperty<std::string>("Text", Stringf("%02.02f", 1.0f / (ProfilingSystem::instance->GetLastFrame()->GetDurationInSeconds())));
+    }
     g_secondsInState += deltaSeconds;
     SpriteGameRenderer::instance->Update(deltaSeconds);
     if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::TILDE))
@@ -183,7 +198,7 @@ void TheGame::Update(float deltaSeconds)
     }
     if (Console::instance->IsActive())
     {
-        return;
+        //return;
     }
     DispatchRunAfterSeconds();
 

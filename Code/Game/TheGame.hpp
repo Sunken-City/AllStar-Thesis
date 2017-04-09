@@ -20,6 +20,7 @@ class WidgetBase;
 class ShaderProgram;
 class ParticleSystem;
 class BarGraphRenderable2D;
+class LabelWidget;
 
 //-----------------------------------------------------------------------------------
 class TheGame
@@ -183,6 +184,7 @@ private:
     TextRenderable2D* m_totalScoreText[4];
     TextRenderable2D* m_joinText[4];
     TextRenderable2D* m_readyText[4];
+    WidgetBase* m_fpsCounter = nullptr;
     TextRenderable2D* m_titleText = nullptr;
     TextRenderable2D* m_winnerText = nullptr;
     BarGraphRenderable2D** m_playerRankPodiums = nullptr;

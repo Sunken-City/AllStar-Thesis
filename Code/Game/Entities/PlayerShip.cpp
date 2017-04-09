@@ -55,8 +55,9 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     , m_teleportBar(new BarGraphRenderable2D(AABB2(Vector2(0.05f, 1.8f), Vector2(-4.791f, 1.4f)), RGBA::PURPLE, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
     , m_shieldBar(new BarGraphRenderable2D(AABB2(Vector2(-0.05f, 0.6f), Vector2(4.1f, 1.2f)), RGBA::CERULEAN, RGBA::GRAY, TheGame::BACKGROUND_UI_LAYER))
     , m_paletteSwapShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/paletteSwap2D.frag"))
-    , m_cooldownShader(new ShaderProgram("Data/Shaders/default2D.vert", "Data/Shaders/cooldown.frag"))
+    , m_cooldownShader(new ShaderProgram("Data/Shaders/noWarp2D.vert", "Data/Shaders/cooldown.frag"))
 {
+    m_paletteSwapShader->BindUniformBuffer("vortexInfo", TheGame::instance->m_bindingPoint);
     m_isDead = false;
     m_paletteSwapMaterial = new Material(m_paletteSwapShader, SpriteGameRenderer::instance->m_defaultRenderState);
     m_paletteSwapMaterial->ReplaceSampler(Renderer::instance->CreateSampler(GL_NEAREST, GL_NEAREST, GL_CLAMP, GL_CLAMP));
@@ -85,7 +86,6 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     InitializeUI();
     InitializeStatGraph();
 
-    //SetVortexShaderPosition(Vector2(-999.0f), TODO); //If we don't reset this value somewhere, the player could get warped around holes that don't exist anymore in minigames.
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
     m_hitSoundMaxVolume = 1.0f;

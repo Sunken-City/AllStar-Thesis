@@ -63,11 +63,6 @@ void BlackHole::ResolveCollision(Entity* otherEntity)
     Vector2 dispFromOtherToCenter = m_transform.GetWorldPosition() - otherEntity->m_transform.GetWorldPosition();
     Vector2 normDirectionTowardsCenter = dispFromOtherToCenter.GetNorm();
 
-    otherEntity->SetVortexShaderPosition(m_transform.GetWorldPosition(), m_vortexID, m_collisionRadius);
-
-    otherEntity->m_sprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(m_transform.GetWorldPosition(), 0.0f));
-    otherEntity->m_shieldSprite->m_material->SetVec3Uniform("gWarpPosition", Vector3(m_transform.GetWorldPosition(), 0.0f));
-
     if (dispFromOtherToCenter.CalculateMagnitudeSquared() < INNER_RADIUS_SQUARED)
     {
         if (otherEntity->IsProjectile())

@@ -483,7 +483,7 @@ void GameMode::SetVortexPositions()
 //-----------------------------------------------------------------------------------
 void GameMode::SetVortexPosition(int vortexId, const Vector2& vortexPosition, float radius)
 {
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, TheGame::instance->m_vortexUniformBuffer);
+    glBindBufferBase(GL_UNIFORM_BUFFER, TheGame::instance->m_bindingPoint, TheGame::instance->m_vortexUniformBuffer);
     Vector3 vortexData(vortexPosition, radius);
     glBufferSubData(GL_UNIFORM_BUFFER, vortexId * sizeof(Vector4), sizeof(Vector3), &vortexData);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -668,5 +668,6 @@ void GameMode::SpawnEncounters()
         }
     }
 
+    ClearVortexPositions();
     SetVortexPositions();
 }
