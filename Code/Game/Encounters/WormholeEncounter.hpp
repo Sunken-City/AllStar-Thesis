@@ -15,6 +15,7 @@ public:
     virtual bool NeedsLinkedEncounter() { return true; };
     virtual Encounter* CreateLinkedEncounter(const Vector2& center, float radius);
     static void LinkWormholes(WormholeEncounter* wormhole1, WormholeEncounter* wormhole2);
+    virtual bool IsWormhole() { return true; };
 
     ////MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     WormholeEncounter* m_linkedWormholeEncounter = nullptr;

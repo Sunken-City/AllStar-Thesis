@@ -21,6 +21,8 @@
 #include "Game/Encounters/CargoShipEncounter.hpp"
 #include "Game/Encounters/BossteroidEncounter.hpp"
 #include "Engine/Input/XInputController.hpp"
+#include "Engine/Renderer/OpenGLExtensions.hpp"
+#include "../Entities/Props/Wormhole.hpp"
 
 const double GameMode::AFTER_GAME_SLOWDOWN_SECONDS = 3.0;
 const double GameMode::ANIMATION_LENGTH_SECONDS = 1.0;
@@ -461,16 +463,40 @@ void GameMode::CleanupReadyAnim()
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::ClearVortexPositions()
+void GameMode::SetVortexPositions()
 {
-    for (Entity* entity : m_entities)
+    for (Encounter* encounter : m_encounters)
     {
-        for (int i = 0; i < s_currentVortexId; ++i)
+        if (encounter->IsBlackHole())
         {
-            entity->SetVortexShaderPosition(Vector2(20000.0f, 20000.0f), i, 1.0f);
+            BlackHole* blackHole = ((BlackHoleEncounter*)encounter)->m_spawnedBlackHole;
+            SetVortexPosition(blackHole->m_vortexID, blackHole->m_transform.GetWorldPosition(), blackHole->m_collisionRadius);
+        }
+        else if (encounter->IsWormhole())
+        {
+            Wormhole* wormhole = ((WormholeEncounter*)encounter)->m_spawnedWormhole;
+            SetVortexPosition(wormhole->m_vortexID, wormhole->m_transform.GetWorldPosition(), wormhole->m_collisionRadius);
         }
     }
+}
 
+//-----------------------------------------------------------------------------------
+void GameMode::SetVortexPosition(int vortexId, const Vector2& vortexPosition, float radius)
+{
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, TheGame::instance->m_vortexUniformBuffer);
+    Vector3 vortexData(vortexPosition, radius);
+    glBufferSubData(GL_UNIFORM_BUFFER, vortexId * sizeof(Vector4), sizeof(Vector3), &vortexData);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+//-----------------------------------------------------------------------------------
+void GameMode::ClearVortexPositions()
+{
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, TheGame::instance->m_vortexUniformBuffer);
+    Vector4 clearVector[16];
+    memset(clearVector, 0, sizeof(clearVector));
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(Vector4) * 16, &clearVector, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
     s_currentVortexId = 0;
 }
 
@@ -641,4 +667,6 @@ void GameMode::SpawnEncounters()
             ++i;
         }
     }
+
+    SetVortexPositions();
 }
