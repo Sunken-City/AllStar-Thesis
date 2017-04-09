@@ -35,6 +35,7 @@ extern bool g_spawnWithDebugLoadout;
 extern bool g_disableMusic;
 
 extern const size_t gEffectTimeUniform;
+extern const size_t gWipeColorUniform;
 extern const size_t paletteOffsetUniform;
 extern const size_t warpPositionsUniforms;
 extern const size_t vortexRadiiUniforms;

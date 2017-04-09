@@ -98,7 +98,7 @@ TheGame::TheGame()
 
     m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, -10.0f);
     m_transitionFBOEffect->SetFloatUniform("gEffectDurationSeconds", TRANSITION_TIME_SECONDS);
-    m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+    m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
     SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
 
     m_vortexUniformBuffer = Renderer::instance->CreateRenderBuffer(sizeof(Vector4) * 16);
@@ -198,7 +198,7 @@ void TheGame::Update(float deltaSeconds)
     }
     if (Console::instance->IsActive())
     {
-        //return;
+        return;
     }
     DispatchRunAfterSeconds();
 
@@ -399,7 +399,7 @@ void TheGame::PressStart(NamedProperties&)
     BeginTransitioning();
     m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelStarWipe")->m_texture);
     m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-    m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+    m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
     AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
 }
 
@@ -604,7 +604,7 @@ void TheGame::UpdatePlayerJoin(float)
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelStarWipe")->m_texture);
             m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }
@@ -781,7 +781,7 @@ void TheGame::UpdateAssemblyGetReady(float deltaSeconds)
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
             m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }
@@ -853,7 +853,7 @@ void TheGame::UpdateAssemblyPlaying(float deltaSeconds)
         BeginTransitioning();
         m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
         m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+        m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
         AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
     }
 }
@@ -993,7 +993,7 @@ void TheGame::UpdateAssemblyResults(float deltaSeconds)
         BeginTransitioning();
         m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
         m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+        m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
         AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
     }
 }
@@ -1053,7 +1053,7 @@ void TheGame::UpdateMinigameGetReady(float deltaSeconds)
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
             m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }
@@ -1145,7 +1145,7 @@ void TheGame::UpdateMinigamePlaying(float deltaSeconds)
         BeginTransitioning();
         m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
         m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-        m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+        m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
         AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
     }
 }
@@ -1315,7 +1315,7 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
             m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
         }
         else
@@ -1330,7 +1330,7 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
             m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
-            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
         }
     }
@@ -1471,8 +1471,8 @@ void TheGame::UpdateGameOver(float deltaSeconds)
 
             BeginTransitioning();
             m_transitionFBOEffect->SetNormalTexture(ResourceDatabase::instance->GetSpriteResource("PixelWipeRight")->m_texture);
-            m_transitionFBOEffect->SetFloatUniform("gEffectTime", (float)GetCurrentTimeSeconds());
-            m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
+            m_transitionFBOEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
+            m_transitionFBOEffect->SetVec4Uniform(gWipeColorUniform, RGBA::BLACK.ToVec4());
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
         }
     }
