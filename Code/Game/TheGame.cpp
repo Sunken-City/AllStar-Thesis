@@ -171,6 +171,11 @@ void TheGame::Update(float deltaSeconds)
     {
         Console::instance->ToggleConsole();
     }
+    if (InputSystem::instance->WasKeyJustPressed('H'))
+    {
+        Console::instance->RunCommand("clear");
+        Console::instance->RunCommand("printprofiling");
+    }
     if (Console::instance->IsActive())
     {
         return;
