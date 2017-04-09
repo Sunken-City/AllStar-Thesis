@@ -1,5 +1,6 @@
 #version 410 core
 
+//layout (row_major) uniform mat4 gModel;
 uniform mat4 gModel;
 uniform mat4 gView;
 uniform mat4 gProj;
