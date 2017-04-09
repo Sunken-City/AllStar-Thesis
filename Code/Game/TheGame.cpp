@@ -100,6 +100,11 @@ TheGame::TheGame()
     m_transitionFBOEffect->SetFloatUniform("gEffectDurationSeconds", TRANSITION_TIME_SECONDS);
     m_transitionFBOEffect->SetVec4Uniform("gWipeColor", RGBA::BLACK.ToVec4());
     SpriteGameRenderer::instance->AddEffectToLayer(m_transitionFBOEffect, FULL_SCREEN_EFFECT_LAYER);
+
+    m_vortexUniformBuffer = Renderer::instance->CreateRenderBuffer(sizeof(Vector4) * 16);
+    m_bindingPoint = 13; //Because I say so.
+    SpriteGameRenderer::instance->m_defaultShader->BindUniformBuffer("vortexInfo", m_bindingPoint);
+
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
 }

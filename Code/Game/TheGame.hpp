@@ -163,6 +163,8 @@ public:
     SoundID SFX_UI_ADVANCE;
     SoundID m_menuMusic;
     SoundID m_resultsMusic;
+    GLint m_bindingPoint;
+    GLuint m_vortexUniformBuffer;
     unsigned int m_gamemodeFlags = 0;
     int m_numberOfMinigames = 3;
     int m_numberOfPlayers = 0;
