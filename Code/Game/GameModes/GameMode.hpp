@@ -65,6 +65,8 @@ public:
     virtual void SetTimeRemaining(float timeRemainingSeconds);
     virtual inline float GetTimerSecondsElapsed() { return m_timerSecondsElapsed; };
     virtual inline float GetTimerRealSecondsElapsed() { return m_timerRealSecondsElapsed; };
+    void SetVortexPositions();
+    void SetVortexPosition(int vortexId, const Vector2& vortexPosition, float radius);
     void ClearVortexPositions();
     inline int GetNextVortexID() { return s_currentVortexId++; };
     virtual void SpawnEncounters();

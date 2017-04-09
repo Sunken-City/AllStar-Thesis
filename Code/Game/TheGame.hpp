@@ -153,6 +153,9 @@ public:
     static constexpr int MAX_POINTS = POINTS_PER_PLACE[0] * 3;
     static constexpr float GAME_OVER_ANIMATION_LENGTH = 5.0f;
 
+    typedef int GLint;
+    typedef unsigned int GLuint;
+
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     std::vector<PlayerPilot*> m_playerPilots;
     std::vector<PlayerShip*> m_players;
