@@ -12,6 +12,7 @@ const float Explosion::KNOCKBACK_MAGNITUDE = 10.0f;
 Explosion::Explosion(Entity* owner, Entity* creator, const Vector2& spawnPosition, float damage /*= 1.0f*/, float disruption /*= 0.0f*/)
     : Projectile(owner, 0.0f, damage, disruption, 0.0f)
 {
+    static const SoundID explosionSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileExplosion.wav");
     m_sprite = new Sprite("YellowCircle", TheGame::BULLET_LAYER_BLOOM);
     m_sprite->m_tintColor.SetAlphaFloat(1.0f);
     m_sprite->m_transform.SetParent(&m_transform);
@@ -22,7 +23,7 @@ Explosion::Explosion(Entity* owner, Entity* creator, const Vector2& spawnPositio
     m_velocity = Vector2::ZERO;
     m_collisionDamageAmount = damage;
     m_isImmobile = true;
-    GameMode::GetCurrent()->PlaySoundAt(AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileExplosion.wav"), spawnPosition, 0.5f);
+    GameMode::GetCurrent()->PlaySoundAt(explosionSound, spawnPosition, TheGame::BULLET_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
 
     Missile* missilePtr = dynamic_cast<Missile*>(creator);
     if (missilePtr)

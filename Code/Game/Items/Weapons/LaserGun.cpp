@@ -32,9 +32,9 @@ const SpriteResource* LaserGun::GetSpriteResource()
 //-----------------------------------------------------------------------------------
 bool LaserGun::AttemptFire(Ship* shooter)
 {
-    static const SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
     static float RUMBLE_PERCENTAGE = 0.1f;
     static float SECONDS_TO_RUMBLE = 0.075f;
+    static const SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
     bool successfullyFired = false;
     float secondsPerWeaponFire = 1.0f / shooter->CalculateRateOfFireValue();
 
@@ -60,7 +60,7 @@ bool LaserGun::AttemptFire(Ship* shooter)
         successfullyFired = true;
 
         Vector2 shotPosition = shooter->GetMuzzlePosition();
-        currentGameMode->PlaySoundAt(bulletSound, shotPosition, 0.5f);
+        currentGameMode->PlaySoundAt(bulletSound, shotPosition, TheGame::BULLET_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
         ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::BULLET_LAYER_BLOOM, Transform2D(shotPosition));
     }
     return successfullyFired;

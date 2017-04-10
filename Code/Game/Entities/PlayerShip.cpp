@@ -88,7 +88,6 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
 
     CalculateCollisionRadius();
     m_currentHp = CalculateHpValue();
-    m_hitSoundMaxVolume = 1.0f;
 
     if (g_nearlyInvulnerable)
     {

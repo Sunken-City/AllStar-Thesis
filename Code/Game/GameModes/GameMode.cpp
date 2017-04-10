@@ -360,11 +360,12 @@ float GameMode::CalculateAttenuation(const Vector2& soundPosition)
 }
 
 //-----------------------------------------------------------------------------------
-void GameMode::PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume)
+void GameMode::PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume /*= 1.0f*/, float pitchMultiplier /*= 1.0f*/)
 {
     float attenuationVolume = CalculateAttenuation(soundPosition);
     float clampedVolume = Min<float>(attenuationVolume, maxVolume);
     AudioSystem::instance->PlaySound(sound, clampedVolume);
+    AudioSystem::instance->MultiplyCurrentFrequency(sound, pitchMultiplier);
 }
 
 //-----------------------------------------------------------------------------------
@@ -415,7 +416,7 @@ void GameMode::InitializeReadyAnim()
     static const size_t gEffectDurationSecondsUniform = std::hash<std::string>{}("gEffectDurationSeconds");
     if (!g_disableMusic)
     {
-        AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
+        AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, TheGame::MUSIC_VOLUME);
         m_musicFrequency = AudioSystem::instance->GetFrequency(m_backgroundMusic);
     }
 

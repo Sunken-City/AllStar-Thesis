@@ -226,16 +226,16 @@ float Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
     {
         if (m_currentShieldHealth != 0.0f && m_timeSinceLastHit < 0.25f)
         {
-            TheGame::instance->m_currentGameMode->PlaySoundAt(hitShieldSound, GetPosition(), m_hitSoundMaxVolume);
+            TheGame::instance->m_currentGameMode->PlaySoundAt(hitShieldSound, GetPosition(), TheGame::HIT_SOUND_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
         }
         else
         {
-            TheGame::instance->m_currentGameMode->PlaySoundAt(brokeShieldSound, GetPosition(), m_hitSoundMaxVolume);
+            TheGame::instance->m_currentGameMode->PlaySoundAt(brokeShieldSound, GetPosition(), TheGame::HIT_SOUND_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
         }
     }
     else if (currentHp != m_currentHp)
     {
-        TheGame::instance->m_currentGameMode->PlaySoundAt(hitHullSound, GetPosition(), m_hitSoundMaxVolume);
+        TheGame::instance->m_currentGameMode->PlaySoundAt(hitHullSound, GetPosition(), TheGame::HIT_SOUND_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
 
         float halfHealth = CalculateHpValue() * 0.5f;
         if (m_currentHp < halfHealth && !m_smokeDamage->m_isEnabled)
@@ -264,7 +264,7 @@ void Ship::Die()
 {
     static SoundID deathSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/trashExplosion.ogg");
     Entity::Die();
-    TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), m_hitSoundMaxVolume);
+    TheGame::instance->m_currentGameMode->PlaySoundAt(deathSound, GetPosition(), TheGame::HIT_SOUND_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
     m_smokeDamage->Disable();
     ShipDebris* debris = new ShipDebris(m_transform, m_sprite->m_spriteResource, m_velocity);
     ParticleSystem::PlayOneShotParticleEffect("Death", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &debris->m_transform);

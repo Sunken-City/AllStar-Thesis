@@ -154,6 +154,11 @@ public:
     static constexpr int MAX_POINTS = POINTS_PER_PLACE[0] * 3;
     static constexpr float GAME_OVER_ANIMATION_LENGTH = 5.0f;
 
+    //AUDIO CONSTANTS/////////////////////////////////////////////////////////////////////
+    static constexpr float BULLET_VOLUME = 0.5f;
+    static constexpr float HIT_SOUND_VOLUME = 0.55f;
+    static constexpr float MUSIC_VOLUME = 0.5f;
+
     typedef int GLint;
     typedef unsigned int GLuint;
 

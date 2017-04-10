@@ -44,7 +44,6 @@ public:
     const SpriteResource* m_shieldCollisionSpriteResource = nullptr;
     float m_muzzleOffsetMagnitude = 0.25f;
     float m_secondsSinceLastFiredWeapon;
-    float m_hitSoundMaxVolume = 0.7f;
     bool m_lockMovement = false;
     RGBA m_factionColor = RGBA::WHITE;
     RGBA m_factionAltColor = RGBA::GBWHITE;

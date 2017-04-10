@@ -50,7 +50,7 @@ public:
     virtual void SpawnBullet(Projectile* bullet);
     virtual void SpawnPickup(Item* item, const Vector2& spawnPosition);
     void SetBackground(const std::string& backgroundName, const Vector2& scale);
-    void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f);
+    void PlaySoundAt(const SoundID sound, const Vector2& soundPosition, float maxVolume = 1.0f, float pitchMultiplier = 1.0f);
     float CalculateAttenuation(const Vector2& soundPosition);
     void StopPlaying();
     void MarkTimerPaused();

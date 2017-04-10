@@ -36,9 +36,17 @@ const SpriteResource* WaveGun::GetSpriteResource()
 //-----------------------------------------------------------------------------------
 bool WaveGun::AttemptFire(Ship* shooter)
 {
-    static const SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
     static float RUMBLE_PERCENTAGE = 0.1f;
     static float SECONDS_TO_RUMBLE = 0.075f;
+    static const int NUM_SOUNDS = 2;
+    static const SoundID bulletSounds[NUM_SOUNDS] = {
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_06.ogg"),
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_07.ogg"),
+    };
+
+    SoundID bulletSound = bulletSounds[MathUtils::GetRandomIntFromZeroTo(NUM_SOUNDS)];
+
+
     bool successfullyFired = false;
     float secondsPerWeaponFire = 1.0f / shooter->CalculateRateOfFireValue();
 
@@ -72,7 +80,7 @@ bool WaveGun::AttemptFire(Ship* shooter)
         successfullyFired = true;
 
         Vector2 shotPosition = shooter->GetMuzzlePosition();
-        currentGameMode->PlaySoundAt(bulletSound, shotPosition, 0.5f);
+        currentGameMode->PlaySoundAt(bulletSound, shotPosition, TheGame::BULLET_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
         ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::BULLET_LAYER_BLOOM, Transform2D(shotPosition));
     }
     return successfullyFired;

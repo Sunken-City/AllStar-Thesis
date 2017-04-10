@@ -34,7 +34,7 @@ const SpriteResource* SpreadShot::GetSpriteResource()
 //-----------------------------------------------------------------------------------
 bool SpreadShot::AttemptFire(Ship* shooter)
 {
-    static const SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_02.wav");
+    static const SoundID bulletSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Missle_01.ogg");
     static float RUMBLE_PERCENTAGE = 0.1f;
     static float SECONDS_TO_RUMBLE = 0.075f;
     bool successfullyFired = false;
@@ -65,7 +65,7 @@ bool SpreadShot::AttemptFire(Ship* shooter)
         successfullyFired = true;
 
         Vector2 shotPosition = shooter->GetMuzzlePosition();
-        currentGameMode->PlaySoundAt(bulletSound, shotPosition, 0.5f);
+        currentGameMode->PlaySoundAt(bulletSound, shotPosition, TheGame::BULLET_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
         ParticleSystem::PlayOneShotParticleEffect("MuzzleFlash", TheGame::BULLET_LAYER_BLOOM, Transform2D(shotPosition));
     }
     return successfullyFired;

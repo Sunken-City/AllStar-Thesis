@@ -1707,6 +1707,11 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/coin.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileExplosion.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/teleport.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Missle_01.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Missle_04.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_03.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_06.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_07.ogg");
     if (!g_disableMusic)
     {
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");
