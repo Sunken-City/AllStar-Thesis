@@ -187,14 +187,15 @@ void TheGame::Update(float deltaSeconds)
     }
     g_secondsInState += deltaSeconds;
     SpriteGameRenderer::instance->Update(deltaSeconds);
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::TILDE))
-    {
-        Console::instance->ToggleConsole();
-    }
     if (InputSystem::instance->WasKeyJustPressed('H'))
     {
         Console::instance->RunCommand("clear");
         Console::instance->RunCommand("printprofiling");
+        Console::instance->ToggleConsole();
+    }
+    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::TILDE))
+    {
+        Console::instance->ToggleConsole();
     }
     if (Console::instance->IsActive())
     {
