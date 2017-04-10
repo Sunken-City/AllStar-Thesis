@@ -258,7 +258,7 @@ Vector2 GameMode::GetPlayerSpawnPoint(int playerNumber)
     }
     else
     {
-        return GetRandomLocationInArena();
+        return FindSpaceForEncounter(1.0f, m_encounters);;
     }
 }
 
