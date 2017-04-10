@@ -416,8 +416,8 @@ void TheGame::EnqueueMinigames()
     m_gamemodeFlags = 0;
     for (int i = 0; i < m_numberOfMinigames; ++i)
     {
-        //m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-        m_queuedMinigameModes.push(new OuroborosMinigameMode());
+        m_queuedMinigameModes.push(GetRandomUniqueGameMode());
+        //m_queuedMinigameModes.push(new OuroborosMinigameMode());
     }
 }
 
@@ -1782,7 +1782,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\Props\\itemCrate.png");
 
     //Enemies
-    ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Enemies\\grunt.png");
+    ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Chassis\\grunt.png");
 
     //Projectiles
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless.png");
