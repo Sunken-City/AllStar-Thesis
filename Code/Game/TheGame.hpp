@@ -159,6 +159,7 @@ public:
     static constexpr float HIT_SOUND_VOLUME = 0.6f;
     static constexpr float PLAYER_HIT_SOUND_VOLUME = 0.8f;
     static constexpr float MUSIC_VOLUME = 0.3f;
+    static constexpr float TELEPORT_VOLUME = 0.7f;
 
     typedef int GLint;
     typedef unsigned int GLuint;

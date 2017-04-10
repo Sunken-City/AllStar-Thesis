@@ -58,7 +58,7 @@ void WarpActive::Activate(NamedProperties& parameters)
         m_energy = m_energy - m_costToActivate;
 
         ParticleSystem::PlayOneShotParticleEffect("Warping", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &m_transportee->m_transform);
-        GameMode::GetCurrent()->PlaySoundAt(warpingSound, m_transportee->GetPosition());
+        GameMode::GetCurrent()->PlaySoundAt(warpingSound, m_transportee->GetPosition(), TheGame::TELEPORT_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
         m_transportee->m_collisionDamageAmount += WARP_DAMAGE_PER_FRAME;
     }
 }
