@@ -313,9 +313,10 @@ void TheGame::CleanupMainMenuState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMainMenu(float)
 {
+    static const float mainMenuMusicFrequency = AudioSystem::instance->GetFrequency(m_menuMusic);
     static uchar inputCounter = 0;
     Vector2 titleOffset = Vector2::ZERO;
-    Vector2 particleOffset = Vector2(0.0f, -15.0f);
+    Vector2 pitchOffset = Vector2(1.0f, 1.0f);
     float rotationOffset = 0.0f;
     unsigned int color = m_titleText->m_color.ToUnsignedInt();
     for (int i = 0; i < InputSystem::instance->ABSOLUTE_MAX_NUM_CONTROLLERS; ++i)
@@ -323,7 +324,7 @@ void TheGame::UpdateMainMenu(float)
         if (InputSystem::instance->m_controllers[i]->IsConnected())
         {
             titleOffset += InputSystem::instance->m_controllers[i]->GetLeftStickPosition();
-            particleOffset += InputSystem::instance->m_controllers[i]->GetRightStickPosition();
+            pitchOffset += InputSystem::instance->m_controllers[i]->GetRightStickPosition() * 0.25f;
             rotationOffset -= ((float)InputSystem::instance->m_controllers[i]->GetLeftTrigger() / 255.0f) * 2.0f;
             rotationOffset += ((float)InputSystem::instance->m_controllers[i]->GetRightTrigger() / 255.0f) * 2.0f;
 
@@ -353,11 +354,11 @@ void TheGame::UpdateMainMenu(float)
         }
     }
     m_titleText->m_transform.SetPosition(titleOffset);
-    m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetWorldRotationDegrees() + 2.0f + rotationOffset);
+    m_titleText->m_transform.SetRotationDegrees(m_titleText->m_transform.GetWorldRotationDegrees() + ((2.0f + rotationOffset) * pitchOffset.y));
     m_titleText->m_transform.SetScale(Vector2(fabs(sin(g_secondsInState * 2.0f)) + 0.5f));
     m_titleText->m_color = RGBA(color);
     m_titleText->m_color.SetAlphaFloat(1.0f);
-    m_titleParticles->m_emitters[0]->m_transform.SetPosition(particleOffset);
+    AudioSystem::instance->SetFrequency(m_menuMusic, mainMenuMusicFrequency * pitchOffset.y);
 
     if (inputCounter > 200)
     {
