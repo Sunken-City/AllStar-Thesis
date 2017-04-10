@@ -185,7 +185,13 @@ void GameMode::Update(float deltaSeconds)
 
         double overtimeSeconds = m_timerSecondsElapsed - m_gameLengthSeconds;
         double ratioIntoOvertime = overtimeSeconds / AFTER_GAME_SLOWDOWN_SECONDS;
-        m_scaledDeltaSeconds = deltaSeconds * MathUtils::Clamp(MathUtils::SmoothStart2(1.0f - (float)ratioIntoOvertime), 0.2f, 1.0f);
+
+        float slowdownFactor = MathUtils::Clamp(MathUtils::SmoothStart2(1.0f - (float)ratioIntoOvertime), 0.2f, 1.0f);
+        m_scaledDeltaSeconds = deltaSeconds * slowdownFactor;
+        if (!g_disableMusic)
+        {
+            AudioSystem::instance->SetFrequency(m_backgroundMusic, m_musicFrequency * slowdownFactor);
+        }
     }
     if (m_timerSecondsElapsed >= m_gameLengthSeconds + AFTER_GAME_SLOWDOWN_SECONDS)
     {
@@ -412,6 +418,7 @@ void GameMode::InitializeReadyAnim()
     if (!g_disableMusic)
     {
         AudioSystem::instance->PlayLoopingSound(m_backgroundMusic, 0.6f);
+        m_musicFrequency = AudioSystem::instance->GetFrequency(m_backgroundMusic);
     }
 
     m_readyAnimFBOEffect = new Material(

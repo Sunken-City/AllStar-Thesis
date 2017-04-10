@@ -1445,7 +1445,7 @@ void TheGame::UpdateGameOver(float deltaSeconds)
         ship->Update(deltaSeconds);
     }
 
-    if (g_secondsInState > GAME_OVER_ANIMATION_LENGTH)
+    if (g_secondsInState > GAME_OVER_ANIMATION_LENGTH + 2.0f)
     {
         if (m_winner)
         {
@@ -1760,8 +1760,8 @@ void TheGame::RegisterSprites()
     //Backgrounds
     ResourceDatabase::instance->RegisterSprite("DefaultBackground", "Data\\Images\\Backgrounds\\StarfieldBG(2).jpg");
     ResourceDatabase::instance->RegisterSprite("Assembly", "Data\\Images\\Backgrounds\\StarfieldBG(2).jpg");
-    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\bg3.jpg");
-    ResourceDatabase::instance->RegisterSprite("RaceBackground", "Data\\Images\\Backgrounds\\bg4.jpg");
+    ResourceDatabase::instance->RegisterSprite("BattleBackground", "Data\\Images\\Backgrounds\\RawdanitsuSpaceBG (3).jpg");
+    ResourceDatabase::instance->RegisterSprite("RaceBackground", "Data\\Images\\Backgrounds\\RawdanitsuSpaceBG (4).jpg");
     ResourceDatabase::instance->RegisterSprite("Starfield", "Data\\Images\\Starfield_Foreground.png");
     ResourceDatabase::instance->EditSpriteResource("Starfield")->m_uvBounds = AABB2(Vector2(-15.0f), Vector2(15.0f));
 

@@ -121,6 +121,7 @@ private:
     Sprite* m_starfield2 = nullptr;
     float m_timerSecondsElapsed = 0.0f;
     float m_timerRealSecondsElapsed = 0.0f;
+    float m_musicFrequency = -1.0f;
     WidgetBase* m_timerWidget = nullptr;
     WidgetBase* m_countdownWidget = nullptr;
 
