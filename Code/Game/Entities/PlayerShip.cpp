@@ -541,6 +541,7 @@ void PlayerShip::DropPowerupsAndEquipment()
     //No matter what, the chassis gets destroyed. Bye bye! ;D
     if (m_chassis)
     {
+        m_chassis->Deactivate(NamedProperties::NONE);
         delete m_chassis;
         m_chassis = nullptr;
         m_sprite->m_spriteResource = ResourceDatabase::instance->GetSpriteResource("DefaultChassis");

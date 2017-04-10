@@ -3,30 +3,43 @@
 #include "Game/TheGame.hpp"
 #include "Game/Entities/Ship.hpp"
 #include "../PlayerShip.hpp"
+#include "Missile.hpp"
+#include "Engine/Renderer/2D/ParticleSystem.hpp"
 
 const float Explosion::KNOCKBACK_MAGNITUDE = 10.0f;
 
 //-----------------------------------------------------------------------------------
-Explosion::Explosion(Entity* owner, const Vector2& spawnPosition, float damage /*= 1.0f*/, float disruption /*= 0.0f*/)
+Explosion::Explosion(Entity* owner, Entity* creator, const Vector2& spawnPosition, float damage /*= 1.0f*/, float disruption /*= 0.0f*/)
     : Projectile(owner, 0.0f, damage, disruption, 0.0f)
 {
     m_sprite = new Sprite("YellowCircle", TheGame::BULLET_LAYER_BLOOM);
     m_sprite->m_tintColor.SetAlphaFloat(1.0f);
     m_sprite->m_transform.SetParent(&m_transform);
+    m_transform.SetPosition(spawnPosition);
     m_transform.SetScale(Vector2(0.0f));
     CalculateCollisionRadius();
 
-    SetPosition(spawnPosition);
     m_velocity = Vector2::ZERO;
     m_collisionDamageAmount = damage;
     m_isImmobile = true;
     GameMode::GetCurrent()->PlaySoundAt(AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileExplosion.wav"), spawnPosition, 0.5f);
+
+    Missile* missilePtr = dynamic_cast<Missile*>(creator);
+    if (missilePtr)
+    {
+        m_particleTrail = missilePtr->m_missileTrail;
+        m_particleTrail->m_emitters[0]->m_transform.SetParent(&m_transform);
+    }
 }
 
 //-----------------------------------------------------------------------------------
 Explosion::~Explosion()
 {
-
+    if (m_particleTrail)
+    {
+        delete m_particleTrail;
+        m_particleTrail = nullptr;
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -55,3 +68,15 @@ void Explosion::ResolveCollision(Entity* otherEntity)
         otherEntity->ApplyImpulse(dispFromThisToOther.GetNorm() * GetKnockbackMagnitude());
     }
 }
+
+//-----------------------------------------------------------------------------------
+bool Explosion::FlushParticleTrailIfExists()
+{
+    if (m_particleTrail)
+    {
+        m_particleTrail->Flush();
+        return true;
+    }
+    return false;
+}
+

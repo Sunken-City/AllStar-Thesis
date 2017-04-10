@@ -52,11 +52,16 @@ Missile::Missile(Entity* owner, float degreesOffset, float damage, float disrupt
 //-----------------------------------------------------------------------------------
 Missile::~Missile()
 {
-    delete m_missileTrail;
     GameMode* gamemode = GameMode::GetCurrent();
     if (gamemode && gamemode->m_isPlaying)
     {
-        gamemode->SpawnBullet(new Explosion(m_owner, m_transform.GetWorldPosition(), m_damage, m_disruption));
+        m_transform.RemoveChild(&m_missileTrail->m_emitters[0]->m_transform);
+        gamemode->SpawnBullet(new Explosion(m_owner, this, m_transform.GetWorldPosition(), m_damage, m_disruption));
+    }
+    else
+    {
+        delete m_missileTrail;
+        m_missileTrail = nullptr;
     }
 }
 
