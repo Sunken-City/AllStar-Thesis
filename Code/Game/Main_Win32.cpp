@@ -207,11 +207,21 @@ void Update()
         deltaSeconds /= 4.0f;
     }
 
+    ProfilingSystem::instance->PushSample("InputUpdate");
     InputSystem::instance->Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("InputUpdate");
+    ProfilingSystem::instance->PushSample("AudioUpdate");
     AudioSystem::instance->Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("AudioUpdate");
+    ProfilingSystem::instance->PushSample("ConsoleUpdate");
     Console::instance->Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("ConsoleUpdate");
+    ProfilingSystem::instance->PushSample("UIUpdate");
     UISystem::instance->Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("UIUpdate");
+    ProfilingSystem::instance->PushSample("GameUpdate");
     TheGame::instance->Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("GameUpdate");
 }
 
 //-----------------------------------------------------------------------------------------------

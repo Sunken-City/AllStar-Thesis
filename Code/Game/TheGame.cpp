@@ -181,12 +181,17 @@ void TheGame::ClearPlayers()
 //-----------------------------------------------------------------------------------
 void TheGame::Update(float deltaSeconds)
 {
+    //PROFILE_LOG_SECTION("UPDATE")
     if (ProfilingSystem::instance->GetLastFrame())
     {
         m_fpsCounter->SetProperty<std::string>("Text", Stringf("%02.02f", 1.0f / (ProfilingSystem::instance->GetLastFrame()->GetDurationInSeconds())));
     }
     g_secondsInState += deltaSeconds;
+
+    ProfilingSystem::instance->PushSample("SGR Update");
     SpriteGameRenderer::instance->Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("SGR Update");
+
     if (InputSystem::instance->WasKeyJustPressed('H'))
     {
         Console::instance->RunCommand("clear");
@@ -215,7 +220,9 @@ void TheGame::Update(float deltaSeconds)
         UpdateAssemblyGetReady(deltaSeconds);
         break;
     case ASSEMBLY_PLAYING:
+        ProfilingSystem::instance->PushSample("AssemblyUpdate");
         UpdateAssemblyPlaying(deltaSeconds);
+        ProfilingSystem::instance->PopSample("AssemblyUpdate");
         break;
     case ASSEMBLY_RESULTS:
         UpdateAssemblyResults(deltaSeconds);
@@ -235,7 +242,9 @@ void TheGame::Update(float deltaSeconds)
     default:
         break;
     }
+    ProfilingSystem::instance->PushSample("TextSplash Update");
     TextSplash::Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("TextSplash Update");
 }
 
 //-----------------------------------------------------------------------------------
@@ -300,7 +309,8 @@ void TheGame::InitializeMainMenuState()
     {
         AudioSystem::instance->PlayLoopingSound(m_menuMusic, 0.6f);
     }
-    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState);
+    OnStateSwitch.RegisterMethod(this, &TheGame::CleanupMainMenuState); 
+    InputSystem::instance->EnablePollingForXInputConnections();
 }
 
 //-----------------------------------------------------------------------------------
@@ -568,6 +578,7 @@ void TheGame::CleanupPlayerJoinState(unsigned int)
     }
 
     AudioSystem::instance->StopSound(m_menuMusic);
+    InputSystem::instance->DisablePollingForXInputConnections();
 }
 
 //-----------------------------------------------------------------------------------
