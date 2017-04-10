@@ -712,7 +712,7 @@ void PlayerShip::ShowStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
-        m_statValues[i]->m_text = Stringf("%-20sx%1i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
+        m_statValues[i]->m_text = Stringf("%-20sx%2i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
         m_statValues[i]->Enable();
         m_statSprites[i]->Enable();
         m_statBarGraphs[i]->Enable();
@@ -730,7 +730,7 @@ void PlayerShip::SlowShowStatGraph()
     for (unsigned int i = 0; i < (unsigned int)PowerUpType::NUM_POWERUP_TYPES; ++i)
     {
         PowerUpType type = (PowerUpType)i;
-        m_statValues[i]->m_text = Stringf("%-20sx%1i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
+        m_statValues[i]->m_text = Stringf("%-20sx%2i", PowerUp::GetPowerUpSpriteResourceName(type), static_cast<int>(*m_powerupStatModifiers.GetStatReference(type)));
         m_statValues[i]->Enable();
         m_statSprites[i]->Enable();
         m_statBarGraphs[i]->Enable();
