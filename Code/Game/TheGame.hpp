@@ -156,8 +156,9 @@ public:
 
     //AUDIO CONSTANTS/////////////////////////////////////////////////////////////////////
     static constexpr float BULLET_VOLUME = 0.5f;
-    static constexpr float HIT_SOUND_VOLUME = 0.55f;
-    static constexpr float MUSIC_VOLUME = 0.5f;
+    static constexpr float HIT_SOUND_VOLUME = 0.6f;
+    static constexpr float PLAYER_HIT_SOUND_VOLUME = 0.8f;
+    static constexpr float MUSIC_VOLUME = 0.3f;
 
     typedef int GLint;
     typedef unsigned int GLuint;

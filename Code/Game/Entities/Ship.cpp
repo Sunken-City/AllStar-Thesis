@@ -218,6 +218,7 @@ float Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
     static SoundID hitHullSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
     static SoundID hitShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
     static SoundID brokeShieldSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
+    const float hitVolume = IsPlayer() ? TheGame::PLAYER_HIT_SOUND_VOLUME : TheGame::HIT_SOUND_VOLUME;
     float currentHp = m_currentHp;
     float currentShieldCapacity = m_currentShieldHealth;
     
@@ -226,16 +227,16 @@ float Ship::TakeDamage(float damage, float disruption /*= 1.0f*/)
     {
         if (m_currentShieldHealth != 0.0f && m_timeSinceLastHit < 0.25f)
         {
-            TheGame::instance->m_currentGameMode->PlaySoundAt(hitShieldSound, GetPosition(), TheGame::HIT_SOUND_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
+            TheGame::instance->m_currentGameMode->PlaySoundAt(hitShieldSound, GetPosition(), hitVolume, MathUtils::GetRandomFloat(0.9f, 1.1f));
         }
         else
         {
-            TheGame::instance->m_currentGameMode->PlaySoundAt(brokeShieldSound, GetPosition(), TheGame::HIT_SOUND_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
+            TheGame::instance->m_currentGameMode->PlaySoundAt(brokeShieldSound, GetPosition(), hitVolume, MathUtils::GetRandomFloat(0.9f, 1.1f));
         }
     }
     else if (currentHp != m_currentHp)
     {
-        TheGame::instance->m_currentGameMode->PlaySoundAt(hitHullSound, GetPosition(), TheGame::HIT_SOUND_VOLUME, MathUtils::GetRandomFloat(0.9f, 1.1f));
+        TheGame::instance->m_currentGameMode->PlaySoundAt(hitHullSound, GetPosition(), hitVolume, MathUtils::GetRandomFloat(0.9f, 1.1f));
 
         float halfHealth = CalculateHpValue() * 0.5f;
         if (m_currentHp < halfHealth && !m_smokeDamage->m_isEnabled)
