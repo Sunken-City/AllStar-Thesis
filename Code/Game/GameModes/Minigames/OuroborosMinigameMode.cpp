@@ -23,7 +23,7 @@ OuroborosMinigameMode::OuroborosMinigameMode()
         m_backgroundMusic = AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
     }
     m_modeTitleText = "OUROBOROS";
-    m_modeDescriptionText = "Grab coins dropped by ships!";
+    m_modeDescriptionText = "Grab as many coins as you can!";
     m_readyBGColor = RGBA::CHOCOLATE;
     m_readyTextColor = RGBA::YELLOW;
 

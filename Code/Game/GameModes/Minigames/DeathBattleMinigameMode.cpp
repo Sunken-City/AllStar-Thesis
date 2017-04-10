@@ -144,6 +144,35 @@ void DeathBattleMinigameMode::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
+void DeathBattleMinigameMode::RankPlayers()
+{
+    int* scores = new int[TheGame::instance->m_numberOfPlayers];
+    for (unsigned int i = 0; i < m_players.size(); ++i)
+    {
+        scores[i] = INT_MIN;
+        PlayerShip* ship = m_players[i];
+        DefaultPlayerStats* stats = m_playerStats[ship];
+        scores[i] = stats->m_numKills;
+        ship->m_rank = 999;
+    }
+    for (unsigned int i = 0; i < m_players.size(); ++i)
+    {
+        int numBetterPlayers = 0;
+        int myScore = scores[i];
+        for (unsigned int j = 0; j < m_players.size(); ++j)
+        {
+            int otherScore = scores[j];
+            if (myScore < otherScore)
+            {
+                ++numBetterPlayers;
+            }
+        }
+        m_players[i]->m_rank = numBetterPlayers + 1; //1st place has 0 people better
+    }
+    delete scores;
+}
+
+//-----------------------------------------------------------------------------------
 Encounter* DeathBattleMinigameMode::GetRandomMinorEncounter(const Vector2& center, float radius)
 {
     int random = MathUtils::GetRandomIntFromZeroTo(4);
