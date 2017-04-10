@@ -1707,6 +1707,7 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Pickups/coin.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileExplosion.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/teleport.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileFire.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Missle_01.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Missle_04.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Single_03.ogg");

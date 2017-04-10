@@ -40,7 +40,7 @@ bool MissileLauncher::AttemptFire(Ship* shooter)
     static float SECONDS_TO_RUMBLE = 0.075f;
     static const int NUM_SOUNDS = 1;
     static const SoundID bulletSounds[NUM_SOUNDS] = {
-        AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/SFX_Weapon_Fire_Missle_04.ogg")
+        AudioSystem::instance->CreateOrGetSound("Data/SFX/Bullets/missileFire.ogg")
     };
 
     SoundID bulletSound = bulletSounds[MathUtils::GetRandomIntFromZeroTo(NUM_SOUNDS)];
