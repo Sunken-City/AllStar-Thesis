@@ -21,6 +21,7 @@
 #include "Chassis\PowerChassis.hpp"
 #include "Weapons\SpreadShot.hpp"
 #include "Passives\SprayAndPrayPassive.hpp"
+#include "Passives\SharpshooterPassive.hpp"
 #include "Weapons\WaveGun.hpp"
 
 //-----------------------------------------------------------------------------------
@@ -103,7 +104,7 @@ PassiveEffect* GetRandomPassive()
     }
     else if (randomNumber == 1)
     {
-        return new SpecialTrailPassive();
+        return new SharpshooterPassive();
     }
     else if (randomNumber == 2)
     {
@@ -111,6 +112,6 @@ PassiveEffect* GetRandomPassive()
     }
     else
     {
-        return new StealthTrailPassive();
+        return new SpecialTrailPassive();
     }
 }

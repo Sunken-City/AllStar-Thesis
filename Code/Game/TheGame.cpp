@@ -1836,6 +1836,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("CloakPassive", "Data\\Images\\Passives\\cloakPassive.png");
     ResourceDatabase::instance->RegisterSprite("StealthTrailPassive", "Data\\Images\\Passives\\stealthTrailPassive.png");
     ResourceDatabase::instance->RegisterSprite("SprayAndPrayPassive", "Data\\Images\\Passives\\sprayAndPrayPassive.png");
+    ResourceDatabase::instance->RegisterSprite("SharpshooterPassive", "Data\\Images\\Passives\\sharpshooterPassive.png");
     ResourceDatabase::instance->RegisterSprite("SpecialTrailPassiveLol", "Data\\Images\\Passives\\specialTrailPassiveLol.png");
 
     //Active Pickups

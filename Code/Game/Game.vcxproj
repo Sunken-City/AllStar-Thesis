@@ -200,6 +200,7 @@
     <ClCompile Include="Items\Chassis\TankChassis.cpp" />
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Passives\CloakPassive.cpp" />
+    <ClCompile Include="Items\Passives\SharpshooterPassive.cpp" />
     <ClCompile Include="Items\Passives\SpecialTrailPassive.cpp" />
     <ClCompile Include="Items\Passives\SprayAndPrayPassive.cpp" />
     <ClCompile Include="Items\Passives\StealthTrailPassive.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Items\DropTable.hpp" />
     <ClInclude Include="Items\Item.hpp" />
     <ClInclude Include="Items\Passives\CloakPassive.hpp" />
+    <ClInclude Include="Items\Passives\SharpshooterPassive.hpp" />
     <ClInclude Include="Items\Passives\SpecialTrailPassive.hpp" />
     <ClInclude Include="Items\Passives\SprayAndPrayPassive.hpp" />
     <ClInclude Include="Items\Passives\StealthTrailPassive.hpp" />

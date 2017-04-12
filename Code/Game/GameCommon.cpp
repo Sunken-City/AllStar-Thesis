@@ -8,7 +8,7 @@ bool g_spawnEnemies             = true;
 bool g_spawnCrates              = true;
 bool g_spawnGeometry            = true;
 bool g_nearlyInvulnerable       = false;
-bool g_spawnWithDebugLoadout    = true;
+bool g_spawnWithDebugLoadout    = false;
 bool g_disableMusic             = true;
 
 const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");

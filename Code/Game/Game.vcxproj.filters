@@ -190,6 +190,7 @@
       <Filter>General\Items\Chassis</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Projectiles\Explosion.cpp" />
+    <ClCompile Include="Items\Passives\SharpshooterPassive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -338,6 +339,7 @@
       <Filter>General\Items\Chassis</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Projectiles\Explosion.hpp" />
+    <ClInclude Include="Items\Passives\SharpshooterPassive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

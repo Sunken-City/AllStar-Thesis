@@ -38,6 +38,7 @@
 #include "Engine/Core/RunInSeconds.hpp"
 #include "../GameStrings.hpp"
 #include "../Items/Actives/TeleportActive.hpp"
+#include "../Items/Passives/SharpshooterPassive.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -95,10 +96,10 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        PickUpItem(new MissileLauncher());
-        PickUpItem(new TankChassis());
-        PickUpItem(new TeleportActive());
-        //PickUpItem(new CloakPassive());
+        //PickUpItem(new MissileLauncher());
+        //PickUpItem(new TankChassis());
+        //PickUpItem(new TeleportActive());
+        PickUpItem(new SharpshooterPassive());
     }
 
     m_shieldDownEffect = new Material(
