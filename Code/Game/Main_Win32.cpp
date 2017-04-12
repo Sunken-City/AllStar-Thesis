@@ -207,28 +207,32 @@ void Update()
         deltaSeconds /= 4.0f;
     }
 
-    ProfilingSystem::instance->PushSample("InputUpdate");
+    //ProfilingSystem::instance->PushSample("InputUpdate");
     InputSystem::instance->Update(deltaSeconds);
-    ProfilingSystem::instance->PopSample("InputUpdate");
-    ProfilingSystem::instance->PushSample("AudioUpdate");
+    //ProfilingSystem::instance->PopSample("InputUpdate");
+    //ProfilingSystem::instance->PushSample("AudioUpdate");
     AudioSystem::instance->Update(deltaSeconds);
-    ProfilingSystem::instance->PopSample("AudioUpdate");
-    ProfilingSystem::instance->PushSample("ConsoleUpdate");
+    //ProfilingSystem::instance->PopSample("AudioUpdate");
+    //ProfilingSystem::instance->PushSample("ConsoleUpdate");
     Console::instance->Update(deltaSeconds);
-    ProfilingSystem::instance->PopSample("ConsoleUpdate");
-    ProfilingSystem::instance->PushSample("UIUpdate");
+   //ProfilingSystem::instance->PopSample("ConsoleUpdate");
+   //ProfilingSystem::instance->PushSample("UIUpdate");
     UISystem::instance->Update(deltaSeconds);
-    ProfilingSystem::instance->PopSample("UIUpdate");
-    ProfilingSystem::instance->PushSample("GameUpdate");
+    //ProfilingSystem::instance->PopSample("UIUpdate");
+    //ProfilingSystem::instance->PushSample("GameUpdate");
     TheGame::instance->Update(deltaSeconds);
-    ProfilingSystem::instance->PopSample("GameUpdate");
+    //ProfilingSystem::instance->PopSample("GameUpdate");
 }
 
 //-----------------------------------------------------------------------------------------------
 void Render()
 {
+    ProfilingSystem::instance->PushSample("GameRender");
     TheGame::instance->Render();
+    ProfilingSystem::instance->PopSample("GameRender");
+    ProfilingSystem::instance->PushSample("UIRender");
     UISystem::instance->Render();
+    ProfilingSystem::instance->PopSample("UIRender");
     Console::instance->Render();
     SwapBuffers(g_displayDeviceContext);
 }
