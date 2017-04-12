@@ -93,6 +93,24 @@ void DeathBattleMinigameMode::UpdatePlayerScoreDisplay(PlayerShip* player)
 }
 
 //-----------------------------------------------------------------------------------
+void DeathBattleMinigameMode::InitializePlayerData()
+{
+    for (PlayerShip* player : m_players)
+    {
+        DeathBattleStats* stats = new DeathBattleStats(player);
+        stats->m_timeAlive = 0.0f;
+        m_playerStats[player] = stats;
+    }
+}
+
+//-----------------------------------------------------------------------------------
+void DeathBattleMinigameMode::RecordPlayerDeath(PlayerShip* ship)
+{
+    GameMode::RecordPlayerDeath(ship);
+    ((DeathBattleStats*)m_playerStats[ship])->m_timeAlive = GetTimerSecondsElapsed();
+}
+
+//-----------------------------------------------------------------------------------
 void DeathBattleMinigameMode::Update(float deltaSeconds)
 {
     BaseMinigameMode::Update(deltaSeconds);
@@ -146,13 +164,14 @@ void DeathBattleMinigameMode::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void DeathBattleMinigameMode::RankPlayers()
 {
-    int* scores = new int[TheGame::instance->m_numberOfPlayers];
+    float* scores = new float[TheGame::instance->m_numberOfPlayers];
     for (unsigned int i = 0; i < m_players.size(); ++i)
     {
         scores[i] = INT_MIN;
         PlayerShip* ship = m_players[i];
-        DefaultPlayerStats* stats = m_playerStats[ship];
-        scores[i] = stats->m_numKills;
+        DeathBattleStats* stats = (DeathBattleStats*)m_playerStats[ship];
+        float timeAliveBonus = stats->m_timeAlive == 0.0f ? 10000.0f : stats->m_timeAlive;
+        scores[i] = (float)stats->m_numKills + timeAliveBonus;
         ship->m_rank = 999;
     }
     for (unsigned int i = 0; i < m_players.size(); ++i)

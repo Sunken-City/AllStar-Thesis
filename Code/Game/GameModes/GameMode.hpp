@@ -35,9 +35,7 @@ public:
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Initialize(const std::vector<PlayerShip*>& players);
     virtual void CleanUp();
-
     void DeleteAllEntities();
-
     virtual void Update(float deltaSeconds);
     virtual void UpdatePlayerCameras();
     virtual Vector2 GetRandomLocationInArena(float radius = 0.0f);

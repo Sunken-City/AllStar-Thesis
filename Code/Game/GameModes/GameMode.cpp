@@ -149,6 +149,34 @@ void GameMode::Update(float deltaSeconds)
         {
             m_timerWidget->SetProperty<std::string>("Text", Stringf(":%02i", secondsRemaining));
         }
+        if (InputSystem::instance->WasKeyJustPressed('Y'))
+        {
+            if (m_players.size() > 0 && m_players[0])
+            {
+                m_players[0]->Die();
+            }
+        }
+        else if (InputSystem::instance->WasKeyJustPressed('U'))
+        {
+            if (m_players.size() > 1 && m_players[1])
+            {
+                m_players[1]->Die();
+            }
+        }
+        else if (InputSystem::instance->WasKeyJustPressed('I'))
+        {
+            if (m_players.size() > 2 && m_players[2])
+            {
+                m_players[2]->Die();
+            }
+        }
+        else if (InputSystem::instance->WasKeyJustPressed('O'))
+        {
+            if (m_players.size() > 3 && m_players[3])
+            {
+                m_players[3]->Die();
+            }
+        }
     }
 
     if ((m_timerSecondsElapsed >= (m_gameLengthSeconds - 5.0f)) && m_timerSecondsElapsed < m_gameLengthSeconds)

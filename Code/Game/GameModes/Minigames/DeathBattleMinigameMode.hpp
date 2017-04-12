@@ -1,6 +1,15 @@
 #pragma once
 #include "Game/GameModes/BaseMinigameMode.hpp"
 
+//-----------------------------------------------------------------------------------
+struct DeathBattleStats : public DefaultPlayerStats
+{
+    DeathBattleStats(PlayerShip* player) : DefaultPlayerStats(player) {};
+    virtual ~DeathBattleStats() {};
+
+    float m_timeAlive = -1.0f;
+};
+
 class DeathBattleMinigameMode : public BaseMinigameMode
 {
 public:
@@ -18,6 +27,9 @@ public:
     void SpawnPlayers();
     void SpawnGeometry();
     void UpdatePlayerScoreDisplay(PlayerShip* player);
+
+    virtual void InitializePlayerData() override;
+    virtual void RecordPlayerDeath(PlayerShip* ship) override;
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
 };

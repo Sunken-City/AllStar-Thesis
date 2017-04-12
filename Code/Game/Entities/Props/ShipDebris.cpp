@@ -28,6 +28,7 @@ ShipDebris::ShipDebris(const Transform2D& transform, const SpriteResource* resou
 //-----------------------------------------------------------------------------------
 ShipDebris::~ShipDebris()
 {
+    m_transform.DropChildrenInPlace();
     ParticleSystem::DestroyImmediately(m_smokeDamage);
 }
 
