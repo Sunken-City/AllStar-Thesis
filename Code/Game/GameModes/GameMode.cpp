@@ -78,11 +78,13 @@ void GameMode::Initialize(const std::vector<PlayerShip*>& players)
 {
     ShowBackground(); 
     SetUpPlayerSpawnPoints();
-    for (PlayerShip* player : players)
+    for (int i = 0; i < players.size(); ++i)
     {
+        PlayerShip* player = players[i];
         player->m_currentGameMode = this;
         m_players.push_back(player);
         player->Respawn();
+        SpriteGameRenderer::instance->m_playerViewerForViewport[i] = SpriteGameRenderer::GetVisibilityFilterForPlayerNumber(static_cast<PlayerPilot*>(player->m_pilot)->m_playerNumber);
     }
 
     m_countdownWidget = UISystem::instance->CreateWidget("Label");

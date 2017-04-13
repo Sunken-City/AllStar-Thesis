@@ -63,7 +63,6 @@ void SuddenDeathMinigameMode::SpawnPlayers()
     {
         m_entities.push_back(player);
         player->Respawn();
-        player->m_scoreText->Enable();
     }
 }
 
@@ -163,9 +162,5 @@ Encounter* SuddenDeathMinigameMode::GetRandomMinorEncounter(const Vector2& cente
 //-----------------------------------------------------------------------------------
 void SuddenDeathMinigameMode::SetUpPlayerSpawnPoints()
 {
-    AABB2 bounds = GetArenaBounds();
-    AddPlayerSpawnPoint(Vector2::ONE);
-    AddPlayerSpawnPoint(Vector2(1.0f, -1.0f));
-    AddPlayerSpawnPoint(-Vector2::ONE);
-    AddPlayerSpawnPoint(Vector2(-1.0f, 1.0f));
+    //No points, pick a random spot.
 }
