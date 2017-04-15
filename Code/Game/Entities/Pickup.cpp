@@ -19,7 +19,6 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     m_sprite = new Sprite("Invalid", TheGame::POWER_UP_LAYER);
     m_sprite->m_transform.SetParent(&m_transform);
     m_sprite->m_spriteResource = m_item->GetSpriteResource();
-    CalculateCollisionRadius();
 
     float x = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
     float y = MathUtils::GetRandomIntFromZeroTo(2) == 1 ? MathUtils::GetRandomFloatFromZeroTo(1.0f) : -MathUtils::GetRandomFloatFromZeroTo(1.0f);
@@ -61,10 +60,13 @@ Pickup::Pickup(Item* item, const Vector2& initialPosition)
     }
     else
     {
+        m_baseScale = Vector2(0.25f);
+        m_transform.SetScale(m_baseScale);
         m_typeTextRenderable->Disable();
         m_descriptionTextRenderable->Disable();
         m_equipTextRenderable->Disable();
     }
+    CalculateCollisionRadius();
 }
 
 //-----------------------------------------------------------------------------------
@@ -85,7 +87,7 @@ void Pickup::Update(float deltaSeconds)
     const float FLASH_AGE_SECONDS = m_maxAge - 5.0f;
     Entity::Update(deltaSeconds);
 
-    Vector2 newScale = Vector2(1.0f) + Vector2(sin(m_age * 2.0f) / 4.0f);
+    Vector2 newScale = m_baseScale + (Vector2(sin(m_age * 2.0f) / 4.0f) * m_baseScale);
     m_transform.SetScale(newScale);
     m_velocity *= 0.9f;
     Vector2 attemptedPosition = GetPosition() + (m_velocity * deltaSeconds);

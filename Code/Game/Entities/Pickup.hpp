@@ -23,6 +23,7 @@ public:
     TextRenderable2D* m_typeTextRenderable;
     TextRenderable2D* m_descriptionTextRenderable;
     TextRenderable2D* m_equipTextRenderable;
+    Vector2 m_baseScale = Vector2::ONE;
     float m_maxAge = 30.0f;
 
 };
