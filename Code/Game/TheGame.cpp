@@ -428,8 +428,8 @@ void TheGame::EnqueueMinigames()
     m_gamemodeFlags = 0;
     for (int i = 0; i < m_numberOfMinigames; ++i)
     {
-        //m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-        m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+        m_queuedMinigameModes.push(GetRandomUniqueGameMode());
+        //m_queuedMinigameModes.push(new DeathBattleMinigameMode());
     }
 }
 
