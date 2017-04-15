@@ -1853,18 +1853,30 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("WaveGun", "Data\\Images\\Weapons\\waveGun.png");
 
     //Pickups
-    ResourceDatabase::instance->RegisterSprite("Top Speed", "Data\\Images\\Pickups\\speed.png");
-    ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\acceleration.png");
-    ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\handling.png");
-    ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\braking.png");
-    ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\damage.png");
-    ResourceDatabase::instance->RegisterSprite("Shield Disruption", "Data\\Images\\Pickups\\shieldDisruption.png");
-    ResourceDatabase::instance->RegisterSprite("Shot Homing", "Data\\Images\\Pickups\\shotHoming.png");
-    ResourceDatabase::instance->RegisterSprite("Rate Of Fire", "Data\\Images\\Pickups\\fireRate.png");
-    ResourceDatabase::instance->RegisterSprite("Hp", "Data\\Images\\Pickups\\hp.png");
-    ResourceDatabase::instance->RegisterSprite("Shield Capacity", "Data\\Images\\Pickups\\shieldCapacity.png");
-    ResourceDatabase::instance->RegisterSprite("Shield Regen", "Data\\Images\\Pickups\\shieldRegen.png");
-    ResourceDatabase::instance->RegisterSprite("Shot Deflection", "Data\\Images\\Pickups\\shotDeflection.png");
+    ResourceDatabase::instance->RegisterSprite("Top Speed", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Top Speed")->SetUVBounds(AABB2(Vector2(0.0f, 0.0f), Vector2(0.25f, 0.25f)));
+    ResourceDatabase::instance->RegisterSprite("Braking", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Braking")->SetUVBounds(AABB2(Vector2(0.25f, 0.0f), Vector2(0.50f, 0.25f)));
+    ResourceDatabase::instance->RegisterSprite("Handling", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Handling")->SetUVBounds(AABB2(Vector2(0.50f, 0.0f), Vector2(0.75f, 0.25f)));
+    ResourceDatabase::instance->RegisterSprite("Acceleration", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Acceleration")->SetUVBounds(AABB2(Vector2(0.75f, 0.0f), Vector2(1.0f, 0.25f)));
+    ResourceDatabase::instance->RegisterSprite("Shield Disruption", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Shield Disruption")->SetUVBounds(AABB2(Vector2(0.0f, 0.25f), Vector2(0.25f, 0.50f)));
+    ResourceDatabase::instance->RegisterSprite("Shot Homing", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Shot Homing")->SetUVBounds(AABB2(Vector2(0.25f, 0.25f), Vector2(0.50f, 0.50f)));
+    ResourceDatabase::instance->RegisterSprite("Rate Of Fire", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Rate Of Fire")->SetUVBounds(AABB2(Vector2(0.50f, 0.25f), Vector2(0.75f, 0.50f)));
+    ResourceDatabase::instance->RegisterSprite("Damage", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Damage")->SetUVBounds(AABB2(Vector2(0.75f, 0.25f), Vector2(1.0f, 0.50f)));
+    ResourceDatabase::instance->RegisterSprite("Hp", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Hp")->SetUVBounds(AABB2(Vector2(0.0f, 0.50f), Vector2(0.25f, 0.75f)));
+    ResourceDatabase::instance->RegisterSprite("Shield Capacity", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Shield Capacity")->SetUVBounds(AABB2(Vector2(0.25f, 0.50f), Vector2(0.50f, 0.75f)));
+    ResourceDatabase::instance->RegisterSprite("Shield Regen", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Shield Regen")->SetUVBounds(AABB2(Vector2(0.50f, 0.50f), Vector2(0.75f, 0.75f)));
+    ResourceDatabase::instance->RegisterSprite("Shot Deflection", "Data\\Images\\Pickups\\pickupSheet.png");
+    ResourceDatabase::instance->EditSpriteResource("Shot Deflection")->SetUVBounds(AABB2(Vector2(0.75f, 0.50f), Vector2(1.0f, 0.75f)));
 
     //Minigame Entities
     ResourceDatabase::instance->RegisterSprite("BronzeCoin", "Data\\Images\\Pickups\\coin_bronze.png");
@@ -2030,7 +2042,7 @@ void TheGame::RegisterParticleEffects()
     powerupPickup->m_properties.Set<std::string>(PROPERTY_NAME, "Power Pickup");
     powerupPickup->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
     powerupPickup->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(5, 15));
-    powerupPickup->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
+    powerupPickup->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f * 0.25f), Vector2(0.4f * 0.25f)));
     powerupPickup->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::UNIT_Y);
     powerupPickup->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.5f);
     powerupPickup->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);

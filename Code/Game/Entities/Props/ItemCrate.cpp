@@ -107,4 +107,5 @@ void ItemCrate::DecorateCrate()
     m_sprite->m_tintColor = PowerUp::GetPowerUpColor(powerUp->m_powerUpType);
     m_itemHintSprite = new Sprite(PowerUp::GetPowerUpSpriteResourceName(powerUp->m_powerUpType), TheGame::CRATE_DECORATION_LAYER);
     m_itemHintSprite->m_transform.SetParent(&m_transform);
+    m_itemHintSprite->m_transform.SetScale(Vector2(0.25f));
 }
