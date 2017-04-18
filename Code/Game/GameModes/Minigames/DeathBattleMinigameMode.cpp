@@ -79,9 +79,12 @@ void DeathBattleMinigameMode::SpawnGeometry()
     //Spawn the all-consuming black-hole
     float radius = 0.5f;
     RemoveEntitiesInCircle(Vector2::ZERO, radius);
-    BlackHoleEncounter blackHole(Vector2::ZERO, radius);
-    blackHole.Spawn();
-    blackHole.m_spawnedBlackHole->m_growsOverTime = true;
+    BlackHoleEncounter* blackHole = new BlackHoleEncounter(Vector2::ZERO, radius);
+    blackHole->Spawn();
+    blackHole->m_spawnedBlackHole->m_growsOverTime = true;
+    m_encounters.push_back(blackHole);
+
+    SetVortexPositions();
 
 }
 
@@ -159,6 +162,7 @@ void DeathBattleMinigameMode::Update(float deltaSeconds)
     }
 
     UpdatePlayerCameras();
+    SetVortexPositions();
 }
 
 //-----------------------------------------------------------------------------------
