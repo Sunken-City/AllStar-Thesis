@@ -222,16 +222,16 @@ void PlayerShip::InitializeUI()
     m_shieldText->m_transform.SetPosition(Vector2(1.1f, 0.9f));
     m_tpText->m_transform.SetPosition(Vector2(-1.0f, 1.6f));
     m_scoreText->m_transform.SetPosition(Vector2(2.0f, 1.8f));
-    m_respawnText->m_transform.SetScale(Vector2(2.0f));
-    m_healthText->m_transform.SetScale(Vector2(1.5f));
-    m_shieldText->m_transform.SetScale(Vector2(1.5f));
-    m_tpText->m_transform.SetScale(Vector2(1.5f));
-    m_scoreText->m_transform.SetScale(Vector2(2.0f));
-    m_respawnText->m_fontSize = 0.1f;
-    m_healthText->m_fontSize = 0.1f;
-    m_shieldText->m_fontSize = 0.1f;
-    m_tpText->m_fontSize = 0.1f;
-    m_scoreText->m_fontSize = 0.1f;
+    m_respawnText->m_transform.SetScale(Vector2(1.0f));
+    m_healthText->m_transform.SetScale(Vector2(1.0f));
+    m_shieldText->m_transform.SetScale(Vector2(1.0f));
+    m_tpText->m_transform.SetScale(Vector2(1.0f));
+    m_scoreText->m_transform.SetScale(Vector2(1.0f));
+    m_respawnText->m_fontSize = 0.4f;
+    m_healthText->m_fontSize = 0.25f;
+    m_shieldText->m_fontSize = 0.25f;
+    m_tpText->m_fontSize = 0.25f;
+    m_scoreText->m_fontSize = 0.4f;
     SpriteGameRenderer::instance->AnchorBottomRight(&m_teleportBar->m_transform);
     SpriteGameRenderer::instance->AnchorBottomRight(&m_tpText->m_transform);
     SpriteGameRenderer::instance->AnchorBottomLeft(&m_healthText->m_transform);
@@ -685,7 +685,7 @@ void PlayerShip::InitializeStatGraph()
 
         Sprite* statSprite = new Sprite(PowerUp::GetPowerUpSpriteResourceName(type), TheGame::STAT_GRAPH_LAYER_TEXT);
         statSprite->m_transform.SetPosition(Vector2(SPRITE_X_VALUE, STARTING_Y_VALUE - (SPACE_PER_ROW * i)));
-        statSprite->m_transform.SetScale(Vector2(0.5f));
+        statSprite->m_transform.SetScale(Vector2(0.15f));
         statSprite->Disable();
         statSprite->m_viewableBy = visibilityFilter;
         statSprite->m_material = TheGame::instance->m_UIMaterial;
