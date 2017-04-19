@@ -47,6 +47,7 @@
 #include "Game/GameModes/Minigames/CoinGrabMinigameMode.hpp"
 #include "GameModes/Minigames/OuroborosMinigameMode.hpp"
 #include "GameStrings.hpp"
+#include "Engine/Core/BuildConfig.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -105,6 +106,7 @@ TheGame::TheGame()
     m_bindingPoint = 13; //Because I say so.
     SpriteGameRenderer::instance->m_defaultShader->BindUniformBuffer("vortexInfo", m_bindingPoint);
 
+#ifdef PROFILING_ENABLED
     m_fpsCounter = UISystem::instance->CreateWidget("Label");
     m_fpsCounter->SetProperty<std::string>("Name", "FPS");
     m_fpsCounter->SetProperty<std::string>("Text", "0");
@@ -115,6 +117,7 @@ TheGame::TheGame()
     m_fpsCounter->SetProperty("Offset", Vector2(0.0f, 0.0f));
     m_fpsCounter->SetProperty<std::string>("Text", "6");
     UISystem::instance->AddWidget(m_fpsCounter);
+#endif
 
     SetGameState(GameState::MAIN_MENU);
     InitializeMainMenuState();
@@ -182,10 +185,13 @@ void TheGame::ClearPlayers()
 void TheGame::Update(float deltaSeconds)
 {
     //PROFILE_LOG_SECTION("UPDATE")
+#ifdef PROFILING_ENABLED
     if (ProfilingSystem::instance->GetLastFrame())
     {
-        m_fpsCounter->SetProperty<std::string>("Text", Stringf("%02.02f", 1.0f / (ProfilingSystem::instance->GetLastFrame()->GetDurationInSeconds())));
+        m_fpsCounter->SetProperty<std::string>("Text", Stringf("%02.02f", 1.0f / (ProfilingSystem::instance->GetAverageFrameDuration())));
     }
+#endif
+
     g_secondsInState += deltaSeconds;
 
     ProfilingSystem::instance->PushSample("SGR Update");
