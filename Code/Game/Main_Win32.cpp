@@ -227,6 +227,7 @@ void Update()
 //-----------------------------------------------------------------------------------------------
 void Render()
 {
+    ProfilingSystem::instance->PushSample("Render");
     ProfilingSystem::instance->PushSample("GameRender");
     TheGame::instance->Render();
     ProfilingSystem::instance->PopSample("GameRender");
@@ -234,6 +235,7 @@ void Render()
     UISystem::instance->Render();
     ProfilingSystem::instance->PopSample("UIRender");
     Console::instance->Render();
+    ProfilingSystem::instance->PopSample("Render");
     SwapBuffers(g_displayDeviceContext);
 }
 
@@ -246,9 +248,7 @@ void RunFrame()
     ProfilingSystem::instance->PushSample("Update");
     Update();
     ProfilingSystem::instance->PopSample("Update");
-    ProfilingSystem::instance->PushSample("Render");
     Render();
-    ProfilingSystem::instance->PopSample("Render");
 }
 
 //-----------------------------------------------------------------------------------------------
