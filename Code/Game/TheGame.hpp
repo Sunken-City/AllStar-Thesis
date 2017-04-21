@@ -181,6 +181,7 @@ public:
     int m_numberOfPlayers = 0;
     int m_numberOfReadyPlayers = 0;
     bool m_hasKeyboardPlayer = false;
+    bool m_useFixedMinigames = false;
 
 private:
     Sprite* m_shipPreviews[4];

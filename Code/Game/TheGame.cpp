@@ -212,6 +212,10 @@ void TheGame::Update(float deltaSeconds)
     {
         return;
     }
+    if (InputSystem::instance->WasKeyJustPressed('F'))
+    {
+        m_useFixedMinigames = true;
+    }
     DispatchRunAfterSeconds();
 
     switch (GetGameState())
@@ -432,10 +436,19 @@ void TheGame::RenderMainMenu() const
 void TheGame::EnqueueMinigames()
 {
     m_gamemodeFlags = 0;
-    for (int i = 0; i < m_numberOfMinigames; ++i)
+    if (m_useFixedMinigames)
     {
-        m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-        //m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+        m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
+        m_queuedMinigameModes.push(new OuroborosMinigameMode());
+        m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+    }
+    else
+    {
+        for (int i = 0; i < m_numberOfMinigames; ++i)
+        {
+            m_queuedMinigameModes.push(GetRandomUniqueGameMode());
+            //m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+        }
     }
 }
 
