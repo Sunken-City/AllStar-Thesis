@@ -127,21 +127,6 @@ void Entity::ResolveCollision(Entity* otherEntity)
     {
         TakeDamage(otherEntity->m_collisionDamageAmount);
     }
-
-    if (otherEntity->IsDead() && otherEntity->IsPlayer() && IsPlayer())
-    {
-        PlayerShip* player = dynamic_cast<PlayerShip*>(this);
-        PlayerShip* victim = dynamic_cast<PlayerShip*>(otherEntity);
-        ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
-        GameMode::GetCurrent()->RecordPlayerKill(player, victim);
-    }
-    else if (IsDead() && IsPlayer() && otherEntity->IsPlayer())
-    {
-        PlayerShip* player = dynamic_cast<PlayerShip*>(otherEntity);
-        PlayerShip* victim = dynamic_cast<PlayerShip*>(this);
-        ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
-        GameMode::GetCurrent()->RecordPlayerKill(player, victim);
-    }
 }
 
 //-----------------------------------------------------------------------------------
