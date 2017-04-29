@@ -96,10 +96,10 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        //PickUpItem(new MissileLauncher());
-        //PickUpItem(new TankChassis());
-        //PickUpItem(new TeleportActive());
-        PickUpItem(new SharpshooterPassive());
+        PickUpItem(new MissileLauncher());
+        PickUpItem(new TankChassis());
+        PickUpItem(new TeleportActive());
+        //PickUpItem(new SharpshooterPassive());
     }
 
     m_shieldDownEffect = new Material(
