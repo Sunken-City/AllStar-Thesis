@@ -5,6 +5,7 @@
 #include <crtdbg.h>
 #include "Engine/Core/Memory/MemoryTracking.hpp"
 #include "Engine/Math/Vector2.hpp"
+#include "Engine/Math/Vector2Int.hpp"
 #include "Engine/Time/Time.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 #include "Engine/Audio/Audio.hpp"
@@ -27,8 +28,8 @@
 
 //-----------------------------------------------------------------------------------------------
 const int OFFSET_FROM_WINDOWS_DESKTOP = 50;
-const extern int WINDOW_PHYSICAL_WIDTH = 1600; //Gameboy: 160
-const extern int WINDOW_PHYSICAL_HEIGHT = 900; //Gameboy: 144
+extern int WINDOW_PHYSICAL_WIDTH = 1600; //Gameboy: 160
+extern int WINDOW_PHYSICAL_HEIGHT = 900; //Gameboy: 144
 const extern int IMPORT_RESOLUTION = 1080;//900;
 const extern float VIRTUAL_SIZE = 10.0f;
 const float VIEW_LEFT = 0.0;
@@ -38,6 +39,7 @@ const float VIEW_TOP = VIEW_RIGHT * static_cast<float>(WINDOW_PHYSICAL_HEIGHT) /
 const Vector2 BOTTOM_LEFT = Vector2(VIEW_LEFT, VIEW_BOTTOM);
 const Vector2 TOP_RIGHT = Vector2(VIEW_RIGHT, VIEW_TOP);
 
+bool g_isFullscreen = true;
 bool g_isQuitting = false;
 HWND g_hWnd = nullptr;
 HDC g_displayDeviceContext = nullptr;
@@ -121,15 +123,24 @@ void CreateOpenGLWindow(HINSTANCE applicationInstanceHandle)
     windowClassDescription.lpszClassName = TEXT("Simple Window Class");
     RegisterClassEx(&windowClassDescription);
 
-    const DWORD windowStyleFlags = WS_CAPTION | WS_BORDER | WS_THICKFRAME | WS_SYSMENU | WS_OVERLAPPED;
-    const DWORD windowStyleExFlags = WS_EX_APPWINDOW;
-
     RECT desktopRect;
     HWND desktopWindowHandle = GetDesktopWindow();
     GetClientRect(desktopWindowHandle, &desktopRect);
-
     RECT windowRect = { OFFSET_FROM_WINDOWS_DESKTOP, OFFSET_FROM_WINDOWS_DESKTOP, OFFSET_FROM_WINDOWS_DESKTOP + WINDOW_PHYSICAL_WIDTH, OFFSET_FROM_WINDOWS_DESKTOP + WINDOW_PHYSICAL_HEIGHT };
-    AdjustWindowRectEx(&windowRect, windowStyleFlags, FALSE, windowStyleExFlags);
+
+    DWORD windowStyleFlags = WS_CAPTION | WS_BORDER | WS_THICKFRAME | WS_SYSMENU | WS_OVERLAPPED;
+    DWORD windowStyleExFlags = WS_EX_APPWINDOW;
+    if (g_isFullscreen)
+    {
+        windowStyleFlags = WS_POPUP;
+        windowStyleExFlags = WS_EX_APPWINDOW;
+        windowRect = desktopRect;
+    }
+
+    WINDOW_PHYSICAL_WIDTH = windowRect.right - windowRect.left;
+    WINDOW_PHYSICAL_HEIGHT = windowRect.bottom - windowRect.top;
+
+    AdjustWindowRectEx(&windowRect, windowStyleFlags, FALSE, windowStyleExFlags); //Compensates for the windows frame, allowing the above rectangle to be just the client space.
 
     WCHAR windowTitle[1024];
     MultiByteToWideChar(GetACP(), 0, APP_NAME, -1, windowTitle, sizeof(windowTitle) / sizeof(windowTitle[0]));
@@ -256,7 +267,7 @@ void Initialize(HINSTANCE applicationInstanceHandle)
 {
     SetProcessDPIAware();
     CreateOpenGLWindow(applicationInstanceHandle);
-    Renderer::instance = new Renderer();
+    Renderer::instance = new Renderer(Vector2Int(WINDOW_PHYSICAL_WIDTH, WINDOW_PHYSICAL_HEIGHT));
     SpriteGameRenderer::instance = new SpriteGameRenderer(RGBA::CORNFLOWER_BLUE, WINDOW_PHYSICAL_WIDTH, WINDOW_PHYSICAL_HEIGHT, IMPORT_RESOLUTION, VIRTUAL_SIZE);
     AudioSystem::instance = new AudioSystem();
     InputSystem::instance = new InputSystem(g_hWnd, 4);
