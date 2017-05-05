@@ -9,7 +9,7 @@ bool g_spawnCrates              = true;
 bool g_spawnGeometry            = true;
 bool g_nearlyInvulnerable       = false;
 bool g_spawnWithDebugLoadout    = false;
-bool g_disableMusic             = true;
+bool g_disableMusic             = false;
 
 const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");
 const size_t gWipeColorUniform = std::hash<std::string>{}("gWipeColor");

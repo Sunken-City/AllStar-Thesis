@@ -260,7 +260,6 @@ void PlayerShip::InitializeUI()
 //-----------------------------------------------------------------------------------
 void PlayerShip::Update(float deltaSeconds)
 {
-    static const size_t gEffectTimeUniform = std::hash<std::string>{}("gEffectTime");
     if (m_isDead)
     {
         m_shieldDownEffect->SetFloatUniform(gEffectTimeUniform, (float)GetCurrentTimeSeconds());
