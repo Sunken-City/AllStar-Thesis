@@ -279,7 +279,6 @@ Vector2 GameMode::GetRandomLocationInArena(float radius /*= 0.0f*/)
 //-----------------------------------------------------------------------------------
 Vector2 GameMode::GetPlayerSpawnPoint(int playerNumber)
 {
-    unsigned int numSpawnPoints = m_playerSpawnPoints.size();
     if (m_playerSpawnPoints.size() > 0)
     {
         if (m_uniquePlayerSpawns)

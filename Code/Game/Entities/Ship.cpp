@@ -13,6 +13,7 @@
 #include "Engine/Math/Noise.hpp"
 #include "Engine/Renderer/Material.hpp"
 #include "Props/ShipDebris.hpp"
+#include "Engine/Math/MathUtils.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -106,7 +107,7 @@ void Ship::RegenerateShield(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void Ship::ApplyShotDeflection()
 {
-    static const float DEADSHOT_DOT_TOLERANCE = fabs(MathUtils::SinDegrees(5.0f));
+    static const float DEADSHOT_DOT_TOLERANCE = fabs(SinDegrees(5.0f));
     const float DEFLECTION_RADIUS = 4.0f;
     const float DEFLECTION_RADIUS_SQUARED = DEFLECTION_RADIUS * DEFLECTION_RADIUS;
     GameMode* current = GameMode::GetCurrent();
@@ -155,7 +156,6 @@ void Ship::FlickerShield(float deltaSeconds)
     UNUSED(deltaSeconds);
     float ratio = m_currentShieldHealth / CalculateShieldCapacityValue();
     float noiseValue = Get1dNoiseNegOneToOne(++index);
-    float mappedNoiseValue = MathUtils::RangeMap(noiseValue, -1.0f, 1.0f, 0.0f, 1.0f);
     float alphaValue = Max<float>(ratio, noiseValue);
     m_shieldSprite->m_tintColor.SetAlphaFloat(alphaValue);
 

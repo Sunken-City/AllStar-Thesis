@@ -29,7 +29,6 @@ Projectile::~Projectile()
 //-----------------------------------------------------------------------------------
 void Projectile::Update(float deltaSeconds)
 {
-    float mass = 1.0f;
     Entity::Update(deltaSeconds);
     if (m_age < m_lifeSpan)
     {

@@ -81,7 +81,6 @@ void PlasmaBall::Update(float deltaSeconds)
     float newRotationDegrees = m_transform.GetWorldRotationDegrees() + (SPRITE_ANGULAR_VELOCITY * deltaSeconds);
     m_transform.SetRotationDegrees(newRotationDegrees);
 
-    float mass = 1.0f;
     Entity::Update(deltaSeconds);
     if (m_age < m_lifeSpan)
     {

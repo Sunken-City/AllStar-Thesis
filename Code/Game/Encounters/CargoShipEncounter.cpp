@@ -13,7 +13,7 @@ CargoShipEncounter::CargoShipEncounter(const Vector2& center, float radius)
 void CargoShipEncounter::Spawn()
 {
     GameMode* gameMode = GameMode::GetCurrent();
-    const float NUM_CRATES = MathUtils::GetRandomInt(3, 5);
+    const int NUM_CRATES = MathUtils::GetRandomInt(3, 5);
 
     for (int i = 0; i < NUM_CRATES; ++i)
     {
