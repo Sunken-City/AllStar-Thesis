@@ -10,6 +10,7 @@ in vec4 inColor;
 in vec2 inUV0;
 
 out vec4 passColor;
+out vec3 passPosition;
 out vec2 passUV0;
 
 void main(void)
@@ -23,4 +24,5 @@ void main(void)
   // pos = gProj * gView * gModel * pos; //Row major
 
   gl_Position = pos; //gl_position is a built in type
+  passPosition = pos.xyz;
 }
