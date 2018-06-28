@@ -15,5 +15,6 @@ public:
 
     Vector2 m_muzzleDirection = Vector2::ZERO;
     Vector2 m_spawnPosition = Vector2::ZERO;
+    Vector2 m_acceleration = Vector2::ZERO;
     float m_lastLifespan = 0.0f;
 };

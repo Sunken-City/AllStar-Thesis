@@ -9,6 +9,7 @@ const float LeftHookLaser::KNOCKBACK_MAGNITUDE = 10.0f;
 LeftHookLaser::LeftHookLaser(Entity* owner, float degreesOffset /*= 0.0f*/, float damage /*= 1.0f*/, float disruption /*= 0.0f*/, float homing /*= 0.0f*/) 
     : Projectile(owner, degreesOffset, damage, disruption, homing)
 {
+    m_lifeSpan = 0.6f;
     m_sprite = new Sprite("LeftHookLaser", TheGame::BULLET_LAYER_BLOOM);
     m_sprite->m_transform.SetParent(&m_transform);
     m_transform.SetScale(Vector2(1.5f));
@@ -29,6 +30,10 @@ LeftHookLaser::LeftHookLaser(Entity* owner, float degreesOffset /*= 0.0f*/, floa
 
     Vector2 muzzleVelocity = m_muzzleDirection * adjustedSpeed;
     m_velocity = muzzleVelocity;
+
+    Vector2 velocityDir = muzzleVelocity.GetNorm();
+    Vector2 leftDir = Vector2(-velocityDir.y, velocityDir.x);
+    m_acceleration = leftDir * 400.0f;
 }
 
 //-----------------------------------------------------------------------------------
@@ -50,9 +55,9 @@ void LeftHookLaser::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     if (m_age < m_lifeSpan)
     {
-        if (m_age > (m_lifeSpan * 0.5f) && m_lastLifespan < (m_lifeSpan * 0.5f))
+        if (m_age > (m_lifeSpan * 0.8f))
         {
-            m_velocity = Vector2(-m_velocity.y, m_velocity.x);
+            m_velocity += m_acceleration * deltaSeconds;
         }
         m_lastLifespan = m_age;
 
