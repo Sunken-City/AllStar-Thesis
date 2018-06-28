@@ -191,6 +191,7 @@
     </ClCompile>
     <ClCompile Include="Entities\Projectiles\Explosion.cpp" />
     <ClCompile Include="Items\Passives\SharpshooterPassive.cpp" />
+    <ClCompile Include="Items\Actives\InverterActive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -340,6 +341,7 @@
     </ClInclude>
     <ClInclude Include="Entities\Projectiles\Explosion.hpp" />
     <ClInclude Include="Items\Passives\SharpshooterPassive.hpp" />
+    <ClInclude Include="Items\Actives\InverterActive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

@@ -24,6 +24,8 @@
 #include "Engine/Renderer/OpenGLExtensions.hpp"
 #include "../Entities/Props/Wormhole.hpp"
 
+#undef PlaySound
+
 const double GameMode::AFTER_GAME_SLOWDOWN_SECONDS = 3.0;
 const double GameMode::ANIMATION_LENGTH_SECONDS = 1.0;
 int GameMode::s_currentVortexId = 0;
@@ -705,4 +707,20 @@ void GameMode::SpawnEncounters()
 
     ClearVortexPositions();
     SetVortexPositions();
+}
+
+std::vector<Entity*> GameMode::GetEntitiesInRadius(const Vector2& centerPosition, float radius)
+{
+    std::vector<Entity*> foundEntities;
+    for (Entity* entity : m_entities)
+    {
+        Vector2 entityPos = entity->GetPosition();
+        float distBetweenEntityAndPointSquared = MathUtils::CalcDistSquaredBetweenPoints(centerPosition, entityPos);
+
+        if (distBetweenEntityAndPointSquared < radius)
+        {
+            foundEntities.push_back(entity);
+        }
+    }
+    return std::move(foundEntities);
 }

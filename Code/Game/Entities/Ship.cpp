@@ -96,7 +96,6 @@ void Ship::UpdateShooting()
 //-----------------------------------------------------------------------------------
 void Ship::RegenerateShield(float deltaSeconds)
 {
-    const float SECONDS_BEFORE_SHIELD_REGEN_RESTARTS = 3.0f;
     if (m_timeSinceLastHit > SECONDS_BEFORE_SHIELD_REGEN_RESTARTS)
     {
         float regenPointsThisFrame = CalculateShieldRegenValue() * deltaSeconds;
@@ -117,34 +116,31 @@ void Ship::ApplyShotDeflection()
         return;
     }
 
-    for (Entity* entity : current->m_entities)
+    std::vector<Entity*> nearbyEntities = current->GetEntitiesInRadius(GetPosition(), DEFLECTION_RADIUS_SQUARED);
+
+    for (Entity* entity : nearbyEntities)
     {
         if (entity->IsProjectile() && entity->m_owner != this)
         {
             Projectile* projectile = (Projectile*)entity;
             Vector2 bulletPos = projectile->GetPosition();
-            float distBetweenShipAndProjectileSquared = MathUtils::CalcDistSquaredBetweenPoints(GetPosition(), bulletPos);
+            Vector2 displacementFromBulletToShip = GetPosition() - bulletPos;
+            Vector2 velocityPerpendicular = Vector2(-projectile->m_velocity.y, projectile->m_velocity.x);
+            Vector2 displacementNormalized = displacementFromBulletToShip.GetNorm();
+            Vector2 normalizedVelocity = velocityPerpendicular.GetNorm();
 
-            if (distBetweenShipAndProjectileSquared < DEFLECTION_RADIUS_SQUARED)
+            float dotProduct = Vector2::Dot(displacementNormalized, normalizedVelocity);
+            if (fabs(dotProduct) > DEADSHOT_DOT_TOLERANCE)
             {
-                Vector2 displacementFromBulletToShip = GetPosition() - bulletPos;
-                Vector2 velocityPerpendicular = Vector2(-projectile->m_velocity.y, projectile->m_velocity.x);
-                Vector2 displacementNormalized = displacementFromBulletToShip.GetNorm();
-                Vector2 normalizedVelocity = velocityPerpendicular.GetNorm();
+                Vector2 resolutionDirection = dotProduct > 0 ? -normalizedVelocity : normalizedVelocity;
+                float totalShotModificationConstant = CalculateShotDeflectionValue() - projectile->m_shotHoming;
+                projectile->ApplyImpulse(resolutionDirection * totalShotModificationConstant);
 
-                float dotProduct = Vector2::Dot(displacementNormalized, normalizedVelocity);
-                if (fabs(dotProduct) > DEADSHOT_DOT_TOLERANCE)
+                if (totalShotModificationConstant < 0.0f)
                 {
-                    Vector2 resolutionDirection = dotProduct > 0 ? -normalizedVelocity : normalizedVelocity;
-                    float totalShotModificationConstant = CalculateShotDeflectionValue() - projectile->m_shotHoming;
-                    projectile->ApplyImpulse(resolutionDirection * totalShotModificationConstant);
-
-                    if (totalShotModificationConstant < 0.0f)
-                    {
-                        projectile->LockOn();
-                    }
-                }                
-            }
+                    projectile->LockOn();
+                }
+            }  
         }
     }
 }

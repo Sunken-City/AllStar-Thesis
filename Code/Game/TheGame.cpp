@@ -1861,7 +1861,7 @@ void TheGame::RegisterSprites()
 
     //Active Pickups
     ResourceDatabase::instance->RegisterSprite("WarpActive", "Data\\Images\\Actives\\warpActive.png");
-    ResourceDatabase::instance->RegisterSprite("TeleportActive", "Data\\Images\\Actives\\teleportActive.png");
+    ResourceDatabase::instance->RegisterSprite("InverterActive", "Data\\Images\\Actives\\inverterActive.png");
     ResourceDatabase::instance->RegisterSprite("QuickshotActive", "Data\\Images\\Actives\\quickshotActive.png");
     ResourceDatabase::instance->RegisterSprite("ShieldActive", "Data\\Images\\Actives\\shieldActive.png");
     ResourceDatabase::instance->RegisterSprite("BoostActive", "Data\\Images\\Actives\\boostActive.png");

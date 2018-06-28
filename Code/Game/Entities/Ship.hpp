@@ -36,6 +36,8 @@ public:
     static constexpr float ANGULAR_VELOCITY = 300.0f;
     static constexpr float DEADZONE_BEFORE_ROTATION = 0.3f;
     static constexpr float DEADZONE_BEFORE_ROTATION_SQUARED = DEADZONE_BEFORE_ROTATION * DEADZONE_BEFORE_ROTATION;
+    static constexpr float SECONDS_BEFORE_SHIELD_REGEN_RESTARTS = 3.0f;
+
 
     LaserGun m_defaultWeapon;
     Pilot* m_pilot;

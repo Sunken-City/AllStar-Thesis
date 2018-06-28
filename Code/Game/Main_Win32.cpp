@@ -278,7 +278,7 @@ void Render()
 void RunFrame()
 {
     ProfilingSystem::instance->MarkFrame();
-    InputSystem::instance->AdvanceFrameNumber();
+    InputSystem::instance->AdvanceFrame();
     RunMessagePump();
     ProfilingSystem::instance->PushSample("Update");
     Update();
