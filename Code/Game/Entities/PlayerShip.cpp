@@ -39,6 +39,7 @@
 #include "../GameStrings.hpp"
 #include "../Items/Actives/TeleportActive.hpp"
 #include "../Items/Passives/SharpshooterPassive.hpp"
+#include "Game/Items/Weapons/LeftHookGun.hpp"
 #include "../Items/Actives/ReflectorActive.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);

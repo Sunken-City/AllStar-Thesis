@@ -199,6 +199,8 @@
     <ClCompile Include="Encounters\HealingZoneEncounter.cpp" />
     <ClCompile Include="Entities\Props\HealingZone.cpp" />
     <ClCompile Include="GameModes\Minigames\DrainMinigameMode.cpp" />
+    <ClCompile Include="Items\Weapons\LeftHookGun.cpp" />
+    <ClCompile Include="Entities\Projectiles\LeftHookLaser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -356,6 +358,8 @@
     <ClInclude Include="Encounters\HealingZoneEncounter.hpp" />
     <ClInclude Include="Entities\Props\HealingZone.hpp" />
     <ClInclude Include="GameModes\Minigames\DrainMinigameMode.hpp" />
+    <ClInclude Include="Items\Weapons\LeftHookGun.hpp" />
+    <ClInclude Include="Entities\Projectiles\LeftHookLaser.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

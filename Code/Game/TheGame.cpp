@@ -1861,6 +1861,7 @@ void TheGame::RegisterSprites()
 
     //Projectiles
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless.png");
+    ResourceDatabase::instance->RegisterSprite("LeftHookLaser", "Data\\Images\\Lasers\\hexBall.png");
     ResourceDatabase::instance->RegisterSprite("Missile1", "Data\\Images\\Lasers\\basicMissile.png");
     ResourceDatabase::instance->RegisterSprite("Missile2", "Data\\Images\\Lasers\\basicMissile2.png");
     ResourceDatabase::instance->RegisterSprite("PlasmaBall", "Data\\Images\\Lasers\\plasmaBall.png");
@@ -1907,6 +1908,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("DefaultWeapon", "Data\\Images\\Weapons\\defaultWeapon.png");
     ResourceDatabase::instance->RegisterSprite("SpreadShot", "Data\\Images\\Weapons\\spreadShot.png");
     ResourceDatabase::instance->RegisterSprite("WaveGun", "Data\\Images\\Weapons\\waveGun.png");
+    ResourceDatabase::instance->RegisterSprite("LeftHookGun", "Data\\Images\\Weapons\\leftHook.png");
 
     //Pickups
     ResourceDatabase::instance->RegisterSprite("Top Speed", "Data\\Images\\Pickups\\pickupSheet.png");

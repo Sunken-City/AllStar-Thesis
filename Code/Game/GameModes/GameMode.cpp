@@ -11,6 +11,8 @@
 #include "Engine/Renderer/2D/SpriteGameRenderer.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Renderer/2D/TextRenderable2D.hpp"
+#include "Engine/Input/XInputController.hpp"
+#include "Engine/Renderer/OpenGLExtensions.hpp"
 #include "Game/Pilots/PlayerPilot.hpp"
 #include "Game/Entities/TextSplash.hpp"
 #include "Game/Encounters/SquadronEncounter.hpp"
@@ -20,9 +22,9 @@
 #include "Game/Encounters/BlackHoleEncounter.hpp"
 #include "Game/Encounters/CargoShipEncounter.hpp"
 #include "Game/Encounters/BossteroidEncounter.hpp"
-#include "Engine/Input/XInputController.hpp"
-#include "Engine/Renderer/OpenGLExtensions.hpp"
-#include "../Entities/Props/Wormhole.hpp"
+#include "Game/Entities/Props/Wormhole.hpp"
+
+#undef PlaySound
 
 #undef PlaySound
 

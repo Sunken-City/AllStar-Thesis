@@ -165,6 +165,7 @@
     <ClCompile Include="Entities\PlayerShip.cpp" />
     <ClCompile Include="Entities\Projectiles\Explosion.cpp" />
     <ClCompile Include="Entities\Projectiles\Laser.cpp" />
+    <ClCompile Include="Entities\Projectiles\LeftHookLaser.cpp" />
     <ClCompile Include="Entities\Projectiles\Missile.cpp" />
     <ClCompile Include="Entities\Projectiles\PlasmaBall.cpp" />
     <ClCompile Include="Entities\Projectiles\Projectile.cpp" />
@@ -213,6 +214,7 @@
     <ClCompile Include="Items\Passives\PassiveEffect.cpp" />
     <ClCompile Include="Items\PowerUp.cpp" />
     <ClCompile Include="Items\Weapons\LaserGun.cpp" />
+    <ClCompile Include="Items\Weapons\LeftHookGun.cpp" />
     <ClCompile Include="Items\Weapons\WaveGun.cpp" />
     <ClCompile Include="Items\Weapons\MissileLauncher.cpp" />
     <ClCompile Include="Items\Weapons\SpreadShot.cpp" />
@@ -246,6 +248,7 @@
     <ClInclude Include="Entities\PlayerShip.hpp" />
     <ClInclude Include="Entities\Projectiles\Explosion.hpp" />
     <ClInclude Include="Entities\Projectiles\Laser.hpp" />
+    <ClInclude Include="Entities\Projectiles\LeftHookLaser.hpp" />
     <ClInclude Include="Entities\Projectiles\Missile.hpp" />
     <ClInclude Include="Entities\Projectiles\PlasmaBall.hpp" />
     <ClInclude Include="Entities\Projectiles\Projectile.hpp" />
@@ -295,6 +298,7 @@
     <ClInclude Include="Items\Passives\PassiveEffect.hpp" />
     <ClInclude Include="Items\PowerUp.hpp" />
     <ClInclude Include="Items\Weapons\LaserGun.hpp" />
+    <ClInclude Include="Items\Weapons\LeftHookGun.hpp" />
     <ClInclude Include="Items\Weapons\WaveGun.hpp" />
     <ClInclude Include="Items\Weapons\MissileLauncher.hpp" />
     <ClInclude Include="Items\Weapons\SpreadShot.hpp" />
