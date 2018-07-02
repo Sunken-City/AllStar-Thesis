@@ -709,7 +709,7 @@ void GameMode::SpawnEncounters()
     SetVortexPositions();
 }
 
-std::vector<Entity*> GameMode::GetEntitiesInRadius(const Vector2& centerPosition, float radius)
+std::vector<Entity*> GameMode::GetEntitiesInRadiusSquared(const Vector2& centerPosition, float radiusSquared)
 {
     std::vector<Entity*> foundEntities;
     for (Entity* entity : m_entities)
@@ -717,7 +717,7 @@ std::vector<Entity*> GameMode::GetEntitiesInRadius(const Vector2& centerPosition
         Vector2 entityPos = entity->GetPosition();
         float distBetweenEntityAndPointSquared = MathUtils::CalcDistSquaredBetweenPoints(centerPosition, entityPos);
 
-        if (distBetweenEntityAndPointSquared < radius)
+        if (distBetweenEntityAndPointSquared < radiusSquared)
         {
             foundEntities.push_back(entity);
         }

@@ -116,7 +116,7 @@ void Ship::ApplyShotDeflection()
         return;
     }
 
-    std::vector<Entity*> nearbyEntities = current->GetEntitiesInRadius(GetPosition(), DEFLECTION_RADIUS_SQUARED);
+    std::vector<Entity*> nearbyEntities = current->GetEntitiesInRadiusSquared(GetPosition(), DEFLECTION_RADIUS_SQUARED);
 
     for (Entity* entity : nearbyEntities)
     {

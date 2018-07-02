@@ -99,7 +99,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     {
         PickUpItem(new MissileLauncher());
         //PickUpItem(new TankChassis());
-        PickUpItem(new ShieldActive());
+        PickUpItem(new InverterActive());
         //PickUpItem(new SharpshooterPassive());
     }
 

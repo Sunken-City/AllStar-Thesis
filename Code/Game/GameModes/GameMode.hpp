@@ -68,7 +68,7 @@ public:
     void ClearVortexPositions();
     inline int GetNextVortexID() { return s_currentVortexId++; };
     virtual void SpawnEncounters();
-    virtual std::vector<Entity*> GetEntitiesInRadius(const Vector2& centerPosition, float radius);
+    virtual std::vector<Entity*> GetEntitiesInRadiusSquared(const Vector2& centerPosition, float radiusSquared);
 
     //PLAYER DATA/////////////////////////////////////////////////////////////////////
     virtual void InitializePlayerData();
