@@ -23,6 +23,7 @@
 #include "Passives\SprayAndPrayPassive.hpp"
 #include "Passives\SharpshooterPassive.hpp"
 #include "Weapons\WaveGun.hpp"
+#include "Actives\ReflectorActive.hpp"
 
 //-----------------------------------------------------------------------------------
 Weapon* GetRandomWeapon()
@@ -71,7 +72,7 @@ Chassis* GetRandomChassis()
 //-----------------------------------------------------------------------------------
 ActiveEffect* GetRandomActive()
 {
-    int randomNumber = MathUtils::GetRandomIntFromZeroTo(4 /*5*/);
+    int randomNumber = MathUtils::GetRandomIntFromZeroTo(5);
     if (randomNumber == 0)
     {
         return new TeleportActive();
@@ -86,7 +87,7 @@ ActiveEffect* GetRandomActive()
     }
     else if (randomNumber == 3)
     {
-        return new BoostActive();
+        return new ReflectorActive();
     }
     else
     {

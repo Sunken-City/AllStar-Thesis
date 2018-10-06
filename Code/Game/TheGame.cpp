@@ -1861,7 +1861,7 @@ void TheGame::RegisterSprites()
 
     //Active Pickups
     ResourceDatabase::instance->RegisterSprite("WarpActive", "Data\\Images\\Actives\\warpActive.png");
-    ResourceDatabase::instance->RegisterSprite("InverterActive", "Data\\Images\\Actives\\inverterActive.png");
+    ResourceDatabase::instance->RegisterSprite("ReflectorActive", "Data\\Images\\Actives\\reflectorActive.png");
     ResourceDatabase::instance->RegisterSprite("QuickshotActive", "Data\\Images\\Actives\\quickshotActive.png");
     ResourceDatabase::instance->RegisterSprite("ShieldActive", "Data\\Images\\Actives\\shieldActive.png");
     ResourceDatabase::instance->RegisterSprite("BoostActive", "Data\\Images\\Actives\\boostActive.png");
@@ -1935,7 +1935,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Yellow5Star", "Data\\Images\\Particles\\particleYellow_3.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
     ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
-    ResourceDatabase::instance->RegisterSprite("BlueShieldHex", "Data\\Images\\Particles\\overshield.png");
+    ResourceDatabase::instance->RegisterSprite("GreenShieldHex", "Data\\Images\\Particles\\overshield.png");
+    ResourceDatabase::instance->RegisterSprite("BlueShieldHex", "Data\\Images\\Particles\\reflector.png");
     ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
 
 }
@@ -2033,17 +2034,17 @@ void TheGame::RegisterParticleEffects()
     yellowExplosionOrb->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
     yellowExplosionOrb->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.3f));
 
-    ParticleEmitterDefinition* blueShieldHex = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlueShieldHex"));
-    blueShieldHex->m_properties.Set<std::string>(PROPERTY_NAME, "Blue Shield Hex");
-    blueShieldHex->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
-    blueShieldHex->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
-    blueShieldHex->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
-    blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.5f), Vector2(0.7f)));
-    blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
-    blueShieldHex->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.0f);
-    blueShieldHex->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, SHIELD_ACTIVE_DURATION);
-    blueShieldHex->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 4.0f);
-    blueShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(4.0f));
+    ParticleEmitterDefinition* greenShieldHex = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("GreenShieldHex"));
+    greenShieldHex->m_properties.Set<std::string>(PROPERTY_NAME, "Green Shield Hex");
+    greenShieldHex->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    greenShieldHex->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
+    greenShieldHex->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
+    greenShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.5f), Vector2(0.7f)));
+    greenShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    greenShieldHex->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 1.0f);
+    greenShieldHex->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, SHIELD_ACTIVE_DURATION);
+    greenShieldHex->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 4.0f);
+    greenShieldHex->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(4.0f));
 
     ParticleEmitterDefinition* yellowBeams = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowBeam"));
     yellowBeams->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
@@ -2198,6 +2199,19 @@ void TheGame::RegisterParticleEffects()
     smoking->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-90.0f, 90.0f));
     smoking->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
 
+    ParticleEmitterDefinition* reflectorHex = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlueShieldHex"));
+    reflectorHex->m_properties.Set<std::string>(PROPERTY_NAME, "Reflector Hex");
+    reflectorHex->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    reflectorHex->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
+    reflectorHex->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, 1);
+    reflectorHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Vector2(6.0f));
+    reflectorHex->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    reflectorHex->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(90.0f, 180.0f));
+    reflectorHex->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.5f);
+    reflectorHex->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, 0.5f);
+    reflectorHex->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 1.0f);
+    //reflectorHex->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.0f));
+
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
@@ -2214,7 +2228,10 @@ void TheGame::RegisterParticleEffects()
     boostParticleSystem->AddEmitter(boostEffect);
 
     ParticleSystemDefinition* forcefieldParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Forcefield", ONE_SHOT);
-    forcefieldParticleSystem->AddEmitter(blueShieldHex);
+    forcefieldParticleSystem->AddEmitter(greenShieldHex);
+
+    ParticleSystemDefinition* reflectorParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Reflector", ONE_SHOT);
+    reflectorParticleSystem->AddEmitter(reflectorHex);
 
     ParticleSystemDefinition* warpingParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Warping", ONE_SHOT);
     warpingParticleSystem->AddEmitter(blueStars);

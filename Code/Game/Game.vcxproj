@@ -188,7 +188,7 @@
     <ClCompile Include="GameStrings.cpp" />
     <ClCompile Include="Items\Actives\ActiveEffect.cpp" />
     <ClCompile Include="Items\Actives\BoostActive.cpp" />
-    <ClCompile Include="Items\Actives\InverterActive.cpp" />
+    <ClCompile Include="Items\Actives\ReflectorActive.cpp" />
     <ClCompile Include="Items\Actives\ShieldActive.cpp" />
     <ClCompile Include="Items\Actives\WarpActive.cpp" />
     <ClCompile Include="Items\Actives\QuickshotActive.cpp" />
@@ -262,7 +262,7 @@
     <ClInclude Include="GameStrings.hpp" />
     <ClInclude Include="Items\Actives\ActiveEffect.hpp" />
     <ClInclude Include="Items\Actives\BoostActive.hpp" />
-    <ClInclude Include="Items\Actives\InverterActive.hpp" />
+    <ClInclude Include="Items\Actives\ReflectorActive.hpp" />
     <ClInclude Include="Items\Actives\ShieldActive.hpp" />
     <ClInclude Include="Items\Actives\WarpActive.hpp" />
     <ClInclude Include="Items\Actives\QuickshotActive.hpp" />

@@ -53,6 +53,7 @@ void ShieldActive::Activate(NamedProperties& parameters)
         Ship* ship = nullptr;
         ASSERT_OR_DIE(parameters.Get<Ship*>("ShipPtr", ship) == PGR_SUCCESS, "Wasn't able to grab the ship when activating a passive effect.");
         ship->m_timeSinceLastHit = Ship::SECONDS_BEFORE_SHIELD_REGEN_RESTARTS;
+        ship->SetShieldHealth(ship->m_currentShieldHealth + (ship->CalculateShieldCapacityValue() * 0.5f));
         ParticleSystem::PlayOneShotParticleEffect("Forcefield", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
     }
 }

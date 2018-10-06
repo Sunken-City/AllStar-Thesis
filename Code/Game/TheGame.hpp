@@ -143,6 +143,7 @@ public:
     static const char* READY_STRING;
     static constexpr float POWER_UP_DURATION = 5.0f;
     static constexpr float SHIELD_ACTIVE_DURATION = 10.0f;
+    static constexpr float REFLECTOR_ACTIVE_DURATION = 0.0f;
     static constexpr float BOOST_DURATION = 1.0f;
     static constexpr float DEATH_ANIMATION_LENGTH = 1.5f;
     static constexpr float WARP_ANIMATION_LENGTH = 1.5f;

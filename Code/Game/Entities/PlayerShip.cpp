@@ -39,7 +39,7 @@
 #include "../GameStrings.hpp"
 #include "../Items/Actives/TeleportActive.hpp"
 #include "../Items/Passives/SharpshooterPassive.hpp"
-#include "../Items/Actives/InverterActive.hpp"
+#include "../Items/Actives/ReflectorActive.hpp"
 
 const Vector2 PlayerShip::DEFAULT_SCALE = Vector2(2.0f);
 const char* PlayerShip::RESPAWN_TEXT = "Press Start to Respawn";
@@ -97,9 +97,9 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        PickUpItem(new MissileLauncher());
+        //PickUpItem(new MissileLauncher());
         //PickUpItem(new TankChassis());
-        PickUpItem(new InverterActive());
+        //PickUpItem(new ReflectorActive());
         //PickUpItem(new SharpshooterPassive());
     }
 

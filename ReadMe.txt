@@ -56,3 +56,5 @@ There are a few heiarchy bugs that I haven't fixed, especially in regards to som
 
 
     These exist as issues from within the codebase, and some are known issues in visual studio. If you'd like to rebuild in debug, you shouldn't find any leaks
+
+Including: Icons by Lorc, http://lorcblog.blogspot.com

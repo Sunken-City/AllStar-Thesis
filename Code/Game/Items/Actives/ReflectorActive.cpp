@@ -1,4 +1,4 @@
-#include "Game/Items/Actives/InverterActive.hpp"
+#include "Game/Items/Actives/ReflectorActive.hpp"
 #include "Engine/Renderer/2D/ResourceDatabase.hpp"
 #include "Engine/Time/Time.hpp"
 #include "Engine/Renderer/2D/ParticleSystem.hpp"
@@ -6,25 +6,25 @@
 #include "Game/Entities/Ship.hpp"
 #include "Game/Entities/Projectiles/Projectile.hpp"
 
-const double InverterActive::SECONDS_DURATION = 0.0f;//TheGame::SHIELD_ACTIVE_DURATION;
-const double InverterActive::MILISECONDS_DURATION = SECONDS_DURATION * 1000.0f;
+const double ReflectorActive::SECONDS_DURATION = TheGame::REFLECTOR_ACTIVE_DURATION;
+const double ReflectorActive::MILISECONDS_DURATION = SECONDS_DURATION * 1000.0f;
 
 //-----------------------------------------------------------------------------------
-InverterActive::InverterActive()
+ReflectorActive::ReflectorActive()
 {
     m_energyRestorationPerSecond = 0.05f;
-    m_costToActivate = 0.1f;
-    m_name = "Inverter";
+    m_costToActivate = 0.20f;
+    m_name = "Reflector";
 }
 
 //-----------------------------------------------------------------------------------
-InverterActive::~InverterActive()
+ReflectorActive::~ReflectorActive()
 {
 
 }
 
 //-----------------------------------------------------------------------------------
-void InverterActive::Update(float deltaSeconds)
+void ReflectorActive::Update(float deltaSeconds)
 {
     if (m_isActive)
     {
@@ -40,7 +40,7 @@ void InverterActive::Update(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
-void InverterActive::Activate(NamedProperties& parameters)
+void ReflectorActive::Activate(NamedProperties& parameters)
 {
     if (CanActivate())
     {
@@ -58,23 +58,24 @@ void InverterActive::Activate(NamedProperties& parameters)
                 Projectile* projectile = (Projectile*)entity;
                 projectile->m_owner = ship;
                 projectile->m_velocity = -projectile->m_velocity;
+                projectile->m_damage *= 1.25f;
                 projectile->m_age = 0.0f;
             }
         }
 
-        ParticleSystem::PlayOneShotParticleEffect("Forcefield", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
+        ParticleSystem::PlayOneShotParticleEffect("Reflector", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &ship->m_transform);
     }
 }
 
 //-----------------------------------------------------------------------------------
-void InverterActive::Deactivate(NamedProperties& parameters)
+void ReflectorActive::Deactivate(NamedProperties& parameters)
 {
     UNUSED(parameters);
     m_isActive = false;
 }
 
 //-----------------------------------------------------------------------------------
-const SpriteResource* InverterActive::GetSpriteResource()
+const SpriteResource* ReflectorActive::GetSpriteResource()
 {
-    return ResourceDatabase::instance->GetSpriteResource("InverterActive");
+    return ResourceDatabase::instance->GetSpriteResource("ReflectorActive");
 }

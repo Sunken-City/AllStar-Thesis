@@ -3,12 +3,12 @@
 
 class Ship;
 
-class InverterActive : public ActiveEffect
+class ReflectorActive : public ActiveEffect
 {
 public:
     //CONSTRUCTORS/////////////////////////////////////////////////////////////////////
-    InverterActive();
-    virtual ~InverterActive();
+    ReflectorActive();
+    virtual ~ReflectorActive();
     virtual void Update(float deltaSeconds);
     virtual void Activate(NamedProperties& parameters);
     virtual void Deactivate(NamedProperties& parameters);
