@@ -11,7 +11,7 @@ public:
     virtual ~PlayerPilot();
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
-    virtual void Update(float deltaSeconds) { UNUSED(deltaSeconds); };
+    virtual void Update(float deltaSeconds, Ship* currentShip) { UNUSED(deltaSeconds); UNUSED(currentShip); };
     virtual void RecoilScreenshake(float magnitude, const Vector2& direction) override;
     virtual void LightRumble(float amount, float secondsDuration = 0.25f) override;
     virtual void HeavyRumble(float amount, float secondsDuration = 0.25f) override;

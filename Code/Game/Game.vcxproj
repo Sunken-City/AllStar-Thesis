@@ -213,6 +213,7 @@
     <ClCompile Include="Items\Weapons\SpreadShot.cpp" />
     <ClCompile Include="Items\Weapons\Weapon.cpp" />
     <ClCompile Include="Main_Win32.cpp" />
+    <ClCompile Include="Pilots\BasicEnemyPilot.cpp" />
     <ClCompile Include="Pilots\Pilot.cpp" />
     <ClCompile Include="Pilots\PlayerPilot.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -287,6 +288,7 @@
     <ClInclude Include="Items\Weapons\MissileLauncher.hpp" />
     <ClInclude Include="Items\Weapons\SpreadShot.hpp" />
     <ClInclude Include="Items\Weapons\Weapon.hpp" />
+    <ClInclude Include="Pilots\BasicEnemyPilot.hpp" />
     <ClInclude Include="Pilots\Pilot.hpp" />
     <ClInclude Include="Pilots\PlayerPilot.hpp" />
     <ClInclude Include="StateMachine.hpp" />

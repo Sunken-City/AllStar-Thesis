@@ -192,6 +192,7 @@
     <ClCompile Include="Entities\Projectiles\Explosion.cpp" />
     <ClCompile Include="Items\Passives\SharpshooterPassive.cpp" />
     <ClCompile Include="Items\Actives\ReflectorActive.cpp" />
+    <ClCompile Include="Pilots\BasicEnemyPilot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -342,6 +343,7 @@
     <ClInclude Include="Entities\Projectiles\Explosion.hpp" />
     <ClInclude Include="Items\Passives\SharpshooterPassive.hpp" />
     <ClInclude Include="Items\Actives\ReflectorActive.hpp" />
+    <ClInclude Include="Pilots\BasicEnemyPilot.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

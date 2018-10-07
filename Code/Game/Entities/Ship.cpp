@@ -49,6 +49,7 @@ void Ship::Update(float deltaSeconds)
 
     if (m_pilot)
     {
+        m_pilot->Update(deltaSeconds, this);
         UpdateMotion(deltaSeconds);
         UpdateShooting();
 

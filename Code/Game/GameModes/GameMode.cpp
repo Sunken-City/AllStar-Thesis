@@ -476,6 +476,7 @@ void GameMode::InitializeReadyAnim()
 //-----------------------------------------------------------------------------------
 void GameMode::UpdateReadyAnim(float deltaSeconds)
 {
+    UNUSED(deltaSeconds);
     if (g_secondsInState >= 0.5f)
     {
         m_modeTitleRenderable->Enable();

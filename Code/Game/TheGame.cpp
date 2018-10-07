@@ -48,6 +48,7 @@
 #include "GameModes/Minigames/OuroborosMinigameMode.hpp"
 #include "GameStrings.hpp"
 #include "Engine/Core/BuildConfig.hpp"
+#include "Pilots/BasicEnemyPilot.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -1531,7 +1532,7 @@ void TheGame::RenderDebug() const
                 Ship* ship = dynamic_cast<Ship*>(ent);
                 if (ship)
                 {
-                    SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), sqrt(Grunt::DETECTION_RADIUS_SQUARED * (Ship::MAX_STEALTH_FACTOR - m_players[0]->m_stealthFactor)), 20, 0, RGBA::CERULEAN);
+                    SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), sqrt(BasicEnemyPilot::DETECTION_RADIUS_SQUARED * (Ship::MAX_STEALTH_FACTOR - m_players[0]->m_stealthFactor)), 20, 0, RGBA::CERULEAN);
                 }
             }
 
