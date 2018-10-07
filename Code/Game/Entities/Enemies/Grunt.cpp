@@ -25,7 +25,7 @@ Grunt::Grunt(const Vector2& initialPosition)
     CalculateCollisionRadius();
     SetPosition(initialPosition);
 
-    m_baseStats.topSpeed = MathUtils::GetRandomFloatFromZeroTo(1.0f);
+    m_baseStats.topSpeed = 2.0f;
     m_baseStats.rateOfFire -= 5.0f;
     m_baseStats.hp -= 2.0f;
     m_baseStats.shieldCapacity -= 2.0f; 
@@ -65,7 +65,7 @@ void Grunt::Update(float deltaSeconds)
         float desiredRotation = currRotation + angleDifference;
         SetRotation(MathUtils::Lerp(0.10f, currRotation, desiredRotation));
 
-        Vector2 velocity = direction * m_baseStats.topSpeed * 3.0f;
+        Vector2 velocity = direction * m_baseStats.topSpeed * 1.25f;
 
         Vector2 pos = m_transform.GetWorldPosition();
         pos += (m_velocity + velocity) * deltaSeconds;
@@ -124,7 +124,8 @@ void Grunt::FindTarget()
     for (PlayerShip* player : TheGame::instance->m_players)
     {
         float distSquared = MathUtils::CalcDistSquaredBetweenPoints(player->GetPosition(), GetPosition());
-        if (distSquared < DETECTION_RADIUS_SQUARED && distSquared < bestDistSquared)
+        float detectionRadius = DETECTION_RADIUS_SQUARED * (MAX_STEALTH_FACTOR - player->m_stealthFactor);
+        if (distSquared < detectionRadius && distSquared < bestDistSquared)
         {
             bestDistSquared = distSquared;
             m_currentTarget = player;

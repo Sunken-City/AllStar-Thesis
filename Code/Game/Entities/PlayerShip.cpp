@@ -100,7 +100,7 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
         //PickUpItem(new MissileLauncher());
         //PickUpItem(new TankChassis());
         //PickUpItem(new ReflectorActive());
-        //PickUpItem(new SharpshooterPassive());
+        //PickUpItem(new CloakPassive());
     }
 
     m_shieldDownEffect = new Material(

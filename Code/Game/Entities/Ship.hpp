@@ -37,6 +37,7 @@ public:
     static constexpr float DEADZONE_BEFORE_ROTATION = 0.3f;
     static constexpr float DEADZONE_BEFORE_ROTATION_SQUARED = DEADZONE_BEFORE_ROTATION * DEADZONE_BEFORE_ROTATION;
     static constexpr float SECONDS_BEFORE_SHIELD_REGEN_RESTARTS = 3.0f;
+    static constexpr float MAX_STEALTH_FACTOR = 1.0f;
 
 
     LaserGun m_defaultWeapon;
@@ -46,6 +47,7 @@ public:
     const SpriteResource* m_shieldCollisionSpriteResource = nullptr;
     float m_muzzleOffsetMagnitude = 0.25f;
     float m_secondsSinceLastFiredWeapon;
+    float m_stealthFactor = 0.0f;
     bool m_lockMovement = false;
     RGBA m_factionColor = RGBA::WHITE;
     RGBA m_factionAltColor = RGBA::GBWHITE;

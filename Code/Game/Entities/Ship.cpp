@@ -40,6 +40,7 @@ Ship::~Ship()
 //-----------------------------------------------------------------------------------
 void Ship::Update(float deltaSeconds)
 {
+    m_stealthFactor = 0.0f;
     Entity::Update(deltaSeconds);
     m_secondsSinceLastFiredWeapon += deltaSeconds;
     RegenerateShield(deltaSeconds);

@@ -1527,6 +1527,12 @@ void TheGame::RenderDebug() const
             for (Entity* ent : m_currentGameMode->m_entities)
             {
                 SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), ent->m_collisionRadius, 20, 0);
+
+                Ship* ship = dynamic_cast<Ship*>(ent);
+                if (ship)
+                {
+                    SpriteGameRenderer::instance->DrawPolygonOutline(ent->m_transform.GetWorldPosition(), sqrt(Grunt::DETECTION_RADIUS_SQUARED * (Ship::MAX_STEALTH_FACTOR - m_players[0]->m_stealthFactor)), 20, 0, RGBA::CERULEAN);
+                }
             }
 
             if (InputSystem::instance->IsKeyDown('R'))

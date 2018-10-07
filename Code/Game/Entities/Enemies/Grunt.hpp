@@ -19,6 +19,6 @@ public:
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;
-    static constexpr float DETECTION_RADIUS_SQUARED = 49.0f;
+    static constexpr float DETECTION_RADIUS_SQUARED = 60.0f;
     static constexpr float TIME_IN_BETWEEN_TARGETING_SECONDS = 0.5f;
 };
