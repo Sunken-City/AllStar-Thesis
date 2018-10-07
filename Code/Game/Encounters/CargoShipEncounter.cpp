@@ -1,6 +1,7 @@
 #include "Game/Encounters/CargoShipEncounter.hpp"
 #include "../Entities/Enemies/Grunt.hpp"
 #include "../Entities/Props/ItemCrate.hpp"
+#include "../Entities/Enemies/Brute.hpp"
 
 //-----------------------------------------------------------------------------------
 CargoShipEncounter::CargoShipEncounter(const Vector2& center, float radius)
@@ -23,11 +24,16 @@ void CargoShipEncounter::Spawn()
         gameMode->SpawnEntityInGameWorld(new ItemCrate(CalculateSpawnPosition(spawnPos)));
     }
 
-    //Let's spawn in the AI once they stop shooting each other on sight >:I
-//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, 0.0f))));
-//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, 1.0f))));
-//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, -1.0f))));
-//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(1.0f, 0.0f))));
-//     gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(-1.0f, 0.0f))));
+    if (MathUtils::CoinFlip())
+    {
+        gameMode->SpawnEntityInGameWorld(new Brute(CalculateSpawnPosition(Vector2(0.0f, 0.0f))));
+        gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, 1.0f))));
+        gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, -1.0f))));
+    }
+    else
+    {
+        gameMode->SpawnEntityInGameWorld(new Brute(CalculateSpawnPosition(Vector2(0.0f, 1.0f))));
+        gameMode->SpawnEntityInGameWorld(new Brute(CalculateSpawnPosition(Vector2(0.0f, -1.0f))));
+    }
 }
 

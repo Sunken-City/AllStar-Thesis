@@ -154,6 +154,7 @@
     <ClCompile Include="Encounters\CargoShipEncounter.cpp" />
     <ClCompile Include="Encounters\SquadronEncounter.cpp" />
     <ClCompile Include="Encounters\WormholeEncounter.cpp" />
+    <ClCompile Include="Entities\Enemies\Brute.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Enemies\Grunt.cpp" />
     <ClCompile Include="Entities\MinigameEntities\Coin.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="Encounters\NebulaEncounter.hpp" />
     <ClInclude Include="Encounters\SquadronEncounter.hpp" />
     <ClInclude Include="Encounters\WormholeEncounter.hpp" />
+    <ClInclude Include="Entities\Enemies\Brute.hpp" />
     <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="Entities\Enemies\Grunt.hpp" />
     <ClInclude Include="Entities\MinigameEntities\Coin.hpp" />

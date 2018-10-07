@@ -1828,7 +1828,8 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\Props\\itemCrate.png");
 
     //Enemies
-    ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Chassis\\grunt.png");
+    ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Enemies\\grunt.png");
+    ResourceDatabase::instance->RegisterSprite("Brute", "Data\\Images\\Enemies\\brute.png");
 
     //Projectiles
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless.png");
