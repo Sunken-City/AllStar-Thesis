@@ -195,10 +195,6 @@ void TheGame::Update(float deltaSeconds)
 
     g_secondsInState += deltaSeconds;
 
-    ProfilingSystem::instance->PushSample("SGR Update");
-    SpriteGameRenderer::instance->Update(deltaSeconds);
-    ProfilingSystem::instance->PopSample("SGR Update");
-
     if (InputSystem::instance->WasKeyJustPressed('H'))
     {
         Console::instance->RunCommand("clear");
@@ -256,6 +252,10 @@ void TheGame::Update(float deltaSeconds)
     ProfilingSystem::instance->PushSample("TextSplash Update");
     TextSplash::Update(deltaSeconds);
     ProfilingSystem::instance->PopSample("TextSplash Update");
+
+    ProfilingSystem::instance->PushSample("SGR Update");
+    SpriteGameRenderer::instance->Update(deltaSeconds);
+    ProfilingSystem::instance->PopSample("SGR Update");
 }
 
 //-----------------------------------------------------------------------------------
