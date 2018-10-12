@@ -13,7 +13,7 @@ public:
 
     //FUNCTIONS/////////////////////////////////////////////////////////////////////
     virtual void Update(float deltaSeconds, Ship* currentShip);
-    void FindTarget();
+    virtual void FindTarget();
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     float m_timeSinceRetargetSeconds = 0.0f;

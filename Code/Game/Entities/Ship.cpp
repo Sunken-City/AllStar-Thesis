@@ -50,6 +50,7 @@ void Ship::Update(float deltaSeconds)
     if (m_pilot)
     {
         m_pilot->Update(deltaSeconds, this);
+
         UpdateMotion(deltaSeconds);
         UpdateShooting();
 
@@ -173,7 +174,7 @@ void Ship::UpdateMotion(float deltaSeconds)
     InputMap& input = m_pilot->m_inputMap;
     Vector2 inputDirection = input.GetVector2("Right", "Up");
 
-    if (m_lockMovement)
+    if (m_lockMovement || m_isImmobile)
     {
         return;
     }
