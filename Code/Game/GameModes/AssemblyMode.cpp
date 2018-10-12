@@ -15,6 +15,7 @@
 #include "../Encounters/BlackHoleEncounter.hpp"
 #include "../Encounters/CargoShipEncounter.hpp"
 #include "../Encounters/BossteroidEncounter.hpp"
+#include "../Entities/Enemies/Turret.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()

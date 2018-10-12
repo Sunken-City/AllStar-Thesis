@@ -194,6 +194,8 @@
     <ClCompile Include="Items\Actives\ReflectorActive.cpp" />
     <ClCompile Include="Pilots\BasicEnemyPilot.cpp" />
     <ClCompile Include="Entities\Enemies\Brute.cpp" />
+    <ClCompile Include="Entities\Enemies\Turret.cpp" />
+    <ClCompile Include="Pilots\TurretPilot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -346,6 +348,8 @@
     <ClInclude Include="Items\Actives\ReflectorActive.hpp" />
     <ClInclude Include="Pilots\BasicEnemyPilot.hpp" />
     <ClInclude Include="Entities\Enemies\Brute.hpp" />
+    <ClInclude Include="Entities\Enemies\Turret.hpp" />
+    <ClInclude Include="Pilots\TurretPilot.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">

@@ -2,6 +2,7 @@
 #include "../Entities/Enemies/Grunt.hpp"
 #include "../Entities/Props/ItemCrate.hpp"
 #include "../Entities/Enemies/Brute.hpp"
+#include "../Entities/Enemies/Turret.hpp"
 
 //-----------------------------------------------------------------------------------
 CargoShipEncounter::CargoShipEncounter(const Vector2& center, float radius)
@@ -26,9 +27,10 @@ void CargoShipEncounter::Spawn()
 
     if (MathUtils::CoinFlip())
     {
-        gameMode->SpawnEntityInGameWorld(new Brute(CalculateSpawnPosition(Vector2(0.0f, 0.0f))));
-        gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, 1.0f))));
-        gameMode->SpawnEntityInGameWorld(new Grunt(CalculateSpawnPosition(Vector2(0.0f, -1.0f))));
+        gameMode->SpawnEntityInGameWorld(new Turret(CalculateSpawnPosition(Vector2(0.0f, 1.0f))));
+        gameMode->SpawnEntityInGameWorld(new Turret(CalculateSpawnPosition(Vector2(0.0f, -1.0f))));
+        gameMode->SpawnEntityInGameWorld(new Turret(CalculateSpawnPosition(Vector2(1.0f, 0.0f))));
+        gameMode->SpawnEntityInGameWorld(new Turret(CalculateSpawnPosition(Vector2(-1.0f, 0.0f))));
     }
     else
     {
