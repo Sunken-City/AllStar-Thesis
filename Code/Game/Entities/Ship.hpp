@@ -31,6 +31,8 @@ public:
     void RegenerateShield(float deltaSeconds);
     void ApplyShotDeflection();
     void FlickerShield(float deltaSeconds);
+    bool HasFullHealth();
+    void HealShield(float healAmount);
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     static constexpr float ANGULAR_VELOCITY = 300.0f;

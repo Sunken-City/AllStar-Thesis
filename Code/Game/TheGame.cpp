@@ -1845,6 +1845,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("Nebula2", "Data\\Images\\Props\\Nebula2.png");
     ResourceDatabase::instance->RegisterSprite("Wormhole", "Data\\Images\\Props\\cheapVortex3.png");
     ResourceDatabase::instance->RegisterSprite("ItemBox", "Data\\Images\\Props\\itemCrate.png");
+    ResourceDatabase::instance->RegisterSprite("HealingZone", "Data\\Images\\Props\\healingZone.png");
 
     //Enemies
     ResourceDatabase::instance->RegisterSprite("Grunt", "Data\\Images\\Enemies\\grunt.png");

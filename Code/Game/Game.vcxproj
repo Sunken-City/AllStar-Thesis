@@ -150,6 +150,7 @@
     <ClCompile Include="Encounters\BlackHoleEncounter.cpp" />
     <ClCompile Include="Encounters\BossteroidEncounter.cpp" />
     <ClCompile Include="Encounters\Encounter.cpp" />
+    <ClCompile Include="Encounters\HealingZoneEncounter.cpp" />
     <ClCompile Include="Encounters\NebulaEncounter.cpp" />
     <ClCompile Include="Encounters\CargoShipEncounter.cpp" />
     <ClCompile Include="Encounters\SquadronEncounter.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Entities\Projectiles\Projectile.cpp" />
     <ClCompile Include="Entities\Props\Asteroid.cpp" />
     <ClCompile Include="Entities\Props\BlackHole.cpp" />
+    <ClCompile Include="Entities\Props\HealingZone.cpp" />
     <ClCompile Include="Entities\Props\ItemCrate.cpp" />
     <ClCompile Include="Entities\Props\Nebula.cpp" />
     <ClCompile Include="Entities\Props\ShipDebris.cpp" />
@@ -229,6 +231,7 @@
     <ClInclude Include="Encounters\BossteroidEncounter.hpp" />
     <ClInclude Include="Encounters\CargoShipEncounter.hpp" />
     <ClInclude Include="Encounters\Encounter.hpp" />
+    <ClInclude Include="Encounters\HealingZoneEncounter.hpp" />
     <ClInclude Include="Encounters\NebulaEncounter.hpp" />
     <ClInclude Include="Encounters\SquadronEncounter.hpp" />
     <ClInclude Include="Encounters\WormholeEncounter.hpp" />
@@ -247,6 +250,7 @@
     <ClInclude Include="Entities\Projectiles\Projectile.hpp" />
     <ClInclude Include="Entities\Props\Asteroid.hpp" />
     <ClInclude Include="Entities\Props\BlackHole.hpp" />
+    <ClInclude Include="Entities\Props\HealingZone.hpp" />
     <ClInclude Include="Entities\Props\ItemCrate.hpp" />
     <ClInclude Include="Entities\Props\Nebula.hpp" />
     <ClInclude Include="Entities\Props\ShipDebris.hpp" />

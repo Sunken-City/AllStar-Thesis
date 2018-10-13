@@ -16,6 +16,7 @@
 #include "../Encounters/CargoShipEncounter.hpp"
 #include "../Encounters/BossteroidEncounter.hpp"
 #include "../Entities/Enemies/Turret.hpp"
+#include "../Encounters/HealingZoneEncounter.hpp"
 
 //-----------------------------------------------------------------------------------
 AssemblyMode::AssemblyMode()
@@ -110,6 +111,7 @@ Encounter* AssemblyMode::GetRandomMinorEncounter(const Vector2& center, float ra
     switch (random)
     {
     case 0:
+        return new HealingZoneEncounter(center, radius);
     case 1:
         return new NebulaEncounter(center, radius);
     case 2:
