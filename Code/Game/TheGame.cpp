@@ -1241,6 +1241,9 @@ void TheGame::InitializeMinigameResultsState()
         ship->SetPosition(Vector2(PLAYER_OFFSET * xMultiplier, PLAYER_OFFSET * yMultiplier));
         ship->m_points += POINTS_PER_PLACE[ship->m_rank - 1];
 
+        m_crowns[i] = new Sprite("Crown", OVER_TEXT_LAYER, true);
+        m_crowns[i]->Disable();
+
         std::string shipRank;
         switch (ship->m_rank)
         {
@@ -1275,7 +1278,16 @@ void TheGame::InitializeMinigameResultsState()
         }
         m_scoreEarnedText[i]->m_fontSize = 0.5f;
         m_totalScoreText[i]->m_fontSize = 0.5f;
+
+        if (m_players[i]->m_rank == 1)
+        {
+            m_crowns[i]->m_transform.SetParent(&m_rankText[i]->m_transform);
+            m_crowns[i]->m_transform.SetPosition(Vector2(0.9f, 0.4f));
+            m_crowns[i]->m_transform.SetRotationDegrees(45.0f);
+            m_crowns[i]->Enable();
+        }
     }
+
     SpriteGameRenderer::instance->SetWorldBounds(AABB2(Vector2(-8.0f, -5.0f), Vector2(8.0f, 5.0f))); //Let the players goof off on the screen
 }
 
@@ -1293,6 +1305,7 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
         delete m_rankText[i];
         delete m_scoreEarnedText[i];
         delete m_totalScoreText[i];
+        delete m_crowns[i];
     }
     m_players[0]->m_statValuesBG->ChangeLayer(STAT_GRAPH_LAYER_BACKGROUND);
     m_players[0]->m_statValuesBG->Disable();    
@@ -1313,6 +1326,11 @@ void TheGame::CleanupMinigameResultsState(unsigned int)
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMinigameResults(float deltaSeconds)
 {
+    const float currentMultiplier = fabs(sin(GetCurrentTimeSeconds())) + 1.0f;
+    for (unsigned int i = 0; i < TheGame::instance->m_players.size(); ++i)
+    {
+        m_crowns[i]->m_transform.SetScale(Vector2(3.0f) * currentMultiplier);
+    }
     for (PlayerShip* ship : TheGame::instance->m_players)
     {
         ship->Update(deltaSeconds);
@@ -1418,12 +1436,12 @@ void TheGame::InitializeGameOverState()
         {
             m_playerRankPodiums[i]->SetPercentageFilled(0.5f);
 
-        }, GAME_OVER_ANIMATION_LENGTH * 0.333333f);
+        }, GAME_OVER_ANIMATION_LENGTH_SECONDS * 0.333333f);
         RunAfterSeconds([=]()
         {
             m_playerRankPodiums[i]->SetPercentageFilled((float)m_players[i]->m_points / maxScore);
 
-        }, GAME_OVER_ANIMATION_LENGTH * 0.666666f);
+        }, GAME_OVER_ANIMATION_LENGTH_SECONDS * 0.666666f);
     }
 
     RunAfterSeconds([=]()
@@ -1434,7 +1452,7 @@ void TheGame::InitializeGameOverState()
         m_background->m_material = GetTiedWinners()[0]->m_playerTintedUIMaterial;
         m_background->Enable();
 
-    }, GAME_OVER_ANIMATION_LENGTH);
+    }, GAME_OVER_ANIMATION_LENGTH_SECONDS);
 
     RunAfterSeconds([=]()
     {
@@ -1445,7 +1463,7 @@ void TheGame::InitializeGameOverState()
         m_winnerText = new TextRenderable2D("Congratulations!", Transform2D(Vector2(0.0f, -1.0f)), TEXT_LAYER);
         m_winnerText->m_color.SetAlphaFloat(0.0f);
         m_winnerText->m_fontSize = 1.5f;
-    }, GAME_OVER_ANIMATION_LENGTH + 1.0f);
+    }, GAME_OVER_ANIMATION_LENGTH_SECONDS + 1.0f);
 }
 
 //-----------------------------------------------------------------------------------
@@ -1478,7 +1496,7 @@ void TheGame::UpdateGameOver(float deltaSeconds)
         ship->Update(deltaSeconds);
     }
 
-    if (g_secondsInState > GAME_OVER_ANIMATION_LENGTH + 2.0f)
+    if (g_secondsInState > GAME_OVER_ANIMATION_LENGTH_SECONDS + 2.0f)
     {
         if (m_winner)
         {
@@ -1784,6 +1802,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("EmptyActiveSlot", "Data\\Images\\Actives\\None.png");
     ResourceDatabase::instance->RegisterSprite("EmptyWeaponSlot", "Data\\Images\\Weapons\\None.png");
     ResourceDatabase::instance->RegisterSprite("EmptyPassiveSlot", "Data\\Images\\Passives\\None.png");
+    ResourceDatabase::instance->RegisterSprite("Crown", "Data\\Images\\UI\\crown.png");
 
     //Transitions
     ResourceDatabase::instance->RegisterSprite("WipeUpAndDown", "Data\\Images\\Transitions\\wipeUpAndDown.png");

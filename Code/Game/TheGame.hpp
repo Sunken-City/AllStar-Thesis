@@ -61,6 +61,7 @@ public:
     static unsigned int const BACKGROUND_UI_LAYER = 2500;
     static unsigned int const UI_LAYER = 3000;
     static unsigned int const TEXT_LAYER = 3500;
+    static unsigned int const OVER_TEXT_LAYER = 3750;
     static unsigned int const FULL_SCREEN_EFFECT_LAYER = 4000;
     static unsigned int const STAT_GRAPH_LAYER_BACKGROUND = 4400;
     static unsigned int const STAT_GRAPH_LAYER = 4500;
@@ -153,7 +154,8 @@ public:
     static constexpr float COLLISION_ANIMATION_LENGTH = 0.3f;
     static constexpr int POINTS_PER_PLACE[4] = { 7, 4, 2, 1 };
     static constexpr int MAX_POINTS = POINTS_PER_PLACE[0] * 3;
-    static constexpr float GAME_OVER_ANIMATION_LENGTH = 5.0f;
+    static constexpr float GAME_OVER_ANIMATION_LENGTH_SECONDS = 5.0f;
+    static constexpr float RESULTS_ANIMATION_LENGTH_SECONDS = 6.0f;
 
     //AUDIO CONSTANTS/////////////////////////////////////////////////////////////////////
     static constexpr float BULLET_VOLUME = 0.5f;
@@ -199,6 +201,7 @@ private:
     BarGraphRenderable2D** m_playerRankPodiums = nullptr;
     PlayerShip* m_winner = nullptr;
     Sprite* m_background = nullptr;
+    Sprite* m_crowns[4];
     Material* m_transitionFBOEffect = nullptr;
     Material* m_pauseFBOEffect = nullptr;
     Material* m_resultsBackgroundEffect = nullptr;
