@@ -16,7 +16,10 @@ public:
 
     //MEMBER VARIABLES/////////////////////////////////////////////////////////////////////
     float m_angularVelocity;
+    float m_remainingHealing = 0.0f;
 
     //CONSTANTS/////////////////////////////////////////////////////////////////////
     static const float MAX_ANGULAR_VELOCITY;
+    static const float MAX_POINTS_OF_HEALING;
+    static const float HEAL_AMOUNT_PER_COLLISION;
 };

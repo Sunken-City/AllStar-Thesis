@@ -1952,6 +1952,7 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("ParticleGreen", "Data\\Images\\Particles\\particle_green.png");
     ResourceDatabase::instance->RegisterSprite("ParticleGrey", "Data\\Images\\Particles\\particle_grey.png");
     ResourceDatabase::instance->RegisterSprite("ParticlePink", "Data\\Images\\Particles\\particle_pink.png");
+    ResourceDatabase::instance->RegisterSprite("HealParticle", "Data\\Images\\Particles\\healParticle.png");
     ResourceDatabase::instance->RegisterSprite("BlackSmoke", "Data\\Images\\Particles\\blackSmoke01.png");
     ResourceDatabase::instance->RegisterSprite("Explosion", "Data\\Images\\Particles\\explosion08.png");
     ResourceDatabase::instance->RegisterSprite("BlueWarp", "Data\\Images\\Particles\\particleBlue_2.png");
@@ -2239,7 +2240,18 @@ void TheGame::RegisterParticleEffects()
     reflectorHex->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.5f);
     reflectorHex->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, 0.5f);
     reflectorHex->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 1.0f);
-    //reflectorHex->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(1.0f));
+
+    ParticleEmitterDefinition* healing = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("HealParticle"));
+    healing->m_properties.Set<std::string>(PROPERTY_NAME, "Healing");
+    healing->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    healing->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(1));
+    healing->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f * 0.25f), Vector2(0.4f * 0.25f)));
+    healing->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::UNIT_Y);
+    healing->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.5f);
+    healing->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
+    healing->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, POWER_UP_PICKUP_ANIMATION_LENGTH);
+    healing->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
+    healing->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
 
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
@@ -2273,6 +2285,10 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* powerupPickupParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("PowerupPickup", ONE_SHOT);
     powerupPickupParticleSystem->AddEmitter(powerupPickup);
+
+    ParticleSystemDefinition* healingParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Healing", ONE_SHOT);
+    healingParticleSystem->AddEmitter(healing);
+
 
     ParticleSystemDefinition* muzzleFlashParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("MuzzleFlash", ONE_SHOT);
     muzzleFlashParticleSystem->AddEmitter(muzzleFlash);
