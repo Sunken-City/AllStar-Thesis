@@ -27,6 +27,7 @@ public:
     virtual void Render() const;
     virtual void ResolveCollision(Entity* otherEntity) override;
     virtual float TakeDamage(float damage, float disruption = 1.0f) override;
+    virtual void Drain(float drainValue) override;
     virtual void Heal(float healValue = 99999999.0f) override;
     virtual void SetShieldHealth(float newShieldValue = 99999999.0f) override;
     virtual void Die() override;

@@ -14,6 +14,7 @@
 #include "Engine/Renderer/Material.hpp"
 #include "Props/ShipDebris.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "TextSplash.hpp"
 
 //-----------------------------------------------------------------------------------
 Ship::Ship(Pilot* pilot)
@@ -270,6 +271,33 @@ void Ship::Heal(float healValue /*= 99999999.0f*/)
     {
         m_smokeDamage->Disable();
     }
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::Drain(float drainValue)
+{
+    static SoundID drainSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/drain.ogg");
+    const float hitVolume = IsPlayer() ? TheGame::PLAYER_HIT_SOUND_VOLUME : TheGame::HIT_SOUND_VOLUME;
+
+    Entity::Heal(-drainValue);
+    if (m_currentHp <= 1.0f)
+    {
+        m_currentHp = 1.0f;
+    }
+
+    float randomPercentage = MathUtils::GetRandomFloatFromZeroTo(0.2f);
+    float randomDegrees = MathUtils::GetRandomFloat(-70.0f, 70.0f);
+    Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
+    TextSplash::CreateTextSplash(Stringf("%i", static_cast<int>(drainValue)), m_transform, velocity, RGBA(1.0f, 1.0f - (0.8f + randomPercentage), 0.0f, 1.0f));
+    ParticleSystem::PlayOneShotParticleEffect("Drain", TheGame::BACKGROUND_PARTICLES_BLOOM_LAYER, Transform2D(), &m_transform);
+
+    float halfHealth = CalculateHpValue() * 0.5f;
+    if (m_currentHp < halfHealth && !m_smokeDamage->m_isEnabled)
+    {
+        m_smokeDamage->Enable();
+    }
+
+    TheGame::instance->m_currentGameMode->PlaySoundAt(drainSound, GetPosition(), hitVolume, MathUtils::GetRandomFloat(0.9f, 1.1f));
 }
 
 //-----------------------------------------------------------------------------------

@@ -198,6 +198,7 @@
     <ClCompile Include="Pilots\TurretPilot.cpp" />
     <ClCompile Include="Encounters\HealingZoneEncounter.cpp" />
     <ClCompile Include="Entities\Props\HealingZone.cpp" />
+    <ClCompile Include="GameModes\Minigames\DrainMinigameMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -354,6 +355,7 @@
     <ClInclude Include="Pilots\TurretPilot.hpp" />
     <ClInclude Include="Encounters\HealingZoneEncounter.hpp" />
     <ClInclude Include="Entities\Props\HealingZone.hpp" />
+    <ClInclude Include="GameModes\Minigames\DrainMinigameMode.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
