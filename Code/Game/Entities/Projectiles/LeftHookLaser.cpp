@@ -34,6 +34,11 @@ LeftHookLaser::LeftHookLaser(Entity* owner, float degreesOffset /*= 0.0f*/, floa
     Vector2 velocityDir = muzzleVelocity.GetNorm();
     Vector2 leftDir = Vector2(-velocityDir.y, velocityDir.x);
     m_acceleration = leftDir * 400.0f;
+
+    if (MathUtils::CoinFlip())
+    {
+        m_acceleration *= -1.0f;
+    }
 }
 
 //-----------------------------------------------------------------------------------
@@ -55,7 +60,7 @@ void LeftHookLaser::Update(float deltaSeconds)
     Entity::Update(deltaSeconds);
     if (m_age < m_lifeSpan)
     {
-        if (m_age > (m_lifeSpan * 0.8f))
+        if (m_age > (m_lifeSpan * 0.5f))
         {
             m_velocity += m_acceleration * deltaSeconds;
         }

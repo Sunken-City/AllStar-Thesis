@@ -1861,7 +1861,8 @@ void TheGame::RegisterSprites()
 
     //Projectiles
     ResourceDatabase::instance->RegisterSprite("Laser", "Data\\Images\\Lasers\\laserColorless.png");
-    ResourceDatabase::instance->RegisterSprite("LeftHookLaser", "Data\\Images\\Lasers\\hexBall.png");
+    ResourceDatabase::instance->RegisterSprite("LeftHookLaser", "Data\\Images\\Lasers\\scythe.png");
+    ResourceDatabase::instance->RegisterSprite("HexBall", "Data\\Images\\Lasers\\hexBall.png");
     ResourceDatabase::instance->RegisterSprite("Missile1", "Data\\Images\\Lasers\\basicMissile.png");
     ResourceDatabase::instance->RegisterSprite("Missile2", "Data\\Images\\Lasers\\basicMissile2.png");
     ResourceDatabase::instance->RegisterSprite("PlasmaBall", "Data\\Images\\Lasers\\plasmaBall.png");
