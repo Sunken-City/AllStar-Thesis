@@ -49,6 +49,7 @@
 #include "GameStrings.hpp"
 #include "Engine/Core/BuildConfig.hpp"
 #include "Pilots/BasicEnemyPilot.hpp"
+#include "GameModes/Minigames/DrainMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -448,7 +449,7 @@ void TheGame::EnqueueMinigames()
         for (int i = 0; i < m_numberOfMinigames; ++i)
         {
             m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-            //m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+            //m_queuedMinigameModes.push(new DrainMinigameMode());
         }
     }
 }
@@ -456,7 +457,7 @@ void TheGame::EnqueueMinigames()
 //-----------------------------------------------------------------------------------
 GameMode* TheGame::GetRandomUniqueGameMode()
 {
-    static const int NUM_GAMEMODES = 5;
+    static const int NUM_GAMEMODES = 6;
     ASSERT_OR_DIE(m_numberOfMinigames <= NUM_GAMEMODES, "Requested more unique gamemodes than the game has available");
     
     GameMode* mode = nullptr;
@@ -484,6 +485,9 @@ GameMode* TheGame::GetRandomUniqueGameMode()
                 break;
             case 4:
                 mode = new OuroborosMinigameMode();
+                break;
+            case 5:
+                mode = new DrainMinigameMode();
                 break;
             }
         }
@@ -1744,6 +1748,7 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Missle_02.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/drain.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/QuickDrumroll.wav"); 
     AudioSystem::instance->CreateOrGetSound("Data/SFX/fanfareHoennHorn.ogg");
@@ -1777,6 +1782,7 @@ void TheGame::PreloadAudio()
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 02 Jawbreaker.ogg");
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Jumper - 08 Moon Machine.ogg");
         AudioSystem::instance->CreateOrGetSound("Data/Music/Overcast.ogg");
     }
 }
@@ -1956,17 +1962,19 @@ void TheGame::RegisterSprites()
     ResourceDatabase::instance->RegisterSprite("BlackSmoke", "Data\\Images\\Particles\\blackSmoke01.png");
     ResourceDatabase::instance->RegisterSprite("Explosion", "Data\\Images\\Particles\\explosion08.png");
     ResourceDatabase::instance->RegisterSprite("BlueWarp", "Data\\Images\\Particles\\particleBlue_2.png");
+    ResourceDatabase::instance->RegisterSprite("Blue4Star", "Data\\Images\\Particles\\particleBlue_7.png");
+    ResourceDatabase::instance->RegisterSprite("BlueBeam", "Data\\Images\\Particles\\particleBlue_5.png");
     ResourceDatabase::instance->RegisterSprite("WhiteBeam", "Data\\Images\\Particles\\particleWhite_5.png");
     ResourceDatabase::instance->RegisterSprite("White4Star", "Data\\Images\\Particles\\particleWhite_7.png");
     ResourceDatabase::instance->RegisterSprite("White5Star", "Data\\Images\\Particles\\particleWhite_3.png");
     ResourceDatabase::instance->RegisterSprite("White8Star", "Data\\Images\\Particles\\particleWhite_6.png");
-    ResourceDatabase::instance->RegisterSprite("Blue4Star", "Data\\Images\\Particles\\particleBlue_7.png");
     ResourceDatabase::instance->RegisterSprite("Yellow4Star", "Data\\Images\\Particles\\particleYellow_7.png");
     ResourceDatabase::instance->RegisterSprite("Yellow5Star", "Data\\Images\\Particles\\particleYellow_3.png");
     ResourceDatabase::instance->RegisterSprite("YellowCircle", "Data\\Images\\Particles\\particleYellow_8.png");
     ResourceDatabase::instance->RegisterSprite("YellowBeam", "Data\\Images\\Particles\\particleYellow_9.png");
     ResourceDatabase::instance->RegisterSprite("GreenShieldHex", "Data\\Images\\Particles\\overshield.png");
     ResourceDatabase::instance->RegisterSprite("BlueShieldHex", "Data\\Images\\Particles\\reflector.png");
+    ResourceDatabase::instance->RegisterSprite("Drain", "Data\\Images\\Particles\\drain.png");
     ResourceDatabase::instance->EditSpriteResource("YellowBeam")->m_pivotPoint.y = 0.0f;
 
 }
@@ -2215,7 +2223,7 @@ void TheGame::RegisterParticleEffects()
     smokeTrail->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-90.0f, 90.0f));
 
     ParticleEmitterDefinition* smoking = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("BlackSmoke"));
-    smoking->m_properties.Set<std::string>(PROPERTY_NAME, "Crate Destroyed");
+    smoking->m_properties.Set<std::string>(PROPERTY_NAME, "Smoking");
     smoking->m_properties.Set<float>("Gravity Scale", -0.1f);
     smoking->m_properties.Set<RGBA>(PROPERTY_INITIAL_COLOR, RGBA(0xFFFFFF44));
     smoking->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
@@ -2253,6 +2261,19 @@ void TheGame::RegisterParticleEffects()
     healing->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
     healing->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.3f));
 
+    ParticleEmitterDefinition* drain = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("Drain"));
+    drain->m_properties.Set<std::string>(PROPERTY_NAME, "Drain");
+    drain->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    drain->m_properties.Set<float>("Gravity Scale", -0.1f);
+    drain->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(10, 15));
+    drain->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
+    drain->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    drain->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, 0.2f);
+    drain->m_properties.Set<Range<float>>(PROPERTY_MAX_EMITTER_LIFETIME, 1.0f);
+    drain->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 40.0f);
+    drain->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
+    drain->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.3f));
+
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
@@ -2289,6 +2310,8 @@ void TheGame::RegisterParticleEffects()
     ParticleSystemDefinition* healingParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Healing", ONE_SHOT);
     healingParticleSystem->AddEmitter(healing);
 
+    ParticleSystemDefinition* drainParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Drain", ONE_SHOT);
+    drainParticleSystem->AddEmitter(drain);
 
     ParticleSystemDefinition* muzzleFlashParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("MuzzleFlash", ONE_SHOT);
     muzzleFlashParticleSystem->AddEmitter(muzzleFlash);

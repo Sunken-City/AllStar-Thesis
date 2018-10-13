@@ -21,7 +21,8 @@ public:
     virtual void UnlockMovement() { m_lockMovement = false; };
     virtual void ToggleMovement() { m_lockMovement = !m_lockMovement; };
     virtual float TakeDamage(float damage, float disruption = 1.0f) override;
-    virtual void Heal(float healValue = 99999999.0f) override;
+    virtual void Heal(float healValue = 99999999.0f) override; 
+    virtual void Drain(float drainValue);
     virtual void Die();
     virtual Vector2 GetMuzzlePosition();
     virtual const SpriteResource* GetCollisionSpriteResource() override;

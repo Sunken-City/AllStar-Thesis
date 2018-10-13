@@ -443,6 +443,13 @@ float PlayerShip::TakeDamage(float damage, float disruption /*= 1.0f*/)
 }
 
 //-----------------------------------------------------------------------------------
+void PlayerShip::Drain(float drainValue)
+{
+    Ship::Drain(drainValue);
+    m_healthBar->SetPercentageFilled(m_currentHp / CalculateHpValue());
+}
+
+//-----------------------------------------------------------------------------------
 void PlayerShip::Heal(float healValue /*= 99999999.0f*/)
 {
     Ship::Heal(healValue);
