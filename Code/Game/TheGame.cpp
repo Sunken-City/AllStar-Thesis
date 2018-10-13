@@ -442,7 +442,7 @@ void TheGame::EnqueueMinigames()
     {
         m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
         m_queuedMinigameModes.push(new OuroborosMinigameMode());
-        m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+        m_queuedMinigameModes.push(new DrainMinigameMode());
     }
     else
     {
@@ -1749,6 +1749,7 @@ void TheGame::PreloadAudio()
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_07.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/SFX_Impact_Shield_08.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/drain.ogg");
+    AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/boop.wav");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/warp.ogg");
     AudioSystem::instance->CreateOrGetSound("Data/SFX/QuickDrumroll.wav"); 
     AudioSystem::instance->CreateOrGetSound("Data/SFX/fanfareHoennHorn.ogg");

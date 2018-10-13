@@ -52,6 +52,7 @@ void HealingZone::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------
 void HealingZone::ResolveCollision(Entity* otherEntity)
 {
+    static SoundID healSound = AudioSystem::instance->CreateOrGetSound("Data/SFX/Hit/boop.wav");
     Ship* otherShip = dynamic_cast<Ship*>(otherEntity);
     if (otherShip && !otherShip->HasFullHealth())
     {
@@ -62,5 +63,11 @@ void HealingZone::ResolveCollision(Entity* otherEntity)
         float randomDegrees = MathUtils::GetRandomFloat(-70.0f, 70.0f);
         Vector2 velocity = Vector2::DegreesToDirection(randomDegrees, Vector2::ZERO_DEGREES_UP) * 2.0f;
         ParticleSystem::PlayOneShotParticleEffect("Healing", TheGame::BACKGROUND_PARTICLES_LAYER, Transform2D(otherShip->m_transform.GetWorldPosition()));
+        
+        if (otherShip->IsPlayer())
+        {
+            float pitch = (otherShip->m_currentHp / otherShip->CalculateHpValue()) + 0.5f;
+            GameMode::GetCurrent()->PlaySoundAt(healSound, otherShip->GetPosition(), 0.4f, pitch);
+        }
     }
 }
