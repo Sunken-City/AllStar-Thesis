@@ -163,6 +163,19 @@ void Ship::FlickerShield(float deltaSeconds)
 }
 
 //-----------------------------------------------------------------------------------
+bool Ship::HasFullHealth()
+{
+    return m_currentHp == CalculateHpValue();
+}
+
+//-----------------------------------------------------------------------------------
+void Ship::HealShield(float healValue)
+{
+    m_currentShieldHealth += healValue;
+    m_currentShieldHealth = MathUtils::Clamp(m_currentShieldHealth, 0.0f, CalculateShieldCapacityValue());
+}
+
+//-----------------------------------------------------------------------------------
 void Ship::ResolveCollision(Entity* otherEntity)
 {
     Entity::ResolveCollision(otherEntity);

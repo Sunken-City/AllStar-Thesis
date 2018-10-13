@@ -196,6 +196,8 @@
     <ClCompile Include="Entities\Enemies\Brute.cpp" />
     <ClCompile Include="Entities\Enemies\Turret.cpp" />
     <ClCompile Include="Pilots\TurretPilot.cpp" />
+    <ClCompile Include="Encounters\HealingZoneEncounter.cpp" />
+    <ClCompile Include="Entities\Props\HealingZone.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.hpp">
@@ -350,6 +352,8 @@
     <ClInclude Include="Entities\Enemies\Brute.hpp" />
     <ClInclude Include="Entities\Enemies\Turret.hpp" />
     <ClInclude Include="Pilots\TurretPilot.hpp" />
+    <ClInclude Include="Encounters\HealingZoneEncounter.hpp" />
+    <ClInclude Include="Entities\Props\HealingZone.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\UI\Widget.xml">
