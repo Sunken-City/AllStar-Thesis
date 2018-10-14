@@ -449,8 +449,8 @@ void TheGame::EnqueueMinigames()
     {
         for (int i = 0; i < m_numberOfMinigames; ++i)
         {
-            //m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-            m_queuedMinigameModes.push(new GladiatorMinigameMode());
+            m_queuedMinigameModes.push(GetRandomUniqueGameMode());
+            //m_queuedMinigameModes.push(new GladiatorMinigameMode());
         }
     }
 }
