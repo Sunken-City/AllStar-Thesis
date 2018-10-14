@@ -50,6 +50,7 @@
 #include "Engine/Core/BuildConfig.hpp"
 #include "Pilots/BasicEnemyPilot.hpp"
 #include "GameModes/Minigames/DrainMinigameMode.hpp"
+#include "GameModes/Minigames/GladiatorMinigameMode.hpp"
 
 TheGame* TheGame::instance = nullptr;
 
@@ -448,8 +449,8 @@ void TheGame::EnqueueMinigames()
     {
         for (int i = 0; i < m_numberOfMinigames; ++i)
         {
-            m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-            //m_queuedMinigameModes.push(new DrainMinigameMode());
+            //m_queuedMinigameModes.push(GetRandomUniqueGameMode());
+            m_queuedMinigameModes.push(new GladiatorMinigameMode());
         }
     }
 }
@@ -457,7 +458,7 @@ void TheGame::EnqueueMinigames()
 //-----------------------------------------------------------------------------------
 GameMode* TheGame::GetRandomUniqueGameMode()
 {
-    static const int NUM_GAMEMODES = 6;
+    static const int NUM_GAMEMODES = 7;
     ASSERT_OR_DIE(m_numberOfMinigames <= NUM_GAMEMODES, "Requested more unique gamemodes than the game has available");
     
     GameMode* mode = nullptr;
@@ -488,6 +489,9 @@ GameMode* TheGame::GetRandomUniqueGameMode()
                 break;
             case 5:
                 mode = new DrainMinigameMode();
+                break;
+            case 6:
+                mode = new GladiatorMinigameMode();
                 break;
             }
         }
@@ -1780,6 +1784,7 @@ void TheGame::PreloadAudio()
     {
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 02 Acylite.ogg");
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Function - 07 PROJECT 3.ogg");
+        AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 01 Hard Candy.ogg");
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 02 Jawbreaker.ogg");
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 03 Sorbet.ogg");
         AudioSystem::instance->CreateOrGetSound("Data/Music/Foxx - Sweet Tooth - 04 Strawberry.ogg");
@@ -2275,6 +2280,20 @@ void TheGame::RegisterParticleEffects()
     drain->m_properties.Set<Range<float>>(PROPERTY_SPAWN_RADIUS, Range<float>(0.4f, 0.6f));
     drain->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(-0.3f));
 
+
+    ParticleEmitterDefinition* gladiatorEffect = new ParticleEmitterDefinition(ResourceDatabase::instance->GetSpriteResource("YellowBeam"));
+    gladiatorEffect->m_properties.Set<bool>(PROPERTY_LOCK_PARTICLES_TO_EMITTER, true);
+    gladiatorEffect->m_properties.Set<std::string>(PROPERTY_NAME, "Gladiator");
+    gladiatorEffect->m_properties.Set<bool>(PROPERTY_FADEOUT_ENABLED, true);
+    gladiatorEffect->m_properties.Set<Range<unsigned int>>(PROPERTY_INITIAL_NUM_PARTICLES, Range<unsigned int>(1));
+    gladiatorEffect->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_SCALE, Range<Vector2>(Vector2(0.2f), Vector2(0.4f)));
+    gladiatorEffect->m_properties.Set<Range<Vector2>>(PROPERTY_INITIAL_VELOCITY, Vector2::ZERO);
+    gladiatorEffect->m_properties.Set<Range<float>>(PROPERTY_PARTICLE_LIFETIME, DEATH_ANIMATION_LENGTH);
+    gladiatorEffect->m_properties.Set<float>(PROPERTY_PARTICLES_PER_SECOND, 0.0f);
+    gladiatorEffect->m_properties.Set<Range<Vector2>>(PROPERTY_DELTA_SCALE_PER_SECOND, Vector2(0.0f, 2.0f));
+    gladiatorEffect->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ROTATION_DEGREES, Range<float>(0.0f, 360.0f));
+    gladiatorEffect->m_properties.Set<Range<float>>(PROPERTY_INITIAL_ANGULAR_VELOCITY_DEGREES, Range<float>(-30.0f, 30.0f));
+
     //SYSTEMS/////////////////////////////////////////////////////////////////////
     ParticleSystemDefinition* deathParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Death", ONE_SHOT);
     deathParticleSystem->AddEmitter(yellowStars);
@@ -2289,6 +2308,9 @@ void TheGame::RegisterParticleEffects()
 
     ParticleSystemDefinition* boostParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Boost", ONE_SHOT);
     boostParticleSystem->AddEmitter(boostEffect);
+
+    ParticleSystemDefinition* gladiatorParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Gladiator", ONE_SHOT);
+    gladiatorParticleSystem->AddEmitter(gladiatorEffect);
 
     ParticleSystemDefinition* forcefieldParticleSystem = ResourceDatabase::instance->RegisterParticleSystem("Forcefield", ONE_SHOT);
     forcefieldParticleSystem->AddEmitter(greenShieldHex);
