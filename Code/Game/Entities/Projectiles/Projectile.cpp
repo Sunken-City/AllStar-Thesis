@@ -69,13 +69,6 @@ void Projectile::ResolveCollision(Entity* otherEntity)
             ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
             GameMode::GetCurrent()->RecordPlayerKill(player, victim);
         }
-        else if (IsDead() && IsPlayer() && otherEntity->m_owner && otherEntity->m_owner->IsPlayer())
-        {
-            PlayerShip* player = dynamic_cast<PlayerShip*>(otherEntity->m_owner);
-            PlayerShip* victim = dynamic_cast<PlayerShip*>(this);
-            ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
-            GameMode::GetCurrent()->RecordPlayerKill(player, victim);
-        }
     }
 }
 

@@ -443,7 +443,7 @@ void TheGame::EnqueueMinigames()
     {
         m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
         m_queuedMinigameModes.push(new OuroborosMinigameMode());
-        m_queuedMinigameModes.push(new DrainMinigameMode());
+        m_queuedMinigameModes.push(new DeathBattleMinigameMode());
     }
     else
     {

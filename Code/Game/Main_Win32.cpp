@@ -40,7 +40,7 @@ const float VIEW_TOP = VIEW_RIGHT * static_cast<float>(WINDOW_PHYSICAL_HEIGHT) /
 const Vector2 BOTTOM_LEFT = Vector2(VIEW_LEFT, VIEW_BOTTOM);
 const Vector2 TOP_RIGHT = Vector2(VIEW_RIGHT, VIEW_TOP);
 
-bool g_isFullscreen = false;
+bool g_isFullscreen = true;
 bool g_isQuitting = false;
 HWND g_hWnd = nullptr;
 HDC g_displayDeviceContext = nullptr;
