@@ -122,10 +122,24 @@ void Entity::ResolveCollision(Entity* otherEntity)
     if (m_collisionDamageAmount > 0.0f && otherEntity->CanTakeContactDamage())
     {
         otherEntity->TakeDamage(m_collisionDamageAmount);
+        if (otherEntity->IsDead() && otherEntity->IsPlayer() && (IsPlayer() || (m_owner && m_owner->IsPlayer())))
+        {
+            PlayerShip* player = IsPlayer() ? dynamic_cast<PlayerShip*>(this) : dynamic_cast<PlayerShip*>(m_owner);
+            PlayerShip* victim = dynamic_cast<PlayerShip*>(otherEntity);
+            ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
+            GameMode::GetCurrent()->RecordPlayerKill(player, victim);
+        }
     }
     if (otherEntity->m_collisionDamageAmount > 0.0f && CanTakeContactDamage())
     {
         TakeDamage(otherEntity->m_collisionDamageAmount);
+        if (IsDead() && IsPlayer() && (otherEntity->IsPlayer() || (otherEntity->m_owner && otherEntity->m_owner->IsPlayer())))
+        {
+            PlayerShip* player = otherEntity->IsPlayer() ? dynamic_cast<PlayerShip*>(otherEntity) : dynamic_cast<PlayerShip*>(otherEntity->m_owner);
+            PlayerShip* victim = dynamic_cast<PlayerShip*>(this);
+            ASSERT_OR_DIE(player && victim, "Somehow got a player and victim to not be players.");
+            GameMode::GetCurrent()->RecordPlayerKill(player, victim);
+        }
     }
 }
 

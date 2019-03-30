@@ -384,7 +384,7 @@ void TheGame::UpdateMainMenu(float)
     m_titleText->m_color.SetAlphaFloat(1.0f);
     AudioSystem::instance->SetFrequency(m_menuMusic, mainMenuMusicFrequency * pitchOffset.y);
 
-    if (inputCounter > 200)
+    if (inputCounter > 150)
     {
         m_titleText->m_text = "PLEASE STOP :c";
     }
@@ -441,9 +441,9 @@ void TheGame::EnqueueMinigames()
     m_gamemodeFlags = 0;
     if (m_useFixedMinigames)
     {
-        m_queuedMinigameModes.push(new BattleRoyaleMinigameMode());
+        m_queuedMinigameModes.push(new GladiatorMinigameMode());
         m_queuedMinigameModes.push(new OuroborosMinigameMode());
-        m_queuedMinigameModes.push(new DeathBattleMinigameMode());
+        m_queuedMinigameModes.push(new DrainMinigameMode());
     }
     else
     {
@@ -462,6 +462,12 @@ GameMode* TheGame::GetRandomUniqueGameMode()
     ASSERT_OR_DIE(m_numberOfMinigames <= NUM_GAMEMODES, "Requested more unique gamemodes than the game has available");
     
     GameMode* mode = nullptr;
+
+    //Hard-coded hack to prevent Gladiator from showing up if there's less than 3 people playing. It's not fun otherwise ;P
+    if (m_numberOfPlayers <= 2)
+    {
+        SetBitUint(m_gamemodeFlags, BIT(6));
+    }
 
     while (mode == nullptr)
     {
@@ -649,7 +655,7 @@ void TheGame::UpdatePlayerJoin(float)
             AudioSystem::instance->PlaySound(SFX_UI_ADVANCE);
             return;
         }
-        else if (pilot->m_inputMap.WasJustPressed("CycleColorsLeft"))
+        else if (pilot->m_inputMap.WasJustPressed("CycleColorsLeft") && m_readyText[i]->m_text != READY_STRING)
         {
             m_paletteOffsets[i] = Mod((m_paletteOffsets[i] - 1), 16);
             float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
@@ -660,7 +666,7 @@ void TheGame::UpdatePlayerJoin(float)
             m_leftArrows[i]->m_material->SetFloatUniform(paletteOffsetUniform, leftPaletteIndex);
             m_rightArrows[i]->m_material->SetFloatUniform(paletteOffsetUniform, rightPaletteIndex);
         }
-        else if (pilot->m_inputMap.WasJustPressed("CycleColorsRight"))
+        else if (pilot->m_inputMap.WasJustPressed("CycleColorsRight") && m_readyText[i]->m_text != READY_STRING)
         {
             m_paletteOffsets[i] = Mod((m_paletteOffsets[i] + 1), 16);
             float paletteIndex = static_cast<float>(m_paletteOffsets[i]) / 16.0f;
@@ -1341,6 +1347,7 @@ void TheGame::UpdateMinigameResults(float deltaSeconds)
     }
     for (PlayerShip* ship : TheGame::instance->m_players)
     {
+        ship->m_warpFreebieActive.m_energy = 1.0f; //Free Warping!!! <3
         ship->Update(deltaSeconds);
     }
 

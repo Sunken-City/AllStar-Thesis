@@ -230,11 +230,11 @@ void RunMessagePump()
 //-----------------------------------------------------------------------------------------------
 void Update()
 {
-    static float MAX_FRAME_TIME = 0.04f;
+    //static float MAX_FRAME_TIME = 0.04f;
     static double s_timeLastFrameStarted = GetCurrentTimeSeconds();
     double timeNow = GetCurrentTimeSeconds();
     float deltaSeconds = (float)(timeNow - s_timeLastFrameStarted);
-    deltaSeconds = Clamp<float>(deltaSeconds, 0.0f, MAX_FRAME_TIME);
+    //deltaSeconds = Clamp<float>(deltaSeconds, 0.0f, MAX_FRAME_TIME);
     s_timeLastFrameStarted = timeNow;
 
     if (InputSystem::instance->IsKeyDown('T'))

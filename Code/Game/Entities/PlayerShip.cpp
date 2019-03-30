@@ -97,8 +97,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        //PickUpItem(new MissileLauncher());
-        //PickUpItem(new TankChassis());
+        PickUpItem(new MissileLauncher());
+        PickUpItem(new TankChassis());
         //PickUpItem(new ReflectorActive());
         //PickUpItem(new CloakPassive());
     }
@@ -871,6 +871,7 @@ void PlayerShip::PickUpItem(Item* pickedUpItem)
 bool PlayerShip::CanPickUp(Item* item)
 {
     double currentTimeMilliseconds = GetCurrentTimeMilliseconds();
+    bool DEBUG_HACK_EJECT_FROM_ANY_BUTTON = m_pilot->m_inputMap.IsDown("EjectWeapon") || m_pilot->m_inputMap.IsDown("EjectChassis") || m_pilot->m_inputMap.IsDown("EjectPassive") || m_pilot->m_inputMap.IsDown("EjectActive");
     if (item->IsPowerUp())
     {
         PowerUp* powerUp = (PowerUp*)item;
@@ -893,25 +894,25 @@ bool PlayerShip::CanPickUp(Item* item)
             return false;
         }
     }
-    else if (item->IsWeapon() && (currentTimeMilliseconds - m_weaponBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectWeapon")))
+    else if (item->IsWeapon() && (currentTimeMilliseconds - m_weaponBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (DEBUG_HACK_EJECT_FROM_ANY_BUTTON))
     {
         EjectWeapon();
         m_weaponBeginEjectMilliseconds = currentTimeMilliseconds;
         return true;
     }
-    else if (item->IsChassis() && (currentTimeMilliseconds - m_chassisBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectChassis")))
+    else if (item->IsChassis() && (currentTimeMilliseconds - m_chassisBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (DEBUG_HACK_EJECT_FROM_ANY_BUTTON))
     {
         EjectChassis();
         m_chassisBeginEjectMilliseconds = currentTimeMilliseconds;
         return true;
     }
-    else if (item->IsPassiveEffect() && (currentTimeMilliseconds - m_passiveBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectPassive")))
+    else if (item->IsPassiveEffect() && (currentTimeMilliseconds - m_passiveBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (DEBUG_HACK_EJECT_FROM_ANY_BUTTON))
     {
         EjectPassive();
         m_passiveBeginEjectMilliseconds = currentTimeMilliseconds;
         return true;
     }
-    else if (item->IsActiveEffect() && (currentTimeMilliseconds - m_activeBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (m_pilot->m_inputMap.IsDown("EjectActive")))
+    else if (item->IsActiveEffect() && (currentTimeMilliseconds - m_activeBeginEjectMilliseconds > EJECT_TIME_MILLISECONDS) && (DEBUG_HACK_EJECT_FROM_ANY_BUTTON))
     {
         EjectActive();
         m_activeBeginEjectMilliseconds = currentTimeMilliseconds;
