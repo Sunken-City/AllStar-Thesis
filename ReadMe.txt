@@ -20,10 +20,10 @@ Left Stick: Move
 Right Stick: Shoot
 Left Trigger: Use Active
 Right Trigger: Teleport
-A button: Pick up/Swap active equipment
-B button: Pick up/Swap weapon
-X button: Pick up/Swap passive equipment
-Y button: Pick up/Swap ship chassis
+A button: Pick up/Swap equipment
+B button: Pick up/Swap equipment
+X button: Pick up/Swap equipment
+Y button: Pick up/Swap equipment
 
 Thanks to:
 
