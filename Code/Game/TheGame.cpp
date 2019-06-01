@@ -197,19 +197,22 @@ void TheGame::Update(float deltaSeconds)
 
     g_secondsInState += deltaSeconds;
 
-    if (InputSystem::instance->WasKeyJustPressed('H'))
+    if (g_enableDebugging)
     {
-        Console::instance->RunCommand("clear");
-        Console::instance->RunCommand("printprofiling");
-        Console::instance->ToggleConsole();
-    }
-    if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::TILDE))
-    {
-        Console::instance->ToggleConsole();
-    }
-    if (Console::instance->IsActive())
-    {
-        return;
+        if (InputSystem::instance->WasKeyJustPressed('H'))
+        {
+            Console::instance->RunCommand("clear");
+            Console::instance->RunCommand("printprofiling");
+            Console::instance->ToggleConsole();
+        }
+        if (InputSystem::instance->WasKeyJustPressed(InputSystem::ExtraKeys::TILDE))
+        {
+            Console::instance->ToggleConsole();
+        }
+        if (Console::instance->IsActive())
+        {
+            return;
+        }
     }
     if (InputSystem::instance->WasKeyJustPressed('F'))
     {
@@ -265,7 +268,7 @@ void TheGame::Render() const
 {
     ENSURE_NO_MATRIX_STACK_SIDE_EFFECTS(Renderer::instance->m_viewStack);
     ENSURE_NO_MATRIX_STACK_SIDE_EFFECTS(Renderer::instance->m_projStack);
-    if (Console::instance->IsActive())
+    if (g_enableDebugging && Console::instance->IsActive())
     {
         Console::instance->Render();
     }
@@ -450,7 +453,6 @@ void TheGame::EnqueueMinigames()
         for (int i = 0; i < m_numberOfMinigames; ++i)
         {
             m_queuedMinigameModes.push(GetRandomUniqueGameMode());
-            //m_queuedMinigameModes.push(new GladiatorMinigameMode());
         }
     }
 }
@@ -458,7 +460,7 @@ void TheGame::EnqueueMinigames()
 //-----------------------------------------------------------------------------------
 GameMode* TheGame::GetRandomUniqueGameMode()
 {
-    static const int NUM_GAMEMODES = 7;
+    static const int NUM_GAMEMODES = 6;
     ASSERT_OR_DIE(m_numberOfMinigames <= NUM_GAMEMODES, "Requested more unique gamemodes than the game has available");
     
     GameMode* mode = nullptr;
@@ -466,7 +468,7 @@ GameMode* TheGame::GetRandomUniqueGameMode()
     //Hard-coded hack to prevent Gladiator from showing up if there's less than 3 people playing. It's not fun otherwise ;P
     if (m_numberOfPlayers <= 2)
     {
-        SetBitUint(m_gamemodeFlags, BIT(6));
+        SetBitUint(m_gamemodeFlags, BIT(5));
     }
 
     while (mode == nullptr)
@@ -479,7 +481,14 @@ GameMode* TheGame::GetRandomUniqueGameMode()
             switch (randomNumber)
             {
             case 0:
-                mode = new CoinGrabMinigameMode();
+                if (MathUtils::CoinFlip())
+                {
+                    mode = new OuroborosMinigameMode();
+                }
+                else
+                {
+                    mode = new CoinGrabMinigameMode();
+                }
                 break;
             case 1:
                 mode = new DeathBattleMinigameMode();
@@ -491,12 +500,9 @@ GameMode* TheGame::GetRandomUniqueGameMode()
                 mode = new BattleRoyaleMinigameMode();
                 break;
             case 4:
-                mode = new OuroborosMinigameMode();
-                break;
-            case 5:
                 mode = new DrainMinigameMode();
                 break;
-            case 6:
+            case 5:
                 mode = new GladiatorMinigameMode();
                 break;
             }

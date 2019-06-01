@@ -70,6 +70,11 @@ void BasicEnemyPilot::FindTarget()
     float bestDistSquared = 9999999.0f;
     for (PlayerShip* player : TheGame::instance->m_players)
     {
+        if (player->IsDead())
+        {
+            continue;
+        }
+
         float distSquared = MathUtils::CalcDistSquaredBetweenPoints(player->GetPosition(), m_currentShip->GetPosition());
         float detectionRadius = DETECTION_RADIUS_SQUARED * (Ship::MAX_STEALTH_FACTOR - player->m_stealthFactor);
         if (distSquared < detectionRadius && distSquared < bestDistSquared)

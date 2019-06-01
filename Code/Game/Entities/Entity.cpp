@@ -76,10 +76,11 @@ Entity::~Entity()
 //-----------------------------------------------------------------------------------
 void Entity::Update(float deltaSeconds)
 {
+    constexpr float FIXED_TIMESTEP = (1.0f / 60.0f);
     m_age += deltaSeconds;
     m_timeSinceLastHit += deltaSeconds;
     Vector2 accelerationDueToImpulses = m_sumOfImpulses / m_mass;
-    m_velocity += (accelerationDueToImpulses * deltaSeconds);
+    m_velocity += (accelerationDueToImpulses * FIXED_TIMESTEP);
     m_sumOfImpulses = Vector2::ZERO; //Only applied for a frame.
 }
 

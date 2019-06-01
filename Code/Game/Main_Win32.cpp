@@ -23,6 +23,7 @@
 #include "Engine/Core/Events/EventSystem.hpp"
 #include "Engine/UI/UISystem.hpp"
 #include <gl/GL.h>
+#include "GameCommon.hpp"
 
 //-----------------------------------------------------------------------------------------------
 #define UNUSED(x) (void)(x);
@@ -249,7 +250,10 @@ void Update()
     AudioSystem::instance->Update(deltaSeconds);
     //ProfilingSystem::instance->PopSample("AudioUpdate");
     //ProfilingSystem::instance->PushSample("ConsoleUpdate");
-    Console::instance->Update(deltaSeconds);
+    if (g_enableDebugging)
+    {
+        Console::instance->Update(deltaSeconds);
+    }
    //ProfilingSystem::instance->PopSample("ConsoleUpdate");
    //ProfilingSystem::instance->PushSample("UIUpdate");
     UISystem::instance->Update(deltaSeconds);
@@ -269,7 +273,10 @@ void Render()
     ProfilingSystem::instance->PushSample("UIRender");
     UISystem::instance->Render();
     ProfilingSystem::instance->PopSample("UIRender");
-    Console::instance->Render();
+    if (g_enableDebugging)
+    {
+        Console::instance->Render();
+    }
     ProfilingSystem::instance->PopSample("Render");
     SwapBuffers(g_displayDeviceContext);
 }
@@ -295,10 +302,17 @@ void Initialize(HINSTANCE applicationInstanceHandle)
     SpriteGameRenderer::instance = new SpriteGameRenderer(RGBA::CORNFLOWER_BLUE, WINDOW_PHYSICAL_WIDTH, WINDOW_PHYSICAL_HEIGHT, IMPORT_RESOLUTION, VIRTUAL_SIZE);
     AudioSystem::instance = new AudioSystem();
     InputSystem::instance = new InputSystem(g_hWnd, 4);
-    Console::instance = new Console();
+    if (g_enableDebugging)
+    {
+        Console::instance = new Console();
+    }
     UISystem::instance = new UISystem();
     UISystem::instance->LoadAndParseUIXML();
-    ProfilingSystem::instance = new ProfilingSystem();
+
+    if (g_enableDebugging)
+    {
+        ProfilingSystem::instance = new ProfilingSystem();
+    }
     TheGame::instance = new TheGame();
 }
 
@@ -317,12 +331,18 @@ void Shutdown()
     //Clean up all the engine subsystems.
     delete TheGame::instance;
     TheGame::instance = nullptr;
-    delete ProfilingSystem::instance;
-    ProfilingSystem::instance = nullptr;
+    if (g_enableDebugging)
+    {
+        delete ProfilingSystem::instance;
+        ProfilingSystem::instance = nullptr;
+    }
     delete UISystem::instance;
     UISystem::instance = nullptr;
-    delete Console::instance;
-    Console::instance = nullptr;
+    if (g_enableDebugging)
+    {
+        delete Console::instance;
+        Console::instance = nullptr;
+    }
     delete InputSystem::instance;
     InputSystem::instance = nullptr;
     delete AudioSystem::instance;
@@ -338,15 +358,21 @@ void Shutdown()
 int WINAPI WinMain(HINSTANCE applicationInstanceHandle, HINSTANCE, LPSTR commandLineString, int)
 {
     UNUSED(commandLineString);
-    MemoryAnalyticsStartup();
-    LoggerStartup();
+    if (g_enableDebugging)
+    {
+        MemoryAnalyticsStartup();
+        LoggerStartup();
+    }
     Initialize(applicationInstanceHandle);
     while (!g_isQuitting)
     {
         RunFrame();
     }
     Shutdown();
-    LoggerShutdown();
-    MemoryAnalyticsShutdown();
+    if (g_enableDebugging)
+    {
+        LoggerShutdown();
+        MemoryAnalyticsShutdown();
+    }
     return 0;
 }

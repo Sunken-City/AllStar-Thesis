@@ -97,8 +97,8 @@ PlayerShip::PlayerShip(PlayerPilot* pilot)
     }
     if (g_spawnWithDebugLoadout)
     {
-        PickUpItem(new MissileLauncher());
-        PickUpItem(new TankChassis());
+        //PickUpItem(new MissileLauncher());
+        //PickUpItem(new TankChassis());
         //PickUpItem(new ReflectorActive());
         //PickUpItem(new CloakPassive());
     }

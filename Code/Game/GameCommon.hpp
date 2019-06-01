@@ -23,6 +23,7 @@ typedef unsigned char uchar;
 
 extern bool g_isQuitting;
 extern bool g_isGamePaused;
+extern bool g_enableDebugging;
 extern bool g_renderDebug;
 extern int g_frameNumber;
 extern Event<float> OnUpdate;
